@@ -1,0 +1,30 @@
+{
+  "name": "bog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "npx tailwindcss -i ./src/css/main.css -o ./public/css/tailwind.css --minify",
+    "watch:css": "npx tailwindcss -i ./src/css/main.css -o ./public/css/tailwind.css --watch "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zanra2401/BOG.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zanra2401/BOG/issues"
+  },
+  "homepage": "https://github.com/zanra2401/BOG#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0"
+  }
+}
