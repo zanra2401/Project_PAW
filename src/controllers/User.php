@@ -21,4 +21,10 @@ class User extends Controller {
             "title" => "Login"
         ]);
     }
+
+    function chat($params = []) {
+        $this->view("User/chat", [
+            "title" => "Chat"
+        ]);
+    }
 }
