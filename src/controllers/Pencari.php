@@ -1,9 +1,9 @@
 <?php
 
-require "Controller.php";
-require "./models/UserModel.php";
+require_once "Controller.php";
+require_once "./models/UserModel.php";
 
-class User extends Controller {
+class Pencari extends Controller {
     public $default = "dashboard";
     private $model;
 
@@ -12,18 +12,18 @@ class User extends Controller {
     }
 
     function dashboard($params = []) {
-        $this->view("User/dashboard", [
+        $this->view("Pencari/dashboard", [
             "title" => "DashBoard",
         ]);
     }
     function login($params = []){
-        $this->view("User/login", [
+        $this->view("Pencari/login", [
             "title" => "Login"
         ]);
     }
 
     function chat($params = []) {
-        $this->view("User/chat", [
+        $this->view("Pencari/chat", [
             "title" => "Chat"
         ]);
     }

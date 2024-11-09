@@ -1,6 +1,7 @@
 <?php
 
-require_once "./controllers/User.php";
+require_once "./controllers/Pencari.php";
+require_once "./controllers/Pemilik.php";
 
 class Router
 {

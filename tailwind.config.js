@@ -4,10 +4,16 @@ module.exports = {
     "./src/views/**/*.php"
   ],
   theme: {
-    fontFamily: {
-      'Roboto-normal': ['Roboto-normal']
+    extend: {
+      fontFamily: {
+        'Roboto-normal': ['Roboto normal'],
+        'Roboto-medium': ['Roboto medium'],
+        'Roboto-bold': ['Roboto bold']
+      },
+      colors: {
+        'base-color': '#b5966f',
+      },
     },
-    extend: {},
   },
   plugins: [],
 }
