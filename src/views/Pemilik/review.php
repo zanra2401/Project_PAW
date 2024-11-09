@@ -30,22 +30,27 @@
 
                 <!-- BAGIAN GAMABR -->
                 <div class="w-full grid grid-rows-2 grid-cols-2 gap-1 relative">
+                    <div class="">
+                        <img src="<?= ASSETS ?>image/kos1.jpg" class="w-full h-full object-cover rounded-md" alt="">
+                    </div>
+
                     <div>
-                        <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="w-full bg-cover rounded-md" alt="">
+                        <img src="<?= ASSETS ?>image/kos2.jpg" class="w-full h-full object-cover rounded-md" alt="">
+                    </div>
+
+                    <div id="gambar-kos2" aria-describedby="preview-gambar-kos2" class="col-span-2 h-40 overflow-hidden row-span-1 flex items-center">
+                        <img src="<?= ASSETS ?>image/Kos-kosan.jpg" class="w-full h-full object-cover rounded-md" alt="">
+                    </div>
+
+                    <div class="tooltip tooltip-gambar" id="preview-gambar-kos2">
+                        <img src="<?= ASSETS ?>image/Kos-kosan.jpg" alt="" class="max-w-80 max-h-80">
+                        <div class="arrow" data-popper-arrow>
+
+                        </div>
                     </div>
 
 
-                    <div>
-                        <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="w-full bg-cover rounded-md" alt="">
-                    </div>
-
-
-                    <div class="col-span-2 h-40 overflow-hidden row-span-1">
-                        <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="w-full bg-cover bg-center -translate-y-1/2 rounded-md" alt="">
-                    </div>
-
-
-                    <button aria-describedby="lihat-semua-gambar-tooltip" id="lihat-semua-gambar-button" class="absolute bottom-7 right-2 rounded-md text-gray-700 bg-gray-50 p-2 px-3">
+                    <button aria-describedby="lihat-semua-gambar-tooltip" id="lihat-semua-gambar-button" class="absolute bottom-2 right-2 rounded-md text-gray-700 bg-gray-50 p-2 px-3">
                         <i class="fas fa-list text-base-color"></i>
                     </button>
                     <div class="tooltip" id="lihat-semua-gambar-tooltip" role="tooltip">
@@ -84,7 +89,7 @@
                                 20
                             </span> 
                             <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
+                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-60000 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
                         </div>
                     </div>     
                 </div>

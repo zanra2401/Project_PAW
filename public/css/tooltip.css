@@ -1,8 +1,9 @@
 .tooltip {
-    background: rgb(112, 112, 112);
+    background: rgb(77, 76, 76);
     color: white;
     padding: 4px 8px;
     border-radius: 4px;
+    z-index: 99;
 }
 
 
@@ -42,4 +43,9 @@
 
 .tooltip-right {
 
+}
+
+.tooltip-gambar {
+    background: rgb(0, 0, 0);
+    padding: 0;
 }

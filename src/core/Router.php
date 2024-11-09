@@ -72,7 +72,7 @@ class Router
     {
 
       // Ubah ini ke default Controller
-      self::$controller = new User();
+      self::$controller = new Pencari();
       call_user_func([self::$controller, self::$controller->default]);
     
     }
