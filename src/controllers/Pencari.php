@@ -4,16 +4,16 @@ require_once "Controller.php";
 require_once "./models/UserModel.php";
 
 class Pencari extends Controller {
-    public $default = "dashboard";
+    public $default = "homepage";
     private $model;
 
     function __construct() {
         $this->model = new UserModel();
     }
 
-    function dashboard($params = []) {
-        $this->view("Pencari/dashboard", [
-            "title" => "DashBoard",
+    function homepage($params = []) {
+        $this->view("Pencari/homepage", [
+            "title" => "Homepage",
         ]);
     }
     function login($params = []){
