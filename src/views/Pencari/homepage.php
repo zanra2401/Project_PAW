@@ -1,7 +1,7 @@
 <?php require './views/Components/Head.php' ?>
 <body>
     <?php require "./views/Components/NavBar.php" ?>    
-    <div class="absolute top-0 left-0 h-3/4 w-screen bg-[#d7dbdd] rounded-b-[50px] -z-10 overflow-y-hidden"></div>
+    <div class="absolute top-0 left-0 h-3/4 bg-[#d7dbdd] rounded-b-[50px] -z-10 overflow-y-hidden"  style="width: 100%;"></div>
 
     <div class="w-[90%] rounded-3xl mt-[50px] mx-auto">
         <h1 class="text-center sm:text-left text-xl font-bold px-4">Sekarang Cari Kost Bisa Sambil Rebahan</h1>
@@ -58,6 +58,7 @@
                     </div>
                     <div class="flex items-center mt-2">
                         <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putra</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 2 kamar</p>
                     </div>
                     <h2 class="mt-4 text-sm text-black font-bold">Griya kost Umi Sri</h2>
                     <p>Telang Indah, Kamal</p>
@@ -70,6 +71,7 @@
                     </div>
                     <div class="flex items-center mt-2">
                         <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 1 kamar</p>
                     </div>
                     <h2 class="mt-4 text-sm text-black font-bold">kost Kartika</h2>
                     <p>Keputran, Tegalsari</p>
@@ -83,6 +85,7 @@
 
                     <div class="flex items-center mt-2">
                         <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 7 kamar</p>
                     </div>
                     <h2 class="mt-4 text-sm text-black font-bold">Afreta Kost</h2>
                     <p>Airlangga, Gubeng</p>
@@ -96,6 +99,224 @@
 
                     <div class="flex items-center mt-2">
                         <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 5 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
+                    <p>Keputih, Sukolilo</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putra</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 2 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Griya kost Umi Sri</h2>
+                    <p>Telang Indah, Kamal</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 100.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 1 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">kost Kartika</h2>
+                    <p>Keputran, Tegalsari</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 450.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/5abc4fa6-8bb.jpg?tr=c-at_max%2Cw-3840" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 7 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Afreta Kost</h2>
+                    <p>Airlangga, Gubeng</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 250.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 5 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
+                    <p>Keputih, Sukolilo</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putra</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 2 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Griya kost Umi Sri</h2>
+                    <p>Telang Indah, Kamal</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 100.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 1 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">kost Kartika</h2>
+                    <p>Keputran, Tegalsari</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 450.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/5abc4fa6-8bb.jpg?tr=c-at_max%2Cw-3840" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 7 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Afreta Kost</h2>
+                    <p>Airlangga, Gubeng</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 250.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 5 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
+                    <p>Keputih, Sukolilo</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putra</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 2 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Griya kost Umi Sri</h2>
+                    <p>Telang Indah, Kamal</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 100.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 1 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">kost Kartika</h2>
+                    <p>Keputran, Tegalsari</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 450.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/5abc4fa6-8bb.jpg?tr=c-at_max%2Cw-3840" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 7 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Afreta Kost</h2>
+                    <p>Airlangga, Gubeng</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 250.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 5 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
+                    <p>Keputih, Sukolilo</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 1 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">kost Kartika</h2>
+                    <p>Keputran, Tegalsari</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 450.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/5abc4fa6-8bb.jpg?tr=c-at_max%2Cw-3840" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 7 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Afreta Kost</h2>
+                    <p>Airlangga, Gubeng</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 250.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 5 kamar</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
+                    <p>Keputih, Sukolilo</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                        <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                    </div>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                        <p style="margin-left:10px; font-style:italic; color:red;">Sisa 5 kamar</p>
                     </div>
                     <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
                     <p>Keputih, Sukolilo</p>
@@ -104,6 +325,11 @@
             </div>
         </div>
     </div>
+    
+    
+
+    <div class="absolute bottom-0 left-0 h-3/4 bg-[#d7dbdd] -z-10 overflow-y-hidden"  style="margin-top: -150px; width: 100%; border-top-left-radius: 50px; border-top-right-radius:50px;"></div>
+    <?php require './views/Components/Foot.php' ?>
     <script>
         const button = document.getElementById('menu-button');
         const menu = document.querySelector('.dropdown-menu');
@@ -118,4 +344,3 @@
         })
     </script>
 </body>
-<?php require './views/Components/Foot.php' ?>
