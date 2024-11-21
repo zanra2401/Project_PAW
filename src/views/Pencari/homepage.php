@@ -56,32 +56,50 @@
                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                         <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
                     </div>
-                    <h3 class="mt-4 text-sm text-gray-700">Earthen Bottle</h3>
-                    <p class="mt-1 text-lg font-medium text-gray-900">$48</p>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putra</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Griya kost Umi Sri</h2>
+                    <p>Telang Indah, Kamal</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 100.000 / Bulan</p>
                 </a>
 
                 <a href="#" class="group">
                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                         <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
                     </div>
-                    <h3 class="mt-4 text-sm text-gray-700">Nomad Tumbler</h3>
-                    <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">kost Kartika</h2>
+                    <p>Keputran, Tegalsari</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 450.000 / Bulan</p>
                 </a>
 
                 <a href="#" class="group">
                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                         <img src="https://images.rukita.co/buildings/building/5abc4fa6-8bb.jpg?tr=c-at_max%2Cw-3840" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
                     </div>
-                    <h3 class="mt-4 text-sm text-gray-700">Focus Paper Refill</h3>
-                    <p class="mt-1 text-lg font-medium text-gray-900">$89</p>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Afreta Kost</h2>
+                    <p>Airlangga, Gubeng</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 250.000 / Bulan</p>
                 </a>
 
                 <a href="#" class="group">
                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                    <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                        <img src="https://images.rukita.co/buildings/building/73c91959-e49.jpg?tr=c-at_max%2Cw-3840" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
                     </div>
-                    <h3 class="mt-4 text-sm text-gray-700">Machined Mechanical Pencil</h3>
-                    <p class="mt-1 text-lg font-medium text-gray-900">$35</p>
+
+                    <div class="flex items-center mt-2">
+                        <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">Putri</p>
+                    </div>
+                    <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
+                    <p>Keputih, Sukolilo</p>
+                    <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
                 </a>
             </div>
         </div>
