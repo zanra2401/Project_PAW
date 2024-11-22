@@ -44,17 +44,32 @@
                     <div class="flex justify-between items-center py-4 col-span-2">
 
                         <span class="flex flex-col">
-                            <p>
-                                JUDUL KOST
-                            </p>
-                            <p>
-                                Alamat
-                            </p>
+                            <div class="flex items-center text-gray-800">
+                                <h1 class="inline-block font-bold font-Roboto-bold text-2xl">
+                                    NAMA KOST
+                                </h1>
+                                <button  class="ml-2 inline-block right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1    font-bold text-white rounded-md px-2">
+                                    <i class="fas text-sm fa-pencil"></i>
+                                </button>
+                            </div>
+                            <div class="mt-4">
+                                <p class="inline-block">
+                                    Jawa Timur, Bojonegoro
+                                </p>
+                                <button class="ml-2 inline-block right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
+                                    <i class="fas fa-pencil"></i>
+                                </button>
+                            </div>
                         </span>
-
-                        <span>
-                            200.00000 / Bulan
-                        </span>
+                        
+                        <div class="font-Roboto-bold flex items-center">
+                            <span class="text-2xl text-gray-800">
+                                Rp.  <?= number_format(20000000, 2, ",", ".") ?> / Bulan
+                            </span>
+                            <button  class="ml-2 inline-block right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
+                                <i class="fas fa-pencil"></i>
+                            </button>
+                        </div>
 
                     </div>
 
@@ -95,6 +110,7 @@
                                 <span>
                                     Lantai 1
                                 </span>
+                                <i class="fas fa-pencil text-warna-second"></i>
                             </button>
 
                             <div data-lokasi-kamar="lantai-1" class="flex py-3 flex-wrap gap-3 -translate-y-[120%] absolute">
@@ -120,7 +136,7 @@
                                     01
                                 </div>
                                 <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                    01
+                                    Kamar 02
                                 </div>
                                 <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
                                     01
@@ -139,10 +155,11 @@
                          
                         <div class="relative overflow-hidden h-fit">
                             <button data-lokasi="lantai-2" onclick="show(event)"  class="hover:cursor-pointer w-full text-left">
-                                <i class="fas fa-chevron-down"></i>
+                                <i data-lokasi-icon="lantai-2" class="fas fa-chevron-down"></i>
                                 <span>
                                     Lantai 2
                                 </span>
+                                <i class="fas fa-pencil text-warna-second"></i>
                             </button>
 
                             <div data-lokasi-kamar="lantai-2" class="flex py-3 flex-wrap gap-3 -translate-y-[120%] absolute">
@@ -158,7 +175,7 @@
                         <div id="map" style="height: 400px; width: 100%;" class="relative z-10">
                         </div>
 
-                        <button id="edit-lokasi" class="absolute inline-block z-50 right-2 shadow bg-warna-second shadow-gray-800 bottom-5 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
+                        <button id="edit-lokasi" class="absolute inline-block z-50 right-2 shadow bg-warna-second shadow-gray-800 bottom-10 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
                                 <i class="fas fa-pencil"></i>
                         </button>   
 
