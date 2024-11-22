@@ -26,4 +26,11 @@ class Pemilik extends Controller {
             "title" => "Chat"
         ]);
     }
+
+    function editKost($params = []) 
+    {
+        $this->view("Pemilik/kostedit", [
+            "title" => "Edit Kost"
+        ]);
+    }
 }
