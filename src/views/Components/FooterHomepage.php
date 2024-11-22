@@ -5,7 +5,7 @@
         <div class="menu-foot">
             <div class="flex md:mb-0 items-center justify-center">
                 <a href="https://flowbite.com/" class="flex items-center imag">
-                    <img src="<?= ASSETS ?>image/logo.png" class="h-20 me-3 w-20" alt="FlowBite Logo" />
+                    <img src="<?= ASSETS ?>image/logo.png" class="h-20 me-3" alt="FlowBite Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap">Cari Kost</span>
                 </a>
             </div>
