@@ -33,4 +33,12 @@ class Pemilik extends Controller {
             "title" => "Edit Kost"
         ]);
     }
+
+    function transaksiHistory($params = [])
+    {
+        $this->view("Pemilik/transaksiHistory", 
+        [
+            "title" => "Transaksi History"
+        ]);
+    }
 }
