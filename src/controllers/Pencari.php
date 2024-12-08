@@ -27,4 +27,10 @@ class Pencari extends Controller {
             "title" => "Chat"
         ]);
     }
+
+    function kostPage($params = []) {
+        $this->view("Pencari/KostPage", [
+            "title" => "Kost Page"
+        ]);
+    }
 }
