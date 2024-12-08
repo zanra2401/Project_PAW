@@ -8,7 +8,7 @@
         <p class="mt-4 text-center sm:text-bold px-4">
             Bingung Mau Cari Kost Dimana? Disini Aja! Cari kost jadi lebih mudah, cepat, dan hemat waktu.
         </p>
-        <div class="flex bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 67%; gap:10px;">
+        <div class="flex bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 70%; gap:10px;">
             <div class="relative w-1/2 field-inputan-search">
                 <input type="text" placeholder="Cari sesuatu..." class="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-black focus:border-black">
                 <i class="fas fa-location-dot absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
@@ -49,10 +49,8 @@
     
     <div class="bg-white w-[90%] rounded-3xl mx-auto shadow-lg" style="margin-top:30px;">
         <div class="mx-auto max-w-2xl p-8 lg:max-w-7xl lg:px-8">
-            <h2 class="sr-only">Products</h2>
-            
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                <a href="#" class="group">
+                <a href="/project_paw/pencari/kostPage" class="group">
                     <div class="carousel">
                         <div class="carousel-track-container">
                             <ul class="carousel-track">
@@ -67,7 +65,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- <button class="carousel-button left-button">&lt;</button> -->
+
                         <button type="button" class="carousel-button left-button" data-carousel-prev>
                             <span class="carousel-prev-icon">
                                 <svg class="carousel-icon-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -75,7 +73,6 @@
                                 </svg>
                             </span>
                         </button>
-                        <!-- <button class="carousel-button right-button">&gt;</button> -->
 
                         <button type="button" class="carousel-button right-button" data-carousel-next>
                             <span class="carousel-next-icon">
