@@ -33,13 +33,13 @@
                     <button id="edit-gambar-kost" class="absolute right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-2 font-bold text-white rounded-md px-4">
                         <i class="fas fa-pencil"></i>
                     </button>
-                    <div class="tooltip" id="edit-gambar-kost-tooltip">
-                        Edit Gambar Kost
-                        <div class="arrow" data-popper-arrow></div>
-                    </div>
+                </div>
+                <div class="tooltip" id="edit-gambar-kost-tooltip">
+                    Edit Gambar Kost
+                    <div class="arrow" data-popper-arrow></div>
                 </div>
 
-                <div class="grid grid-cols-2 grid-rows-[100px_auto_auto] w-full">
+                <div class="grid grid-cols-2 grid-rows-[100px_auto_auto] w-full mt-4">
 
                     <div class="flex justify-between items-center py-4 col-span-2">
 
@@ -47,28 +47,22 @@
                             <div class="flex items-center text-gray-800">
                                 <h1 class="inline-block font-bold font-Roboto-bold text-2xl">
                                     NAMA KOST
-                                </h1>
-                                <button  class="ml-2 inline-block right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1    font-bold text-white rounded-md px-2">
-                                    <i class="fas text-sm fa-pencil"></i>
-                                </button>
+                                </h1>   
                             </div>
-                            <div class="mt-4">
+                            <div class="">
                                 <p class="inline-block">
                                     Jawa Timur, Bojonegoro
                                 </p>
-                                <button class="ml-2 inline-block right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
-                                    <i class="fas fa-pencil"></i>
-                                </button>
                             </div>
                         </span>
                         
-                        <div class="font-Roboto-bold flex items-center">
-                            <span class="text-2xl text-gray-800">
-                                Rp.  <?= number_format(20000000, 2, ",", ".") ?> / Bulan
-                            </span>
-                            <button  class="ml-2 inline-block right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
+                        <div class="font-Roboto-bold flex flex-col justify-center">
+                            <button  class="ml-auto shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
                                 <i class="fas fa-pencil"></i>
                             </button>
+                            <p class="text-2xl text-gray-800">
+                                Rp.  <?= number_format(20000000, 2, ",", ".") ?> / Bulan
+                            </p>
                         </div>
 
                     </div>
@@ -113,7 +107,7 @@
                                 <i class="fas fa-pencil text-warna-second"></i>
                             </button>
 
-                            <div data-lokasi-kamar="lantai-1" class="flex py-3 flex-wrap gap-3 -translate-y-[120%] absolute">
+                            <div data-lokasi-kamar="lantai-1" class="flex py-3 px-1 flex-wrap gap-3 -translate-y-[120%] absolute">
                                 <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
                                     01
                                 </div>

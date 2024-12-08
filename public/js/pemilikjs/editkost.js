@@ -53,7 +53,7 @@ const popperEditGambarKost = createPopper(editGambarKost, editGambarKostTooltip,
 });
 
 const popperFasilitas = createPopper(editFasilitas, editFasiltasTooltip, {
-    placements: "left",
+    placements: "right",
     modifiers: [
         {
             name: 'offset',
@@ -92,12 +92,12 @@ hideEvents.forEach((event) => {
     });
 
     editGambarKost.addEventListener(event, () => {
-        editGambarKostTooltip.removeAttribute("data-show", "");
+        editGambarKostTooltip.removeAttribute("data-show");
         popperEditGambarKost.update();
     });
 
     editFasilitas.addEventListener(event, () => {
-        editFasiltasTooltip.removeAttribute("data-show", "");
+        editFasiltasTooltip.removeAttribute("data-show");
         popperFasilitas.update();
     });
 })
