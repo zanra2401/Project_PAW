@@ -41,4 +41,11 @@ class Pemilik extends Controller {
             "title" => "Transaksi History"
         ]);
     }
+
+    function iklan($params = [])
+    {
+        $this->view("Pemilik/iklan", [
+            'title' => "Iklan"
+        ]);
+    }
 }
