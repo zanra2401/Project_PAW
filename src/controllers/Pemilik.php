@@ -27,6 +27,28 @@ class Pemilik extends Controller {
         ]);
     }
 
+    function editKost($params = []) 
+    {
+        $this->view("Pemilik/kostedit", [
+            "title" => "Edit Kost"
+        ]);
+    }
+
+    function transaksiHistory($params = [])
+    {
+        $this->view("Pemilik/transaksiHistory", 
+        [
+            "title" => "Transaksi History"
+        ]);
+    }
+
+    function iklan($params = [])
+    {
+        $this->view("Pemilik/iklan", [
+            'title' => "Iklan"
+        ]);
+    }
+
     function halamanutama($params = []) {
         $this->view("Pemilik/halamanutama", [
             "title" => "halamanutama"

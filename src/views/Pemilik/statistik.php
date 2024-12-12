@@ -1,78 +1,66 @@
-<?php require './views/Components/Head.php' ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<body class="font-roboto bg-gray-200 text-black">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md py-8">
+<body class="bg-gray-100">
+<nav class="bg-white shadow-md py-8">
         <div class="container mx-auto flex justify-center">
             <h1 class="text-2xl font-bold text-gray-800">Statistik</h1>
         </div>
     </nav>
 
-    <div class="container mx-auto px-6">
-
-        <!-- Statistik Kost Joyle Dalam 1 Bulan -->
-        <section class="my-12">
-            <div class="bg-white rounded-lg p-6 shadow">
-                <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">STATISTIK KOST JOYLE DALAM 1 BULAN
-                </h2>
-                <p class="text-center text-gray-600 mb-6">Laporan statistik berdasarkan data kamar terjual yang tercatat
-                    setiap bulan.</p>
-                <div class="mt-6 flex justify-center items-center">
-                    <canvas id="monthlyChart" class="w-full md:max-w-4xl h-48"></canvas>
-                </div>
-            </div>
+    <div class="container mx-auto px-4 py-6">
+        <!-- Statistik Kost per Bulan -->
+        <section class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 text-center mb-2">Statistik Kost Joyle Dalam 1 Bulan</h2>
+            <p class="text-sm text-gray-600 text-center mb-4">Laporan statistik berdasarkan data kamar terjual setiap
+                hari dalam satu bulan</p>
+            <canvas id="monthlyChart" class="w-full max-w-3xl mx-auto h-64"></canvas>
         </section>
 
-        <!-- Bulan Navigator -->
-        <div class="flex justify-center space-x-2 md:space-x-4 mt-6 flex-wrap">
-            <?php 
-            $months = [
-                "Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-            ];
-            foreach ($months as $index => $month) { 
-            ?>
-            <button class="text-white px-4 py-2 rounded-lg hover:opacity-90 transition duration-300"
-                style="background-color: #68422d;" onclick="updateChart(<?= $index ?>)">
-                <?= $month ?>
-            </button>
-            <?php } ?>
+        <!-- Buttons for Months -->
+        <div class="flex flex-wrap justify-center gap-4 mb-6">
+            <button onclick="updateChart(0)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Januari</button>
+            <button onclick="updateChart(1)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Februari</button>
+            <button onclick="updateChart(2)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Maret</button>
+            <button onclick="updateChart(3)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">April</button>
+            <button onclick="updateChart(4)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Mei</button>
+            <button onclick="updateChart(5)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Juni</button>
+            <button onclick="updateChart(6)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Juli</button>
+            <button onclick="updateChart(7)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Agustus</button>
+            <button onclick="updateChart(8)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">September</button>
+            <button onclick="updateChart(9)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Oktober</button>
+            <button onclick="updateChart(10)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">November</button>
+            <button onclick="updateChart(11)"
+                class="bg-[#68422d] text-white py-2 px-4 rounded hover:bg-opacity-90">Desember</button>
         </div>
 
-        <!-- Statistik Kost Joyle Dalam 1 Tahun -->
-        <section class="my-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-        </section>
-
-        <!-- Hasil Riset Section -->
-        <section class="my-12">
-            <div class="bg-white rounded-lg p-6 shadow">
-                <h2 class="text-2xl font-semibold text-gray-800 text-center mb-4">HASIL RISET KOST JOYLE 2023</h2>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                    Berdasarkan analisis dari diagram, berikut hasil yang disimpulkan:
-                </p>
-                <ul class="list-disc ml-6 space-y-2 text-gray-600">
-                    <li>Pada bulan Januari, jumlah yang tercatat sekitar 700.</li>
-                    <li>Bulan Februari mengalami peningkatan mendekati 750.</li>
-                    <li>Maret menunjukkan peningkatan signifikan dengan jumlah sekitar 850.</li>
-                    <li>April mengalami penurunan dengan jumlah mendekati 800.</li>
-                    <li>Bulan Mei adalah bulan dengan jumlah tertinggi hingga 950.</li>
-                    <li>Pada bulan Juni, terjadi penurunan signifikan hingga 650.</li>
-                </ul>
-            </div>
-        </section>
-
         <!-- Footer Section -->
-        <!-- Footer Section -->
-<footer>
-    <div class="container mx-auto px-6 py-12">
-        <div class="overflow-x-auto">
-            <table class="table-auto w-full bg-white text-black border border-black-400 rounded-lg">
+        <footer class="bg-white rounded-lg shadow p-6">
+            <table class="table-auto w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-100 text-black">
-                        <th class="border py-2 px-4">No</th>
-                        <th class="border py-2 px-4">Informasi</th>
-                        <th class="border py-2 px-4">Detail</th>
+                    <tr class="bg-gray-100">
+                        <th class="border px-4 py-2">No</th>
+                        <th class="border px-4 py-2">Informasi</th>
+                        <th class="border px-4 py-2">Detail</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -103,93 +91,72 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </div>
-</footer>
- 
-        <td class="border px-4 py-2">Social Media</td>
-                                    <td class="border px-4 py-2">Instagram @kostjoyle</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </footer>
-
-
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-    // Daily data for each month (sales alternate every other day)
     const data = {
-        "Januari": [
-            30, 0, 32, 0, 35, 0, 38, 0, 40, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0, 55, 0, 57, 0, 60, 0, 62, 0,
-            65, 0, 55
-        ],
-        "Februari": [
-            25, 0, 28, 0, 30, 0, 32, 0, 35, 0, 37, 0, 40, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0, 55, 0, 57, 0,
-            60, 0
-        ],
-        "Maret": [
-            30, 0, 35, 0, 32, 0, 40, 0, 42, 0, 30, 0, 33, 0, 31, 0, 36, 0, 37, 0, 41, 0, 39, 0, 32, 0, 35, 0,
-            38, 0, 33
-        ],
-        "April": [
-            28, 0, 30, 0, 33, 0, 35, 0, 37, 0, 40, 0, 42, 0, 44, 0, 46, 0, 48, 0, 50, 0, 52, 0, 54, 0, 56, 0,
-            58, 0, 10
-        ],
-        "Mei": [
-            40, 0, 43, 0, 45, 0, 47, 0, 50, 0, 52, 0, 54, 0, 56, 0, 58, 0, 60, 0, 62, 0, 64, 0, 66, 0, 68, 0,
-            70, 0, 20
-        ],
-        "Juni": [
-            20, 0, 22, 0, 25, 0, 28, 0, 30, 0, 33, 0, 35, 0, 37, 0, 40, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0,
-            55, 0, 22
-        ],
-        "Juli": [
-            30, 0, 32, 0, 35, 0, 37, 0, 4, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0, 15, 0, 57, 0, 60, 0, 62, 0,
-            65, 0, 44
-        ],
-        "Agustus": [
-            28, 0, 30, 0, 32, 0, 35, 0, 7, 0, 40, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0, 23, 0, 57, 0, 59, 0,
-            62, 0, 64
-        ],
-        "September": [
-            30, 0, 32, 0, 34, 0, 37, 0, 40, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0, 55, 0, 57, 0, 60, 0, 6, 0,
-            65, 0, 8
-        ],
-        "Oktober": [
-            25, 0, 28, 0, 30, 0, 33, 0, 35, 0, 38, 0, 40, 0, 42, 0, 45, 0, 47, 0, 50, 0, 52, 0, 55, 0, 57, 0,
-            60, 0, 62
-        ],
-        "November": [
-            30, 0, 32, 0, 35, 0, 37, 0, 40, 0, 42, 0, 45, 0, 47, 0, 60, 0, 52, 0, 55, 0, 57, 0, 60, 0, 62, 0,
-            65, 0, 6
-        ],
-        "Desember": [
-            35, 0, 37, 0, 0, 0, 42, 0, 5, 0, 47, 0, 50, 0, 52, 0, 55, 0, 57, 0, 60, 0, 62, 0, 65, 0, 67, 0,
-            70, 0, 9
-        ]
+        "Januari": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Februari": Array.from({
+            length: 28
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Maret": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "April": Array.from({
+            length: 30
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Mei": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Juni": Array.from({
+            length: 30
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Juli": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Agustus": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "September": Array.from({
+            length: 30
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Oktober": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "November": Array.from({
+            length: 30
+        }, (_, i) => Math.floor(Math.random() * 50) + 20),
+        "Desember": Array.from({
+            length: 31
+        }, (_, i) => Math.floor(Math.random() * 50) + 20)
     };
 
-    // Initial chart configuration
-    let monthlyChart = new Chart(document.getElementById('monthlyChart'), {
-        type: 'bar',
+    const chart = new Chart(document.getElementById('monthlyChart'), {
+        type: 'line',
         data: {
             labels: Array.from({
                 length: 31
-            }, (_, i) => `Hari ${i + 1}`), // Labels for 31 days of a month
+            }, (_, i) => `Hari ${i + 1}`),
             datasets: [{
-                label: 'Penjualan',
-                data: data["Januari"], // Default data (January)
-                backgroundColor: '#68422d'
+                label: 'Kamar Terjual',
+                data: data["Januari"],
+                borderColor: '#68422d',
+                backgroundColor: 'rgba(104, 66, 45, 0.2)',
+                fill: true
             }]
         },
         options: {
             responsive: true,
             scales: {
+                x: {
+                    ticks: {
+                        maxRotation: 90,
+                        minRotation: 45
+                    }
+                },
                 y: {
                     beginAtZero: true
                 }
@@ -197,22 +164,19 @@
         }
     });
 
-    // Function to update chart data
     function updateChart(monthIndex) {
-        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+            "Oktober", "November", "Desember"
         ];
-        const month = monthNames[monthIndex];
+        const selectedMonth = months[monthIndex];
 
-        monthlyChart.data.labels = Array.from({
-            length: 31
-        }, (_, i) => `Hari ${i + 1}`); // 31 days for any month
-
-        monthlyChart.data.datasets[0].data = data[month];
-        monthlyChart.update();
+        chart.data.labels = Array.from({
+            length: data[selectedMonth].length
+        }, (_, i) => `Hari ${i + 1}`);
+        chart.data.datasets[0].data = data[selectedMonth];
+        chart.update();
     }
     </script>
-
 </body>
 
-<?php require "./views/Components/Foot.php" ?>
+</html>

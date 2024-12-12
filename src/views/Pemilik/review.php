@@ -106,7 +106,7 @@
                             <span class="ml-2">
                                 <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
                                 20
-                            </span> 
+                            </span>
                             <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
                             <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
                         </div>
