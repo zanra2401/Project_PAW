@@ -64,7 +64,7 @@
                             </span>
                             
                             <div class="font-Roboto-bold flex flex-col justify-center">
-                                <button  class="ml-auto shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
+                                <button onclick="showBaseInfoEdit()"  class="ml-auto shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-1 font-bold text-white rounded-md px-2">
                                     <i class="fas fa-pencil"></i>
                                 </button>
                                 <p class="text-2xl text-gray-800">
@@ -240,8 +240,9 @@
                     </div>
                 </div>
             </div>
-            <div id="base-info-edit" class="absolute w-screen h-screen top-0 left-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-                <button onclick="" class="absolute top-5 right-5 focus:outline-none">
+
+            <div id="base-info-edit" class="absolute z-10 w-screen h-screen -top-50 left-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                <button onclick="hideBaseInfoEdit()" class="absolute top-5 right-5 focus:outline-none">
                     <i class="fas fa-close text-3xl text-red-800 hover:text-red-600 transition"></i>
                 </button>
 
@@ -287,6 +288,7 @@
         <script>
             const mapEditModal = document.getElementById("map-edit-modal");
             const gambarEdit = document.getElementById("gambar-edit");
+            const baseInfoEdit = document.getElementById("base-info-edit");
 
             function show(event) 
             {
@@ -345,6 +347,19 @@
                 gambarEdit.classList.remove('-top-50');
                 gambarEdit.classList.add('top-0');
             }
+
+            function showBaseInfoEdit()
+            {
+                baseInfoEdit.classList.remove('-top-50');
+                baseInfoEdit.classList.add('top-0');
+            }
+            
+            function hideBaseInfoEdit()
+            {
+                baseInfoEdit.classList.remove('top-0');
+                baseInfoEdit.classList.add('-top-50');
+            }
+
         </script>
         </body>
 <?php require './views/Components/Foot.php' ?>
