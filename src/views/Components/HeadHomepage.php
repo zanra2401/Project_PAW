@@ -178,6 +178,89 @@
                 margin-left: -10px;
             }
         }
+
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            user-select: none;
+        }
+
+        .container span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .checkmark {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            --clr: #83493d;
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: 300ms;
+        }
+
+        .container input:checked ~ .checkmark {
+            background-color: var(--clr);
+            border-radius: .5rem;
+            animation: pulse 500ms ease-in-out;
+        }
+
+        .checkmark:after {
+            content: "";
+            display: none;
+        }
+
+        .container input:checked ~ .checkmark:after {
+            display: block;
+            text-align: center;
+        }
+
+        .container .checkmark:after {
+            left: 0.45em;
+            top: 0.25em;
+            width: 0.25em;
+            height: 0.5em;
+            border: solid #E0E0E2;
+            border-width: 0 0.15em 0.15em 0;
+            transform: rotate(45deg);
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 #0B6E4F90;
+                rotate: 20deg;
+            }
+
+            50% {
+                rotate: -20deg;
+            }
+
+            75% {
+                box-shadow: 0 0 0 10px #0B6E4F60;
+            }
+
+            100% {
+                box-shadow: 0 0 0 13px #0B6E4F30;
+                rotate: 0;
+            }
+        }
     </style>
 </head>
 
