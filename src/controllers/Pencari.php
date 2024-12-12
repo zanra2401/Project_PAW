@@ -27,4 +27,24 @@ class Pencari extends Controller {
             "title" => "Chat"
         ]);
     }
+    function kebijakan($params = []) {
+        $this->view("Pencari/kebijakan", [
+            "title" => "kebijakan"
+        ]);
+    }
+    function tentangkami($params = []) {
+        $this->view("Pencari/tentangkami", [
+            "title" => "tentangkami"
+        ]);
+    }
+    function riwayatpemesanan($params = []) {
+        $this->view("Pencari/riwayatpemesanan", [
+            "title" => "riwayatpemesanan"
+        ]);
+    }
+    function pembayaran($params = []) {
+        $this->view("Pencari/pembayaran", [
+            "title" => "pembayaran"
+        ]);
+    }
 }
