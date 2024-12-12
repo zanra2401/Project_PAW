@@ -38,4 +38,50 @@ class Admin extends Controller
             "title" => "Data User"
         ]);
     }
+
+
+    function dashboard($params = [])
+    {
+        $this->view("Admin/halaman_utama", [
+            "title" => "dashboard",
+        ]);
+    }
+
+    function laporan($params = [])
+    {
+        $this->view("Admin/laporan", [
+            "title" => "laporan",
+        ]);
+    }
+
+    function pertanyaan($params = [])
+    {
+        $this->view("Admin/pertanyaan", [
+            "title" =>  "pertanyaan",
+        ]);
+    }
+
+    function berita($params = [])
+    {
+        $this->view("Admin/berita", [
+            "title" => "berita",
+        ]);
+    }
+
+    function tambahBerita($params = [])
+    {
+        $this->view("Admin/tambahBerita", [
+            "title" => "tambahBerita",
+        ]);
+    }
+
+    function balaspertanyaan($params = [])
+    {
+        $this->view("Admin/balaspertanyaan", []);
+    }
+
+    function editberita($params = [])
+    {
+        $this->view("Admin/editberita", []);
+    }
 }
