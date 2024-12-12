@@ -2,6 +2,7 @@
 
 require_once "./controllers/Pencari.php";
 require_once "./controllers/Pemilik.php";
+require_once "./controllers/Admin.php";
 
 class Router
 {
@@ -34,7 +35,6 @@ class Router
     $url_arr = explode('/', self::$url);
     if ($url_arr[0] != "") 
     {
-
       if (file_exists("./controllers/" . ucfirst($url_arr[0]) . ".php")) 
       {
   

@@ -11,7 +11,10 @@ module.exports = {
         'Roboto-bold': ['Roboto bold']
       },
       colors: {
-        'base-color': '#b5966f',
+        'base-color': '#83493d',
+        'warna-second': '#c48d6e',
+        'warna-third': '#68422d',
+        'bg-cerah' : "#d7dbdd"
       },
     },
   },
