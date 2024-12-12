@@ -296,12 +296,12 @@
                 element.parentNode.parentNode.innerHTML += formReply;
 
                 const form_reply = document.getElementById("form_reply");
-                const textarea = document.getElementById(`${id}_input`);
+                const textarea = document.getElementById(${id}_input);
 
                 textarea.addEventListener('input', () => {
                     // Reset height to auto to shrink if needed, then set it based on scrollHeight
                     textarea.style.height = 'auto';
-                    textarea.style.height = `${textarea.scrollHeight}px`;
+                    textarea.style.height = ${textarea.scrollHeight}px;
                 });
             }
 

@@ -3,7 +3,7 @@
 require_once "Controller.php";
 
 class Pemilik extends Controller {
-    public $default;
+    public $default = "statistik";
 
     function __construct() {
         $this->default = "dashboard.php";
@@ -46,6 +46,22 @@ class Pemilik extends Controller {
     {
         $this->view("Pemilik/iklan", [
             'title' => "Iklan"
+        ]);
+    }
+
+    function halamanutama($params = []) {
+        $this->view("Pemilik/halamanutama", [
+            "title" => "halamanutama"
+        ]);
+    }
+    function tambahkost($params = []) {
+        $this->view("Pemilik/tambahkost", [
+            "title" => "tambahkost"
+        ]);
+    }
+    function statistik($params = []) {
+        $this->view("Pemilik/statistik", [
+            "title" => "statistik"
         ]);
     }
 }
