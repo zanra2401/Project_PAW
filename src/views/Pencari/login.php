@@ -1,54 +1,29 @@
 <?php require './views/Components/Head.php' ?>
-<body class="bg-gray-100 min-h-screen">
-    <div class="h-screen w-screen bg-white shadow-lg flex rounded-lg overflow-hidden">
-        <!-- Left Side Image Section -->
-        <div class="w-1/2 p-10 flex items-center justify-center bg-gray-100">
-            <img src="https://via.placeholder.com/250" alt="Illustration" class="w-2/3">
-        </div>
-
-        <!-- Right Side Form Section -->
-        <div class="w-1/2 bg-blue-50 p-8">
-            <!-- Logo -->
-            <div class="mb-8">
-                <h1 class="text-blue-600 text-2xl font-bold">CARI KOST</h1>
-            </div>
-
-            <!-- Form Title -->
-            <h2 class="text-orange-500 text-3xl font-semibold mb-6">Masuk</h2>
-
-            <!-- Login Form -->
-            <form>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="username">ID Username</label>
-                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" id="username" type="text" placeholder="Masukkan ID">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-semibold mb-2" for="password">Password</label>
-                    <div class="relative">
-                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" id="password" type="password" placeholder="Password">
-                        <button type="button" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M2.94 10c1.73-3.34 5.39-6 8.06-6 2.67 0 6.33 2.66 8.06 6-1.73 3.34-5.39 6-8.06 6-2.67 0-6.33-2.66-8.06-6z" />
-                                <path d="M12 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Forgot Password Link -->
-                <div class="text-right mb-4">
-                    <a href="#" class="text-blue-500 text-sm">Lupa Password?</a>
-                </div>
-
-                <!-- Login Button -->
-                <button class="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition duration-300">Masuk</button>
-            </form>
-
-            <!-- Register Link -->
-            <p class="mt-4 text-center text-sm text-gray-600">
-                Belum punya akun? <a href="#" class="text-blue-500 font-semibold">Daftar disini</a>
-            </p>
-        </div>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md bg-white shadow-md rounded-lg p-8">
+    <div class="flex justify-center mb-6" style="margin-bottom: 30px">
+        <img class="w-15 h-10" src="./public/assets/image/logo.png" alt="Illustration" class="w-2/3">
     </div>
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6" style="margin-bottom: 40px">Masuk Akun</h2>
+    <form>
+      <div class="mb-4">
+        <label for="username" class="block text-sm font-medium text-gray-700">ID Username</label>
+        <input type="username" id="username" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan username" required style="background-color: white;"/>
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan password" required style="background-color: white;"/>
+      </div>
+      <div class="flex items-center justify-between mb-6">
+        <a href="#" class="text-sm text-base-color hover:underline">Lupa password?</a>
+      </div>
+      <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-warna-second hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
+        Masuk
+      </button>
+    </form>
+    <p class="mt-6 text-center text-sm text-black-600">
+      Belum punya akun? <a href="#" class="text-base-color font-medium hover:underline">buat disini</a>
+    </p>
+  </div>
 </body>
 <?php require './views/Components/Foot.php' ?>
