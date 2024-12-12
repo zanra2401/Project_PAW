@@ -1,24 +1,25 @@
 <?php require "./views/Components/Head.php" ?>
+
 <body class="h-screen flex overflow-hidden">
     <style>
         /* width */
         ::-webkit-scrollbar {
-        width: 10px;
+            width: 10px;
         }
 
         /* Track */
         ::-webkit-scrollbar-track {
-        background: #f1f1f1;
+            background: #f1f1f1;
         }
 
         /* Handle */
         ::-webkit-scrollbar-thumb {
-        background: #888;
+            background: #888;
         }
 
         /* Handle on hover */
         ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+            background: #555;
         }
     </style>
     <?php require "./views/Components/sidebarAdmin.php"  ?>
@@ -28,8 +29,8 @@
         <div class="space-y-3 ">
             <div class="h-fit w-full flex gap-2 items-center p-1 rounded-sm border-2 border-gray-500 shaodwmdm shadow-gray-700">
                 <i class="fas fa-search text-gray-500"></i>
-                <input type="text" placeholder="Cari Pengumuman" class="w-full focus:outline-none font-medium" >
-            </div> 
+                <input type="text" placeholder="Cari Pengumuman" class="w-full focus:outline-none font-medium">
+            </div>
 
             <div class="border-b-2 space-x-3 border-gray-500 font-Roboto-medium">
                 <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/semua" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-menu'] == 'semua') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
@@ -105,7 +106,7 @@
                     <span class="ml-auto font-Roboto-bold text-gray-500">01:00 PM</span>
                 </div>
             </div>
-            
+
             <div class="mt-5 relative">
                 <span class="absolute px-3 py-1 text-gray-700 bg-white font-Roboto-bold border-2 border-gray-300 rounded-sm -translate-y-1/2">
                     Kami, 27 Agustus 2005
