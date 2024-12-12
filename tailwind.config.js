@@ -13,7 +13,8 @@ module.exports = {
       colors: {
         'base-color': '#83493d',
         'warna-second': '#c48d6e',
-        'warna-third': '#68422d'
+        'warna-third': '#68422d',
+        'bg-cerah' : "#d7dbdd"
       },
     },
   },

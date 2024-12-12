@@ -33,4 +33,16 @@ class Pencari extends Controller {
             "title" => "Kost Page"
         ]);
     }
+
+    function favorit($params = []){
+        $this->view("Pencari/favorit",[
+            "title" => "favorit"
+        ]);
+    }
+
+    function profile($params = []){
+        $this->view("Pencari/profile", [
+            "title" => "Profile"
+        ]);
+    }
 }
