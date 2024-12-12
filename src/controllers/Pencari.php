@@ -27,4 +27,9 @@ class Pencari extends Controller {
             "title" => "Chat"
         ]);
     }
+    function review($params = []) {
+        $this->view("Pencari/review", [
+            "title" => "review"
+        ]);
+    }
 }

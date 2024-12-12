@@ -1,145 +1,135 @@
-<?php require "./views/Components/Head.php"; ?>
-    <body class="overflow-x-hidden">
-        <?php require "./views/Components/NavBar.php" ?>
-        <div class="h-screen flex bg-gray-100 mt-1">
-            <!-- Contact List Sidebar -->
-            <div class="w-1/3 bg-white border-r border-gray-200 overflow-y-auto">
-                <!-- Header -->
-                <div class="p-4 border-b border-gray-200 flex items-center justify-start shadow-sm">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Sidebar and Dropdown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Font Awesome CDN for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarItems = document.querySelectorAll('[data-target]');
+            const contentSections = document.querySelectorAll('[data-content]');
+            const dropdownToggles = document.querySelectorAll('[data-dropdown-toggle]');
+
+            // Sidebar click functionality
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetId = item.getAttribute('data-target');
+
+                    // Reset active state for all sidebar items
+                    sidebarItems.forEach(sidebar => {
+                        sidebar.classList.remove('text-[#c48d6e]');
+                    });
+
+                    // Set active state for the clicked sidebar item
+                    item.classList.add('text-[#c48d6e]');
+
+                    // Hide all content sections
+                    contentSections.forEach(section => {
+                        section.classList.add('hidden');
+                    });
+
+                    // Show the targeted section
+                    const targetSection = document.getElementById(targetId);
+                    targetSection.classList.remove('hidden');
+                });
+            });
+
+            // Dropdown toggle functionality
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const targetId = toggle.getAttribute('data-dropdown-toggle');
+                    const target = document.getElementById(targetId);
+                    target.classList.toggle('hidden');
+                    toggle.querySelector('svg').classList.toggle('rotate-180');
+                });
+            });
+        });
+    </script>
+</head>
+<body class="bg-gray-100 font-sans w-full h-full m-0">
+    <div class="container mx-auto py-8 px-4">
+        <h1 class="text-2xl font-bold mb-6">PUSAT BANTUAN</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <!-- Sidebar -->
+            <aside class="lg:col-span-1 bg-white rounded-lg shadow p-4">
+                <ul class="space-y-3">
+                    <li class="font-medium cursor-pointer flex items-center" data-target="section1">
+                        <i class="fas fa-search mr-3"></i> Pencarian dan Pemesanan
+                    </li>
+                    <li class="font-medium cursor-pointer flex items-center" data-target="section2">
+                        <i class="fas fa-check-circle mr-3"></i> Seputar Check-in
+                    </li>
+                    <li class="font-medium cursor-pointer flex items-center" data-target="section3">
+                        <i class="fas fa-sign-out-alt mr-3"></i> Check-out dan Pengembalian Deposit
+                    </li>
+                    <li class="font-medium text- cursor-pointer flex items-center" data-target="section4">
+                        <i class="fas fa-times-circle mr-3"></i> Pembatalan dan Perubahan Pesanan
+                    </li>
+                    <li class="font-medium cursor-pointer flex items-center" data-target="section5">
+                        <i class="fas fa-tags mr-3"></i> Harga dan Promosi
+                    </li>
+                    <li class="font-medium cursor-pointer flex items-center" data-target="section6">
+                        <i class="fas fa-bed mr-3"></i> Tinggal di Rukita
+                    </li>
+                </ul>
+            </aside>
+
+            <!-- Content -->
+            <section class="lg:col-span-3 bg-white rounded-lg shadow p-6">
+                <div id="section1" data-content class="hidden">
+                    <h2 class="text-xl font-semibold mb-4">Pencarian dan Pemesanan</h2>
                     <div>
-                        <a class="block" href="<?= (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : '' ?>">
-                            <i class="fas text-base-color fa-chevron-circle-left text-2xl"></i>
-                        </a>
-                    </div>
-                    <h2 class="text-xl ml-2 font-semibold">Contacts</h2>
-                </div>
-
-                <!-- Contact List -->
-                <div class="p-4">
-
-                    <div class="flex items-center group space-x-3 p-2 border-b border-gray-500 hover:bg-base-color hover:text-white cursor-pointer">
-                        <img src="<?= ASSETS ?>image/profile-placeholder.jpg" alt="Profile" class="w-10 h-10 rounded-full">
-                        
-                        <div class="flex-1">
-                            <h3 class="text-lg font-medium group-hover:text-white">John Doe</h3>
-                            <p class="text-sm text-gray-500 truncate group-hover:text-white">Last message preview here...</p>
-                        </div>
-                        
-                        <span class="text-xs text-gray-400 group-hover:text-white">10:45 AM</span>
-                    </div>
-
-
-                    <!-- Repeat for more contacts -->
-                    <div class="flex items-center group space-x-3 p-2 hover:bg-base-color cursor-pointer">
-                        <img src="<?= ASSETS ?>image/profile-placeholder.jpg" alt="Profile" class="w-10 h-10 rounded-full">
-                        <div class="flex-1">
-                            <h3 class="text-lg font-medium group-hover:text-white">Jane Smith</h3>
-                            <p class="text-sm text-gray-500 truncate group-hover:text-white">Last message preview here...</p>
-                        </div>
-                        <span class="text-xs text-gray-400 group-hover:text-white">Yesterday</span>
-                    </div>
-
-                    <!-- Add more contacts as needed -->
-                </div>
-            </div>
-
-            <!-- Chat Area -->
-            <div class="w-2/3 flex flex-col">
-                <!-- Chat Header -->
-                <div class="bg-white p-4 border-b border-gray-200 flex items-center justify-between shadow-sm">
-                    <div class="flex items-center space-x-3">
-                        <img src="<?= ASSETS ?>image/profile-placeholder.jpg" alt="Profile" class="w-10 h-10 rounded-full">
-                        <div>
-                            <h2 class="text-lg font-semibold">Active Contact</h2>
-                            <p class="text-sm text-gray-500">Online</p>
-                        </div>
-                    </div>
-                    <div class="flex space-x-4 text-gray-500">
-                        <button class="p-2 hover:text-gray-800">
-                            <i class="fas fa-search"></i>
+                        <button data-dropdown-toggle="dropdown1" class="w-full text-left font-medium flex justify-between items-center">
+                            Informasi 1
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
                         </button>
-                        <button class="p-2 hover:text-gray-800">
-                            <i class="fas fa-ellipsis-v"></i>
+                        <div id="dropdown1" class="text-sm mt-1 hidden">
+                            <p>Detail untuk informasi 1.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div id="section2" data-content class="hidden">
+                    <h2 class="text-xl font-semibold mb-4">Seputar Check-in</h2>
+                    <div>
+                        <button data-dropdown-toggle="dropdown2" class="w-full text-left font-medium flex justify-between items-center">
+                            Informasi Check-in
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
                         </button>
-                    </div>
-                </div>
-
-                <!-- Chat Messages -->
-                <div class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
-                    <!-- Sent Message -->
-                    <div class="flex justify-end">
-                        <div class="bg-base-color text-white rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>Hello, how are you?</p>
-                            <span class="text-xs text-blue-200 float-right">11:05 AM</span>
-                        </div>
-                    </div>
-
-                    <!-- Received Message -->
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
-                            <p>I'm good, thanks! And you?</p>
-                            <span class="text-xs text-gray-500 float-right">11:06 AM</span>
+                        <div id="dropdown2" class="text-sm mt-1 hidden">
+                            <p>Detail untuk informasi check-in.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Input Field -->
-                <div class="bg-white p-4 border-t border-gray-200 flex items-center space-x-4">
-                    <input type="text" placeholder="Type a message" class="flex-1 p-2 borde text-gray-700 font-Roboto-medium border-gray-300 rounded-full focus:outline-none focus:ring focus:ring-0">
-                    <button class="text-base-color hover:text-base-color">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+                <div id="section3" data-content class="hidden">
+                    <h2 class="text-xl font-semibold mb-4">Check-out dan Pengembalian Deposit</h2>
                 </div>
-            </div>
+
+                <div id="section4" data-content>
+                    <h2 class="text-xl font-semibold mb-4">Pembatalan dan Perubahan Pesanan</h2>
+                    <div>
+                        <button data-dropdown-toggle="dropdown3" class="w-full text-left font-medium flex justify-between items-center">
+                            Ketentuan Pembatalan
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <div id="dropdown3" class="text-sm mt-1 hidden">
+                            <p>Informasi terkait pembatalan pesanan.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
-    </body>
-<?php require "./views/Components/Foot.php"; ?>
+    </div>
+</body>
+</html>
