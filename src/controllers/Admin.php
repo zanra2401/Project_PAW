@@ -27,7 +27,7 @@ class Admin extends Controller
     
         $this->view("Admin/logPengumuman", [
             "title" => "Pengumumanm Log",
-            "active-menu" => ((count($params) > 0) ? (($params[0] == "semua") ? "semua" : (($params[0] == "pencari") ? "pencari" : (($params[0] == "pemilik") ? "pemilik" : ""))) : "")
+            "active-menu" => ((count($params) > 0) ? (($params[0] == "semua") ? "semua" : (($params[0] == "pencari") ? "pencari" : (($params[0] == "pemilik") ? "pemilik" : ""))) : "semua")
         ]);
     }
 

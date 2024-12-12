@@ -20,7 +20,7 @@
         <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-dashboard text-warna-second text-[15px]"></i>
           <span class="ml-3">
-              Dashboard
+              Dash Board
           </span>
         </a>
         <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
