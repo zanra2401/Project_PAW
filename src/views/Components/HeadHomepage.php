@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="<?= NODE_MODULES ?>@fortawesome/fontawesome-free/css/all.css">
     <title><?= $data["title"] ?></title>
     <style>
-
         .carousel {
             position: relative;
             width: 100%;
@@ -122,7 +121,6 @@
         .main-menu-foot {
             font-size: 20px;
             font-weight: 600;
-            color: #83493d;
         }
 
         .menu-foot {
