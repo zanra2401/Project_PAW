@@ -35,12 +35,12 @@
                 Daftar
             </button>
             <div class="mt-4 text-center text-sm">
-                Sudah punya akun? <a href="#" class="text-base-color  font-medium hover:underline">Masuk disini</a>
+                Sudah punya akun? <a href="/project_paw/pencari/login" class="text-base-color  font-medium hover:underline">Masuk disini</a>
             </div>
         </div>
         <!-- Image Section -->
         <div class="flex-1 bg-cover bg-center">
-            <img class="w-full" style="margin-top:60px" src="./public/assets/image/penyewa.png" alt="Illustration">
+            <img class="w-full" style="margin-top:60px" src="<?= PUBLIC_FOLDER?>/assets/image/penyewa.png" alt="Illustration">
         </div>
     </div>
 </body>
