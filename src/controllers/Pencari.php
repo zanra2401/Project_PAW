@@ -1,14 +1,14 @@
 <?php
 
 require_once "Controller.php";
-require_once "./models/UserModel.php";
+require_once "./models/PencariModel.php";
 
 class Pencari extends Controller {
     public $default = "homepage";
     private $model;
 
     function __construct() {
-        $this->model = new UserModel();
+        $this->model = new PencariModel();
     }
 
     function homepage($params = []) {
