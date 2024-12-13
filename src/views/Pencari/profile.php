@@ -1,7 +1,7 @@
 <?php require './views/Components/Head.php' ?>
 
 <body class="bg-gray-100">
-    <?php require "./views/Components/NavBar.php" ?>    
+    <?php require "./views/Components/NavBar.php" ?>  
     <div class="w-[90%] mx-auto pt-4 h-16 items-center">
         <div class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -30,16 +30,16 @@
                 <div class="border-t border-r border-grey w-[288px]">
                     <div class="grid p-6 gap-4">
                         <div class="flex items-center gap-5">
-                            <a href="" class="flex items-center gap-5">
+                            <button class="flex items-center gap-5" id="menuju_profile">
                                 <i class="fa-regular fa-user"></i>
                                 <p class="font-medium">Profile</p>
-                            </a>
+                            </button>
                         </div>
                         <div class="flex items-center gap-5">
-                            <a href="" class="flex items-center gap-5">
+                            <button class="flex items-center gap-5" id="menuju_pengajuan">
                                 <i class="fa-solid fa-receipt"></i>
                                 <p class="font-medium">Riwayat pengajuan sewa</p>
-                            </a>
+                            </button>
                         </div>
                         <!-- <div class="flex items-center gap-5">
                             <a href="" class="flex items-center gap-5">
@@ -51,10 +51,13 @@
                 </div>
             </div>
             <div class="w-full">
-                <div class="p-6 text-center">
+                <div class="p-6 text-center" id="profile_title">
                     <p class="text-2xl font-semibold">Profile</p>
                 </div>
-                <div class="p-10 border-t border-grey grid gap-5">
+                <div class="p-6 text-center hidden" id="profile_pemesanan">
+                    <p class="text-2xl font-semibold">Riwayat Pemesanan</p>
+                </div>
+                <div class="p-10 border-t border-grey grid gap-5" id="content_profle">
                     <p class="text-xl font-medium text-zinc-400">Profile Picture</p>
                     <form action="" class="grid gap-5">
                     <div class="flex items-center gap-7">
@@ -121,14 +124,118 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="container p-10 border-t border-grey grid gap-5 hidden" id="content_pemesanan">
+                    <!-- Search Bar -->
+                    <div class="flex items-center gap-4">
+                        <label class="block font-medium text-gray-700 text-center text-xl">Cari nama kost</label>
+                        <input type="text" id="searchInput"
+                        class="block w-fit px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        placeholder="Masukkan nama kost...">
+                    </div>
+    
+                    <div id="bookingCards" class="mt-8 grid grid-cols-2 gap-5">
+                        <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
+                            <h2 class="text-2xl font-bold text-gray-800">Kosan Mawar</h2>
+                            <p class="text-lg text-gray-600">ID Kost : 001</p>
+                            <p class="text-lg text-gray-600">Lokasi : Surabaya</p>
+                            <p class="text-lg text-gray-600">Harga : Rp 1,500,000</p>
+                            <p class="text-lg text-gray-600">Tanggal Pemesanan : 2024-01-15</p>
+                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
+                                style="background-color: #68422d;">Review</button>
+
+                        </div>
+
+                        <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Malang">
+                            <h2 class="text-2xl font-bold text-gray-800">Kosan Melati</h2>
+                            <p class="text-lg text-gray-600">ID Kost: 002</p>
+                            <p class="text-lg text-gray-600">Lokasi: Malang</p>
+                            <p class="text-lg text-gray-600">Harga: Rp 1,200,000</p>
+                            <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-02-10</p>
+                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
+                                style="background-color: #68422d;">Review</button>
+
+                        </div>
+
+                        <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
+                            <h2 class="text-2xl font-bold text-gray-800">Kosan Dahlia</h2>
+                            <p class="text-lg text-gray-600">ID Kost: 003</p>
+                            <p class="text-lg text-gray-600">Lokasi: Surabaya</p>
+                            <p class="text-lg text-gray-600">Harga: Rp 1,000,000</p>
+                            <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-03-05</p>
+                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
+                                style="background-color: #68422d;">Review</button>
+
+                        </div>
+                        <div class="bg-gray-100 shadow-md rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
+                            <h2 class="text-2xl font-bold text-gray-800">Griya Danendra</h2>
+                            <p class="text-lg text-gray-600">ID Kost: 005</p>
+                            <p class="text-lg text-gray-600">Lokasi: Jakarta Selatan</p>
+                            <p class="text-lg text-gray-600">Harga: Rp 5,000,000,000</p>
+                            <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-12-05</p>
+                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
+                                style="background-color: #68422d;">Review</button>
+
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
     <script>
+        const menuju_profile = document.getElementById('menuju_profile')
+        const menuju_pengajuan = document.getElementById('menuju_pengajuan')
+        const profile_title = document.getElementById('profile_title')
+        const pemesanan_title = document.getElementById('profile_pemesanan')
+        const content_profile = document.getElementById('content_profle')
+        const content_pengajuan = document.getElementById('content_pemesanan')
+
+        menuju_profile.addEventListener('click', ()=>{
+            if (profile_title.classList.contains('hidden') && content_profile.classList.contains('hidden')){
+                profile_title.classList.remove('hidden')
+                content_profile.classList.remove('hidden')
+                pemesanan_title.classList.add('hidden')
+                content_pengajuan.classList.add('hidden')
+            } else {
+                if (!content_profile.contains('hidden')){
+                    profile_title.classList.add('hidden')
+                    content_profile.classList.add('hidden')
+                }
+            }
+        })
+
+        menuju_pengajuan.addEventListener('click', ()=>{
+            if (pemesanan_title.classList.contains('hidden') && content_pengajuan.classList.contains('hidden')){
+                pemesanan_title.classList.remove('hidden')
+                content_pengajuan.classList.remove('hidden')
+                profile_title.classList.add('hidden')
+                content_profile.classList.add('hidden')
+            } else {
+                if (!content_pengajuan.contains('hidden')){
+                    pemesanan_title.classList.add('hidden')
+                    content_pengajuan.classList.add('hidden')
+                }
+            }
+        })
+
+
         const pp = document.getElementById('pp')
         const pp_menu = document.getElementById('menu_pp')
         const provinsi = document.getElementById("provinsi")
         const kota = document.getElementById("kota")
+
+        const searchInput = document.getElementById("searchInput");
+        const bookingCards = document.querySelectorAll("#bookingCards > div");
+
+        // Filter cards based on search query
+        searchInput.addEventListener("input", function() {
+            const searchQuery = this.value.toLowerCase();
+            bookingCards.forEach(card => {
+                const kostName = card.querySelector("h2").textContent.toLowerCase();
+                const matchesSearch = kostName.includes(searchQuery);
+                card.style.display = matchesSearch ? "block" : "none";
+            });
+        });
 
         pp.addEventListener('click', ()=>{
             if (pp_menu.classList.contains('hidden')){
