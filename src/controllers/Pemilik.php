@@ -64,4 +64,10 @@ class Pemilik extends Controller {
             "title" => "statistik"
         ]);
     }
+
+    function kosts($params = []) {
+        $this->view("Pemilik/kosts", [
+            "title" => "Kosts",
+        ]);
+    }
 }

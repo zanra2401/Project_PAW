@@ -2,7 +2,7 @@
 <body class="bg-gray-50 flex items-center justify-center min-h-screen">
   <div class="w-full max-w-md bg-white shadow-md rounded-lg p-8">
     <div class="flex justify-center mb-6" style="margin-bottom: 30px">
-        <img class="w-15 h-10" src="./public/assets/image/logo.png" alt="Illustration" class="w-2/3">
+        <img class="w-15 h-10" src="<?= PUBLIC_FOLDER ?>/assets/image/logo.png" alt="Illustration" class="w-2/3">
     </div>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6" style="margin-bottom: 40px">Masuk Akun</h2>
     <form>

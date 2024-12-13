@@ -1,96 +1,206 @@
-<?php require './views/Components/Head.php' ?>
+<?php require "./views/Components/Head.php"; ?>
+    <script src="<?= NODE_MODULES ?>leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">  
+    <script src="<?= JS ?>/libs/chart.js"></script>
+    <script src="<?= JS ?>/libs/fullcalendar.js"></script>    
+    <body class="overflow-hidden flex p-0 m-0 h-screen ">
+        <?php require "./views/Components/sidebarPemilik.php" ?>
+        <main class="flex-1 flex flex-col p-5 overflow-y-auto">
+            <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
+            <div class="container">
+                <form action="" class="flex flex-col space-y-5">
 
-<body class="font-roboto bg-grey-200 text-black">
+                    <div id="gambar-preview" class="w-full gap-3 grid grid-cols-4">
+                        <button  onchange="tambahFoto(event)" class="w-full relative aspect-square rounded-lg bg-gray-200">
+                            <i class="fas fa-plus text-gray-700 text-[300%]"></i>
+                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0">
+                        </button>
+                    </div>
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md py-8">
-        <div class="container mx-auto flex justify-center">
-            <h1 class="text-2xl font-bold text-gray-800">Tambah Kost</h1>
-        </div>
-    </nav>
-    <div class="container mx-auto my-10 bg-white p-10 rounded-lg shadow-lg max-w-2xl">
-        <p class="text-center text-lg font-semibold" style="color: #68422d;">FORM TAMBAH KOST</p> <br>
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-heading text-gray-700"></i>
+                        <input type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost">
+                    </div>
 
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Handle form submission
-        } else {
-        ?>
-        <form action="" method="POST" enctype="multipart/form-data" class="space-y-10">
-            <!-- Grid for form fields -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="nama_kost" class="block text-sm font-bold text-gray-700">Nama Kost</label>
-                    <input type="text" id="nama_kost" name="nama_kost" placeholder="Masukkan Nama Kost"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg" required>
-                </div>
-                <div>
-                    <label for="kode_pos" class="block text-sm font-bold text-gray-700">Kode Pos</label>
-                    <input type="text" id="kode_pos" name="kode_pos" placeholder="Masukkan Kode Pos"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg" required>
-                </div>
-                <div>
-                    <label for="alamat" class="block text-sm font-bold text-gray-700">Alamat</label>
-                    <input type="text" id="alamat" name="alamat" placeholder="Masukkan Alamat"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg" required>
-                </div>
-                <div>
-                    <label for="nomor_hp" class="block text-sm font-bold text-gray-700">Nomor HP</label>
-                    <input type="text" id="nomor_hp" name="nomor_hp" placeholder="Masukkan Nomor HP"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg" required>
-                </div>
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-money-bill text-gray-700"></i>
+                        <input type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Harga Kost">
+                    </div>
 
-                <!-- New ID Kost field -->
-                <div>
-                    <label for="id_kost" class="block text-sm font-bold text-gray-700">ID Kost</label>
-                    <input type="text" id="id_kost" name="id_kost" placeholder="Masukkan ID Kost"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg" required>
-                </div>
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-city text-gray-700"></i>
+                        <select id="provinsi" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        </select>
+                    </div>
 
-                <div>
-                    <label for="harga" class="block text-sm font-bold text-gray-700">Harga</label>
-                    <input type="number" id="harga" name="harga" placeholder="Masukkan Harga (Rp)"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg" required>
-                </div>
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-city text-gray-700"></i>
+                        <select id="kota" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        </select>
+                    </div>
+
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-user text-gray-700"></i>
+                        <select  class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                            <option value="putri">Putri</option>
+                            <option value="putra">Putra</option>
+                        </select>
+                    </div>
+
+                    <h2 class="font-Roboto-medium">Fasilitas Kamar</h2>
+                    <ul id="Fasilitas-Kamar">
+
+                    </ul>
+
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-sink text-gray-700"></i>
+                        <select  class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                            <option value="Dapur">Dapur</option>
+                            <option value="Parkiran">Parkiran</option>
+                        </select>
+                    </div>
+
+                    <h2 class="font-Roboto-medium">Fasilitas Bersama</h2>
+                    <ul id="Fasilitas-Bersama">
+
+                    </ul>
+
+                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                        <i class="fas fa-bed text-gray-700"></i>
+                        <select  class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                            <option value="Dapur">Tempat Tidur</option>
+                            <option value="Parkiran">Parkiran</option>
+                        </select>
+                    </div>
+
+                    <h2 class="font-Roboto-medium">Lokasi Kost Anda</h2>
+                    <div class="w-full  grid grid-cols-2 gap-2 ">
+                        <span class="border-2 py-1 px-4 items-center rounded-md border-gray-200">
+                            <span  class="font-Roboto-medium text-gray-700">
+                                lat :
+                            </span> 
+                            <input id="lat-input" type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
+                        </span>
+                        <span  class="border-2 px-4 py-1 items-center rounded-md border-gray-200">
+                            <span class="font-Roboto-medium text-gray-700">
+                                long :
+                            </span>
+                            <input id="long-input" type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
+                        </span>
+                    </div>  
+
+                    <div class="w-1/2 h-[400px]">
+                        <div id="map-set" class='h-full rounded-md'></div>
+                    </div>
+
+                    <button class="w-full py-1 px-4 bg-warna-second text-white text-center rounded-lg"> <i class="fas fa-plus-square"></i> Tambah</button>
+                </form>
             </div>
+        </main>
 
-            <p class="text-center text-lg font-semibold text-gray-800 border-b-2 border-gray-300 pb-2">
-                INFORMASI
-            </p>
+        <script>
+            const alidade = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
+            const openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
+            const gambarPreview = document.getElementById("gambar-preview");
+            const provinsi = document.getElementById("provinsi");
+            const reader = new FileReader();
+            var id = 0;
+            var dataKost = {
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label for="fasilitas" class="block text-sm font-bold text-gray-700">Fasilitas</label>
-                    <textarea id="fasilitas" name="fasilitas" rows="2" placeholder="Masukkan Fasilitas"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg resize-none"></textarea>
+            };
+            
+            reader.onload = function (e) {
+                gambarPreview.innerHTML += `
+                <div class="relative">
+                    <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square "><i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i></button>
+                    <img class="rounded-lg aspect-square object-cover" src="${e.target.result}"/>
                 </div>
-                <div>
-                    <label for="keterangan" class="block text-sm font-bold text-gray-700">Keterangan</label>
-                    <textarea id="keterangan" name="keterangan" rows="2" placeholder="Masukkan Keterangan"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg resize-none"></textarea>
-                </div>
-                <div>
-                    <label for="peraturan" class="block text-sm font-bold text-gray-700">Peraturan</label>
-                    <textarea id="peraturan" name="peraturan" rows="2" placeholder="Masukkan Peraturan"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg resize-none"></textarea>
-                </div>
-                <div>
-                    <label for="foto" class="block text-sm font-bold text-gray-700">Unggah Foto</label>
-                    <input type="file" id="foto" name="foto" accept="image/*"
-                        class="w-full mt-1 p-2 border-2 border-gray-300 rounded-lg">
-                    <small class="text-sm text-gray-500">Maks 20 MB</small>
-                </div>
-            </div>
+                `;
+                id += 1;
+            };
 
-            <!-- Button in the center -->
-            <div class="flex justify-center mt-5">
-                <button type="submit" class="px-6 py-2 font-bold rounded-lg transition duration-300"
-                    style="background-color: #68422d; color: white;">
-                    Simpan
-                </button>
-            </div>
-        </form>
-        <?php } ?>
-    </div>
-</body>
-<?php require "./views/Components/Foot.php" ?>
+            function deleteFoto(event)
+            {
+                const id = event.target.dataset.id;
+                delete dataKost[parseInt(id)];
+                event.target.parentNode.parentNode.remove();
+            }
+
+            async function tambahFoto(event)
+            {
+                dataKost[id] = event.target.files[0];
+                console.log(dataKost);
+                await reader.readAsDataURL(event.target.files[0]);
+            }
+
+            fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
+            .then(response => response.json())
+            .then(provinces => {
+                provinces.forEach(element => {
+                    provinsi.innerHTML += `<option data-id="${element["id"]}" value='${element["name"]}'>${element["name"]}</option>`
+                });
+            });
+        
+            fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/11.json`)
+                .then(response => response.json())
+                .then(kotas => {
+                    kotas.forEach(element => {
+                        kota.innerHTML += `<option class="w-full h-full" data-id="${element["id"]}" value='${element["name"]}'>${element["name"]}</option>`
+                    })
+                });
+        
+
+            provinsi.addEventListener('change', (e)=>{
+                kota.innerHTML = ""
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinsi[provinsi.selectedIndex].dataset.id}.json`)
+                .then(response => response.json())
+                .then(kotas => {
+                    kotas.forEach(element => {
+                        kota.innerHTML += `<option data-id="${element['id']}" value='${element["name"]}'>${element["name"]}</option>`
+                    })
+                });
+            })
+
+
+            const namaLokasiMap = document.getElementById("nama-lokasi-map");
+            const cariLokasiMap = document.getElementById("cari-lokasi-map")
+            const mapSet = L.map('map-set').setView([20, 20], 5);
+            const latInput = document.getElementById('lat-input');
+            const longInput = document.getElementById('long-input');
+
+            const markerLayerMapSet = L.layerGroup().addTo(mapSet);
+
+            L.tileLayer(stadiamaps, {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapSet);
+
+            L.marker([20, 20]).addTo(markerLayerMapSet);
+
+            mapSet.on('click', (e) => {
+                mapSet.setView([e.latlng.lat, e.latlng.lng],e.target._zoom);
+                markerLayerMapSet.clearLayers();
+                L.marker([e.latlng.lat, e.latlng.lng]).addTo(markerLayerMapSet);
+                latInput.value = `${e.latlng.lat}`;
+                longInput.value = `${e.latlng.lng}`;
+            });
+
+            // cariLokasiMap.addEventListener('click', async (e) => {
+            //     console.log("a")
+            //     const url = `https://nominatim.openstreetmap.org/search?q=${namaLokasiMap.value}&format=json&addressdetails=1`;
+                
+
+            //     await fetch(url).then(async (result) => {
+            //         await result.json().then((r) => {
+            //             mapSet.setView([r[0].lat, r[0].lon], 15);
+            //             markerLayerMapSet.clearLayers();
+            //             L.marker([r[0].lat, r[0].lon]).addTo(markerLayerMapSet)
+            //         })
+            //     });
+
+                
+            // })
+        </script>
+    </body>
+<?php require "./views/Components/Foot.php"; ?>
