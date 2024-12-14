@@ -1,6 +1,5 @@
 <?php require "./views/Components/Head.php"; ?>
     <body class="overflow-x-hidden">
-        <?php require "./views/Components/NavBar.php" ?>
         <div class="h-screen flex bg-gray-100 mt-1">
             <!-- Contact List Sidebar -->
             <div class="w-1/3 bg-white border-r border-gray-200 overflow-y-auto">
@@ -24,7 +23,6 @@
                             <h3 class="text-lg font-medium group-hover:text-white">test</h3>
                             <p class="text-sm text-gray-500 truncate group-hover:text-white">test</p>
                         </div>
-                        
                         <span class="text-xs text-gray-400 group-hover:text-white">10:45 AM</span>
                     </div>
 

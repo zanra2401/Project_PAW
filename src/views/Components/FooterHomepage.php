@@ -4,13 +4,13 @@
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="menu-foot">
             <div class="flex md:mb-0 items-center justify-center">
-                <a href="https://flowbite.com/" class="flex items-center imag">
-                    <img src="<?= ASSETS ?>image/logo.png" class="h-20 me-3" alt="FlowBite Logo" />
+                <a href="/project_paw" class="flex items-center imag">
+                    <img src="<?= ASSETS ?>image/logo.png" class="h-20 me-3" alt="Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap">Cari Kost</span>
                 </a>
             </div>
             <div>
-                <h2 class="mb-6 font-semibold text-gray-900 uppercase main-menu-foot">CARI KOST</h2>
+                <h2 class="mb-6 font-semibold text-warna-second uppercase main-menu-foot">CARI KOST</h2>
                 <ul class="text-gray-500 dark:text-gray-400 font-medium" style="color: #fff;">
                     <li class="mb-4">
                         <a href="https://flowbite.com/" class="hover:underline">Tentang Kami</a>
@@ -24,7 +24,7 @@
                 </ul>
             </div>
             <div>
-                <h2 class="mb-6 font-semibold text-gray-900 uppercase main-menu-foot">KEBIJAKAN</h2>
+                <h2 class="mb-6 font-semibold text-warna-second uppercase main-menu-foot">KEBIJAKAN</h2>
                 <ul class="font-medium" style="color: #fff;">
                     <li class="mb-4">
                         <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Kebijakan</a>
@@ -35,7 +35,7 @@
                 </ul>
             </div>
             <div>
-                <h2 class="mb-6 font-semibold text-gray-900 uppercase main-menu-foot">Hubungi Kami</h2>
+                <h2 class="mb-6 font-semibold text-warna-second uppercase main-menu-foot">Hubungi Kami</h2>
                 <ul class="font-medium" style="color: #fff;">
                     <li class="mb-4">
                     <i class="fa-brands fa-whatsapp"></i>

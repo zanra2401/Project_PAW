@@ -1,14 +1,18 @@
 <?php
 
 require_once "Controller.php";
-require_once "./models/UserModel.php";
+require_once "./models/PencariModel.php";
+
+
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Pencari extends Controller {
     public $default = "homepage";
-    private $model;
+    private $model; 
 
     function __construct() {
-        $this->model = new UserModel();
+        $this->model = new PencariModel();
     }
 
     function homepage($params = []) {
@@ -16,11 +20,7 @@ class Pencari extends Controller {
             "title" => "Homepage",
         ]);
     }
-    function login($params = []){
-        $this->view("Pencari/login", [
-            "title" => "Login"
-        ]);
-    }
+    
 
     function chat($params = []) {
         $this->view("Pencari/chat", [
@@ -30,7 +30,7 @@ class Pencari extends Controller {
 
     function regPenyewa($params = []) {
         $this->view("Pencari/regPenyewa", [
-            "title" => "regPenyewa"
+            "title" => "regPenyewa",
         ]);
     }
 
@@ -45,11 +45,7 @@ class Pencari extends Controller {
             "title" => "berita"
         ]);
     }
-    function regPemilik($params = []) {
-        $this->view("Pencari/regPemilik", [
-            "title" => "regPemilik"
-        ]);
-    }
+ 
 
     function lupapassword($params = []) {
         $this->view("Pencari/lupapassword", [
@@ -133,6 +129,17 @@ class Pencari extends Controller {
         $this->view("Pencari/profile", [
             "title" => "Profile"
         ]);
+    }
+
+    function reviewGambarKost($params = []){
+        $this->view("Pencari/reviewGambarKost", [
+            "title" => "ReviewGambarKost"
+        ]);
+    }
+
+    function test()
+    {
+        var_dump(count($this->model->unique("username_user", "zanuar", "user")));
     }
     function notifikasi($params = []){
         $this->view("Pencari/notifikasi", [
