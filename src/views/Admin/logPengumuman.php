@@ -24,6 +24,7 @@
     </style>
     <?php require "./views/Components/sidebarAdmin.php"  ?>
     <main class="p-5 w-full min-h-screen flex flex-col gap-3">
+        <?php var_dump($data['active-sub-menu']) ?>
         <!-- LOKASI -->
         <span class="mb-3 inline-block text-gray-500"> <i class="fas fa-microphone"></i> Pengumuman <i class="fas fa-chevron-right"></i> <i class="fas fa-sticky-note"></i> Log <i class="fas fa-chevron-right"></i></span>
         <div class="space-y-3 ">
@@ -33,13 +34,13 @@
             </div>
 
             <div class="border-b-2 space-x-3 border-gray-500 font-Roboto-medium">
-                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/semua" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-menu'] == 'semua') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
+                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/semua" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-sub-menu'] == 'semua') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
                     Semua
                 </a>
-                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/pencari" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-menu'] == 'pencari') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
+                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/pencari" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-sub-menu'] == 'pencari') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
                     Pencari Kost
                 </a>
-                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/pemilik" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-menu'] == 'pemilik') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
+                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman/pemilik" class="hover:cursor-pointer h-full px-2 py-1 <?= ($data['active-sub-menu'] == 'pemilik') ? 'text-white  rounded-sm bg-warna-second' : '' ?>">
                     Pemilik Kost
                 </a>
             </div>

@@ -1,6 +1,8 @@
 <?php
 
 require_once "Controller.php";
+require_once "./models/PencariModel.php";
+
 
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,7 +12,7 @@ class Pencari extends Controller {
     private $model; 
 
     function __construct() {
-        $this->model = "none";
+        $this->model = new PencariModel();
     }
 
     function homepage($params = []) {
@@ -18,11 +20,7 @@ class Pencari extends Controller {
             "title" => "Homepage",
         ]);
     }
-    function login($params = []){
-        $this->view("Pencari/login", [
-            "title" => "Login"
-        ]);
-    }
+    
 
     function chat($params = []) {
         $this->view("Pencari/chat", [

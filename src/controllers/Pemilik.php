@@ -12,7 +12,7 @@ class Pemilik extends Controller {
     }
 
     function dashboard() {
-        if ($this->isLogIn())
+        if ($this->isLogInPemilik())
         {
             $this->view("Pemilik/dashboard", [
                 "title" => "dashboard"
@@ -88,7 +88,7 @@ class Pemilik extends Controller {
 
     function profile($params = [])
     {
-        if ($this->isLogIn())
+        if ($this->isLogInPemilik())
         {
             
             $this->view("Pemilik/profile", [

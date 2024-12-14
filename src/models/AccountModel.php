@@ -35,7 +35,7 @@ class AccountModel {
 
     function getDataUser($username)
     {
-        $this->DB->query("SELECT username_user, email_user, nama_user, alamat, no_hp_user FROM user WHERE username_user = ?", 's', [$username]);
+        $this->DB->query("SELECT username_user, email_user, nama_user, alamat, no_hp_user, role_user FROM user WHERE username_user = ?", 's', [$username]);
         return $this->DB->getFirst();
     }
 }
