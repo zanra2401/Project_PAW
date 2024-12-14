@@ -1,5 +1,5 @@
 <?php require './views/Components/Head.php' ?>
-    <body class="overflow-hidden">
+    <body class="overflow-hidden flex">
         <style>
             /* For most browsers */
             .hide-scrollbar {
@@ -23,7 +23,7 @@
         <script src="<?= NODE_MODULES ?>leaflet/dist/leaflet.js"></script>
         <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">
 
-        <?php require "./views/Components/NavBar.php" ?>
+        <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="overflow-scroll w-screen h-screen pb-10">
 
             <div class="w-[90%] mx-auto mt-5 pb-10">
@@ -32,7 +32,7 @@
                         <img class="row-span-2 h-full object-cover col-span-2" src="https://static.mamikos.com/uploads/cache/data/style/2023-05-23/bgiItzhw-360x480.jpg" alt="">
                         <img src="https://static.mamikos.com/uploads/cache/data/style/2023-05-23/bfZo3SiF-360x480.jpg" alt="">
                         <img src="https://static.mamikos.com/uploads/cache/data/style/2023-05-23/d58w8U84-360x480.jpg" alt="">
-                        <button id="edit-gambar-kost" onclick="showGambarInputEdit()" class="absolute right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-2 font-bold text-white rounded-md px-4">
+                        <button id="edit-gambar-kost" onclick="showGambarInputEdit()" class="absolute aspect-square right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-2 font-bold text-white rounded-md px-4">
                             <i class="fas fa-pencil"></i>
                         </button>
                     </div>
@@ -188,9 +188,14 @@
                     </div>
             </div>
 
-            <!-- MODAL  -->
-    
-            <div id="map-edit-modal" class="z-10 absolute bg- w-screen h-screen -top-100 flex shadow-md shadow-gray-700 bg-gray-700 bg-opacity-50 items-center justify-center">
+            
+            
+            
+            
+        </main>
+        <!-- MODAL  -->
+
+        <div id="map-edit-modal" class="z-10 absolute bg- w-screen h-screen -top-full flex bg-gray-700 bg-opacity-50 items-center justify-center">
                 <button onclick="hideMapEdit()" class="absolute top-5 right-5">
                     <i class="fas fa-close text-3xl text-red-800"></i>
                 </button>
@@ -219,7 +224,7 @@
                 </div>
             </div>
 
-            <div id="gambar-edit" class="z-10 absolute -top-50 w-screen h-screen flex shadow-md shadow-gray-700 bg-gray-700 bg-opacity-50 items-center justify-center">
+            <div id="gambar-edit" class="z-10 absolute -top-full w-screen h-screen flex 0 bg-gray-700 bg-opacity-50 items-center justify-center">
                 <button onclick="hideGambarInputEdit()"  class="absolute top-5 right-5">
                     <i class="fas fa-close text-3xl text-red-800"></i>
                 </button>
@@ -241,7 +246,7 @@
                 </div>
             </div>
 
-            <div id="base-info-edit" class="absolute z-10 w-screen h-screen -top-50 left-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+            <div id="base-info-edit" class="absolute z-10 w-screen h-screen -top-full left-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
                 <button onclick="hideBaseInfoEdit()" class="absolute top-5 right-5 focus:outline-none">
                     <i class="fas fa-close text-3xl text-red-800 hover:text-red-600 transition"></i>
                 </button>
@@ -279,9 +284,6 @@
             </div>
 
 
-        </main>
-
-
         <script type="module" src="<?= JS ?>pemilikjs/editkost.js"></script>
 
 
@@ -309,12 +311,11 @@
 
             function showMapEdit()
             {
-                mapEditModal.classList.remove('-top-50')
+                mapEditModal.classList.remove('-top-full')
                 mapEditModal.classList.add('top-0')
             }
 
             document.getElementById("input-image-kost-edit").addEventListener("change", async () => {
-                console.log("A")
                 const reader = new FileReader();
                 
                 reader.onload = function (e) {
@@ -333,31 +334,31 @@
             function hideMapEdit()
             {
                 mapEditModal.classList.remove('top-0')
-                mapEditModal.classList.add('-top-50')
+                mapEditModal.classList.add('-top-full')
             }
 
             function hideGambarInputEdit()
             {
                 gambarEdit.classList.remove('top-0');
-                gambarEdit.classList.add('-top-50');
+                gambarEdit.classList.add('-top-full');
             }
 
             function showGambarInputEdit()
             {
-                gambarEdit.classList.remove('-top-50');
+                gambarEdit.classList.remove('-top-full');
                 gambarEdit.classList.add('top-0');
             }
 
             function showBaseInfoEdit()
             {
-                baseInfoEdit.classList.remove('-top-50');
+                baseInfoEdit.classList.remove('-top-full');
                 baseInfoEdit.classList.add('top-0');
             }
             
             function hideBaseInfoEdit()
             {
                 baseInfoEdit.classList.remove('top-0');
-                baseInfoEdit.classList.add('-top-50');
+                baseInfoEdit.classList.add('-top-full');
             }
 
         </script>
