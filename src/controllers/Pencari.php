@@ -134,4 +134,9 @@ class Pencari extends Controller {
             "title" => "Profile"
         ]);
     }
+    function notifikasi($params = []){
+        $this->view("Pencari/notifikasi", [
+            "title" => "notifikasi"
+        ]);
+    }
 }

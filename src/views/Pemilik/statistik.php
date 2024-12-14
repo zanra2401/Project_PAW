@@ -10,7 +10,7 @@
 </head>
 
 <body class="bg-gray-100">
-<nav class="bg-white shadow-md py-8">
+    <nav class="bg-white shadow-md py-8">
         <div class="container mx-auto flex justify-center">
             <h1 class="text-2xl font-bold text-gray-800">Statistik</h1>
         </div>
