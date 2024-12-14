@@ -306,7 +306,7 @@ class Account extends Controller {
             $role = $this->model->getOneData("role" ,$_SESSION["username"], "user")
             if ($role = "pemilik")
             {
-                header("Location: /" . PROJECT_NAME ."/pemilik");
+                header("Location: /" . PROJECT_NAME ."/pemilik"); 
             }
         }
 
