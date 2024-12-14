@@ -952,6 +952,10 @@ video {
   margin-top: auto;
 }
 
+.mr-3 {
+  margin-right: 0.75rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -2163,6 +2167,10 @@ video {
   font-family: Roboto normal;
 }
 
+.font-sans {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -2390,6 +2398,11 @@ video {
 .text-zinc-400 {
   --tw-text-opacity: 1;
   color: rgb(161 161 170 / var(--tw-text-opacity));
+}
+
+.text-\[\#c48d6e\] {
+  --tw-text-opacity: 1;
+  color: rgb(196 141 110 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -2915,6 +2928,10 @@ video {
 
   .lg\:col-span-2 {
     grid-column: span 2 / span 2;
+  }
+
+  .lg\:col-span-3 {
+    grid-column: span 3 / span 3;
   }
 
   .lg\:my-8 {
