@@ -1,18 +1,27 @@
 <?php
 
 require_once "Controller.php";
+require_once "./models/PemilikModel.php";
 
 class Pemilik extends Controller {
-    public $default = "statistik";
+    public $default = "dashboard";
+    private $model;
 
     function __construct() {
-        $this->default = "dashboard.php";
+        $this->model = new PemilikModel();
     }
 
     function dashboard() {
-        $this->view("Pemilik/dashboard", [
-            "title" => "dashboard"
-        ]);
+        if ($this->isLogInPemilik())
+        {
+            $this->view("Pemilik/dashboard", [
+                "title" => "dashboard"
+            ]);
+        }
+        else 
+        {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function review() {
@@ -31,6 +40,12 @@ class Pemilik extends Controller {
     {
         $this->view("Pemilik/kostedit", [
             "title" => "Edit Kost"
+        ]);
+    }
+
+    function regPemilik($params = []) {
+        $this->view("Pemilik/regPemilik", [
+            "title" => "regPemilik"
         ]);
     }
 
@@ -63,5 +78,23 @@ class Pemilik extends Controller {
         $this->view("Pemilik/statistik", [
             "title" => "statistik"
         ]);
+    }
+
+    function kosts($params = []) {
+        $this->view("Pemilik/kosts", [
+            "title" => "Kosts",
+        ]);
+    }
+
+    function profile($params = [])
+    {
+        if ($this->isLogInPemilik())
+        {
+            
+            $this->view("Pemilik/profile", [
+                "title" => "Profile",
+                "user" => $this->model->getDataUser($_SESSION["username"])
+            ]);
+        }
     }
 }

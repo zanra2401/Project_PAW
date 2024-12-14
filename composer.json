@@ -1,0 +1,7 @@
+{
+    "require": {
+        "symfony/validator": "^7.2",
+        "phpmailer/phpmailer": "^6.9",
+        "ezyang/htmlpurifier": "^4.18"
+    }
+}

@@ -38,7 +38,6 @@
         .main-menu-foot {
             font-size: 20px;
             font-weight: 600;
-            color: #83493d;
         }
 
         .menu-foot {

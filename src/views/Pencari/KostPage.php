@@ -36,9 +36,9 @@
                     <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="">
                     <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="">
 
-                    <button class="absolute bottom-3 right-3 bg-white text-black px-4 py-2 rounded shadow-lg duration-300 font-medium hover:bg-[#83493d] hover:text-white">
+                    <a class="absolute bottom-3 right-3 bg-white text-black px-4 py-2 rounded shadow-lg duration-300 font-medium hover:bg-[#83493d] hover:text-white" href="/project_paw/pencari/reviewGambarKost">
                         Lihat semua foto
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -245,17 +245,17 @@
                     </div>
                 </div>
             </div>
-            <div id="tableView" class="bg-white rounded-md" style="width: 400px; box-shadow: 1px 0px 40px -17px rgba(0,0,0,0.68); height: 280px; top: 35px; right: 5%;">
+            <div id="tableView" class="bg-white rounded-md" style="width: 400px; box-shadow: 1px 0px 40px -17px rgba(0,0,0,0.68); height: 280px; top: 110px; right: 5%;">
                 <div class="flex flex-col p-4">
                     <div > 
                         <p class="text-lg font-normal">Harga</p>
                         <p class="font-semibold text-2xl">Rp100.000 /Bulan</p>
                     </div>  
                     <div class="space-y-3 w-full" style="margin-top: 45px;">
-                        <button id="tanya" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
+                        <a href="/project_paw/pencari/chat" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
                             <i class="fa-solid fa-comment-dots pr-2"></i>
                             Tanya Pemilik 
-                        </button>
+                        </a>
                         <button id="kamar" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center lihat-kamar" >
                             <i class="fa-solid fa-bed pr-2"></i>
                             Lihat Kamar
@@ -389,9 +389,9 @@
             const initialRect = tableView.getBoundingClientRect().top;
             console.log("top", initialRect)
             console.log(rect.bottom)
-            if (rect.bottom <= 2586.6875 && rect.bottom > 313.6875) {
+            if (rect.bottom <= 2660.6875 && rect.bottom > 389.6875) {
                 tableView.classList.add('fixed');
-            } else if (rect.bottom <= 313.6875) {
+            } else if (rect.bottom <= 389.6875) {
                 tableView.classList.remove('fixed');
                 tableView.classList.add('self-end')
             } else {

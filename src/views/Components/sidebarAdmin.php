@@ -17,45 +17,46 @@
 
       <!-- Menu -->
       <nav class="p-4 space-y-2">
-        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/admin/dashboard" class="flex <?= ($data['active-menu'] == "dashboard") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-dashboard text-warna-second text-[15px]"></i>
           <span class="ml-3">
               Dash Board
           </span>
         </a>
-        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/admin/akunuser" class="flex <?= ($data['active-menu'] == "akunuser") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-user text-warna-second text-[15px]"></i>
           <span class="ml-3">
               Daftar Akun
           </span>
         </a>
-        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex  bg-gray-200 items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex <?= ($data['active-menu'] == "pengumuman") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-bell text-warna-second text-[15px]"></i>
           <span class="ml-3">
               Pengumuman
           </span>
         </a>
         <!-- sub menu pengumuman -->
-        <div class=" text-sm font-medium text-gray-600 px-3 mt-0">
-            <div class="ml-[7.5px] relative">
-                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman" class="ml-5">Log Pengumuman</a>
-                <div class="absolute rounded-t-md inline-block h-1/2 left-0 top-0 bg-gray-600 w-[2px]"></div>
-                <div class="absolute inline-block rounded-r-md h-[3px] left-0  bg-gray-600 w-[10px] top-1/2"></div>
-            </div>
+        <div class=" text-sm font-medium text-gray-600 ml-5 px-1 border-l-2 border-warna-second   mt-0">
+                <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman" class="ml-1">
+                  <i class="fas fa-clipboard ml-2"></i>
+                  <span class="ml-1">
+                    Log Pengumuman
+                  </span>
+                </a>
         </div>
-        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/admin/laporan" class="flex <?= ($data['active-menu'] == "laporan") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-file text-warna-second text-[15px]"></i>
           <span class="ml-3">
               Laporan
           </span>
         </a>
-        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/admin/berita" class="flex <?= ($data['active-menu'] == "berita") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-newspaper text-warna-second text-[15px]"></i>
           <span class="ml-3">
               Berita
           </span>
         </a>
-        <a href="/<?= PROJECT_NAME ?>/admin/pengumuman" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/admin/pertanyaan" class="flex <?= ($data['active-menu'] == "pertanyaan") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-question text-warna-second text-[15px]"></i>
           <span class="ml-3">
               Pertanyaan

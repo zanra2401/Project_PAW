@@ -1,6 +1,8 @@
 <?php
 
 require_once "Controller.php";
+require_once "./models/AdminModel.php";
+
 
 class Admin extends Controller
 {
@@ -8,7 +10,7 @@ class Admin extends Controller
 
     function __construct()
     {
-        $this->default = "default.php";
+        $this->default = new AdminModel();
     }
 
     function default($params = [])
@@ -19,7 +21,8 @@ class Admin extends Controller
     function pengumuman($params = [])
     {
         $this->view("Admin/pengumuman", [
-            "title" => "Pengumuman"
+            "title" => "Pengumuman",
+            "active-menu" => "pengumuman"
         ]);
     }
 
@@ -28,14 +31,16 @@ class Admin extends Controller
 
         $this->view("Admin/logPengumuman", [
             "title" => "Pengumumanm Log",
-            "active-menu" => ((count($params) > 0) ? (($params[0] == "semua") ? "semua" : (($params[0] == "pencari") ? "pencari" : (($params[0] == "pemilik") ? "pemilik" : ""))) : "semua")
+            "active-menu" => "pengumuman",
+            "active-sub-menu" => ((count($params) > 0) ? (($params[0] == "pemilik") ? "pemilik" : (($params[0] == "pencari") ? "pencari" : "semua")) : "semua")
         ]);
     }
 
     function akunUser($params = [])
     {
         $this->view("Admin/akunuser", [
-            "title" => "Data User"
+            "title" => "Data User",
+            "active-menu" => "akunuser"
         ]);
     }
 
@@ -44,6 +49,7 @@ class Admin extends Controller
     {
         $this->view("Admin/halaman_utama", [
             "title" => "dashboard",
+            "active-menu" => "dashboard"
         ]);
     }
 
@@ -51,6 +57,7 @@ class Admin extends Controller
     {
         $this->view("Admin/laporan", [
             "title" => "laporan",
+            "active-menu" => "laporan"
         ]);
     }
 
@@ -58,6 +65,7 @@ class Admin extends Controller
     {
         $this->view("Admin/pertanyaan", [
             "title" =>  "pertanyaan",
+            "active-menu" => "pertanyaan"
         ]);
     }
 
@@ -65,6 +73,7 @@ class Admin extends Controller
     {
         $this->view("Admin/berita", [
             "title" => "berita",
+            "active-menu" => "berita"
         ]);
     }
 
@@ -72,16 +81,23 @@ class Admin extends Controller
     {
         $this->view("Admin/tambahBerita", [
             "title" => "tambahBerita",
+            "active-menu" => "berita"
         ]);
     }
 
     function balaspertanyaan($params = [])
     {
-        $this->view("Admin/balaspertanyaan", []);
+        $this->view("Admin/balaspertanyaan", [
+            "title" => "Balas Pertanyaan",
+            "active-menu" => "pertanyaan"
+        ]);
     }
 
     function editberita($params = [])
     {
-        $this->view("Admin/editberita", []);
+        $this->view("Admin/editberita", [
+            "title" => "Edit Berita",
+            "active-menu" => "berita"
+        ]);
     }
 }
