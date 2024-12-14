@@ -220,7 +220,7 @@ class Account extends Controller {
     }
 
 
-    function loginPemilik($params = [])
+    function loginUser($params = [])
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST")
         {   
@@ -288,12 +288,28 @@ class Account extends Controller {
             {
                 $_SESSION["loged_in"] = true;
                 $_SESSION["username"] = $username;
-                header("Location: /" . PROJECT_NAME ."/pemilik");
+                $role =  ($this->model->getOneData("role", $username, "user"))["role_user"];
+                $_SESSION["role"] = $role;
+                if ($role == "pemilik")
+                {
+                    header("Location: /" . PROJECT_NAME ."/pemilik");
+                } else {
+                    header("Location: /" . PROJECT_NAME ."/pencari");
+                }
             }
         }
     }
 
     function login($params = []){
+        if ($this->isLogIn())
+        {
+            $role = $this->model->getOneData("role" ,$_SESSION["username"], "user")
+            if ($role = "pemilik")
+            {
+                header("Location: /" . PROJECT_NAME ."/pemilik");
+            }
+        }
+
         $this->view("Account/login", [
             "title" => "Login"
         ]);
