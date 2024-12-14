@@ -43,7 +43,7 @@
                         <li class="hover:text-warna-second font-medium"><a href="">Logout</a></li>
                     </ul>
                 </div> -->
-                <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/pencari/login">Masuk</a>
+                <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a>
             </div>
         </div>
     </div>

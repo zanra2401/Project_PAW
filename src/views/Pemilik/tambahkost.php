@@ -19,29 +19,29 @@
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-heading text-gray-700"></i>
-                        <input type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost">
+                        <input id="nama-kost" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost">
                     </div>
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-money-bill text-gray-700"></i>
-                        <input type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Harga Kost">
+                        <input id="harga-kost" type="number" class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium" placeholder="Harga Kost">
                     </div>
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-city text-gray-700"></i>
-                        <select id="provinsi" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        <select id="provinsi" class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
                         </select>
                     </div>
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-city text-gray-700"></i>
-                        <select id="kota" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        <select id="kota" class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
                         </select>
                     </div>
 
-                    <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
+                    <div class="w-full border-2 flex py-1 px-4 items-center  rounded-md border-gray-200 ">
                         <i class="fas fa-user text-gray-700"></i>
-                        <select  class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        <select id="jenis-kelamin" class="ml-5 text-gray-700 focus:outline-none border-none flex-1 font-Roboto-medium">
                             <option value="putri">Putri</option>
                             <option value="putra">Putra</option>
                         </select>
@@ -54,7 +54,7 @@
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-sink text-gray-700"></i>
-                        <select  class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        <select  class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
                             <option value="Dapur">Dapur</option>
                             <option value="Parkiran">Parkiran</option>
                         </select>
@@ -67,7 +67,7 @@
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-bed text-gray-700"></i>
-                        <select  class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium">
+                        <select  class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
                             <option value="Dapur">Tempat Tidur</option>
                             <option value="Parkiran">Parkiran</option>
                         </select>
@@ -79,13 +79,13 @@
                             <span  class="font-Roboto-medium text-gray-700">
                                 lat :
                             </span> 
-                            <input id="lat-input" type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
+                            <input id="lat-input" type="text" class="ml-5 border-none text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
                         </span>
                         <span  class="border-2 px-4 py-1 items-center rounded-md border-gray-200">
                             <span class="font-Roboto-medium text-gray-700">
                                 long :
                             </span>
-                            <input id="long-input" type="text" class="ml-5 text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
+                            <input id="long-input" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
                         </span>
                     </div>  
 
@@ -93,7 +93,7 @@
                         <div id="map-set" class='h-full rounded-md'></div>
                     </div>
 
-                    <button class="w-full py-1 px-4 bg-warna-second text-white text-center rounded-lg"> <i class="fas fa-plus-square"></i> Tambah</button>
+                    <button class="w-full py-4 px-4 bg-warna-second text-white text-center rounded-lg"> <i class="fas fa-plus-square"></i> Tambah</button>
                 </form>
             </div>
         </main>
@@ -104,10 +104,22 @@
             const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
             const gambarPreview = document.getElementById("gambar-preview");
             const provinsi = document.getElementById("provinsi");
+            const kota = document.getElementById("kota");
             const reader = new FileReader();
             var id = 0;
             var dataKost = {
-
+                nama : "",
+                harga : 0,
+                gambar : {},
+                provinsiID : 0,
+                kotaID : 0,
+                jenisKelamin : "",
+                fasilitasn: {},
+                lokasi: {
+                    lat: "",
+                    long: "",
+                },
+                
             };
             
             reader.onload = function (e) {
@@ -123,14 +135,13 @@
             function deleteFoto(event)
             {
                 const id = event.target.dataset.id;
-                delete dataKost[parseInt(id)];
+                delete dataKost.gambar[parseInt(id)];
                 event.target.parentNode.parentNode.remove();
             }
 
             async function tambahFoto(event)
             {
-                dataKost[id] = event.target.files[0];
-                console.log(dataKost);
+                dataKost.gambar[id] = event.target.files[0];
                 await reader.readAsDataURL(event.target.files[0]);
             }
 
@@ -181,9 +192,12 @@
             mapSet.on('click', (e) => {
                 mapSet.setView([e.latlng.lat, e.latlng.lng],e.target._zoom);
                 markerLayerMapSet.clearLayers();
+                dataKost.lokasi.lat = e.latlng.lat;
+                dataKost.lokasi.long = e.latlng.lng;
                 L.marker([e.latlng.lat, e.latlng.lng]).addTo(markerLayerMapSet);
                 latInput.value = `${e.latlng.lat}`;
                 longInput.value = `${e.latlng.lng}`;
+                console.log(dataKost);
             });
 
             // cariLokasiMap.addEventListener('click', async (e) => {
@@ -201,6 +215,36 @@
 
                 
             // })
+
+
+
+            // INPUT HANDLER
+            const namaKost = document.getElementById("nama-kost");
+            const hargaKost = document.getElementById("harga-kost");
+            const jenisKelamin = document.getElementById("jenis-kelamin");
+            
+
+            namaKost.addEventListener('keyup', function () 
+            {
+                dataKost.nama = namaKost.value;
+                console.log(dataKost);
+            });
+
+            hargaKost.addEventListener('keyup', function () {
+                dataKost.harga = hargaKost.value;
+            });
+
+            kota.addEventListener("change", function () {
+                dataKost.kotaID = kota[kota.selectedIndex].dataset.id;
+            });
+
+            provinsi.addEventListener("change", function () {
+                dataKost.provinsiID = provinsi[provinsi.selectedIndex].dataset.id;
+            });
+
+            jenisKelamin.addEventListener("change", function () {
+                dataKost.jenisKelamin = jenisKelamin.value;
+            });
         </script>
     </body>
 <?php require "./views/Components/Foot.php"; ?>

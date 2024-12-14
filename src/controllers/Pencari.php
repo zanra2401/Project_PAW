@@ -1,14 +1,16 @@
 <?php
 
 require_once "Controller.php";
-require_once "./models/PencariModel.php";
+
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Pencari extends Controller {
     public $default = "homepage";
-    private $model;
+    private $model; 
 
     function __construct() {
-        $this->model = new PencariModel();
+        $this->model = "none";
     }
 
     function homepage($params = []) {
@@ -30,7 +32,7 @@ class Pencari extends Controller {
 
     function regPenyewa($params = []) {
         $this->view("Pencari/regPenyewa", [
-            "title" => "regPenyewa"
+            "title" => "regPenyewa",
         ]);
     }
 
@@ -45,11 +47,7 @@ class Pencari extends Controller {
             "title" => "berita"
         ]);
     }
-    function regPemilik($params = []) {
-        $this->view("Pencari/regPemilik", [
-            "title" => "regPemilik"
-        ]);
-    }
+ 
 
     function lupapassword($params = []) {
         $this->view("Pencari/lupapassword", [
@@ -133,5 +131,10 @@ class Pencari extends Controller {
         $this->view("Pencari/profile", [
             "title" => "Profile"
         ]);
+    }
+
+    function test()
+    {
+        var_dump(count($this->model->unique("username_user", "zanuar", "user")));
     }
 }

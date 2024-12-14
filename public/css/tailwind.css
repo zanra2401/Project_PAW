@@ -1761,6 +1761,10 @@ video {
   border-top-width: 2px;
 }
 
+.border-none {
+  border-style: none;
+}
+
 .border-\[\#c48d6e\] {
   --tw-border-opacity: 1;
   border-color: rgb(196 141 110 / var(--tw-border-opacity));
@@ -1940,11 +1944,6 @@ video {
 
 .bg-white\/30 {
   background-color: rgb(255 255 255 / 0.3);
-}
-
-.bg-\[\#c48d6e\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(196 141 110 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {

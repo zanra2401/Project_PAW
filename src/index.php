@@ -1,8 +1,16 @@
 <?php
 
+session_start();
+
+// DEBUG UNUTUK LOGIN
+$_SESSION["username"] = "grexgrub";
+$_SESSION["loged_in"] = true;
+
 require_once "core/Globals.php";    
+require_once VENDOR . "autoload.php";
 require_once "core/DataBase.php";
 require_once "core/Router.php";
+
 
 
 $hostname = "localhost";

@@ -7,20 +7,22 @@
             <p class="text-sm font-medium text-gray-800">Kevin Dukkon</p>
             <p class="text-xs text-gray-500">hey@kevdu.co</p>
           </div>
-          <button class="ml-auto text-gray-500 hover:text-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 14l8-8H4z"/>
-            </svg>
-          </button>
         </div>
       </div>
-
+      
+      
       <!-- Menu -->
       <nav class="p-4 space-y-2">
         <a href="/<?= PROJECT_NAME ?>/pemilik/dashboard" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-chart-simple text-warna-third text-[15px]"></i>
           <span class="ml-3">
-              Dash Board
+            Dash Board
+          </span>
+        </a>
+        <a href="/<?= PROJECT_NAME ?>/pemilik/Profile" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+          <i class="fas fa-user text-warna-third text-[15px]"></i>
+          <span class="ml-3">
+              Profile
           </span>
         </a>
         <a href="/<?= PROJECT_NAME ?>/pemilik/kosts" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
@@ -44,5 +46,13 @@
               Chat
           </span>
         </a>
+
+        <a href="/<?= PROJECT_NAME ?>/pemilik/Profile" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+          <i class="fas fa-right-from-bracket text-warna-third text-[15px]"></i>
+          <span class="ml-3">
+              Log Out
+          </span>
+        </a>
+
       </nav>
     </aside>
