@@ -1,4 +1,4 @@
-<?php require './views/Components/Head.php' ?>
+  <?php require './views/Components/Head.php' ?>
 
 <body class="font-roboto bg-grey-200 text-black">
 

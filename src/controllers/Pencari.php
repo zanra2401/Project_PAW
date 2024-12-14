@@ -134,4 +134,9 @@ class Pencari extends Controller {
             "title" => "Profile"
         ]);
     }
+    function faq($params = []){
+        $this->view("Pencari/faq", [
+            "title" => "faq"
+        ]);
+    }
 }
