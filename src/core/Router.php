@@ -3,6 +3,7 @@
 require_once "./controllers/Pencari.php";
 require_once "./controllers/Pemilik.php";
 require_once "./controllers/Admin.php";
+require_once "./controllers/Account.php";
 
 class Router
 {
@@ -48,9 +49,14 @@ class Router
           } 
           else 
           {
-  
-            echo "Jalur Tidak Ditemukan 404";
-          
+            if (count($url_arr) > 2 )
+            {
+              echo "Jalur Tidak Ditemukan 404";
+            }
+            else 
+            {
+              call_user_func([self::$controller, self::$controller->default]);
+            }
           }
         } 
         else 

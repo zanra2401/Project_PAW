@@ -1,142 +1,178 @@
 <?php
 
 require_once "Controller.php";
-require_once "./models/UserModel.php";
 
-class Pencari extends Controller {
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class Pencari extends Controller
+{
     public $default = "homepage";
     private $model;
 
-    function __construct() {
-        $this->model = new UserModel();
+    function __construct()
+    {
+        $this->model = "none";
     }
 
-    function homepage($params = []) {
+    function homepage($params = [])
+    {
         $this->view("Pencari/homepage", [
             "title" => "Homepage",
         ]);
     }
-    function login($params = []){
+    function login($params = [])
+    {
         $this->view("Pencari/login", [
             "title" => "Login"
         ]);
     }
 
-    function chat($params = []) {
+    function chat($params = [])
+    {
         $this->view("Pencari/chat", [
             "title" => "Chat"
         ]);
     }
 
-    function regPenyewa($params = []) {
+    function regPenyewa($params = [])
+    {
         $this->view("Pencari/regPenyewa", [
-            "title" => "regPenyewa"
+            "title" => "regPenyewa",
         ]);
     }
 
-    function kode($params = []) {
+    function kode($params = [])
+    {
         $this->view("Pencari/kode", [
             "title" => "kode"
         ]);
     }
 
-    function berita($params = []) {
+    function berita($params = [])
+    {
         $this->view("Pencari/berita", [
             "title" => "berita"
         ]);
     }
-    function regPemilik($params = []) {
-        $this->view("Pencari/regPemilik", [
-            "title" => "regPemilik"
-        ]);
-    }
 
-    function lupapassword($params = []) {
+
+    function lupapassword($params = [])
+    {
         $this->view("Pencari/lupapassword", [
             "title" => "lupapassword"
         ]);
     }
 
-    function ubahpassword($params = []) {
+    function ubahpassword($params = [])
+    {
         $this->view("Pencari/ubahpassword", [
             "title" => "ubahpassword"
         ]);
     }
 
-    function finishpassword($params = []) {
+    function finishpassword($params = [])
+    {
         $this->view("Pencari/finishpassword", [
             "title" => "finishpassword"
         ]);
     }
 
-    function finishreg($params = []) {
+    function finishreg($params = [])
+    {
         $this->view("Pencari/finishreg", [
             "title" => "finishreg"
         ]);
     }
 
-    function kodegagal($params = []) {
+    function kodegagal($params = [])
+    {
         $this->view("Pencari/kodegagal", [
             "title" => "kodegagal"
         ]);
     }
 
-    function finishregpemilik($params = []) {
+    function finishregpemilik($params = [])
+    {
         $this->view("Pencari/finishregpemilik", [
             "title" => "finishregpemilik"
         ]);
     }
-    function homeberita($params = []) {
+    function homeberita($params = [])
+    {
         $this->view("Pencari/homeberita", [
             "title" => "homeberita"
         ]);
     }
-    function isiberita($params = []) {
+    function isiberita($params = [])
+    {
         $this->view("Pencari/isiberita", [
             "title" => "isiberita"
         ]);
     }
 
-    function kostPage($params = []) {
+    function kostPage($params = [])
+    {
         $this->view("Pencari/KostPage", [
             "title" => "Kost Page"
         ]);
     }
-    function kebijakan($params = []) {
+    function kebijakan($params = [])
+    {
         $this->view("Pencari/kebijakan", [
             "title" => "kebijakan"
         ]);
     }
-    function tentangkami($params = []) {
+    function tentangkami($params = [])
+    {
         $this->view("Pencari/tentangkami", [
             "title" => "tentangkami"
         ]);
     }
-    function riwayatpemesanan($params = []) {
+    function riwayatpemesanan($params = [])
+    {
         $this->view("Pencari/riwayatpemesanan", [
             "title" => "riwayatpemesanan"
         ]);
     }
-    function pembayaran($params = []) {
+    function pembayaran($params = [])
+    {
         $this->view("Pencari/pembayaran", [
             "title" => "pembayaran"
         ]);
     }
 
-    function favorit($params = []){
-        $this->view("Pencari/favorit",[
+    function favorit($params = [])
+    {
+        $this->view("Pencari/favorit", [
             "title" => "favorit"
         ]);
     }
 
-    function profile($params = []){
+    function profile($params = [])
+    {
         $this->view("Pencari/profile", [
             "title" => "Profile"
         ]);
     }
-    function faq($params = []){
+
+    function faq($params = [])
+    {
         $this->view("Pencari/faq", [
             "title" => "faq"
         ]);
+    }
+
+
+    function reviewGambarKost($params = [])
+    {
+        $this->view("Pencari/reviewGambarKost", [
+            "title" => "ReviewGambarKost"
+        ]);
+    }
+
+    function test()
+    {
+        var_dump(count($this->model->unique("username_user", "zanuar", "user")));
     }
 }

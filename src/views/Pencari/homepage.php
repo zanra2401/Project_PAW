@@ -3,7 +3,6 @@
 <body>
     <?php require "./views/Components/NavBar.php" ?>
     <div class="absolute top-0 left-0 h-3/4 bg-[#d7dbdd] rounded-b-[50px] -z-10 overflow-y-hidden" style="width: 100%;"></div>
-
     <div class="w-[90%] rounded-3xl mt-[50px] mx-auto">
         <h1 class="text-center text-3xl font-bold px-4" style="color:#83493d;">Sekarang Cari Kost Bisa Sambil Rebahan</h1>
         <p class="mt-4 text-center sm:text-bold px-4">
@@ -540,7 +539,6 @@
             </div>
         </div>
     </div>
-
     <?php require './views/Components/FooterHomepage.php' ?>
     <script>
         const filter_button = document.getElementById('filter_button')
@@ -598,7 +596,6 @@
                 pp_menu.classList.add('hidden')
             }
         })
-
         const button = document.getElementById('tipe-menu-button');
         const menu = document.querySelector('.dropdown-menu');
 
@@ -618,7 +615,6 @@
 
         const slideWidth = slides[0].getBoundingClientRect().width;
 
-        // Atur posisi setiap slide berdampingan
         slides.forEach((slide, index) => {
             slide.style.left = `${slideWidth * index}px`;
         });
