@@ -1,6 +1,8 @@
 <?php
 
 require_once "Controller.php";
+require_once "./models/AdminModel.php";
+
 
 class Admin extends Controller
 {
@@ -8,7 +10,7 @@ class Admin extends Controller
 
     function __construct()
     {
-        $this->default = "default.php";
+        $this->default = new AdminModel();
     }
 
     function default($params = [])
@@ -29,7 +31,8 @@ class Admin extends Controller
 
         $this->view("Admin/logPengumuman", [
             "title" => "Pengumumanm Log",
-            "active-menu" => "pengumuman"
+            "active-menu" => "pengumuman",
+            "active-sub-menu" => ((count($params) > 0) ? (($params[0] == "pemilik") ? "pemilik" : (($params[0] == "pencari") ? "pencari" : "semua")) : "semua")
         ]);
     }
 
