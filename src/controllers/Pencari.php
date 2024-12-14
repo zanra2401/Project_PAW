@@ -134,4 +134,10 @@ class Pencari extends Controller {
             "title" => "Profile"
         ]);
     }
+
+    function reviewGambarKost($params = []){
+        $this->view("Pencari/reviewGambarKost", [
+            "title" => "ReviewGambarKost"
+        ]);
+    }
 }

@@ -36,9 +36,9 @@
                     <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="">
                     <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="">
 
-                    <button class="absolute bottom-3 right-3 bg-white text-black px-4 py-2 rounded shadow-lg duration-300 font-medium hover:bg-[#83493d] hover:text-white">
+                    <a class="absolute bottom-3 right-3 bg-white text-black px-4 py-2 rounded shadow-lg duration-300 font-medium hover:bg-[#83493d] hover:text-white" href="/project_paw/pencari/reviewGambarKost">
                         Lihat semua foto
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

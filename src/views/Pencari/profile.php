@@ -191,6 +191,7 @@
         const content_pengajuan = document.getElementById('content_pemesanan')
 
         menuju_profile.addEventListener('click', ()=>{
+            console.log("kontol")
             if (profile_title.classList.contains('hidden') && content_profile.classList.contains('hidden')){
                 profile_title.classList.remove('hidden')
                 content_profile.classList.remove('hidden')
@@ -218,16 +219,12 @@
             }
         })
 
-
-        const pp = document.getElementById('pp')
-        const pp_menu = document.getElementById('menu_pp')
         const provinsi = document.getElementById("provinsi")
         const kota = document.getElementById("kota")
 
         const searchInput = document.getElementById("searchInput");
         const bookingCards = document.querySelectorAll("#bookingCards > div");
 
-        // Filter cards based on search query
         searchInput.addEventListener("input", function() {
             const searchQuery = this.value.toLowerCase();
             bookingCards.forEach(card => {
@@ -236,15 +233,6 @@
                 card.style.display = matchesSearch ? "block" : "none";
             });
         });
-
-        pp.addEventListener('click', ()=>{
-            if (pp_menu.classList.contains('hidden')){
-                console.log("oioio")
-                pp_menu.classList.remove('hidden')
-            } else {
-                pp_menu.classList.add('hidden')
-            }
-        }) 
 
         fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
             .then(response => response.json())

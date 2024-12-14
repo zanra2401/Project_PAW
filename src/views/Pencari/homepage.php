@@ -583,18 +583,6 @@
 
             input.value = 'Rp ' + formattedValue;
         }
-
-        const pp = document.getElementById('pp')
-        const pp_menu = document.getElementById('menu_pp')
-
-        pp.addEventListener('click', ()=>{
-            if (pp_menu.classList.contains('hidden')){
-                console.log("oioio")
-                pp_menu.classList.remove('hidden')
-            } else {
-                pp_menu.classList.add('hidden')
-            }
-        }) 
         
         const button = document.getElementById('tipe-menu-button');
         const menu = document.querySelector('.dropdown-menu');

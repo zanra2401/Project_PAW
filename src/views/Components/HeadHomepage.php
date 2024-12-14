@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<?= CSS ?>tooltip.css">
     <link rel="stylesheet" href="<?= NODE_MODULES ?>@fortawesome/fontawesome-free/css/all.css">
     <title><?= $data["title"] ?></title>
+    
     <style>
         .carousel {
             position: relative;
