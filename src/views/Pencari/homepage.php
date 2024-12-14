@@ -1,4 +1,8 @@
-<?php require './views/Components/HeadHomepage.php' ?>
+<?php 
+    require './views/Components/HeadHomepage.php' 
+    
+    
+?>
 <body>
     <?php require "./views/Components/NavBar.php" ?>  
     <div class="absolute top-0 left-0 h-3/4 bg-[#d7dbdd] rounded-b-[50px] -z-10 overflow-y-hidden"  style="width: 100%;"></div>
