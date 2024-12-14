@@ -64,24 +64,28 @@ class Admin extends Controller
     function berita($params = [])
     {
         $this->view("Admin/berita", [
-            "title" => "berita",
+            "title" => "Berita",
         ]);
     }
 
     function tambahBerita($params = [])
     {
         $this->view("Admin/tambahBerita", [
-            "title" => "tambahBerita",
+            "title" => "Tambah Berita",
         ]);
     }
 
     function balaspertanyaan($params = [])
     {
-        $this->view("Admin/balaspertanyaan", []);
+        $this->view("Admin/balaspertanyaan", [
+            "title" => "Balas Pertanyaan",
+        ]);
     }
 
     function editberita($params = [])
     {
-        $this->view("Admin/editberita", []);
+        $this->view("Admin/editberita", [
+            "title" => "Edit Berita",
+        ]);
     }
 }

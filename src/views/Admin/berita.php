@@ -1,13 +1,15 @@
 <?php require './views/Components/Head.php' ?>
 <body class="min-h-screen flex">
+<style>
+    .action-center {
+        text-align: center; /* Untuk memusatkan secara horizontal */
+        vertical-align: middle; /* Untuk memusatkan secara vertikal */
+    }
+</style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
     <?php require "./views/Components/sidebarAdmin.php" ?>
     <main class="w-full min-h-screen box-border bg-gray-50 overflow-hidden flex flex-col">
-        <div class="flex">
-            <h1 class="p-5 font-Roboto-bold">Berita</h1>
-            <i class="ml-auto fas fa-bell text-warna-second text-[15px] p-5"></i>
-        </div>
-
+    <span class="mb-3 text-gray-600 p-5"><i class="fas fa-newspaper"></i></i> Berita <i class="fas fa-chevron-right"></i> </span>
         <div class="bg-white rounded-lg shadow-md shadow-slate-400 ml-4 mr-4">
             <h1 class="p-4">Pengunjung</h1>
             <div class="flex">
@@ -49,7 +51,7 @@
         <div>
             <div class="p-5 flex justify-between items-center">
                 <h2 class="text-xl font-bold p-5">Daftar Berita</h2>
-                <a href="tambahBerita" class="px-4 py-2 bg-base-color text-white text-sm font-medium rounded hover:bg-warna-second">Tambah Berita</a>
+                <a href="tambahBerita" class="px-4 py-2 bg-warna-second text-white text-sm font-medium rounded hover:bg-base-color">Tambah Berita</a>
             </div>
         </div>
 
@@ -61,6 +63,7 @@
             <th scope="col" class="px-6 py-3">Deskripsi Berita</th>
             <th scope="col" class="px-6 py-3">Kategori</th>
             <th scope="col" class="px-6 py-3">Tanggal</th>
+            <th scope="col" class="px-6 py-3 action-center">Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -71,6 +74,9 @@
             <td class="px-6 py-4">Pemilik kost tidak merespons pemesanan lebih dari 3 hari, menghambat proses penyewaan.</td>
             <td class="px-6 py-4">Pengaduan</td>
             <td class="px-6 py-4 text-xs">2024-12-01</td>
+            <td class="action-center">
+                <a href="" class="bg-warna-second p-2 rounded-lg text-white hover:bg-base-color">Edit</a>
+            </td>
         </tr>
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -79,6 +85,9 @@
             <td class="px-6 py-4">Fasilitas kost tidak sesuai dengan deskripsi yang tercantum di aplikasi.</td>
             <td class="px-6 py-4">Verifikasi</td>
             <td class="px-6 py-4 text-xs">2024-12-05</td>
+            <td class="action-center">
+                <a href="" class="bg-warna-second p-2 rounded-lg text-white hover:bg-base-color">Edit</a>
+            </td>
         </tr>
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -87,6 +96,9 @@
             <td class="px-6 py-4">Proses pembayaran mengalami kegagalan dalam verifikasi di aplikasi.</td>
             <td class="px-6 py-4">Teknis</td>
             <td class="px-6 py-4 text-xs">2024-12-08</td>
+            <td class="action-center">
+                <a href="" class="bg-warna-second p-2 rounded-lg text-white hover:bg-base-color">Edit</a>
+            </td>
         </tr>
     </tbody>
 </table>
