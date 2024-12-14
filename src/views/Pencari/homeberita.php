@@ -5,31 +5,36 @@
     <!-- Carousel wrapper -->
     <div class="relative h-96 overflow-hidden rounded-lg md:h-96">
         <!-- Item 1 -->
-        <div class="block  ease-in-out" data-carousel-item>
-            <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+        <a href="file2.html">
             <div class="absolute top-1/2 left-1/3 z-20 text-center transform -translate-x-1/2 -translate-y-1/2">
-              <h2 class="text-black text-2xl text-left font-bold mb-2">Berita Utama Hari Ini</h2>
-              <p class="text-black text-xl text-left mb-4">Deskripsi singkat dari berita utama hari ini yang menarik perhatian publik.</p>
-              <a href="#" class=" text-left text-blackfont-bold hover:underline">Baca Selengkapnya →</a>
-            </div>
-            
-        </div>
+                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>      
+        </a>
         <!-- Item 2 -->
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-        </div>
+        <a href="file2.html">
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+        </a>
         <!-- Item 3 -->
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-        </div>
+        <a href="file2.html">
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+        </a>
         <!-- Item 4 -->
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-        </div>
+        <a href="file2.html">
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+        </a>
+        
         <!-- Item 5 -->
-        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-        </div>
+        <a href="file2.html">
+            <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            </div>
+        </a>
     </div>
     <!-- Slider indicators -->
     <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
@@ -58,7 +63,7 @@
     </button>
 </div>
 <!-- Artikel Terbaru -->
-<section class="bg-gray-100 py-12">
+<section id="news"class="bg-gray-100 py-12">
     <div class="container mx-auto px-6">
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-3xl font-semibold text-gray-800 mb-6">Artikel Terbaru</h2>
@@ -126,6 +131,25 @@
             </div>
         </div>
     </section>
+    <script>
+    // Ambil elemen input untuk pencarian
+    const searchInput = document.querySelector('input[placeholder="Cari di sini..."]');
+
+    // Ambil semua kartu artikel
+    const articleCards = document.querySelectorAll(".grid > div");
+
+    // Tambahkan event listener untuk pencarian
+    searchInput.addEventListener("input", function () {
+        const searchQuery = this.value.toLowerCase(); // Ambil teks pencarian dan ubah ke huruf kecil
+        articleCards.forEach(card => {
+            const articleTitle = card.querySelector("h3").textContent.toLowerCase(); // Ambil judul artikel
+            const matchesSearch = articleTitle.includes(searchQuery); // Periksa apakah judul sesuai pencarian
+            card.style.display = matchesSearch ? "block" : "none"; // Tampilkan/sembunyikan kartu
+        });
+    });
+
+    </script>
 
 </body>
 <?php require './views/Components/Foot.php' ?>
+

@@ -4,7 +4,7 @@ require_once "Controller.php";
 require_once "./models/UserModel.php";
 
 class Pencari extends Controller {
-    public $default = "homepage";
+    public $default = "homeberita";
     private $model;
 
     function __construct() {
