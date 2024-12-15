@@ -25,7 +25,7 @@ require_once "core/Router.php";
 
 
 
-$hostname = "localhost";
+$hostname = "localhost:81";
 $username = "root";
 $password = "Zanra@2401";
 $dbname = "cari_kost";
