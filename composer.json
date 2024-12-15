@@ -2,6 +2,9 @@
     "require": {
         "symfony/validator": "^7.2",
         "phpmailer/phpmailer": "^6.9",
-        "ezyang/htmlpurifier": "^4.18"
+        "ezyang/htmlpurifier": "^4.18",
+        "symfony/form": "^7.2",
+        "symfony/mime": "^7.2",
+        "symfony/http-foundation": "^7.2"
     }
 }
