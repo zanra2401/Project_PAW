@@ -15,14 +15,16 @@
 
         <script>
         // Data dummy
-        const dataKost = <?= json_encode($data['kosts']) ?>;
-        console.log(dataKost);
-        const data = dataKost.forEach((kost) => `
-            <div class=" aspect-square rounded-lg overflow-hidden flex flex-col">
-                <img  src="${kost.gambar[0]}" class="w-full z-10 object-coverd aspect-video" alt="">
+        const dataKost = <?= json_encode($data["kosts"]) ?>;
+        const kostArray = Object.values(dataKost); // Mengonversi objek menjadi array
+        console.log(kostArray[0]['gambar']);  // Periksa hasil konversi
+
+        const data = kostArray.map((kost) => `
+            <div class="aspect-square rounded-lg overflow-hidden flex flex-col">
+                <img src="/<?= PROJECT_NAME ?>/${kost.gambar[0].path_gambar}" class="w-full z-10 object-cover aspect-video" alt="">
                 <div class="w-full p-2 flex rounded-b-lg flex-col border-2 flex-1 border-gray-300 border-t-0">
                     <h2 class="text-gray-700 font-Roboto-bold">${kost.data_kost.nama_kost}</h2>
-                    <a href="/<?= PROJECT_NAME ?>/pemilik/editkost/${kost.data_kost.id_kost}" class="bg-warna-second text-center  mt-auto p-1 w-full font-Roboto-bold text-white">Lihat Detail</a>
+                    <a href="/<?= PROJECT_NAME ?>/pemilik/editkost/${kost.data_kost.id_kost}" class="bg-warna-second text-center mt-auto p-1 w-full font-Roboto-bold text-white">Lihat Detail</a>
                 </div>
             </div>
         `);

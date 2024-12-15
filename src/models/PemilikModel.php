@@ -92,19 +92,24 @@ class PemilikModel {
         }
     
         $uploadDirectory =  STORAGE . 'gambarKost/';
+        $pathDir = '/public/storage/gambarKost/';
 
         foreach ($files['gambar']['name'] as $key => $fileName) {
             $tmpName = $files['gambar']['tmp_name'][$key];
             $fileSize = $files['gambar']['size'][$key];
             $fileType = $files['gambar']['type'][$key];
 
-            $newFileName = $uploadDirectory . uniqid() . "_" . basename($fileName);
+            $uid = uniqid() . "_" . basename($fileName);
+
+            $newFileName = $uploadDirectory . $uid;
+
+            $newDir = $pathDir . $uid;
 
             if (move_uploaded_file($tmpName, $newFileName)) {
                 $this->DB->query(
                     "INSERT INTO gambar_kost(id_kost, path_gambar) VALUES(?, ?)", 
                     "is", 
-                    [$id, $newFileName]  
+                    [$id, $newDir]  
                 );
             }
         }
@@ -130,10 +135,43 @@ class PemilikModel {
             // $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];
 
             $this->DB->query("SELECT g.path_gambar FROM gambar_kost as g WHERE g.id_kost = {$kost['id_kost']}");
-            $gambar = $this->DB->getFirst();
+            $gambar = $this->DB->getAll();
             
-            $data[$kost['id_kost']]['gambar'][] = $gambar['path_gambar'];
+            foreach ($gambar as $g)
+            {
+                $data[$kost['id_kost']]['gambar'][] = $g;
+            }
+
         }
+
+        return $data;
+    }
+
+    function getKost($id)
+    {
+        $data = [];
+
+        $this->DB->query("SELECT * FROM kost WHERE id_user = (?) AND id_kost = (?)", "ii", [$_SESSION['id_user'], $id]);
+        $kost = $this->DB->getFirst();
+    
+       
+        $data = [
+            "data_kost" => $kost,
+            "sisa_kamar" => 0,
+            "gambar" => []
+        ];
+
+        // $this->DB->query("SELECT COUNT(*) AS total_kamar FROM kamar WHERE kamar.id_kost = {$kost['id_kost']} AND kamar.status_kamar = 'kosong'");
+        // $kamar = $this->DB->getAll();
+        // $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];
+
+        $this->DB->query("SELECT g.path_gambar FROM gambar_kost as g WHERE g.id_kost = {$kost['id_kost']}");
+        $gambar = $this->DB->getAll();
+        
+        foreach ($gambar as $g)
+        {
+            $data['gambar'][] = $g;
+        }      
 
         return $data;
     }

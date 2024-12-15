@@ -25,13 +25,13 @@
 
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="overflow-scroll w-screen h-screen pb-10">
-
+            <?php print_r($data['kost']['gambar'][1]['path_gambar']) ?>
             <div class="w-[90%] mx-auto mt-5 pb-10">
-    
+
                     <div id="gambar" class=" grid grid-cols-3 gap-2 relative rounded-lg overflow-hidden">
-                        <img class="row-span-2 h-full object-cover col-span-2" src="https://static.mamikos.com/uploads/cache/data/style/2023-05-23/bgiItzhw-360x480.jpg" alt="">
-                        <img src="https://static.mamikos.com/uploads/cache/data/style/2023-05-23/bfZo3SiF-360x480.jpg" alt="">
-                        <img src="https://static.mamikos.com/uploads/cache/data/style/2023-05-23/d58w8U84-360x480.jpg" alt="">
+                        <img class="row-span-2 h-full object-cover col-span-2" src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][0]['path_gambar'] ?>" alt="">
+                        <img src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][1]['path_gambar'] ?>" alt="">
+                        <img src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][2]['path_gambar'] ?>" alt="">
                         <button id="edit-gambar-kost" onclick="showGambarInputEdit()" class="absolute aspect-square right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-2 font-bold text-white rounded-md px-4">
                             <i class="fas fa-pencil"></i>
                         </button>
@@ -48,12 +48,11 @@
                             <span class="flex flex-col">
                                 <div class="flex items-center text-gray-800">
                                     <h1 class="inline-block font-bold font-Roboto-bold text-2xl">
-                                        NAMA KOST
+                                        <?= $data['kost']['data_kost']['nama_kost'] ?>
                                     </h1>   
                                 </div>
                                 <div class="">
-                                    <p class="inline-block">
-                                        Jawa Timur, Bojonegoro
+                                    <p id="alamat" class="inline-block">
                                     </p>
                                 </div>
                                 <div class="">
@@ -68,7 +67,7 @@
                                     <i class="fas fa-pencil"></i>
                                 </button>
                                 <p class="text-2xl text-gray-800">
-                                    Rp.  <?= number_format(20000000, 2, ",", ".") ?> / Bulan
+                                    Rp.  <?= number_format($data['kost']['data_kost']['harga_kost'], 2, ",", ".") ?> / Bulan
                                 </p>
                             </div>
     
@@ -308,6 +307,91 @@
                     icon.classList.add("fa-chevron-down");
                 }
             }
+
+            fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
+            .then(response => response.json())
+            .then(provinces => {
+                provinces.forEach(element => {
+                    if (element['id'] == <?= $data['kost']['data_kost']['provinsi_kost'] ?>) {
+                        alamat.innerHTML += `${element['name']}, `;
+                        return;
+                    }
+                });
+            });
+
+            const map = L.map('map').setView([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>], 10); // Jakarta
+
+            const markerLayer = L.layerGroup().addTo(map);
+
+            const alidade = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
+            const openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
+
+            L.tileLayer(stadiamaps, {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.marker([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>]).addTo(markerLayer);
+
+
+
+
+
+
+            // Map SET
+
+            const namaLokasiMap = document.getElementById("nama-lokasi-map");
+            const cariLokasiMap = document.getElementById("cari-lokasi-map")
+            const mapSet = L.map('map-set').setView([20, 20], 5);
+            const latSet = document.getElementById('lat-set');
+            const longSet = document.getElementById('long-set');
+            const latInput = document.getElementById('lat-input');
+            const longInput = document.getElementById('long-input');
+
+            const markerLayerMapSet = L.layerGroup().addTo(mapSet);
+
+            L.tileLayer(stadiamaps, {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(mapSet);
+
+            L.marker([20, 20]).addTo(markerLayerMapSet);
+
+            mapSet.on('click', (e) => {
+                mapSet.setView([e.latlng.lat, e.latlng.lng],e.target._zoom);
+                markerLayerMapSet.clearLayers();
+                L.marker([e.latlng.lat, e.latlng.lng]).addTo(markerLayerMapSet);
+                latSet.innerHTML = `lat: ${e.latlng.lat}`;
+                longSet.innerHTML = `long: ${e.latlng.lng}`;
+            });
+
+            cariLokasiMap.addEventListener('click', async (e) => {
+                console.log("a")
+                const url = `https://nominatim.openstreetmap.org/search?q=${namaLokasiMap.value}&format=json&addressdetails=1`;
+                
+
+                await fetch(url).then(async (result) => {
+                    await result.json().then((r) => {
+                        mapSet.setView([r[0].lat, r[0].lon], 15);
+                        markerLayerMapSet.clearLayers();
+                        L.marker([r[0].lat, r[0].lon]).addTo(markerLayerMapSet)
+                    })
+                });
+
+                
+            })
+        
+            fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/<?= $data['kost']['data_kost']['provinsi_kost'] ?>.json`)
+                .then(response => response.json())
+                .then(kotas => {
+                    kotas.forEach(element => {
+                        if (element['id'] == <?= $data['kost']['data_kost']['kota_kost'] ?>) {
+                            alamat.innerHTML += `${element['name']}`;
+                            return;
+                        }
+                    })
+                });
 
             function showMapEdit()
             {

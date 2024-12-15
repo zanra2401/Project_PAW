@@ -13,7 +13,7 @@
                     <div id="gambar-preview" class="w-full gap-3 grid grid-cols-4">
                         <button type="button" onchange="tambahFoto(event)" class="w-full relative aspect-square rounded-lg bg-gray-200">
                             <i class="fas fa-plus text-gray-700 text-[300%]"></i>
-                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0">
+                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0" multiple>
                         </button>
                     </div>
                     <?= (isset($_SESSION['errors_tambahkost']['gambar'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['gambar']}</p>" : "" ?>
@@ -169,15 +169,16 @@
                 
             };
             
-            reader.onload = function (e) {
-                gambarPreview.innerHTML += `
-                <div class="relative">
-                    <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square "><i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i></button>
-                    <img class="rounded-lg aspect-square object-cover" src="${e.target.result}"/>
-                </div>
-                `;
-                id += 1;
-            };
+            function readFileAsync(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        resolve(e.target.result);  // Return the result when the file is read
+                    };
+                    reader.onerror = reject;  // Reject the promise if there's an error
+                    reader.readAsDataURL(file);  // Start reading the file
+            });
+}
 
             function deleteFoto(event)
             {
@@ -186,10 +187,22 @@
                 event.target.parentNode.parentNode.remove();
             }
 
-            async function tambahFoto(event)
-            {
-                dataKost.gambar[id] = event.target.files[0];
-                await reader.readAsDataURL(event.target.files[0]);
+            async function tambahFoto(event) {
+                for (let i = 0; i < event.target.files.length; i++) {
+                    dataKost.gambar[id] = event.target.files[i];
+
+                    const result = await readFileAsync(event.target.files[i]);
+
+                    gambarPreview.innerHTML += `
+                        <div class="relative">
+                            <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square">
+                                <i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i>
+                            </button>
+                            <img class="rounded-lg aspect-square object-cover" src="${result}" />
+                        </div>
+                    `;
+                    id += 1;
+                }
             }
 
             fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
