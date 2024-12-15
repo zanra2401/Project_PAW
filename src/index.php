@@ -27,7 +27,7 @@ require_once "core/Router.php";
 
 $hostname = "localhost";
 $username = "root";
-$password = "Zanra@2401";
+$password = "";
 $dbname = "cari_kost";
 
 $DB->createConnection($hostname, $username, $password, $dbname);
