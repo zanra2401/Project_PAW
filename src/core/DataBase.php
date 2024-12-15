@@ -44,8 +44,13 @@ class DataBase {
     }
 
     public function getAll() {
-        return self::$result;
+        $data = [];
+        while ($row = mysqli_fetch_assoc(self::$result)) {
+            $data[] = $row;
+        }
+        return $data;
     }
+
 
     public function getFirst() {
         return mysqli_fetch_assoc(self::$result);

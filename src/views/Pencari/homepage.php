@@ -1,6 +1,12 @@
 <?php 
-    require './views/Components/HeadHomepage.php' 
+    require './views/Components/HeadHomepage.php'; 
+
+    function formatRupiah($angka) {
+        $angka = (float) $angka;
+        return 'Rp ' . number_format($angka, 0, ',', '.');
+    }
     
+    $data_profile = $data['profile']['profile_user'];
     
 ?>
 <body>
@@ -238,7 +244,60 @@
     <div class="bg-white w-[90%] rounded-3xl mx-auto shadow-lg" style="margin-top:30px;">
         <div class="mx-auto max-w-2xl p-8 lg:max-w-7xl lg:px-8">
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                <a href="/project_paw/pencari/kostPage" class="group">
+                <?php foreach($data['data'] as $kost): ?>
+                    <?php 
+                        $harga = formatRupiah($kost['data_kost']['harga_kost']);
+                        echo <<<EOD
+                            <a href="/project_paw/pencari/kostPage/{$kost['data_kost']['id_kost']}" class="group">
+                                <div class="carousel">
+                                    <div class="carousel-track-container">
+                                        <ul class="carousel-track">
+                        EOD;
+                        foreach ($kost['gambar'] as $gambar)
+                        {
+                            echo <<<EOD
+                                <li class="carousel-slide current-slide">
+                                    <img src="{$gambar['path_gambar']}" alt="Image 1">
+                                </li>
+                            EOD;
+                        }
+                        
+                        echo <<<EOD
+                                        </ul>
+                                    </div>
+
+                                    <button type="button" class="carousel-button left-button" data-carousel-prev>
+                                        <span class="carousel-prev-icon">
+                                            <svg class="carousel-icon-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                                            </svg>
+                                        </span>
+                                    </button>
+
+                                    <button type="button" class="carousel-button right-button" data-carousel-next>
+                                        <span class="carousel-next-icon">
+                                            <svg class="carousel-icon-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                            </svg>
+                                            <span class="sr-only">Next</span>
+                                        </span>
+                                    </button>
+
+                                </div>
+
+                                <div class="flex items-center mt-2">
+                                    <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">{$kost['data_kost']['tipe_kost']}</p>
+                                    <p style="margin-left:10px; font-style:italic; color:red;">Sisa {$kost['sisa_kamar']} kamar</p>
+                                </div>
+                                <h2 class="mt-4 text-sm text-black font-bold">{$kost['data_kost']['nama_kost']}</h2>
+                                <p>{$kost['data_kost']['kota_kost']}, {$kost['data_kost']['provinsi_kost']}</p>
+                                <p class="mt-1 text-lg font-medium text-gray-900">{$harga} / Bulan</p>
+                            </a>
+                        EOD;
+                    ?>
+                <?php endforeach; ?>
+
+                <!-- <a href="/project_paw/pencari/kostPage" class="group">
                     <div class="carousel">
                         <div class="carousel-track-container">
                             <ul class="carousel-track">
@@ -538,7 +597,7 @@
                     <h2 class="mt-4 text-sm text-black font-bold">Ay_Ney Kost</h2>
                     <p>Keputih, Sukolilo</p>
                     <p class="mt-1 text-lg font-medium text-gray-900">Rp 120.000 / Bulan</p>
-                </a>
+                </a> -->
             </div>
         </div>
     </div>

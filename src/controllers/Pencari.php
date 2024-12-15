@@ -16,11 +16,16 @@ class Pencari extends Controller {
     }
 
     function homepage($params = []) {
+        $data = $this->model->getAllKost();
+        $profile = $this->model->getProfie();
         $this->view("Pencari/homepage", [
             "title" => "Homepage",
+            "data" => $data,
+            "profile" => $profile
         ]);
     }
-    
+
+
 
     function chat($params = []) {
         $this->view("Pencari/chat", [
@@ -87,6 +92,7 @@ class Pencari extends Controller {
             "title" => "homeberita"
         ]);
     }
+
     function isiberita($params = []) {
         $this->view("Pencari/isiberita", [
             "title" => "isiberita"
@@ -94,8 +100,14 @@ class Pencari extends Controller {
     }
 
     function kostPage($params = []) {
+        $id = (int) $params[0];
+        $data = $this->model->getAllKost();
+        $fasilitas = $this->model->getAllFasilitas($id);
         $this->view("Pencari/KostPage", [
-            "title" => "Kost Page"
+            "title" => "Kost Page",
+            "id" => $id,
+            "data" => $data,
+            "fasilitas" => $fasilitas
         ]);
     }
     function kebijakan($params = []) {
@@ -126,8 +138,28 @@ class Pencari extends Controller {
     }
 
     function profile($params = []){
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            
+            $username = $_POST["username"];
+            $nama_lengkap = $_POST["nama_lengkap"];
+            $jenis_kelamin = $_POST["kelamin"];
+            $email = $_POST["email"];
+            $no_hp = $_POST['no_hp'];
+            $provinsi = $_POST['provinsi'];
+            $kota = $_POST['kota'];
+
+
+
+
+
+            
+        }
+        
+        $data = $this->model->getAllDataUser();
         $this->view("Pencari/profile", [
-            "title" => "Profile"
+            "title" => "Profile",
+            "data_user" => $data
         ]);
     }
 
@@ -137,8 +169,22 @@ class Pencari extends Controller {
         ]);
     }
 
-    function test()
-    {
-        var_dump(count($this->model->unique("username_user", "zanuar", "user")));
+    function faq($params = []){
+        $this->view("Pencari/faq", [
+            "title" => "faq"
+        ]);
     }
+
+    // function test()
+    // {
+    //     var_dump(count($this->model->unique("username_user", "zanuar", "user")));
+ 
+    // }
+
+    function coba($params = []){
+        $this->view("Pencari/coba", [
+            "title" => "coba"
+        ]);
+    }
+
 }
