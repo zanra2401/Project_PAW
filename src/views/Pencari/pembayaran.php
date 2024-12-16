@@ -4,124 +4,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran</title>
+    <title>Pembayaran Kost</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
     <style>
     /* Custom styles */
-    .hidden {
-        display: none;
-    }
-
     .container {
         max-width: 700px;
     }
 
     .card-input {
-        max-width: 400px;
+        max-width: 500px;
         margin: 0 auto;
     }
 
-    .table-container {
-        max-width: 500px;
-        margin: 0 auto;
+    .success-container {
+        max-width: 700px;
+        margin: 100px auto;
+        background: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        padding: 30px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     </style>
 </head>
 
 <body class="bg-gray-50">
-
-    <nav class="bg-white shadow-md py-8">
+    <nav class="bg-white shadow-md py-8 mb-8">
         <div class="container mx-auto flex justify-center">
             <h1 class="text-2xl font-bold text-gray-800">Pembayaran Kost</h1>
         </div>
     </nav>
 
-    <div class="border-t border-gray-300 pt-6">
-        <div class="flex justify-center space-x-6 mb-8">
-            <!-- QRIS Option -->
-            <button
-                class="payment-option bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition duration-200 shadow-lg text-center"
-                id="qris-option">
-                <img src="#" alt="QRIS" class="w-32 h-20 mx-auto mb-4">
-                <p class="text-lg font-semibold">QRIS</p>
-            </button>
-            <!-- In-Store Option -->
-            <button
-                class="payment-option bg-gray-100 p-6 rounded-lg hover:bg-gray-200 transition duration-200 shadow-lg text-center"
-                id="in-store-option">
-                <img src="#" alt="In-Store" class="w-32 h-20 mx-auto mb-4">
-                <p class="text-lg font-semibold">Ditempat</p>
-            </button>
+    <!-- Form Section -->
+    <div class="container mx-auto">
+        <div class="card-input bg-white p-8 shadow rounded-lg">
+            <form id="paymentForm" action="success.html" method="post">
+                <!-- ID Kost -->
+                <div class="mb-4">
+                    <label for="id_kost" class="block text-sm font-medium text-gray-700">ID Kost</label>
+                    <input type="text" id="id_kost" name="id_kost"
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan ID Kost"
+                        required />
+                </div>
+
+                <!-- Nama -->
+                <div class="mb-4">
+                    <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
+                    <input type="text" id="nama" name="nama" class="p-3 w-full border border-gray-300 rounded-md mt-2"
+                        placeholder="Masukkan Nama" required />
+                </div>
+
+                <!-- Tanggal Bayar -->
+                <div class="mb-4">
+                    <label for="tgl_bayar" class="block text-sm font-medium text-gray-700">Tanggal Bayar</label>
+                    <input type="date" id="tgl_bayar" name="tgl_bayar"
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" required />
+                </div>
+
+                <!-- Metode Bayar -->
+                <div class="mb-4">
+                    <label for="metode_dibayar" class="block text-sm font-medium text-gray-700">Metode Bayar</label>
+                    <select id="metode_dibayar" name="metode_dibayar"
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" required>
+                        <option value="" disabled selected>-- Pilih Metode --</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="Ditempat">Ditempat</option>
+                    </select>
+                </div>
+
+                <!-- Jumlah Bayar -->
+                <div class="mb-4">
+                    <label for="jumlah_bayar" class="block text-sm font-medium text-gray-700">Jumlah Bayar</label>
+                    <input type="text" id="jumlah_bayar" name="jumlah_bayar"
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan Jumlah Bayar"
+                        required />
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-6 text-center">
+                    <button type="submit" id="continue-button"
+                        class="bg-[#68422d] text-white px-6 py-3 rounded-lg hover:bg-[#5a3724] transition duration-200">
+                        Lanjutkan Pembayaran
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+</body>
 
-    <div class="card-input mb-6">
-        <label for="kost-id" class="block text-sm font-medium text-gray-700">ID Kost</label>
-        <input type="text" id="kost-id" class="p-3 w-full border border-gray-300 rounded-md mt-2"
-            placeholder="Masukkan ID Kost" />
+</html>
+
+<!-- Halaman Success -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi Sukses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+    <div class="success-container">
+        <h1 class="text-2xl font-bold">SELAMAT PEMBAYARAN ANDA TELAH BERHASIL</h1>
+        <p class="mt-4 text-lg">Silahkan datang ke tempat kost untuk melakukan transaksi.</p>
+        <a href="index.html"
+            class="mt-6 inline-block text-sm font-semibold text-white bg-[#68422d] px-6 py-3 rounded-lg hover:bg-[#5a3724] transition">Selesai</a>
     </div>
+</body>
 
-    <div class="table-container mb-6">
-        <table class="table-auto w-full border border-gray-300 text-gray-700">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="px-4 py-2">Keterangan</th>
-                    <th class="px-4 py-2">Harga</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="px-4 py-2">Total Pembayaran</td>
-                    <td class="px-4 py-2">Rp 2,500,000</td>
-                </tr>
-            </tbody>
-        </table>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran QRIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    .qr-container {
+        max-width: 700px;
+        margin: 100px auto;
+        background: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        padding: 30px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .qr-image {
+        max-width: 300px;
+        margin: 20px auto;
+    }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="qr-container">
+        <h1 class="text-2xl font-bold">GUNAKAN APLIKASI PEMBAYARAN UNTUK MELAKUKAN SCAN PADA KODE QR DI BAWAH</h1>
+
+
+        <!-- QRIS Image -->
+        <img src="path-to-your-qris-image.jpg" alt="QRIS Code" class="qr-image" />
+
+        <a href="success.html"
+            class="mt-6 inline-block text-sm font-semibold text-white bg-[#68422d] px-6 py-3 rounded-lg hover:bg-[#5a3724] transition">Selesai</a>
     </div>
-
-    <div class="mt-6 text-center">
-        <button class="bg-[#68422d] text-white p-4 rounded-lg hover:bg-[#5a3724] transition duration-200"
-            id="continue-button">
-            Lanjutkan Pembayaran
-        </button>
-    </div>
-
-    <!-- QRIS Section -->
-    <div id="qris-section" class="hidden">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Pembayaran QRIS</h3>
-        <p class="text-sm text-gray-600 mb-4">Scan kode QR menggunakan aplikasi QRIS untuk melakukan pembayaran.</p>
-        <div id="qris-code-container" class="mt-4">
-            <img src="qris-sample.png" alt="QRIS Code" class="w-32 h-32 mx-auto">
-        </div>
-    </div>
-
-    <!-- In-Store Section -->
-    <div id="in-store-section" class="hidden">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Pembayaran Ditempat</h3>
-        <p class="text-sm text-gray-600">Lakukan pembayaran secara langsung di lokasi dengan kasir kami.</p>
-    </div>
-
-    <script>
-    // Show payment sections based on selection
-    document.querySelectorAll('.payment-option').forEach(option => {
-        option.addEventListener('click', function() {
-            document.getElementById('qris-section').classList.add('hidden');
-            document.getElementById('in-store-section').classList.add('hidden');
-
-            if (this.id === 'qris-option') {
-                document.getElementById('qris-section').classList.remove('hidden');
-            } else if (this.id === 'in-store-option') {
-                document.getElementById('in-store-section').classList.remove('hidden');
-            }
-        });
-    });
-
-    // Alert for Continue Payment button
-    document.getElementById('continue-button').addEventListener('click', function() {
-        alert('PEMBAYARAN ANDA TELAH BERHASIL');
-    });
-    </script>
 </body>
 
 </html>
