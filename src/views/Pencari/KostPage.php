@@ -1,21 +1,21 @@
 <?php require "./views/Components/HeadKostPage.php"; ?>
 
 <body>
-    <?php require "./views/Components/NavBar.php" ?> 
+    <?php require "./views/Components/NavBar.php" ?>
     <div class="w-[90%] mx-auto pt-4 h-16 items-center">
         <div class="flex" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
                 <li class="inline-flex items-center">
-                <a href="/project_paw/pencari/homepage" class="inline-flex items-center text-lg font-medium text-gray-700  hover:text-[#83493d] dark:text-gray-400 dark:hover:text-white">
-                    <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
-                    </svg>
-                    Home
-                </a>
+                    <a href="/project_paw/pencari/homepage" class="inline-flex items-center text-lg font-medium text-gray-700  hover:text-[#83493d] dark:text-gray-400 dark:hover:text-white">
+                        <svg class="w-4 h-4 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                        </svg>
+                        Home
+                    </a>
                 </li>
                 <div class="flex items-center">
                     <svg class="rtl:rotate-180 w-4 h-4 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                     </svg>
                     <span class="ms-1 text-lg font-medium text-gray-500 md:ms-2 dark:text-gray-400">Judul Kost</span>
                 </div>
@@ -45,9 +45,9 @@
         <div class="flex justify-between mt-4 pt-5">
             <div class="w-[63%]">
                 <div class="grid gap-4 border-b border-gray-200">
-                    <p class="text-4xl font-semibold">Griya kost Umi Sri</p>    
+                    <p class="text-4xl font-semibold">Griya kost Umi Sri</p>
                     <div class="flex items-center">
-                        <p class="p-2 border-2 border-gray-300 rounded flex items-center mr-4" >Kos Putra</p>
+                        <p class="p-2 border-2 border-gray-300 rounded flex items-center mr-4">Kos Putra</p>
                         <i class="fa-solid fa-location-dot mr-2"></i>
                         <p>Telang Indah, Kamal</p>
                     </div>
@@ -170,7 +170,7 @@
                 </div>
 
                 <div class="border-b border-gray-200 pb-10 mt-5">
-                    <p class="text-3xl font-semibold">3 Review</p>
+                    <p class="text-3xl font-semibold"> Review</p>
                     <div class="grid gap-4 pt-4">
                         <div class="flex items-center gap-3 justify-between">
                             <div class="flex items-center gap-4">
@@ -241,29 +241,52 @@
                                 <p class="font-semibold">Respon Pemilik Kos : </p>
                                 <p>Hallo kakak, Terima Kasih atas reviewnya. Dengan kost harga 100k /bulan wifi dengan kecepatan 10Gb/s menurut kami sudah lebih dari cukup ya :)</p>
                             </div>
+                            <div class="mt-8">
+                                <p class="text-2xl font-semibold">Tambahkan Review</p>
+                                <form id="add-review-form" class="mt-4">
+                                    <div class="flex flex-col gap-4">
+                                        <input id="id_user" type="hidden" value="1">
+                                        <input id="id_kost" type="hidden" value="101">
+                                        <input id="name" type="text" class="border border-gray-300 rounded-lg p-3 w-full" placeholder="Nama Anda" required>
+                                        <textarea id="review" class="border border-gray-300 rounded-lg p-3 w-full" rows="3" placeholder="Tulis ulasan Anda" required></textarea>
+                                    </div>
+                                    <button id="review" type="submit" class="mt-4 w-full  text-white font-semibold rounded-lg py-2" style="background-color: #83493d;">Kirim Review</button>
+                                </form>
+                                <?php
+                                $reviews = $this->getreview();
+
+                                foreach ($reviews as $review) {
+                                    echo "<div class='p-4 bg-gray-100 mb-2'>";
+                                    echo "<p><strong>{$review['nama']}</strong> - {$review['tanggal']}</p>";
+                                    echo "<p>{$review['isi_review']}</p>";
+                                    echo "</div>";
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="tableView" class="bg-white rounded-md" style="width: 400px; box-shadow: 1px 0px 40px -17px rgba(0,0,0,0.68); height: 280px; top: 110px; right: 5%;">
-                <div class="flex flex-col p-4">
-                    <div > 
-                        <p class="text-lg font-normal">Harga</p>
-                        <p class="font-semibold text-2xl">Rp100.000 /Bulan</p>
-                    </div>  
-                    <div class="space-y-3 w-full" style="margin-top: 45px;">
-                        <a href="/project_paw/pencari/chat" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
-                            <i class="fa-solid fa-comment-dots pr-2"></i>
-                            Tanya Pemilik 
-                        </a>
-                        <button id="kamar" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center lihat-kamar" >
-                            <i class="fa-solid fa-bed pr-2"></i>
-                            Lihat Kamar
-                        </button>
-                    </div>
+        </div>
+        <div id="tableView" class="bg-white rounded-md" style="width: 400px; box-shadow: 1px 0px 40px -17px rgba(0,0,0,0.68); height: 280px; top: 110px; right: 5%;">
+            <div class="flex flex-col p-4">
+                <div>
+                    <p class="text-lg font-normal">Harga</p>
+                    <p class="font-semibold text-2xl">Rp100.000 /Bulan</p>
+                </div>
+                <div class="space-y-3 w-full" style="margin-top: 45px;">
+                    <a href="/project_paw/pencari/chat" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
+                        <i class="fa-solid fa-comment-dots pr-2"></i>
+                        Tanya Pemilik
+                    </a>
+                    <button id="kamar" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center lihat-kamar">
+                        <i class="fa-solid fa-bed pr-2"></i>
+                        Lihat Kamar
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class=" w-[90%] rounded-3xl mx-auto grid gap-10 mb-10" style="margin-top:30px;">
         <div>
@@ -332,7 +355,7 @@
                 <h2 class="text-2xl font-bold">Laporkan Kost</h2>
                 <button class="text-gray-700 hover:opacity-70" id="close_report">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -340,24 +363,24 @@
                 <div class="grid gap-4">
                     <div class="pt-4 w-full max-w-md">
                         <section class="flex items-center mb-4">
-                        <input type="checkbox" name="foto" value="foto" id="foto" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
-                        <label for="foto" class="ml-2 text-gray-700">Foto yang di berikan tidak sesuai</label>
+                            <input type="checkbox" name="foto" value="foto" id="foto" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
+                            <label for="foto" class="ml-2 text-gray-700">Foto yang di berikan tidak sesuai</label>
                         </section>
                         <section class="flex items-center mb-4">
-                        <input type="checkbox" name="alamat" value="alamat" id="alamat" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
-                        <label for="alamat" class="ml-2 text-gray-700">Alamat yang di berikan tidak sesuai</label>
+                            <input type="checkbox" name="alamat" value="alamat" id="alamat" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
+                            <label for="alamat" class="ml-2 text-gray-700">Alamat yang di berikan tidak sesuai</label>
                         </section>
                         <section class="flex items-center mb-4">
-                        <input type="checkbox" name="harga" value="harga" id="harga" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
-                        <label for="harga" class="ml-2 text-gray-700">Harga tidak sesuai</label>
+                            <input type="checkbox" name="harga" value="harga" id="harga" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
+                            <label for="harga" class="ml-2 text-gray-700">Harga tidak sesuai</label>
                         </section>
                         <section class="flex items-center mb-4">
-                        <input type="checkbox" name="fasilitas" value="fasilitas" id="fasilitas" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
-                        <label for="fasilitas" class="ml-2 text-gray-700">Fasilitas yang di berikan tidak sesuai</label>
+                            <input type="checkbox" name="fasilitas" value="fasilitas" id="fasilitas" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
+                            <label for="fasilitas" class="ml-2 text-gray-700">Fasilitas yang di berikan tidak sesuai</label>
                         </section>
                         <section class="flex items-center mb-4">
-                        <input type="checkbox" name="lainnya" value="lainnya" id="lainnya" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
-                        <label for="lainnya" class="ml-2 text-gray-700">Lainnya</label>
+                            <input type="checkbox" name="lainnya" value="lainnya" id="lainnya" class="w-4 h-4 border-gray-300 rounded focus:ring-2">
+                            <label for="lainnya" class="ml-2 text-gray-700">Lainnya</label>
                         </section>
                     </div>
                     <div class="grid">
@@ -367,14 +390,14 @@
                 <button type="submit" id="laporkan" class="disabled:opacity-50 disabled:bg-gray-400 px-3 py-2 bg-red-700 text-white font-semibold rounded-lg shadow-md hover:opacity-60 focus:outline-none focus:ring-2" disabled>
                     Laporkan
                 </button>
+
             </form>
         </div>
     </div>
-    
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-
         const tombolFavorit = document.getElementById('favorit')
         const textFavorit = document.getElementById('textFavorit')
         const iconFavorit = document.getElementById('iconFavorit')
@@ -382,7 +405,7 @@
         const tableView = document.getElementById('tableView')
         const suka_ulasan = document.getElementById('suka_ulasan')
         const icon_sukaUlasan = document.getElementById('icon_sukaUlasan')
-        
+
 
         window.addEventListener('scroll', () => {
             const rect = gambar.getBoundingClientRect();
@@ -401,8 +424,8 @@
         });
 
 
-        tombolFavorit.addEventListener('click', ()=>{
-            if(iconFavorit.classList.contains('fa-regular')){
+        tombolFavorit.addEventListener('click', () => {
+            if (iconFavorit.classList.contains('fa-regular')) {
                 tombolFavorit.classList.remove('w-[110px]')
                 tombolFavorit.classList.add('w-[125px]')
                 iconFavorit.classList.remove('fa-regular')
@@ -417,8 +440,8 @@
             }
         })
 
-        suka_ulasan.addEventListener('click', ()=>{
-            if(icon_sukaUlasan.classList.contains('fa-regular')){
+        suka_ulasan.addEventListener('click', () => {
+            if (icon_sukaUlasan.classList.contains('fa-regular')) {
                 icon_sukaUlasan.classList.remove('fa-regular', 'fa-thumbs-up')
                 icon_sukaUlasan.classList.add('fa-solid', 'fa-thumbs-up')
             } else {
@@ -433,12 +456,12 @@
                 const calendarContainer = instance.calendarContainer;
                 const titleElement = document.createElement('div');
                 titleElement.classList.add('calendar-title', 'text-center', 'font-semibold', 'text-lg', 'mb-2');
-                
+
                 titleElement.innerHTML = 'Ingin mulai <br> kost tanggal berapa?';
                 if (!calendarContainer.querySelector('.calendar-title')) {
                     calendarContainer.insertBefore(titleElement, calendarContainer.firstChild);
                 }
-            }   
+            }
         });
 
         const tombol_lapor = document.getElementById('tombol_melapor')
@@ -449,21 +472,21 @@
         const textarea = document.getElementById('detail_laporan');
         const laporkan = document.getElementById('laporkan')
 
-        tombol_lapor.addEventListener('click', ()=>{
+        tombol_lapor.addEventListener('click', () => {
             report.classList.remove('hidden')
-            setTimeout(()=>{
+            setTimeout(() => {
                 contain_report.classList.remove('scale-0')
                 contain_report.classList.add('scale-100')
             }, 50)
         })
 
-        close_report.addEventListener('click', ()=>{
+        close_report.addEventListener('click', () => {
             contain_report.classList.remove('scale-100')
             contain_report.classList.add('scale-0')
-            setTimeout(()=>{
+            setTimeout(() => {
                 report.classList.add('hidden')
             }, 300)
-            
+
         })
 
         function validasiFromLaporan() {
@@ -477,21 +500,20 @@
             });
 
             if (pilih_checkbox && textarea.value !== '') {
-                laporkan.disabled = false; 
+                laporkan.disabled = false;
             } else {
-                laporkan.disabled = true; 
+                laporkan.disabled = true;
             }
         }
 
-        window.onload = () => {   
+        window.onload = () => {
             checkbox.forEach(checkboxs => {
-                checkboxs.addEventListener('change', validasiFromLaporan); 
+                checkboxs.addEventListener('change', validasiFromLaporan);
             });
 
             textarea.addEventListener('input', validasiFromLaporan)
-            validasiFromLaporan(); 
+            validasiFromLaporan();
         };
-
     </script>
 </body>
 <?php require "./views/Components/Foot.php"; ?>

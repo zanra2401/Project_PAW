@@ -1,6 +1,7 @@
 <?php
 
-class DataBase {
+class DataBase
+{
     private static $hostname;
     private static $username;
     private static $password;
@@ -11,15 +12,17 @@ class DataBase {
     private static $result;
 
     private function __construct() {}
-    
-    public function createConnection($hostname, $username, $password, $dbname) {
+
+    public function createConnection($hostname, $username, $password, $dbname)
+    {
         self::$hostname = $hostname;
         self::$username = $username;
         self::$password = $password;
         self::$dbname = $dbname;
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance == null) {
             self::$instance = new DataBase();
         }
@@ -27,11 +30,13 @@ class DataBase {
         return self::$instance;
     }
 
-    private static function connect($hostname, $username, $password, $dbname) {
+    private static function connect($hostname, $username, $password, $dbname)
+    {
         self::$conn = mysqli_connect($hostname, $username, $password, $dbname);
     }
 
-    public function query($query, $type = "", $parameters = []) {
+    public function query($query, $type = "", $parameters = [])
+    {
         self::connect(self::$hostname, self::$username, self::$password, self::$dbname);
         $stmt = mysqli_prepare(self::$conn, $query);
         if ($type != "" or $parameters != []) {
@@ -43,17 +48,20 @@ class DataBase {
         self::$conn->close();
     }
 
-    public function getAll() {
-        return self::$result;
+    public function getAll()
+    {
+        $data = [];
+        while ($row = mysqli_fetch_assoc(self::$result)) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
 
-    public function getFirst() {
+    public function getFirst()
+    {
         return mysqli_fetch_assoc(self::$result);
     }
-
-
-
 }
 
 $DB = DataBase::getInstance();
-

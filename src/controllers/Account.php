@@ -8,7 +8,8 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-class Account extends Controller {
+class Account extends Controller
+{
     private $model;
 
     function __construct()
@@ -16,9 +17,9 @@ class Account extends Controller {
         $this->model = new AccountModel();
     }
 
-    function registerAkunPencari($params = []){
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {
+    function registerAkunPencari($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $email = $_POST["email"];
             $password = $_POST["password"];
@@ -71,33 +72,27 @@ class Account extends Controller {
                 ])
             ]);
 
-            if (!$password == $password_verif)
-            {
+            if (!$password == $password_verif) {
                 $errors[] = "password dan password verifikasi tidak sama";
             }
 
-            foreach ($violationUsername as $violation)
-            {
+            foreach ($violationUsername as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violatiolnEmail as $violation)
-            {
+            foreach ($violatiolnEmail as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationPassword as $violation)
-            {
+            foreach ($violationPassword as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationPasswordVerif as $violation)
-            {
+            foreach ($violationPasswordVerif as $violation) {
                 $errors[] = $violation->getMessage();
             }
-            
-            if (count($errors) > 0)
-            {
+
+            if (count($errors) > 0) {
                 $_SESSION['errors_register'] = $errors;
                 header("Location: /project_paw/pencari/regPenyewa");
             } else {
@@ -105,14 +100,13 @@ class Account extends Controller {
                 $_SESSION['berhasil'] = ["Berhasil membuat akun"];
                 header("Location: /project_paw/account/regPenyewa");
             }
-
         }
     }
 
 
-    function registerAkunPemilik($params = []){
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {
+    function registerAkunPemilik($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $email = $_POST["email"];
             $no_hp = $_POST["no-hp"];
@@ -176,38 +170,31 @@ class Account extends Controller {
                 ])
             ]);
 
-            if (!$password == $password_verif)
-            {
+            if (!$password == $password_verif) {
                 $errors[] = "password dan password verifikasi tidak sama";
             }
 
-            foreach ($violationUsername as $violation)
-            {
+            foreach ($violationUsername as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violatiolnEmail as $violation)
-            {
+            foreach ($violatiolnEmail as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationPassword as $violation)
-            {
+            foreach ($violationPassword as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationPasswordVerif as $violation)
-            {
+            foreach ($violationPasswordVerif as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationNoHp as $violation)
-            {
+            foreach ($violationNoHp as $violation) {
                 $errors[] = $violation->getMessage();
             }
-            
-            if (count($errors) > 0)
-            {
+
+            if (count($errors) > 0) {
                 $_SESSION['errors_register'] = $errors;
                 header("Location: /project_paw/pencari/regPemilik");
             } else {
@@ -215,17 +202,17 @@ class Account extends Controller {
                 $_SESSION['berhasil'] = ["Berhasil membuat akun"];
                 header("Location: /project_paw/account/login");
             }
-
         }
     }
 
 
     function loginUser($params = [])
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {   
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
+            $validator = Validation::createValidator();
+
 
 
             $errors = [];
@@ -262,51 +249,43 @@ class Account extends Controller {
             $dbUsername = $this->model->getOneData('username_user', $username, 'user');
             $encryptedPassowrd = $this->model->getOneData('password_user', $username, 'user');
 
-            if ($dbUsername == NULL or $encryptedPassowrd == NULL)
-            {
+            if ($dbUsername == NULL or $encryptedPassowrd == NULL) {
                 $errors[] = "Username atau Password tidak valid";
             }
 
 
             $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-            $iv = substr($encryptedPassword, 0, IV_LENGTH);
+            $iv = substr($encryptedPassowrd, 0, IV_LENGTH);
 
             $decryptedPassowrd = openssl_decrypt($encryptedPassowrd, 'aes-256-cbc', KEY, 0, IV);
 
-            if ($password != $decryptedPassowrd)
-
-            {
+            if ($password != $decryptedPassowrd) {
                 $errors[] = "Username atau Password tidak valid";
             }
 
-            if (count($errors) > 0)
-            {
+            if (count($errors) > 0) {
                 $_SESSION["error_login"] = [$errors[0]];
-                header("Location: /" . PROJECT_NAME ."/account/login");
-            }
-            else
-            {
+                header("Location: /" . PROJECT_NAME . "/account/login");
+            } else {
                 $_SESSION["loged_in"] = true;
                 $_SESSION["username"] = $username;
                 $role =  ($this->model->getOneData("role", $username, "user"))["role_user"];
                 $_SESSION["role"] = $role;
-                if ($role == "pemilik")
-                {
-                    header("Location: /" . PROJECT_NAME ."/pemilik");
+                if ($role == "pemilik") {
+                    header("Location: /" . PROJECT_NAME . "/pemilik");
                 } else {
-                    header("Location: /" . PROJECT_NAME ."/pencari");
+                    header("Location: /" . PROJECT_NAME . "/pencari");
                 }
             }
         }
     }
 
-    function login($params = []){
-        if ($this->isLogIn())
-        {
-            $role = $this->model->getOneData("role" ,$_SESSION["username"], "user")
-            if ($role = "pemilik")
-            {
-                header("Location: /" . PROJECT_NAME ."/pemilik"); 
+    function login($params = [])
+    {
+        if ($this->isLogIn()) {
+            $role = $this->model->getOneData("role", $_SESSION["username"], "user");
+            if ($role = "pemilik") {
+                header("Location: /" . PROJECT_NAME . "/pemilik");
             }
         }
 

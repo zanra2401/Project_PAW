@@ -540,6 +540,7 @@
         </div>
     </div>
     <?php require './views/Components/FooterHomepage.php' ?>
+    
     <script>
         const filter_button = document.getElementById('filter_button')
         const filter = document.getElementById('filter')

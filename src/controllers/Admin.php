@@ -6,11 +6,12 @@ require_once "./models/AdminModel.php";
 
 class Admin extends Controller
 {
-    public $default;
+    public $default = "dashboard";
+    protected $model;
 
     function __construct()
     {
-        $this->default = new AdminModel();
+        $this->model = new AdminModel();
     }
 
     function default($params = [])
@@ -38,9 +39,11 @@ class Admin extends Controller
 
     function akunUser($params = [])
     {
+
         $this->view("Admin/akunuser", [
             "title" => "Data User",
-            "active-menu" => "akunuser"
+            "active-menu" => "akunuser",
+            "user" => $this->model->getAllUser()
         ]);
     }
 
@@ -99,5 +102,17 @@ class Admin extends Controller
             "title" => "Edit Berita",
             "active-menu" => "berita"
         ]);
+    }
+
+    function ban($params = [])
+    {
+        $this->model->banUser($params[0]);
+        header("Location: /" . PROJECT_NAME . "/admin/akunuser");
+    }
+
+    function unBan($params = [])
+    {
+        $this->model->unBanUser($params[0]);
+        header("Location: /" . PROJECT_NAME . "/admin/akunuser");
     }
 }

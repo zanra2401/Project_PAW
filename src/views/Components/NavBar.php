@@ -6,21 +6,21 @@
         <h1 class="font-medium text-base-color text-w text-2xl ml-2 font-Roboto-medium self-center">Cari Kost</h1>
         <div class="ml-auto flex gap-7 items-center">
             <div class="flex gap-3 items-center">
-                <!-- <a href="/project_paw/pencari/favorit" class="font-medium text-lg text-gray-800 hover:text-warna-second border-r border-gray-400 pr-5">
+                <a href="/project_paw/pencari/favorit" class="font-medium text-lg text-gray-800 hover:text-warna-second border-r border-gray-400 pr-5">
                     <i class="fa-regular fa-heart"></i>
                     Favorit
-                </a> -->
-                <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400" >
+                </a>
+                <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
                     <i class="fa-regular fa-newspaper"></i>
                     Berita
                 </a>
-                <!-- <a href="" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
+                <a href="" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
                     <i class="fa-regular fa-bell"></i>
                     Notifikasi
-                </a> -->
+                </a>
                 <div class="relative group inline-block">
                     <button class="flex items-center space-x-1 group-hover:rotate-0 transition-transform group-hover:text-warna-second font-medium text-lg text-gray-800">
-                        <span>Lainnya</span>  
+                        <span>Lainnya</span>
                         <i class="fas fa-caret-down rotate-180 mt-1 group-hover:rotate-0 group-hover:text-warna-second transition-transform text-gray-800" id="icon_lainnya"></i>
                     </button>
                     <div class="absolute mt-[2px] group-hover:block hidden left-1/2 -translate-x-[70%] -translate-y-full border-[6px] border-white border-t-0 border-l-transparent border-r-transparent"></div>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-        
+
             <div>
 
                 <img id="pp" src="https://i.pinimg.com/736x/dd/1a/d5/dd1ad561fbf608248bec0a3e2539ff89.jpg" alt="" class="w-14 rounded-full cursor-pointer">
@@ -43,8 +43,8 @@
                         <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
                         <li class="hover:text-warna-second font-medium"><a href="">Logout</a></li>
                     </ul>
-                </div> -->
-                <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a>
+                </div>
+                <!-- <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a> -->
             </div>
         </div>
     </div>
@@ -72,15 +72,15 @@
         }
     });
 
-    
+
     const pp = document.getElementById('pp')
     const pp_menu = document.getElementById('menu_pp')
 
-    pp.addEventListener('click', ()=>{
-        if (pp_menu.classList.contains('hidden')){
+    pp.addEventListener('click', () => {
+        if (pp_menu.classList.contains('hidden')) {
             pp_menu.classList.remove('hidden')
         } else {
             pp_menu.classList.add('hidden')
         }
-    }) 
-</script>                                       
+    })
+</script>

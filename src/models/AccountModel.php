@@ -2,7 +2,8 @@
 
 require_once "./core/DataBase.php";
 
-class AccountModel {
+class AccountModel
+{
     private $DB;
     function __construct()
     {
@@ -12,9 +13,8 @@ class AccountModel {
     function register($username, $email, $password, $role, $nohp = "")
     {
         $password = openssl_encrypt($password, 'aes-256-cbc', KEY, 0, IV);
-        
-        if ($nohp != "")
-        {
+
+        if ($nohp != "") {
             $this->DB->query("INSERT INTO user(username_user, email_user, no_hp_user ,password_user, role_user) VALUES(?, ?, ?, ?, ?)", "sssss", [$username, $email, $nohp, $password, $role]);
         }
 

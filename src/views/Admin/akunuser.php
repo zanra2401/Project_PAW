@@ -6,6 +6,7 @@
     <div class="container mx-auto p-6">
       <h1 class="text-2xl font-bold mb-4">Daftar Akun</h1>
       <div class="flex items-center justify-between mb-4">
+
         <div>
           <label class="block mb-1 font-medium text-gray-700">Category</label>
           <select id="categoryFilter" class="block w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
@@ -14,10 +15,12 @@
             <option value="User">User</option>
           </select>
         </div>
+
         <div>
           <label class="block mb-1 font-medium text-gray-700">Search</label>
           <input type="text" id="searchInput" class="block w-64 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
         </div>
+
       </div>
 
       <!-- Table -->
@@ -34,17 +37,36 @@
             </tr>
           </thead>
           <tbody id="accountTable" class="bg-white divide-y divide-gray-200">
-            <tr data-category="Pemilik" data-blocked="false">
-              <td class="px-6 py-4"></td>
-              <td class="px-6 py-4">001</td>
-              <td class="px-6 py-4">Danendra Mahardhika</td>
-              <td class="px-6 py-4">danendra.mahardhika@gmail.com</td>
-              <td class="px-6 py-4">Pemilik</td>
-              <td class="px-6 py-4">
-                <button class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600">Banned</button>
-              </td>
-            </tr>
-            <tr data-category="User" data-blocked="false">
+            <?php
+            $i = 1;
+            foreach ($data['user'] as $user) {
+              echo <<<EOD
+                <tr data-category="Pemilik" data-blocked="false">
+                  <td class="px-6 py-4"></td>
+                  <td class="px-6 py-4">$i</td>
+                  <td class="px-6 py-4">{$user['nama_user']}</td>
+                  <td class="px-6 py-4">{$user['email_user']}</td>
+                  <td class="px-6 py-4">{$user['role_user']}</td>
+                  <td class="px-6 py-4">
+              EOD;
+
+              if ($user['status_akun'] == "unbanned") {
+                echo <<<EOD
+                      <a href="/project_paw/admin/ban/{$user['id_user']}" class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600">Ban</a>
+                    EOD;
+              } else {
+                echo <<<EOD
+                      <a href="/project_paw/admin/unban/{$user['id_user']}" class="px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-red-600">Un Ban</a>
+                    EOD;
+              }
+              echo <<<EOD
+                  </td>
+                </tr>
+              EOD;
+              $i += 1;
+            }
+            ?>
+            <!-- <tr data-category="User" data-blocked="false">
               <td class="px-6 py-4"></td>
               <td class="px-6 py-4">002</td>
               <td class="px-6 py-4">Nabilah Rizqi Amalia</td>
@@ -93,20 +115,20 @@
               <td class="px-6 py-4">
                 <button class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600">Banned</button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
     </div>
   </main>
-  
+
   <script>
     const filterDropdown = document.getElementById("categoryFilter");
     const tableRows = document.querySelectorAll("#accountTable tr");
     const searchInput = document.getElementById("searchInput");
 
     // Filter berdasarkan kategori
-    filterDropdown.addEventListener("change", function () {
+    filterDropdown.addEventListener("change", function() {
       const selectedCategory = this.value;
       tableRows.forEach(row => {
         const rowCategory = row.getAttribute("data-category");
@@ -115,7 +137,7 @@
     });
 
     // Fungsi untuk pencarian
-    searchInput.addEventListener("input", function () {
+    searchInput.addEventListener("input", function() {
       const searchQuery = this.value.toLowerCase();
       tableRows.forEach(row => {
         const userId = row.querySelector("td:nth-child(2)")?.textContent.toLowerCase() || "";
@@ -129,7 +151,7 @@
 
     // Event listener untuk tombol Banned
     document.querySelectorAll("#accountTable button").forEach(button => {
-      button.addEventListener("click", function () {
+      button.addEventListener("click", function() {
         const row = this.closest("tr");
         const isBlocked = row.getAttribute("data-blocked") === "true";
 
