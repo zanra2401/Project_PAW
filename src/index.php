@@ -3,19 +3,19 @@
 session_start();
 
 // DEBUG UNUTUK LOGIN
-$_SESSION["username"] = "grexgrub";
-$_SESSION["loged_in"] = true;
-$_SESSION["role"] = "pemilik";
+// $_SESSION["username"] = "grexgrub";
+// $_SESSION["loged_in"] = true;
+// $_SESSION["role"] = "pemilik";
 
-// if (isset($_SESSION["username"]))
-// {
-//     unset($_SESSION["username"]);
-// }
+if (isset($_SESSION["username"]))
+{
+    unset($_SESSION["username"]);
+}
 
-// if (isset($_SESSION["loged_in"]))
-// {
-//     unset($_SESSION["loged_in"]);
-// }
+if (isset($_SESSION["loged_in"]))
+{
+    unset($_SESSION["loged_in"]);
+}
 
 require_once "core/Globals.php";    
 require_once VENDOR . "autoload.php";

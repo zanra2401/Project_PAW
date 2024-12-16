@@ -209,7 +209,7 @@ class Account extends Controller {
             if (count($errors) > 0)
             {
                 $_SESSION['errors_register'] = $errors;
-                header("Location: /project_paw/pencari/regPemilik");
+                header("Location: /project_paw/pemilik/regPemilik");
             } else {
                 $this->model->register($username, $email, $password, "pemilik");
                 $_SESSION['berhasil'] = ["Berhasil membuat akun"];
@@ -263,6 +263,8 @@ class Account extends Controller {
             $dbUsername = $this->model->getOneData('username_user', $username, 'user');
             $encryptedPassowrd = $this->model->getOneData('password_user', $username, 'user');
 
+            var_dump($encryptedPassowrd);
+            die();0
             if ($dbUsername == NULL or $encryptedPassowrd == NULL)
             {
                 $errors[] = "Username atau Password tidak valid";
@@ -270,9 +272,10 @@ class Account extends Controller {
 
 
             $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-            $iv = substr($encryptedPassowrd, 0, IV_LENGTH);
+            $iv = substr($encryptedPassowrd, 0, $ivLength);
+            $passwordData = substr($encryptedPassowrd, $ivLength);
 
-            $decryptedPassowrd = openssl_decrypt($encryptedPassowrd, 'aes-256-cbc', KEY, 0, IV);
+            $decryptedPassowrd = openssl_decrypt($passwordData, 'aes-256-cbc', KEY, 0, $iv);
 
             if ($password != $decryptedPassowrd)
 

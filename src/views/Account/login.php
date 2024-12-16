@@ -1,11 +1,14 @@
 <?php require './views/Components/Head.php' ?>
 <body class="bg-gray-50 flex items-center justify-center min-h-screen">
+  <?php 
+    unset($_SESSION['error_login']);
+  ?>
   <div class="w-full max-w-md bg-white shadow-md rounded-lg p-8">
     <div class="flex justify-center mb-6" style="margin-bottom: 30px">
         <img class="w-15 h-10" src="<?= PUBLIC_FOLDER ?>/assets/image/logo.png" alt="Illustration" class="w-2/3">
     </div>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6" style="margin-bottom: 40px">Masuk Akun</h2>
-    <form>
+    <form action="/<?= PROJECT_NAME ?>/account/loginUser" method="POST">
       <div class="mb-4">
         <label for="username" class="block text-sm font-medium text-gray-700">ID Username</label>
         <input type="username" id="username" name="username" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan username" required style="background-color: white;"/>
