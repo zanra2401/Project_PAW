@@ -8,4 +8,8 @@ class PencariModel {
     {
         $this->DB = DataBase::getInstance();
     }
+
+    
+    
 }
+

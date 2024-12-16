@@ -34,8 +34,7 @@
                 <!-- Total Pengguna Aktif Card -->
                 <div class="bg-white rounded-lg shadow-gray-500 shadow-sm p-5 h-96">
                     <p class="text-gray-500 mb-2">Total Pengguna Aktif</p>
-                    <h1 class="text-4xl font-bold mb-4">100</h1>
-                
+                    <h1 class="text-4xl font-bold mb-4"><?= $data['jumlahUser'];?></h1>
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -45,14 +44,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php 
+                                // var_dump($data['user']);
+                                foreach($data['user'] as $user): ?>
+                                <?php 
+                                echo <<<EOD
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Tuhu Pangestu</th>
-                                    <td class="px-6 py-4">05-07-2024</td>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{$user['nama_user']}</th>
+                                    <td class="px-6 py-4">{$user['tanggal_akun_dibuat_user']}</td>
                                 </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Zanuar Rikza</th>
-                                    <td class="px-6 py-4">25-07-2024</td>
-                                </tr>
+                                EOD;
+                                ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>

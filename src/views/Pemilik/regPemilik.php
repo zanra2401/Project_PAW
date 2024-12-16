@@ -32,7 +32,8 @@
         <!-- Form Section -->
         <div class="flex-1 p-6">
             <h2 class="text-3xl font-semibold text-base-color  mb-6">Daftar Pemilik</h2>
-            <form action="/<?= PROJECT_NAME ?>/account/registerAkunPemilik" method="post">
+            <!-- tuhu salah ganti ini -->
+            <form action="/<?= PROJECT_NAME ?>/Admin/insertBerita" method="post">
                 <div class="mb-4">
                     <label for="nama"  class="block text-sm font-medium text-gray-700">Username</label>
                     <input type="text" name="username" id="nama" placeholder="Masukkan nama lengkap" 

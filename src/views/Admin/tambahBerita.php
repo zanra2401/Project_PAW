@@ -8,12 +8,12 @@
         height: 85%;
     }
     #titleEditor {
-        height: auto; /* Tinggi otomatis */
+        height: auto;
         margin: 10px 0;
-        overflow: hidden; /* Hilangkan scroll */
+        overflow: hidden;
         border: 1px solid #ddd;
         border-radius: 4px;
-        padding: 5px; /* Tambahkan padding agar tampilan rapi */
+        padding: 5px; 
     }
     #imagePreview {
         max-width: 100%;
@@ -39,20 +39,23 @@
 <span class="mb-3 text-gray-600 p-5"><i class="fas fa-newspaper"></i> Berita <i class="fas fa-chevron-right"></i> <i class="fa fa-add"></i> Tambah Berita </span>
     <div class="flex gap-2 w-full flex-1">
         <div class="flex-1 p-2 bg-white rounded-lg w-fit shadow-violet-300">
-            <div id="dropArea">Drag & Drop gambar di sini atau klik untuk mengunggah</div>
-            <input type="file" accept="image/*" class="mx-2 w-auto p-2 m-2" id="imageInput" style="display: none;">
-            <img id="imagePreview" alt="Preview Gambar">
-            
-            <!-- Editor untuk Judul -->
-            <div id="titleEditor"></div>
-            
-            <!-- Editor untuk Isi Berita -->
-            <div id="editor" class="border-box"></div>
-            
-            <button class="p-1 bg-warna-second mt-2 text-white px-2 rounded-lg w-full">
-                POST
-                <i class="fas fa-paper-plane"></i>
-            </button>
+            <form action="/<?= PROJECT_NAME ?>/Admin/insertBerita" method="post" id="formBerita" >
+                <div id="dropArea">Drag & Drop gambar di sini atau klik untuk mengunggah</div>
+                <input type="file" accept="image/*" class="mx-2 w-auto p-2 m-2" id="imageInput" name="cover_berita" style="display: none;">
+                <img id="imagePreview" alt="Preview Gambar">
+                <input type="text" id="judulBerita" name="judulBerita" hidden>
+                <input type="text" id="deskripsiBerita" name="deskripsiBerita" hidden>
+                <!-- Editor untuk Judul -->
+                <div id="titleEditor" name="judul_berita"></div>
+                
+                <!-- Editor untuk Isi Berita -->
+                <div id="editor" class="border-box" name="deskripsi_berita"></div>
+                
+                <button type="submit" onclick="" class="p-1 bg-warna-second mt-2 text-white px-2 rounded-lg w-full">
+                    POST
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
         </div>
     </div>
 </main>
@@ -63,7 +66,8 @@
     const imageInput = document.getElementById("imageInput");
     const imagePreview = document.getElementById("imagePreview");
     const dropArea = document.getElementById("dropArea");
-
+    const formBerita = document.getElementById("formBerita");
+    const data = {};
     // Inisialisasi Quill untuk Judul Berita
     const titleOptions = {
         debug: 'info',
@@ -127,6 +131,21 @@
         };
         reader.readAsDataURL(file);
     }
+
+    function tambahBerita()
+    {
+        deskripsiBerita.value = titleQuill.root.innerHTML;
+        judulBerita.value = quill.root.innerHTML;
+        console.log(judulBerita.value);
+    }
+
+    
+    formBerita.addEventListener("submit", function (e){
+        deskripsiBerita.value = quill.root.innerHTML;
+        judulBerita.value = titleQuill.root.innerHTML;
+        console.log(judulBerita.value);
+    })
+
 </script>
 </body>
 <?php require './views/Components/Foot.php' ?>

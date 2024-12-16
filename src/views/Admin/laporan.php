@@ -26,34 +26,32 @@
                         <th scope="col" class="px-6 py-3">Laporan</th>
                         <th scope="col" class="px-6 py-3">Kategori</th>
                         <th scope="col" class="px-6 py-3">Tanggal</th>
-                        <th scope="col" class="px-6 py-3">Status</th>
                         <th scope="col" class="px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            Anisa Pratiwi
-                        </th>
-                        <td class="px-6 py-4">Pemilik kost tidak menanggapi pemesanan selama lebih dari 3 hari.</td>
-                        <td class="px-6 py-4">Pengaduan</td>
-                        <td class="px-6 py-4">2024-12-01</td>
-                        <td class="px-6 py-4">
-                            <select class="border rounded px-2 py-1">
-                                <option>Belum Diproses</option>
-                                <option>Diproses</option>
-                                <option>Selesai</option>
-                            </select>
-                        </td>
-                        <td class="px-6 py-4">
-                            <button 
-                                class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                                onclick="viewDetail('1')">
-                                Detail
-                            </button>
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b">
+                    <?php foreach ($data['laporan'] as $laporan) : ?>
+                        <?php
+                        echo <<<EOD
+                                <tr class="bg-white border-b">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {$laporan['username_user']}
+                                    </th>
+                                    <td class="px-6 py-4">{$laporan['isi_laporan']}</td>
+                                    <td class="px-6 py-4">Pengaduan</td>
+                                    <td class="px-6 py-4">{$laporan['tanggal_melapor']}</td>
+                                    <td class="px-6 py-4">
+                                        <button 
+                                            class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                            onclick="viewDetail('1')">
+                                            Detail
+                                        </button>
+                                    </td>
+                                </tr>
+                        EOD;
+                        ?>
+                    <?php endforeach; ?>
+                    <!-- <tr class="bg-white border-b">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             Rizky Fadillah
                         </th>
@@ -74,7 +72,7 @@
                                 Detail
                             </button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>

@@ -6,11 +6,12 @@ require_once "./models/AdminModel.php";
 
 class Admin extends Controller
 {
-    public $default;
+    public $default = "dashboard";
+    protected $model;
 
     function __construct()
     {
-        $this->default = new AdminModel();
+        $this->model = new AdminModel();
     }
 
     function default($params = [])
@@ -47,17 +48,23 @@ class Admin extends Controller
 
     function dashboard($params = [])
     {
+        $dataUser = $this->model->getAllUser();
+        $jumlahUser = $this->model->getJumlahUser();
         $this->view("Admin/halaman_utama", [
             "title" => "dashboard",
-            "active-menu" => "dashboard"
+            "active-menu" => "dashboard",
+            "user" => $dataUser,
+            "jumlahUser" => $jumlahUser
         ]);
     }
 
     function laporan($params = [])
     {
+        $dataLaporan = $this->model->getAllLaporan();
         $this->view("Admin/laporan", [
             "title" => "laporan",
-            "active-menu" => "laporan"
+            "active-menu" => "laporan",
+            "laporan" => $dataLaporan
         ]);
     }
 
@@ -71,9 +78,11 @@ class Admin extends Controller
 
     function berita($params = [])
     {
+        $dataBerita = $this->model->getBerita();
         $this->view("Admin/berita", [
             "title" => "Berita",
-            "active-menu" => "berita"
+            "active-menu" => "berita",
+            "berita" => $dataBerita
         ]);
     }
 
@@ -99,5 +108,14 @@ class Admin extends Controller
             "title" => "Edit Berita",
             "active-menu" => "berita"
         ]);
+    }
+
+    function insertBerita($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $this->model->insertBerita($_FILES, $_POST);
+            header("Location: /" . PROJECT_NAME . "/admin/berita");
+        }
     }
 }
