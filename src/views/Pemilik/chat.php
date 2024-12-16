@@ -73,7 +73,7 @@
     
                     <!-- Input Field -->
                     <div class="bg-white p-4 border-t border-gray-200 flex items-center space-x-4">
-                        <input type="text" placeholder="Type a message" class="flex-1 p-2 borde text-gray-700 font-Roboto-medium border-gray-300 rounded-full focus:outline-none focus:ring focus:ring-0">
+                        <input type="text" placeholder="Type a message" class="flex-1 border-none p-2 borde text-gray-700 font-Roboto-medium border-gray-300 rounded-full focus:outline-none focus:ring focus:ring-0">
                         <button class="text-warna-second hover:text-base-color">
                             <i class="fas fa-paper-plane"></i>
                         </button>

@@ -7,25 +7,32 @@
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="flex-1 flex flex-col p-5 overflow-y-auto">
             <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
-            <div class="container">
-                <form action="" class="flex flex-col space-y-5">
-
+            <div  class="container">
+                <input type="hidden" id="jsObject" name="jsObject">
+                <div class="flex flex-col space-y-5">
                     <div id="gambar-preview" class="w-full gap-3 grid grid-cols-4">
-                        <button  onchange="tambahFoto(event)" class="w-full relative aspect-square rounded-lg bg-gray-200">
+                        <button type="button" onchange="tambahFoto(event)" class="w-full relative aspect-square rounded-lg bg-gray-200">
                             <i class="fas fa-plus text-gray-700 text-[300%]"></i>
                             <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0">
                         </button>
                     </div>
+                    <?= (isset($_SESSION['errors_tambahkost']['gambar'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['gambar']}</p>" : "" ?>
+                   
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-heading text-gray-700"></i>
-                        <input id="nama-kost" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost">
+                        <input value="<?= (isset($_SESSION['data_sebelumnya']) ? "{$_SESSION['data_sebelumnya']['nama']}" : "") ?>" id="nama-kost" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost">
                     </div>
+                    <?= (isset($_SESSION['errors_tambahkost']['nama'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['nama']}</p>" : "" ?>
+
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-money-bill text-gray-700"></i>
-                        <input id="harga-kost" type="number" class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium" placeholder="Harga Kost">
+                        <input id="harga-kost" value="<?= (isset($_SESSION['data_sebelumnya']) ? "{$_SESSION['data_sebelumnya']['harga']}" : "") ?>" type="number" class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium" placeholder="Harga Kost">
                     </div>
+
+                    <?= (isset($_SESSION['errors_tambahkost']['harga'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['harga']}</p>" : "" ?>
+
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-city text-gray-700"></i>
@@ -33,11 +40,17 @@
                         </select>
                     </div>
 
+                    <?= (isset($_SESSION['errors_tambahkost']['provinsi'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['provinsi']}</p>" : "" ?>
+
+
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-city text-gray-700"></i>
                         <select id="kota" class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
                         </select>
                     </div>
+
+                    <?= (isset($_SESSION['errors_tambahkost']['kota'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['kota']}</p>" : "" ?>
+
 
                     <div class="w-full border-2 flex py-1 px-4 items-center  rounded-md border-gray-200 ">
                         <i class="fas fa-user text-gray-700"></i>
@@ -47,31 +60,50 @@
                         </select>
                     </div>
 
-                    <h2 class="font-Roboto-medium">Fasilitas Kamar</h2>
-                    <ul id="Fasilitas-Kamar">
+                    <?= (isset($_SESSION['errors_tambahkost']['tipe'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['tipe']}</p>" : "" ?>
 
+
+                    <h2 class="font-Roboto-medium">Fasilitas Kamar</h2>
+                    <ul id="Fasilitas-Kamar" class="px-6">
                     </ul>
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-sink text-gray-700"></i>
-                        <select  class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
-                            <option value="Dapur">Dapur</option>
-                            <option value="Parkiran">Parkiran</option>
+                        <select id="fasilitas_kamar"  class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
+                            <option value="" disabled selected>Pilih Fasilitas Kamar di Kost anda</option>
+
+                            <?php
+                                foreach ($data['fasilitas_kamar'] as $fk)
+                                {
+                                    echo "<option value='{$fk['id_fasilitas']}'>{$fk['nama_fasilitas']}</option>";
+                                }
+                            ?>
                         </select>
                     </div>
 
-                    <h2 class="font-Roboto-medium">Fasilitas Bersama</h2>
-                    <ul id="Fasilitas-Bersama">
+                    <?= (isset($_SESSION['errors_tambahkost']['fasilitas_kamar'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['fasilitas_kamar']}</p>" : "" ?>
 
+
+                    <h2 class="font-Roboto-medium">Fasilitas Bersama</h2>
+                    <ul id="Fasilitas-Bersama" class="px-6">
                     </ul>
 
                     <div class="w-full border-2 flex py-1 px-4 items-center rounded-md border-gray-200 ">
                         <i class="fas fa-bed text-gray-700"></i>
-                        <select  class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
-                            <option value="Dapur">Tempat Tidur</option>
-                            <option value="Parkiran">Parkiran</option>
+                        <select id="fasilitas_bersama"  class="ml-5 text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium">
+                            <option value="" disabled selected>Pilih Fasilitas Bersama di Kost anda</option>
+
+                            <?php
+                                foreach ($data['fasilitas_bersama'] as $fb)
+                                {
+                                    echo "<option value='{$fb['id_fasilitas']}'>{$fb['nama_fasilitas']}</option>";
+                                }
+                            ?>
                         </select>
                     </div>
+
+                    <?= (isset($_SESSION['errors_tambahkost']['fasilitas_bersama'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['fasilitas_bersama']}</p>" : "" ?>
+
 
                     <h2 class="font-Roboto-medium">Lokasi Kost Anda</h2>
                     <div class="w-full  grid grid-cols-2 gap-2 ">
@@ -79,24 +111,36 @@
                             <span  class="font-Roboto-medium text-gray-700">
                                 lat :
                             </span> 
-                            <input id="lat-input" type="text" class="ml-5 border-none text-gray-700 border-none focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
+                            <input value="<?= (isset($_SESSION['data_sebelumnya']) ? "{$_SESSION['data_sebelumnya']['lat']}" : "") ?>" id="lat-input" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Latitude" disabled>
                         </span>
                         <span  class="border-2 px-4 py-1 items-center rounded-md border-gray-200">
                             <span class="font-Roboto-medium text-gray-700">
                                 long :
                             </span>
-                            <input id="long-input" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Nama Kost" disabled>
+                            <input value="<?= (isset($_SESSION['data_sebelumnya']) ? "{$_SESSION['data_sebelumnya']['long']}" : "") ?>" id="long-input" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Longitude" disabled>
                         </span>
                     </div>  
+                    <?= (isset($_SESSION['errors_tambahkost']['lat']) or isset($_SESSION['errors_tambahkost']['long'])) ? " <p class='text-red-500 font-Roboto-medium'>lat dan lng wajib di isi</p>" : "" ?>
+
 
                     <div class="w-1/2 h-[400px]">
                         <div id="map-set" class='h-full rounded-md'></div>
                     </div>
 
-                    <button class="w-full py-4 px-4 bg-warna-second text-white text-center rounded-lg"> <i class="fas fa-plus-square"></i> Tambah</button>
-                </form>
+                    <button id="tambah-button" type="button" class="w-full py-4 px-4 bg-red-500 text-white text-center rounded-lg"> <i class="fas fa-plus-square"></i> Tambah</button>
+                </div>
             </div>
         </main>
+
+        <?php
+            if (isset($_SESSION['errors_tambahkost'])) {
+                unset($_SESSION['errors_tambahkost']);
+            }
+
+            if (isset($_SESSION['data_sebelumnya'])) {
+                unset($_SESSION['data_sebelumnya']);
+            }
+        ?>
 
         <script>
             const alidade = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
@@ -111,10 +155,13 @@
                 nama : "",
                 harga : 0,
                 gambar : {},
-                provinsiID : 0,
-                kotaID : 0,
+                provinsiID : 11,
+                kotaID : 1101,
                 jenisKelamin : "",
-                fasilitasn: {},
+                fasilitas: {
+                    kamar: {},
+                    bersama: {}
+                },
                 lokasi: {
                     lat: "",
                     long: "",
@@ -167,6 +214,7 @@
                 fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinsi[provinsi.selectedIndex].dataset.id}.json`)
                 .then(response => response.json())
                 .then(kotas => {
+                    dataKost['kotaID'] = kotas[0]['id'];
                     kotas.forEach(element => {
                         kota.innerHTML += `<option data-id="${element['id']}" value='${element["name"]}'>${element["name"]}</option>`
                     })
@@ -222,7 +270,113 @@
             const namaKost = document.getElementById("nama-kost");
             const hargaKost = document.getElementById("harga-kost");
             const jenisKelamin = document.getElementById("jenis-kelamin");
+            const fasilitasKamar = document.getElementById("fasilitas_kamar");
+            const fasilitasKamarContainer = document.getElementById("Fasilitas-Kamar");
+            const fasilitasBersama = document.getElementById("fasilitas_bersama");
+            const fasilitasBersamaContainer = document.getElementById("Fasilitas-Bersama");
+            const hiddenField = document.getElementById("jsObject");
+
+
+            async function kirimDataDenganRedirect(dataKost) {
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = "/<?= PROJECT_NAME ?>/pemilik/tambahkost";
+                form.enctype = "multipart/form-data"; // Untuk upload file
+
+                // Menambahkan field 'nama'
+                form.appendChild(buatInputTersembunyi("nama", namaKost.value));
+
+                // Menambahkan field 'harga'
+                form.appendChild(buatInputTersembunyi("harga", hargaKost.value));
+
+                // Menambahkan field 'provinsiID'
+                form.appendChild(buatInputTersembunyi("provinsiID", dataKost.provinsiID));
+
+                // Menambahkan field 'kotaID'
+                form.appendChild(buatInputTersembunyi("kotaID", dataKost.kotaID));
+
+                // Menambahkan field 'jenisKelamin'
+                form.appendChild(buatInputTersembunyi("tipe", jenisKelamin.value));
+
+                // Menambahkan field fasilitas (bersama & kamar) dalam bentuk JSON
+                form.appendChild(buatInputTersembunyi("fasilitas", JSON.stringify(dataKost.fasilitas)));
+
+                // Menambahkan field lokasi (lat & long)
+                form.appendChild(buatInputTersembunyi("lat", latInput.value));
+                form.appendChild(buatInputTersembunyi("long", longInput.value));
+
+                // Menambahkan file gambar ke form
+                Object.keys(dataKost.gambar).forEach((id) => {
+                    const fileInput = document.createElement("input");
+                    fileInput.type = "file";
+                    fileInput.hidden = "true";
+                    fileInput.name = `gambar[${id}]`; // Mengatur nama file agar bisa diakses dengan array di PHP
+                    fileInput.multiple = true;
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(dataKost.gambar[id]);
+                    fileInput.files = dataTransfer.files;
+                    form.appendChild(fileInput);
+                    console.log()
+                });
+
+                // Menambahkan form ke body dan submit
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            // Fungsi untuk membuat input hidden
+            function buatInputTersembunyi(name, value) {
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = name;
+                input.value = value;
+                return input;
+            }
             
+
+            function hapusFasilitas(event)
+            {
+                delete dataKost['fasilitas'][event.target.parentNode.parentNode.dataset.id];
+                event.target.parentNode.parentNode.remove();
+            }
+
+            fasilitasKamar.addEventListener("change", () => {
+                if (fasilitasKamar.value in dataKost['fasilitas']['kamar'])
+                {
+                    return;   
+                }
+
+
+                fasilitasKamarContainer.innerHTML += `
+                <li data-id-f="${fasilitasKamar.value}" class='list-item list-disc'>
+                    <span>
+                        ${fasilitasKamar[fasilitasKamar.selectedIndex].innerHTML}
+                    </span>
+                    <button onclick="hapusFasilitas(event)">
+                        <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
+                    </button>
+                </li>`;
+                dataKost["fasilitas"]['kamar'][fasilitasKamar.value] = fasilitasKamar[fasilitasKamar.selectedIndex].innerHTML;
+            });
+
+            fasilitasBersama.addEventListener("change", () => {
+                if (fasilitasKamar.value in dataKost['fasilitas']['bersama'])
+                {
+                    return;   
+                }
+
+
+                fasilitasBersamaContainer.innerHTML += `
+                <li data-id-f="${fasilitasBersama.value}" class='list-item list-disc'>
+                    <span>
+                        ${fasilitasBersama[fasilitasBersama.selectedIndex].innerHTML}
+                    </span>
+                    <button onclick="hapusFasilitas(event)">
+                        <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
+                    </button>
+                </li>`;
+                dataKost["fasilitas"]['bersama'][fasilitasBersama.value] = fasilitasBersama[fasilitasBersama.selectedIndex].innerHTML;
+            });
 
             namaKost.addEventListener('keyup', function () 
             {
@@ -245,6 +399,12 @@
             jenisKelamin.addEventListener("change", function () {
                 dataKost.jenisKelamin = jenisKelamin.value;
             });
+
+
+            $("#tambah-button").on('click', function () {
+                kirimDataDenganRedirect(dataKost);
+            });
         </script>
+
     </body>
 <?php require "./views/Components/Foot.php"; ?>

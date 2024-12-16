@@ -1,7 +1,6 @@
 RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-f
 
 
 RewriteRule ^(.*)$ ./src/index.php?url=$1 [L]
