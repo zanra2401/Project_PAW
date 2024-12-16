@@ -30,14 +30,24 @@ class DataBase
         return self::$instance;
     }
 
-    private static function connect($hostname, $username, $password, $dbname)
+    public static function connect()
     {
-        self::$conn = mysqli_connect($hostname, $username, $password, $dbname);
+        self::$conn = mysqli_connect(self::$hostname, self::$username, self::$password, self::$dbname);
+    }
+
+    public function getConnection()
+    {
+        return self::$conn;
+    }
+
+    public function closeConnection()
+    {
+        self::$conn->close();
     }
 
     public function query($query, $type = "", $parameters = [])
     {
-        self::connect(self::$hostname, self::$username, self::$password, self::$dbname);
+        self::connect();
         $stmt = mysqli_prepare(self::$conn, $query);
         if ($type != "" or $parameters != []) {
             $stmt->bind_param($type, ...$parameters);
@@ -48,13 +58,24 @@ class DataBase
         self::$conn->close();
     }
 
+
+    public function queryNew($query, $type = "", $parameters = [])
+    {
+        $stmt = mysqli_prepare(self::$conn, $query);
+        if ($type != "" or $parameters != []) {
+            $stmt->bind_param($type, ...$parameters);
+        }
+        $stmt->execute();
+        self::$result = $stmt->get_result();
+        $stmt->close();
+    }
+
     public function getAll()
     {
         $data = [];
         while ($row = mysqli_fetch_assoc(self::$result)) {
             $data[] = $row;
         }
-
         return $data;
     }
 
