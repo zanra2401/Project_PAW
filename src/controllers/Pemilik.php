@@ -38,7 +38,8 @@ class Pemilik extends Controller {
 
     function chat($params = []) {
         $this->view("Pemilik/chat", [
-            "title" => "Chat"
+            "title" => "Chat",
+            "contact" => $this->model->getContact(),
         ]);
     }
 
@@ -48,7 +49,11 @@ class Pemilik extends Controller {
         {
             $this->view("Pemilik/kostedit", [
                 "title" => "Edit Kost",
-                "kost" => $this->model->getKost($params[0])
+                "kost" => $this->model->getKost($params[0]),
+                "fasilitas_kamar" => $this->model->getFasilitasKamar(),
+                "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
+                "fasilitas_kamar_info" => $this->model->getFasilitasKamarByID($params[0]),
+                "fasilitas_bersama_info" => $this->model->getFasilitasBersamaByID($params[0])
             ]);
         }
     }
@@ -204,5 +209,158 @@ class Pemilik extends Controller {
         }
     }
 
+    function updateGambar($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $violations = [];
+
     
+            
+            $jumlahGambar = $this->model->getJumlahGambarKost($_POST['id_kost']);
+
+           
+            if (isset($_FILES['gambar']) and count($_FILES['gambar']['name']) + ($jumlahGambar - count(json_decode($_POST['id_del'], true)))  >= 5)
+            {
+                $violation = $this->validator->validateGambar($_FILES['gambar']);
+                if (count($violation) > 0) {
+
+                    $violations['gambar'] = $violation[0][0]->getMessage();
+                }
+            } elseif (($jumlahGambar - count(json_decode($_POST['id_del'], true)))  >= 5) {
+                $this->model->updateGambar(NULL, $_POST);
+                header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+            } else {
+                $violations['gambar'] = 'gambar Minimal 5';
+            }
+
+            if (count($violations) < 1)
+            {
+                $this->model->updateGambar($_FILES, $_POST);
+                header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+            }
+            else
+            {
+                var_dump($violations);
+            }
+        }
+    }
+
+    function updateBaseInfo($params = [])
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            $violations = [];
+
+            $violation = $this->validator->validateNamaKost($_POST['nama']);
+            if (count($violation) > 0)
+            {
+                $violations['nama'] = $violation[0]->getMessage();
+            }
+            
+            $violation = $this->validator->validateHargaKost($_POST['harga']);
+            if (count($violation) > 0)
+            {
+                $violations['harga'] = $violation[0]->getMessage();
+            }
+
+            $violation = $this->validator->validateTipeKost($_POST['tipe']);
+            if (count($violation) > 0)
+            {
+                $violations['tipe'] = $violation[0]->getMessage();
+            }
+
+            if (count($violations) < 1)
+            {
+                $this->model->updateBaseInfo($_POST);
+                header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+            }
+        }
+    }
+
+    function updateLatLong($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $violations = [];
+            $violation = $this->validator->validateLatKost($_POST['lat']);
+    
+            if (count($violation) > 0)
+            {
+                $violations['lat'] = $violation[0]->getMessage();
+            }
+
+            $violation = $this->validator->validateLatKost($_POST['long']);
+            if (count($violation) > 0)
+            {
+                $violations['long'] = $violation[0]->getMessage();
+            }
+
+            if (count($violations) < 1)
+            {
+                $this->model->updateLatLong($_POST);
+                $_SESSION['berhasil-update'] = "Berhasil menupdate lokasi kost";
+                header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+            }
+        }
+    }
+
+    function updateFasilitas($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $violations = [];
+            $fasilitas = json_decode($_POST['fasilitas'], true);
+            $fasilitasDel = json_decode($_POST['fasilitasDel'], true);
+            foreach ($fasilitas['kamar'] as $f => $value)
+            {
+                $violation = $this->validator->validateFasilitasKamarKost($f, $this->model->getFasilitasKamarID());
+                if (count($violation) > 0)
+                {
+                    $violations['fasilitas_kamar'] = $violation[0]->getMessage();
+                    break;
+                }
+            }
+
+            foreach ($fasilitas['bersama'] as $f => $value)
+            {
+                $violation = $this->validator->validateFasilitasBersamaKost($f, $this->model->getFasilitasBersamaID());
+                if (count($violation) > 0)
+                {
+                    $violations['fasilitas_bersama'] = $violation[0]->getMessage();
+                    break;
+                }
+            }
+
+
+
+            if (count($violations) < 1){
+                $_SESSION['berhasil-update'] = "Berhasil mengupdate fasilitas";
+                $this->model->updateFasilitas($fasilitas, $fasilitasDel, $_POST['id_kost']);
+                header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+            }
+        }
+
+    }
+    
+    function getMessage($params = [])
+    {
+
+    }
+
+    function chatting($params = [])
+    {
+        $this->view("Pemilik/chatting", [
+            "title" => "Chat",
+            "id_user" => $params[0],
+            "chat" => $this->model->getChat($params[0])
+        ]);
+    }
+
+    function sendMessage($params = [])
+    {
+        
+        $data = json_decode(file_get_contents('php://input'), true);
+        $this->model->sendMessage($data['message'], $params[0]);
+        echo json_encode("SUCCESS");
+    }
 }

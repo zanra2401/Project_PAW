@@ -25,7 +25,7 @@ require_once "core/Router.php";
 
 
 
-$hostname = "localhost:81";
+$hostname = "localhost";
 $username = "root";
 $password = "";
 $dbname = "cari_kost";

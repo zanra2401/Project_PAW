@@ -32,7 +32,7 @@
         <!-- Form Section -->
         <div class="flex-1 p-6">
             <h2 class="text-3xl font-semibold text-base-color  mb-6">Daftar Penyewa</h2>
-            <form action="/<?= PROJECT_NAME ?>/account/registerAkunPencari" method="post">
+            <form action="/<?= PROJECT_NAME ?>/pencari/regPenyewa" method="post">
                 <div class="mb-4">
                     <label for="nama" class="block text-sm font-medium text-gray-700">Username</label>
                     <input type="text" id="username" name="username" placeholder="Masukkan Username" 
