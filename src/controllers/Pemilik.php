@@ -31,9 +31,14 @@ class Pemilik extends Controller {
     }
     
     function review() {
-        $this->view("Pemilik/review", [
-            "title" => "review" 
-        ]);
+        if ($this->isLogInPemilik()) 
+        {
+            $this->view("Pemilik/review", [
+                "title" => "review" 
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
     
     
@@ -87,15 +92,25 @@ class Pemilik extends Controller {
 
     function iklan($params = [])
     {
-        $this->view("Pemilik/iklan", [
-            'title' => "Iklan"
-        ]);
+        if ($this->isLogInPemilik()) 
+        {
+            $this->view("Pemilik/iklan", [
+                'title' => "Iklan"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function halamanutama($params = []) {
-        $this->view("Pemilik/halamanutama", [
-            "title" => "halamanutama"
-        ]);
+        if ($this->isLogInPemilik()) 
+        {
+            $this->view("Pemilik/halamanutama", [
+                "title" => "halamanutama"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
 
@@ -205,9 +220,16 @@ class Pemilik extends Controller {
         }
     }
     function statistik($params = []) {
-        $this->view("Pemilik/statistik", [
-            "title" => "statistik"
-        ]);
+        if ($this->isLogInPemilik()) 
+        {
+            $this->view("Pemilik/statistik", [
+                "title" => "statistik"
+            ]);
+            
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+        
     }
 
     function kosts($params = []) {
@@ -231,13 +253,15 @@ class Pemilik extends Controller {
     }
 
     function profile($params = [])
-    {
+    {   
         if ($this->isLogInPemilik())
         {
             $this->view("Pemilik/profile", [
                 "title" => "Profile",
                 "user" => $this->model->getDataUser($_SESSION["username"])
             ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
         }
     }
 
@@ -398,7 +422,16 @@ class Pemilik extends Controller {
     }
 
     function getMessage($params = [])
-    {
+    {   
+        if ($this->isLogInPemilik()) 
+        {
+            $this->view("Pemilik/getmessage", [
+                "title" => "Chat",
+            ]);
+            
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
         echo json_encode($this->model->getChat($params[0]));
     }
 
@@ -426,10 +459,6 @@ class Pemilik extends Controller {
             $data = json_decode(file_get_contents('php://input'), true);
             $this->model->sendMessage($data['message'], $params[0]);
             echo json_encode("SUCCESS");
-            
-        } else {
-            header("Location: /" . PROJECT_NAME ."/account/login");
         }
-        
     }
 }

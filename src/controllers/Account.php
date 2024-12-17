@@ -268,6 +268,7 @@ class Account extends Controller {
                 $errors[] = "Username atau Password tidak vali1d";
             }
 
+            
             if (!password_verify($password, $hashPass))
             {
                 $errors[] = "Username atau Password tidak valid";

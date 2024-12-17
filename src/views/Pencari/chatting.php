@@ -51,7 +51,7 @@
                     <!-- Chat Header -->
                     <div class="bg-white w-full p-4 border-b border-gray-200 flex items-center justify-between shadow-sm">
                         <div class="flex items-center space-x-3">
-                            <img src="<?= $data['user']['profile_user'] ?>" alt="Profile" class="w-10 h-10 rounded-full">
+                            <img src="/<?= PROJECT_NAME ?>/<?= $data['user']['profile_user'] ?>" alt="Profile" class="w-10 h-10 rounded-full">
                             <div>
                                 <h2 class="text-lg font-semibold"><?= $data['user']['username_user'] ?></h2>
                             </div>
@@ -130,7 +130,7 @@
           
             setInterval(
                 function () {
-                    fetch("/<?= PROJECT_NAME ?>/pemilik/getMessage/<?= $data['id_user'] ?>")
+                    fetch("/<?= PROJECT_NAME ?>/pencari/getMessage/<?= $data['id_user'] ?>")
                     .then(response => response.json())
                     .then(data => {
                         chat = ``;
@@ -241,7 +241,7 @@
                     message: message
                 }
 
-                fetch("/<?= PROJECT_NAME ?>/pemilik/getMessage/<?= $data['id_user'] ?>", {
+                fetch("/<?= PROJECT_NAME ?>/pencari/sendMessage/<?= $data['id_user'] ?>", {
                     method: "POST",
                     headers: {
                     'Content-Type': 'application/json'
