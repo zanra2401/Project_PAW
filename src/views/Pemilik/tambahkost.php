@@ -105,10 +105,9 @@
                     <?= (isset($_SESSION['errors_tambahkost']['fasilitas_bersama'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['fasilitas_bersama']}</p>" : "" ?>
 
                     
-                    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+                    <!-- <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
                         <h1 class="text-2xl font-bold text-center mb-4">Input Lantai dan Kamar</h1>
                         
-                        <!-- Input jumlah lantai -->
                         <div class="mb-4">
                             <label for="numFloors" class="block font-medium mb-2">Masukkan jumlah lantai:</label>
                             <input 
@@ -125,10 +124,9 @@
                             Generate Input Kamar
                         </button>
 
-                        <!-- Container untuk input jumlah kamar -->
                         <div id="floorInputs" class="mt-4"></div>
 
-                    </div>
+                    </div> -->
 
                     <h2 class="font-Roboto-medium">Lokasi Kost Anda</h2>
                     <div class="w-full  grid grid-cols-2 gap-2 ">

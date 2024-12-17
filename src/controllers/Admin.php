@@ -7,10 +7,12 @@ require_once "./models/AdminModel.php";
 class Admin extends Controller
 {
     public $default;
+    public $model;
 
     function __construct()
     {
-        $this->default = new AdminModel();
+        $this->model = new AdminModel();
+        $this->default = "dashboard";
     }
 
     function default($params = [])
@@ -28,12 +30,23 @@ class Admin extends Controller
 
     function logPengumuman($params = [])
     {
-
-        $this->view("Admin/logPengumuman", [
-            "title" => "Pengumumanm Log",
-            "active-menu" => "pengumuman",
-            "active-sub-menu" => ((count($params) > 0) ? (($params[0] == "pemilik") ? "pemilik" : (($params[0] == "pencari") ? "pencari" : "semua")) : "semua")
-        ]);
+        if (isset($params[0]) and $params[0] == "cari" and $_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            $this->view("Admin/logPengumuman", [
+                "title" => "Pengumumanm Log",
+                "active-menu" => "pengumuman",
+                "active-sub-menu" => ((count($params) > 0) ? (($params[0] == "pemilik") ? "pemilik" : (($params[0] == "pencari") ? "pencari" : "semua")) : "semua"),
+                "pengumuman" => $this->model->getAllPengumuman($_POST['cari'], true),
+            ]);
+        } else {
+        
+            $this->view("Admin/logPengumuman", [
+                "title" => "Pengumumanm Log",
+                "active-menu" => "pengumuman",
+                "active-sub-menu" => ((count($params) > 0) ? (($params[0] == "pemilik") ? "pemilik" : (($params[0] == "pencari") ? "pencari" : "semua")) : "semua"),
+                "pengumuman" => $this->model->getAllPengumuman(((count($params) > 0) ? (($params[0] == "pemilik") ? "pemilik" : (($params[0] == "pencari") ? "pencari" : "semua")) : "semua"), false)
+            ]);
+        }
     }
 
     function akunUser($params = [])
@@ -100,4 +113,14 @@ class Admin extends Controller
             "active-menu" => "berita"
         ]);
     }
+
+    function uploadPengumuman($params = [])
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            $this->model->uploadPengumuman($_POST);
+            header("Location: /" . PROJECT_NAME . "/admin/pengumuman");
+        }
+    }
+
 }

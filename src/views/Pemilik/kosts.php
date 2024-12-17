@@ -2,10 +2,11 @@
     <body class="overflow-hidden min-h-screen flex p-0 m-0">
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="p-5 flex-1 overflow-y-scroll h-screen">
-            <div class="h-fit w-full flex gap-2 px-5 items-center p-1 rounded-sm border-2 border-gray-200 shaodwmdm shadow-gray-700">
+            <form action="/<?= PROJECT_NAME ?>/pemilik/kosts/cari" method="POST" class="h-fit w-full flex gap-2 px-5 items-center p-1 rounded-sm border-2 border-gray-200 shaodwmdm shadow-gray-700">
                 <i class="fas fa-search text-gray-500"></i>
-                <input type="text" placeholder="Cari Kost Anda" class="w-full focus:outline-none font-medium">
-            </div>
+                <input type="text" id="cariKost" name="cari" placeholder="Cari Kost Anda" class="w-full border-none focus:outline-none font-medium">
+                <button class="h-full p-3 px-6 text-white font-Roboto-bold rounded-md bg-warna-second">Cari</button>
+            </form>
             <h1 class="mt-4 font-Roboto-bold text-gray-700 mb-5">Kost Milik Anda</h1>
             <div id="kosts"  class="grid grid-cols-4 gap-3 w-full">
                 

@@ -24,7 +24,8 @@ class Pencari extends Controller {
 
     function chat($params = []) {
         $this->view("Pencari/chat", [
-            "title" => "Chat"
+            "title" => "Chat",
+            "contact" => $this->model->getContact(),
         ]);
     }
 
@@ -140,5 +141,46 @@ class Pencari extends Controller {
     function test()
     {
         var_dump(count($this->model->unique("username_user", "zanuar", "user")));
+    }
+
+    function getChat($idPengirim, $noUpdate = true)
+    {
+        if ($noUpdate)
+        {
+            $this->DB->query("UPDATE chat SET status_chat = 1 WHERE id_user_penerima = ? AND id_user_pengirim = ?", "ii", [$_SESSION['id_user'], $idPengirim]);
+        }
+        $this->DB->query("SELECT * FROM chat WHERE (id_user_penerima = ? AND id_user_pengirim = ?) OR (id_user_penerima = ? AND id_user_pengirim = ?) ORDER BY tanggal_chat ASC", 'iiii', [$_SESSION['id_user'], $idPengirim, $idPengirim, $_SESSION['id_user']]);
+        return $this->DB->getAll();
+    }
+
+
+    function getMessage($params = [])
+    {
+        echo json_encode($this->model->getChat($params[0]));
+    }
+
+    
+    function chatting($params = [])
+    {
+        $this->view("Pencari/chatting", [
+            "title" => "Chat",
+            "id_user" => $params[0],
+            "user" => $this->model->getUserById($params[0]),
+            "chat" => $this->model->getChat($params[0]),
+            "contact" => $this->model->getContact(),
+        ]);
+    }
+
+    function sendMessage($params = [])
+    {
+        
+        $data = json_decode(file_get_contents('php://input'), true);
+        $this->model->sendMessage($data['message'], $params[0]);
+        echo json_encode("SUCCESS");
+    }
+
+    function getContact()
+    {
+        echo json_encode($this->model->getContact());
     }
 }

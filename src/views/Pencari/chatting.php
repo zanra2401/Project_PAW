@@ -1,6 +1,5 @@
 <?php require "./views/Components/Head.php"; ?>
     <body class="overflow-hidden flex p-0 m-0">
-        <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="flex flex-1">
             <div class="h-screen flex flex-1 bg-gray-100 mt-1">
                 <!-- Contact List Sidebar -->
@@ -16,7 +15,7 @@
                     </div>
     
                     <!-- Contact List -->
-                    <div id="contact-list" class="p-2 w-96 ">    
+                    <div id="contact-list" class="p-2 w-64 ">    
                     <?php
                             foreach ($data['contact'] as $contact) {
                                 echo <<<EOD
@@ -77,7 +76,7 @@
                                 {
                                     echo <<<EOD
                                     <div class="flex justify-end">
-                                        <div class="bg-warna-second text-white rounded-lg p-3 max-w-xs shadow-sm">
+                                        <div class="bg-warna-second w-fir\t text-white rounded-lg p-3 max-w-xs shadow-sm">
                                             <p>{$chat['isi_chat']}</p>
                                             <span class="text-xs text-blue-200 float-right">{$datetime->format('l, F j, Y g:i A')}</span>
                                         </div>
@@ -88,7 +87,7 @@
                                 {
                                     echo <<<EOD
                                     <div class="flex justify-start">
-                                        <div class="bg-gray-200 text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
+                                        <div class="bg-gray-200 w-fit text-gray-800 rounded-lg p-3 max-w-xs shadow-sm">
                                             <p>{$chat['isi_chat']}</p>
                                             <span class="text-xs text-gray-500 float-right">{$datetime->format('l, F j, Y g:i A')}</span>
                                         </div>
