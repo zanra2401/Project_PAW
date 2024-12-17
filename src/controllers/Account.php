@@ -226,6 +226,7 @@ class Account extends Controller {
         {   
             $username = $_POST["username"];
             $password = $_POST["password"];
+            $validator = Validation::createValidator();
 
 
             $errors = [];
@@ -269,7 +270,7 @@ class Account extends Controller {
 
 
             $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-            $iv = substr($encryptedPassword, 0, IV_LENGTH);
+            $iv = substr($encryptedPassowrd, 0, IV_LENGTH);
 
             $decryptedPassowrd = openssl_decrypt($encryptedPassowrd, 'aes-256-cbc', KEY, 0, IV);
 

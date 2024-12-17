@@ -3,10 +3,10 @@
 session_start();
 
 // DEBUG UNUTUK LOGIN
-$_SESSION["username"] = "grexgrub";
+$_SESSION["username"] = "bagoes12";
 $_SESSION["loged_in"] = true;
 $_SESSION["role"] = "pemilik";
-$_SESSION["id_user"] = 1;
+$_SESSION["id_user"] = 2;
 
 // if (isset($_SESSION["username"]))
 // {
