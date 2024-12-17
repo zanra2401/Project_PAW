@@ -213,7 +213,7 @@
                                     <p class="font-semibold text-2xl">{$harga} /Bulan</p>
                                 </div>  
                                 <div class="space-y-3 w-full" style="margin-top: 45px;">
-                                    <a href="/project_paw/pencari/chat" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
+                                    <a href="/project_paw/pencari/chatting/{$data['id_pemilik']}" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
                                         <i class="fa-solid fa-comment-dots pr-2"></i>
                                         Tanya Pemilik 
                                     </a>

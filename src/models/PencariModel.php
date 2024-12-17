@@ -94,7 +94,7 @@ class PencariModel {
 
     function getProfie($id)
     {
-        $data = '';
+        $data = [];
         $this->DB->query("SELECT profile_user FROM user WHERE role_user = 'pencari' AND id_user = $id");
         $path_profile = $this->DB->getAll();
         foreach($path_profile as $pp)
@@ -173,6 +173,7 @@ class PencariModel {
                 "sisa_kamar" => 0,
                 "gambar" => [],
                 "pemilik" => '',
+                "id_pemilik" => 0,
                 "profile_pemilik" => ''
             ];
 
@@ -188,15 +189,16 @@ class PencariModel {
                 $data[$kost['id_kost']]['gambar'][] = $g;
             }
 
-            $this->DB->query("SELECT u.username_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user");
+            $this->DB->query("SELECT u.username_user, u.id_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user AND id_kost = {$id}");
             $result = $this->DB->getAll();
             $data[$kost['id_kost']]['pemilik'] = $result[0]['username_user'];
+            $data[$kost['id_kost']]['id_pemilik'] = $result[0]['id_user'];
 
             $this->DB->query("SELECT u.profile_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user");
             $result = $this->DB->getAll();
             $data[$kost['id_kost']]['profile_pemilik'] = $result[0]['profile_user'];
         }
-
+       
         return $data;
     }
 
@@ -321,7 +323,9 @@ class PencariModel {
         foreach ($result as $res) 
         {
             $data[] = $res;
-         }
+        }
+
+        return $data;
     }
 
     function getChat($idPengirim, $noUpdate = true)
@@ -344,7 +348,7 @@ class PencariModel {
 
     function getUserById($id)
     {
-        $this->DB->query("SELECT username_user, email_user, nama_user, alamat_user, no_hp_user, profile_user FROM user WHERE id_user = ?", 'i', [$id]);
+        $this->DB->query("SELECT * FROM user WHERE id_user = ?", 'i', [$id]);
         return $this->DB->getFirst();
     }
 

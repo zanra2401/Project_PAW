@@ -22,12 +22,14 @@
                                 echo <<<EOD
                                     <a href="/
                                 EOD;
+
+                                $project_name = PROJECT_NAME;
                                 
                                 echo PROJECT_NAME;
 
                                 echo <<<EOD
                                 /pemilik/chatting/{$contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
-                                        <img src="{$contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
+                                        <img src="/{$project_name}/{$contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
                                         <div class="flex-1">
                                             <h3 class="text-lg font-medium ">{$contact[0]['username_user']}</h3>
                                         </div>
@@ -131,7 +133,7 @@
           
             setInterval(
                 function () {
-                    fetch("/<?= PROJECT_NAME ?>/pemilik/getMessage/<?= $data['id_user'] ?>")
+                    fetch("/<?= PROJECT_NAME ?>/pencari/getMessage/<?= $data['id_user'] ?>")
                     .then(response => response.json())
                     .then(data => {
                         chat = ``;
@@ -242,7 +244,7 @@
                     message: message
                 }
 
-                fetch("/<?= PROJECT_NAME ?>/pemilik/getMessage/<?= $data['id_user'] ?>", {
+                fetch("/<?= PROJECT_NAME ?>/pemilik/sendMessage/<?= $data['id_user'] ?>", {
                     method: "POST",
                     headers: {
                     'Content-Type': 'application/json'

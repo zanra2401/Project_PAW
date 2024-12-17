@@ -23,7 +23,7 @@ class PemilikModel {
 
     function getDataUser($username)
     {
-        $this->DB->query("SELECT username_user, email_user, nama_user, alamat_user, no_hp_user FROM user WHERE username_user = ?", 's', [$username]);
+        $this->DB->query("SELECT * FROM user WHERE username_user = ?", 's', [$username]);
         return $this->DB->getFirst();
     }
 
@@ -71,7 +71,7 @@ class PemilikModel {
 
     function getUserById($id)
     {
-        $this->DB->query("SELECT username_user, email_user, nama_user, alamat_user, no_hp_user, profile_user FROM user WHERE id_user = ?", 'i', [$id]);
+        $this->DB->query("SELECT * FROM user WHERE id_user = ?", 'i', [$id]);
         return $this->DB->getFirst();
     }
 
