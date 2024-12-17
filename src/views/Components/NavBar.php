@@ -35,15 +35,17 @@
             </div>
         
             <div>
-
-                <img id="pp" src="<?= $data_profile?>" alt="" class="w-14 rounded-full cursor-pointer">
-                <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">
-                    <ul class="grid text-sm gap-3 p-2">
-                        <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
-                        <li class="hover:text-warna-second font-medium"><a href="">Logout</a></li>
-                    </ul>
-                </div>
-                <!-- <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a> -->
+                <?php if(isset($_SESSION["loged_in"])):?>
+                    <img id="pp" src="<?= "/" . PROJECT_NAME . "/" . $data['profile']['profile_user'] ?>" alt="" class="w-14 h-14 rounded-full cursor-pointer">
+                    <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">
+                        <ul class="grid text-sm gap-3 p-2">
+                            <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
+                            <li class="hover:text-warna-second font-medium"><a href="">Logout</a></li>
+                        </ul>
+                    </div>
+                <?php else:?>
+                    <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a>
+                <?php endif;?>
             </div>
         </div>
     </div>
