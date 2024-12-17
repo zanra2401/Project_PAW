@@ -6,7 +6,8 @@ session_start();
 $_SESSION["username"] = "bagoes12";
 $_SESSION["loged_in"] = true;
 $_SESSION["role"] = "pemilik";
-$_SESSION["id_user"] = 2;
+$_SESSION["id_user"] = 1;
+$_SESSION['id_admin'] = 1;
 
 // if (isset($_SESSION["username"]))
 // {

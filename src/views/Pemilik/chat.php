@@ -16,10 +16,9 @@
                     </div>
     
                     <!-- Contact List -->
-                    <div id="contact-list" class="p-2 w-64 ">    
+                    <div id="contact-list" class="p-2 w-80 ">    
                         <!-- Repeat for more contacts -->
                         <?php
-
                             foreach ($data['contact'] as $contact) {
                                 echo <<<EOD
                                     <a href="/
@@ -28,15 +27,22 @@
                                 echo PROJECT_NAME;
 
                                 echo <<<EOD
-                                /pemilik/chatting/{$contact['id_user']}" class="flex items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
-                                        <img src="{$contact['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
+                                /pemilik/chatting/{$contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
+                                        <img src="{$contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
                                         <div class="flex-1">
-                                            <h3 class="text-lg font-medium ">{$contact['username_user']}</h3>
+                                            <h3 class="text-lg font-medium ">{$contact[0]['username_user']}</h3>
                                         </div>
-                                        <span class="text-xs text-gray-400 ">Kemarin</span>
-                                    </a>
                                 EOD;
-
+                                if ($contact['unread'] > 0)
+                                {
+                                    echo <<<EOD
+                                            <span class="flex justify-center items-center right-0 -mt-2 -mr-2 w-5 h-5 bg-warna-second text-white text-xs font-semibold rounded-full">
+                                                {$contact['unread']}
+                                            </span>
+                                    EOD;
+                                }
+                                        
+                                echo "</a>";
                             }
                         ?>
     
@@ -47,6 +53,34 @@
             </div>
         </main>
         <script>   
+            <script>   
+            setInterval(
+                function () {
+                    fetch("/<?= PROJECT_NAME ?>/pemilik/getContact")
+                    .then(response => response.json())
+                    .then(data => {
+                        contacts = ``;
+                        data.forEach(contact => {
+                            contacts += `<a href="/<?= PROJECT_NAME ?>/pencari/chatting/${contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
+                                    <img src="${contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-medium ">${contact[0]['username_user']}</h3>
+                                    </div>`
+                            if (contact['unread'] > 0){
+                                contact += `<span class="flex justify-center items-center right-0 -mt-2 -mr-2 w-5 h-5 bg-warna-second text-white text-xs font-semibold rounded-full">
+                                    ${contact['unread']}
+                                </span>`
+                            }
+                            contacts += `</a>`;
+                        });
+
+                        document.getElementById("contact-list").innerHTML = contacts;
+            
+                    })
+                    .catch(error => console.error('Error fetching messages:', error));
+                }
+            ,3000);
+        </script>
         </script>
     </body>
 <?php require "./views/Components/Foot.php"; ?>
