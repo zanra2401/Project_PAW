@@ -43,22 +43,17 @@
                                     <th scope="col" class="px-6 py-3">Tanggal Daftar</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php 
-                                // var_dump($data['user']);
-                                foreach($data['user'] as $user): ?>
-                                <?php 
-                                echo <<<EOD
+                            <tbody id="userTable">
+                                <?php foreach($data['user'] as $user): ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{$user['nama_user']}</th>
-                                    <td class="px-6 py-4">{$user['tanggal_akun_dibuat_user']}</td>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $user['nama_user'] ?></th>
+                                    <td class="px-6 py-4"><?= $user['tanggal_akun_dibuat_user'] ?></td>
                                 </tr>
-                                EOD;
-                                ?>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
+                    <div id="pagination" class="flex justify-center mt-4"></div> <!-- Centered pagination buttons -->
                 </div>
 
                 <!-- History Transaksi Card -->
@@ -107,19 +102,47 @@
             </div>
             <div class="rounded-lg shadow-sm shadow-gray-500 p-5 h-fit">
                 <div class="h-full w-full">
-                <div id="calendar"></div>
+                    <div id="calendar"></div>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
-        const calendarElement = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarElement, {
-            initialView: "dayGridMonth"
-        });
-        calendar.render();
-    </script>
+        // Pagination setup for users
+        const users = <?= json_encode($data['user']); ?>;
+        const rowsPerPage = 3; // Adjust the number of rows per page as needed
 
+        function renderTablePage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedUsers = users.slice(start, end);
+
+            const tableBody = document.getElementById('userTable');
+            tableBody.innerHTML = ''; // Clear the table body
+
+            paginatedUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.className = "bg-white border-b dark:bg-gray-800 dark:border-gray-700";
+                row.innerHTML = `
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${user['nama_user']}</th>
+                    <td class="px-6 py-4">${user['tanggal_akun_dibuat_user']}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        $('#pagination').pagination({
+            dataSource: users,
+            pageSize: rowsPerPage,
+            callback: function(data, pagination) {
+                renderTablePage(pagination.pageNumber);
+            }
+        });
+
+        // Initialize first page
+        renderTablePage(1);
+    </script>
 </body>
 
 <?php require './views/Components/Foot.php' ?>

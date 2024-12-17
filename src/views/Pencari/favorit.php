@@ -47,27 +47,39 @@
 
     <script>
         // Data dummy
-        const data = Array.from({ length: 50 }, (_, i) => `
-            <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
-                <a href="#" class="group block">
-                    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
-                        <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Kost Putri" class="h-full w-full object-cover group-hover:opacity-75">
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center">
-                            <p class="text-sm font-medium bg-gray-100 border rounded-lg px-3 py-1">Putri</p>
-                            <p class="ml-4 text-sm italic text-red-500">Sisa 1 kamar</p>
-                            <div class="flex items-center ml-auto">
-                                <i class="fa fa-heart text-red-500"></i>
-                                <p class="pl-2 text-sm text-gray-700 cursor-pointer">Hapus</p>
-                            </div>
+        const kosts = <?= json_encode($data['kosts']) ?>;
+       
+        const data = kosts.map((item) =>  {
+        return `
+        <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
+            <a href="#" class="group block">
+                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
+                    <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Kost Putri" class="h-full w-full object-cover group-hover:opacity-75">
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center">
+                        <p class="text-sm font-medium bg-white border rounded-lg px-3 shadow-gray-200 shadow-sm p-2">${item['tipe_kost']}</p>
+                        <p class="ml-4 text-sm italic text-red-500">sisa</p>
+                        <div class="flex items-center ml-auto">
+                            <i class="fa fa-heart text-red-500"></i>
+                            <form action="/<?= PROJECT_NAME ?>/Pencari/hapusFavorit" method="POST">
+                                <input type="hidden" name="idFavorit" value="${item['id_favorit']}">
+                                <button type="submit" class="pl-2 text-sm text-gray-700 cursor-pointer">Hapus</button>
+                            </form>
                         </div>
-                        <p class="text-sm text-gray-600">Keputran, Tegalsari</p>
-                        <p class="mt-2 text-lg font-semibold text-gray-900">Rp 450.000 / Bulan</p>
                     </div>
-                </a>
-            </div>
-        `);
+                    <h1 class="font-bold px-3">${item['nama_kost']}</h1>
+                    <p class="text-sm text-gray-600 px-3">${item['lokasi_spesifik_kost']}</p>
+                    <p class="mt-2 text-lg font-semibold text-gray-900 px-3"> ${item['harga_kost'].toLocaleString('id-ID', {style: 'currency',currency: 'IDR',minimumFractionDigits: 0})}
+                </div>
+            </a>
+        </div>
+    `});
+
+console.log(data); // Data sekarang berupa array dari string HTML
+
+
+        console.log(data)
 
         // Inisialisasi Pagination.js
         $('#kost').pagination({

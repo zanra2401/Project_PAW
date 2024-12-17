@@ -104,11 +104,29 @@ class Admin extends Controller
 
     function editberita($params = [])
     {
+        $idBerita = $_POST['idBerita']; // Ambil ID Berita dari parameter
         $this->view("Admin/editberita", [
             "title" => "Edit Berita",
-            "active-menu" => "berita"
+            "active-menu" => "berita",
+            "berita" => $this->model->getBeritaById($idBerita) // Panggil berita berdasarkan ID
         ]);
     }
+    
+
+    function updateBerita()
+    {
+        $idBerita = $_POST['idBerita'];
+        $judul = $_POST['judul'];
+        $deskripsi = $_POST['deskripsi'];
+
+        // Update data ke database
+        $this->model->updateBerita($idBerita, $judul, $deskripsi);
+
+        // Redirect ke halaman daftar berita
+        header("Location: /" . PROJECT_NAME . "/Admin/berita");
+        exit();
+    }
+
 
     function insertBerita($params = [])
     {

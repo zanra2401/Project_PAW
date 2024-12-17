@@ -5,6 +5,7 @@
         text-align: center; /* Untuk memusatkan secara horizontal */
         vertical-align: middle; /* Untuk memusatkan secara vertikal */
     }
+    
 </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
     <?php require "./views/Components/sidebarAdmin.php" ?>
@@ -66,23 +67,25 @@
         </tr>
     </thead>
     <tbody>
-        <?php
-        foreach($data['berita'] as $berita):?>
-        <?php
-        echo <<<EOD
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {$berita['judul_berita']}
-            </th>
-            <td class="px-6 py-4">{$berita['deskripsi_berita']}</td>
-            <td class="px-6 py-4 text-xs">{$berita['tanggal_dipublish_berita']}</td>
-            <td class="action-center">
-                <a href="editBerita" class="bg-warna-second p-2 rounded-lg text-white hover:bg-base-color">Edit</a>
-            </td>
-        </tr>
-        EOD;
-        ?>
-        <?php endforeach; ?>
+    <?php foreach ($data['berita'] as $berita): ?>
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <?php echo $berita['judul_berita']; ?>
+        </th>
+        <td class="px-6 py-4"><?php echo $berita['deskripsi_berita']; ?></td>
+        <td class="px-6 py-4 text-xs"><?php echo $berita['tanggal_dipublish_berita']; ?></td>
+        <td class="action-center">
+            <h1><?php var_dump($berita['id_berita'])?></h1>
+            <form action="/<?= PROJECT_NAME ?>/Admin/editberita" method="POST">
+                <input type="hidden" name="idBerita" value="<?= $berita['id_berita'] ?>">
+                <button type="submit" class="bg-warna-second p-2 rounded-lg text-white hover:bg-base-color">
+                    Edit
+                </button>
+            </form>
+        </td>
+    </tr>
+<?php endforeach; ?>
+
         <!-- <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 Ketidaksesuaian Deskripsi

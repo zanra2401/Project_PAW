@@ -288,8 +288,10 @@ class Account extends Controller {
             {
                 $_SESSION["loged_in"] = true;
                 $_SESSION["username"] = $username;
-                $role =  ($this->model->getOneData("role", $username, "user"))["role_user"];
-                $_SESSION["role"] = $role;
+                $role =  ($this->model->getOneData("role_user", $username, "user"))["role_user"];
+                $id =  ($this->model->getOneData("id_user", $username, "user"))["id_user"];
+                $_SESSION["role_user"] = $role;
+                $_SESSION["id_user"] = $role;
                 if ($role == "pemilik")
                 {
                     header("Location: /" . PROJECT_NAME ."/pemilik");
@@ -307,6 +309,13 @@ class Account extends Controller {
             if ($role = "pemilik")
             {
                 header("Location: /" . PROJECT_NAME ."/pemilik"); 
+            }
+
+            else
+
+            {
+                header("Location: /" . PROJECT_NAME ."/pencari");
+
             }
         }
 

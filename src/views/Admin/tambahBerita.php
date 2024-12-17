@@ -34,12 +34,13 @@
         border-color: #888;
         color: #555;
     }
+    
 </style>
 <main class="p-5 w-full box-border flex flex-col">
 <span class="mb-3 text-gray-600 p-5"><i class="fas fa-newspaper"></i> Berita <i class="fas fa-chevron-right"></i> <i class="fa fa-add"></i> Tambah Berita </span>
     <div class="flex gap-2 w-full flex-1">
         <div class="flex-1 p-2 bg-white rounded-lg w-fit shadow-violet-300">
-            <form action="/<?= PROJECT_NAME ?>/Admin/insertBerita" method="post" id="formBerita" >
+            <form action="/<?= PROJECT_NAME ?>/Admin/insertBerita" enctype="multipart/form-data" method="post" id="formBerita" >
                 <div id="dropArea">Drag & Drop gambar di sini atau klik untuk mengunggah</div>
                 <input type="file" accept="image/*" class="mx-2 w-auto p-2 m-2" id="imageInput" name="cover_berita" style="display: none;">
                 <img id="imagePreview" alt="Preview Gambar">
@@ -51,7 +52,7 @@
                 <!-- Editor untuk Isi Berita -->
                 <div id="editor" class="border-box" name="deskripsi_berita"></div>
                 
-                <button type="submit" onclick="" class="p-1 bg-warna-second mt-2 text-white px-2 rounded-lg w-full">
+                <button type="submit" class="p-1 bg-warna-second mt-2 text-white px-2 rounded-lg w-full hover:bg-base-color">
                     POST
                     <i class="fas fa-paper-plane"></i>
                 </button>

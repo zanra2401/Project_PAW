@@ -34,16 +34,32 @@ class AdminModel {
 
     function insertBerita($files, $post)
     {
+        $uploadDirectory = STORAGE . "/cover_berita";
         $pathDir = "/public/storage/cover_berita";
-        $tmpName = $files['cover_berita']['tmp_name'][$key];
-        $uid = uniqid() . "_" . basename($fileName);
+        $tmpName = $files['cover_berita']['tmp_name'];
+        $name = $files['cover_berita']['name'];
+        $uid = uniqid() . "_" . basename($name);
 
         $newFileName = $uploadDirectory . $uid;
-
         $newDir = $pathDir . $uid;
-        var_dump($pathDir);
         if (move_uploaded_file($tmpName, $newFileName)) {
-            $this->DB->query("INSERT INTO berita (judul_berita,deskripsi_berita,cover_berita) VALUES(?,?,?)","sss",[$post['judulBerita'],$post['deskripsiBerita'],$pathDir]);
+            $this->DB->query("INSERT INTO berita (judul_berita,deskripsi_berita,cover_berita, id_admin) VALUES(?,?,?,?)","sssi",[$post['judulBerita'],$post['deskripsiBerita'],$pathDir, 1]);
         }
     }
+
+    function getBeritaById($idBerita)
+    {
+        $this->DB->query("SELECT * FROM berita WHERE id_berita = ?", "i", [$idBerita]);
+        return $this->DB->getFirst();
+    }
+
+    function updateBerita($idBerita, $judul, $deskripsi)
+    {
+        $this->DB->query(
+            "UPDATE berita SET judul_berita = ?, deskripsi_berita = ? WHERE id_berita = ?", 
+            "ssi", 
+            [$judul, $deskripsi, $idBerita]
+        );
+    }
+    
 }
