@@ -11,7 +11,7 @@ class AccountModel {
 
     function register($username, $email, $password, $role, $nohp = "")
     {
-        $password = openssl_encrypt($password, 'aes-256-cbc', KEY, 0, IV);
+        $password = password_hash($password, PASSWORD_BCRYPT);
         
         if ($nohp != "")
         {
@@ -31,6 +31,14 @@ class AccountModel {
     {
         $this->DB->query("SELECT {$field} FROM {$table} WHERE {$field} = '{$value}'");
         return $this->DB->getFirst();
+    }
+
+    
+    function getData($username) 
+    {
+        $this->DB->query("SELECT * FROM user WHERE username_user = ?", "s", [$username]);
+        return $this->DB->getFirst();
+
     }
 
     function getDataUser($username)

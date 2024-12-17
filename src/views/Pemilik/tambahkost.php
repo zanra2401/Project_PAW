@@ -13,7 +13,7 @@
                     <div id="gambar-preview" class="w-full gap-3 grid grid-cols-4">
                         <button type="button" onchange="tambahFoto(event)" class="w-full relative aspect-square rounded-lg bg-gray-200">
                             <i class="fas fa-plus text-gray-700 text-[300%]"></i>
-                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0">
+                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0" multiple>
                         </button>
                     </div>
                     <?= (isset($_SESSION['errors_tambahkost']['gambar'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['gambar']}</p>" : "" ?>
@@ -104,6 +104,29 @@
 
                     <?= (isset($_SESSION['errors_tambahkost']['fasilitas_bersama'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['fasilitas_bersama']}</p>" : "" ?>
 
+                    
+                    <!-- <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+                        <h1 class="text-2xl font-bold text-center mb-4">Input Lantai dan Kamar</h1>
+                        
+                        <div class="mb-4">
+                            <label for="numFloors" class="block font-medium mb-2">Masukkan jumlah lantai:</label>
+                            <input 
+                                type="number" 
+                                id="numFloors" 
+                                min="1" 
+                                placeholder="Contoh: 3"
+                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+                        <button 
+                            id="generateFloors" 
+                            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+                            Generate Input Kamar
+                        </button>
+
+                        <div id="floorInputs" class="mt-4"></div>
+
+                    </div> -->
 
                     <h2 class="font-Roboto-medium">Lokasi Kost Anda</h2>
                     <div class="w-full  grid grid-cols-2 gap-2 ">
@@ -169,15 +192,16 @@
                 
             };
             
-            reader.onload = function (e) {
-                gambarPreview.innerHTML += `
-                <div class="relative">
-                    <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square "><i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i></button>
-                    <img class="rounded-lg aspect-square object-cover" src="${e.target.result}"/>
-                </div>
-                `;
-                id += 1;
-            };
+            function readFileAsync(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        resolve(e.target.result);  // Return the result when the file is read
+                    };
+                    reader.onerror = reject;  // Reject the promise if there's an error
+                    reader.readAsDataURL(file);  // Start reading the file
+            });
+}
 
             function deleteFoto(event)
             {
@@ -186,10 +210,22 @@
                 event.target.parentNode.parentNode.remove();
             }
 
-            async function tambahFoto(event)
-            {
-                dataKost.gambar[id] = event.target.files[0];
-                await reader.readAsDataURL(event.target.files[0]);
+            async function tambahFoto(event) {
+                for (let i = 0; i < event.target.files.length; i++) {
+                    dataKost.gambar[id] = event.target.files[i];
+
+                    const result = await readFileAsync(event.target.files[i]);
+
+                    gambarPreview.innerHTML += `
+                        <div class="relative">
+                            <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square">
+                                <i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i>
+                            </button>
+                            <img class="rounded-lg aspect-square object-cover" src="${result}" />
+                        </div>
+                    `;
+                    id += 1;
+                }
             }
 
             fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
@@ -334,9 +370,15 @@
             }
             
 
-            function hapusFasilitas(event)
+            function hapusFasilitasKamar(event)
             {
-                delete dataKost['fasilitas'][event.target.parentNode.parentNode.dataset.id];
+                delete dataKost['fasilitas'].kamar[event.target.parentNode.parentNode.dataset.id];
+                event.target.parentNode.parentNode.remove();
+            }
+
+            function hapusFasilitasBersama(event)
+            {
+                delete dataKost['fasilitas'].bersama[event.target.parentNode.parentNode.dataset.id];
                 event.target.parentNode.parentNode.remove();
             }
 
@@ -348,11 +390,11 @@
 
 
                 fasilitasKamarContainer.innerHTML += `
-                <li data-id-f="${fasilitasKamar.value}" class='list-item list-disc'>
+                <li data-id="${fasilitasKamar.value}" class='list-item list-disc'>
                     <span>
                         ${fasilitasKamar[fasilitasKamar.selectedIndex].innerHTML}
                     </span>
-                    <button onclick="hapusFasilitas(event)">
+                    <button onclick="hapusFasilitasKamar(event)">
                         <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
                     </button>
                 </li>`;
@@ -367,11 +409,11 @@
 
 
                 fasilitasBersamaContainer.innerHTML += `
-                <li data-id-f="${fasilitasBersama.value}" class='list-item list-disc'>
+                <li data-id="${fasilitasBersama.value}" class='list-item list-disc'>
                     <span>
                         ${fasilitasBersama[fasilitasBersama.selectedIndex].innerHTML}
                     </span>
-                    <button onclick="hapusFasilitas(event)">
+                    <button onclick="hapusFasilitasBersama(event)">
                         <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
                     </button>
                 </li>`;
@@ -404,7 +446,49 @@
             $("#tambah-button").on('click', function () {
                 kirimDataDenganRedirect(dataKost);
             });
-        </script>
+
+                const numFloorsInput = document.getElementById("numFloors");
+                const generateFloorsBtn = document.getElementById("generateFloors");
+                const floorInputsContainer = document.getElementById("floorInputs");
+                const showResultsBtn = document.getElementById("showResults");
+                const resultsContainer = document.getElementById("results");
+
+                generateFloorsBtn.addEventListener("click", () => {
+                    const numFloors = parseInt(numFloorsInput.value);
+                    floorInputsContainer.innerHTML = ""; // Hapus input sebelumnya
+                    resultsContainer.classList.add("hidden");
+                    showResultsBtn.classList.add("hidden");
+
+                    if (isNaN(numFloors) || numFloors < 1) {
+                        alert("Masukkan jumlah lantai yang valid (>= 1).");
+                        return;
+                    }
+
+                    // Generate input untuk setiap lantai
+                    for (let i = 1; i <= numFloors; i++) {
+                        const floorDiv = document.createElement("div");
+                        floorDiv.classList = "floor-input mb-3";
+
+                        floorDiv.innerHTML = `
+                            <label class="block font-medium mb-1">
+                                Lantai ${i} - Masukkan jumlah kamar:
+                            </label>
+                            <input 
+                                type="number" 
+                                min="0"
+                                placeholder="Jumlah kamar lantai ${i}"
+                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                id="floor-${i}"
+                            />
+                        `;
+                        floorInputsContainer.appendChild(floorDiv);
+                    }
+
+                    // Tampilkan tombol hasil
+                    showResultsBtn.classList.remove("hidden");
+                });
+
+            </script>
 
     </body>
 <?php require "./views/Components/Foot.php"; ?>

@@ -16,31 +16,36 @@ class Pencari extends Controller {
     }
 
     function homepage($params = []) {
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        if ($this->isLogInPencari()) 
         {
-            $nama_lokasi = isset($_POST['lokasi_nama'])? $_POST['lokasi_nama'] : '';
-            $tipe = isset($_POST['tipe'])? $_POST['tipe'] : '';
-            $data = $this->model->filterKost($nama_lokasi, $tipe);
-            $profile = $this->model->getProfie($_SESSION['id_user']);
-            if ($profile['profile_user'] == ""){
-                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+            if ($_SERVER["REQUEST_METHOD"] == "POST")
+            {
+                $nama_lokasi = isset($_POST['lokasi_nama'])? $_POST['lokasi_nama'] : '';
+                $tipe = isset($_POST['tipe'])? $_POST['tipe'] : '';
+                $data = $this->model->filterKost($nama_lokasi, $tipe);
+                $profile = $this->model->getProfie($_SESSION['id_user']);
+                if ($profile['profile_user'] == ""){
+                    $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+                }
+                $this->view("Pencari/homepage", [
+                    "title" => "Homepage",
+                    "data" => $data,
+                    "profile" => $profile
+                ]);
+            } else {
+                $data = $this->model->getAllKost();
+                $profile = $this->model->getProfie($_SESSION['id_user']);
+                if ($profile == []){
+                    $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+                }
+                $this->view("Pencari/homepage", [
+                    "title" => "Homepage",
+                    "data" => $data,
+                    "profile" => $profile
+                ]);
             }
-            $this->view("Pencari/homepage", [
-                "title" => "Homepage",
-                "data" => $data,
-                "profile" => $profile
-            ]);
         } else {
-            $data = $this->model->getAllKost();
-            $profile = $this->model->getProfie($_SESSION['id_user']);
-            if ($profile['profile_user'] == ""){
-                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-            }
-            $this->view("Pencari/homepage", [
-                "title" => "Homepage",
-                "data" => $data,
-                "profile" => $profile
-            ]);
+            header("Location: /" . PROJECT_NAME ."/account/login");
         }
 
     }
@@ -48,339 +53,479 @@ class Pencari extends Controller {
 
 
     function chat($params = []) {
-        $this->view("Pencari/chat", [
-            "title" => "Chat"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/chat", [
+                "title" => "Chat",
+                "contact" => $this->model->getContact(),
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function regPenyewa($params = []) {
+      
         $this->view("Pencari/regPenyewa", [
             "title" => "regPenyewa",
         ]);
+       
     }
 
     function kode($params = []) {
-        $this->view("Pencari/kode", [
-            "title" => "kode"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/kode", [
+                "title" => "kode"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function berita($params = []) {
-        $this->view("Pencari/berita", [
-            "title" => "berita"
-            
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/berita", [
+                "title" => "berita"
+                
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
  
 
     function lupapassword($params = []) {
-        $this->view("Pencari/lupapassword", [
-            "title" => "lupapassword"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/lupapassword", [
+                "title" => "lupapassword"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function ubahpassword($params = []) {
-        $this->view("Pencari/ubahpassword", [
-            "title" => "ubahpassword"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/ubahpassword", [
+                "title" => "ubahpassword"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function finishpassword($params = []) {
-        $this->view("Pencari/finishpassword", [
-            "title" => "finishpassword"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/finishpassword", [
+                "title" => "finishpassword"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function finishreg($params = []) {
-        $this->view("Pencari/finishreg", [
-            "title" => "finishreg"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/finishreg", [
+                "title" => "finishreg"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function kodegagal($params = []) {
-        $this->view("Pencari/kodegagal", [
-            "title" => "kodegagal"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/kodegagal", [
+                "title" => "kodegagal"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function finishregpemilik($params = []) {
-        $this->view("Pencari/finishregpemilik", [
-            "title" => "finishregpemilik"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/finishregpemilik", [
+                "title" => "finishregpemilik"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+        
     }
     function homeberita($params = []) {
-        $profile = $this->model->getProfie($_SESSION['id_user']);
-        if ($profile['profile_user'] == ""){
-            $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-        }
-        $this->view("Pencari/homeberita", [
-            "title" => "homeberita",
-            "profile" => $profile
-        ]);
-    }
-
-    function isiberita($params = []) {
-        $this->view("Pencari/isiberita", [
-            "title" => "isiberita"
-        ]);
-    }
-
-    function kostPage($params = []) {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") 
-        {   
-            if(isset($_POST['id_user_favorit'])){
-
-                $id_user = $_POST['id_user_favorit'];
-                $id_kost = $_POST['id_kost_favorit'];
-                $isFavorited = $_POST['isFavorited'];
-
-                if ($isFavorited === 'tidak ada') {
-
-                    $this->model->removeFromFavorites($id_user, $id_kost);
-                } else {
-
-                    $this->model->addToFavorites($id_user, $id_kost);
-                }
-                
-                header("Location: /project_paw/pencari/kostPage/$id_kost");
-                exit;
-            } else {
-                $kategori = $_POST['kategori_laporan'];
-                $detail = $_POST['detail_laporan'];
-                $id = $_SESSION['id_user'];
-                $id_kost = $_POST['id_kost'];
-    
-                $erors = [];
-    
-                if (empty($kategori)) {
-                    $erors['kategori'] = "Pilih salah satu";
-                } 
-    
-                if (empty($detail)) {
-                    $erors['detail'] = "inputan tidak boleh kosong";
-                } else if (strlen($detail) <= 10){
-                    $erors['detail'] = "inputan harus lebih dari 11 karakter";
-                }
-                
-                if (empty($erors)){
-                    $this->model->insertDataLaporan($kategori, $detail, $id, $id_kost);
-                    header("Location: /project_paw/pencari/kostPage/$id_kost");
-                    exit;
-                }
-            }
-            
-        }
-        else 
-        {   
-            $id = (int) $params[0];
-            $data = $this->model->getOneDataKost($id);
-            $fasilitas = $this->model->getAllFasilitas($id);
+        if ($this->isLogInPencari()) 
+        {
             $profile = $this->model->getProfie($_SESSION['id_user']);
             if ($profile['profile_user'] == ""){
                 $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
             }
-            $rekomendasi = $this->model->rekomendasiKost($id);
-            $kategori_laporan = $this->model->getKategoriLaporan();
-            $id_user = $_SESSION['id_user'];
-
-            $review = $this->model->getAllReview($id);
-            $udah_lapor = $this->model->cekPelapor($id_user, $id);
-            $cekFavorit = $this->model->cekFavorit($id_user, $id);
-            $this->view("Pencari/KostPage", [
-                "title" => "Kost Page",
-                "id" => $id,
-                "data" => $data,
-                "fasilitas" => $fasilitas,
-                "profile" => $profile,
-                "rekomendasi" => $rekomendasi,
-                "kategori_laporan" => $kategori_laporan,
-                "sudah_lapor" => $udah_lapor,
-                "id_user" => $id_user,
-                "check_favorit" => $cekFavorit,
-                "review" => $review
+            $this->view("Pencari/homeberita", [
+                "title" => "homeberita",
+                "profile" => $profile
             ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+    }
+
+    function isiberita($params = []) {
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/isiberita", [
+                "title" => "isiberita"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+    }
+
+    function kostPage($params = []) {
+        if ($this->isLogInPencari()) 
+        {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") 
+            {   
+                if(isset($_POST['id_user_favorit'])){
+
+                    $id_user = $_POST['id_user_favorit'];
+                    $id_kost = $_POST['id_kost_favorit'];
+                    $isFavorited = $_POST['isFavorited'];
+
+                    if ($isFavorited === 'tidak ada') {
+
+                        $this->model->removeFromFavorites($id_user, $id_kost);
+                    } else {
+
+                        $this->model->addToFavorites($id_user, $id_kost);
+                    }
+                    
+                    header("Location: /project_paw/pencari/kostPage/$id_kost");
+                    exit;
+                } else {
+                    $kategori = $_POST['kategori_laporan'];
+                    $detail = $_POST['detail_laporan'];
+                    $id = $_SESSION['id_user'];
+                    $id_kost = $_POST['id_kost'];
+        
+                    $erors = [];
+        
+                    if (empty($kategori)) {
+                        $erors['kategori'] = "Pilih salah satu";
+                    } 
+        
+                    if (empty($detail)) {
+                        $erors['detail'] = "inputan tidak boleh kosong";
+                    } else if (strlen($detail) <= 10){
+                        $erors['detail'] = "inputan harus lebih dari 11 karakter";
+                    }
+                    
+                    if (empty($erors)){
+                        $this->model->insertDataLaporan($kategori, $detail, $id, $id_kost);
+                        header("Location: /project_paw/pencari/kostPage/$id_kost");
+                        exit;
+                    }
+                }
+                
+            }
+            else 
+            {   
+                $id = (int) $params[0];
+                $data = $this->model->getOneDataKost($id);
+            
+                $fasilitas = $this->model->getAllFasilitas($id);
+                $profile = $this->model->getProfie($_SESSION['id_user']);
+                if ($profile == []){
+                    $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+                }
+                $rekomendasi = $this->model->rekomendasiKost($id);
+                $kategori_laporan = $this->model->getKategoriLaporan();
+                $id_user = $_SESSION['id_user'];
+
+                $review = $this->model->getAllReview($id);
+                $udah_lapor = $this->model->cekPelapor($id_user, $id);
+                $cekFavorit = $this->model->cekFavorit($id_user, $id);
+                $this->view("Pencari/KostPage", [
+                    "title" => "Kost Page",
+                    "id" => $id,
+                    "data" => $data,
+                    "fasilitas" => $fasilitas,
+                    "profile" => $profile,
+                    "rekomendasi" => $rekomendasi,
+                    "kategori_laporan" => $kategori_laporan,
+                    "sudah_lapor" => $udah_lapor,
+                    "id_user" => $id_user,
+                    "check_favorit" => $cekFavorit,
+                    "review" => $review,
+                    "id_pemilik" => $data[$id]['id_pemilik']
+                ]);
+            }
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
         }
         
     }
     function kebijakan($params = []) {
-        $this->view("Pencari/kebijakan", [
-            "title" => "kebijakan"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/kebijakan", [
+                "title" => "kebijakan"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
     function tentangkami($params = []) {
-        $this->view("Pencari/tentangkami", [
-            "title" => "tentangkami"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/tentangkami", [
+                "title" => "tentangkami"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
     function riwayatpemesanan($params = []) {
-        $this->view("Pencari/riwayatpemesanan", [
-            "title" => "riwayatpemesanan"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/riwayatpemesanan", [
+                "title" => "riwayatpemesanan"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
     function pembayaran($params = []) {
-        $this->view("Pencari/pembayaran", [
-            "title" => "pembayaran"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/pembayaran", [
+                "title" => "pembayaran"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function favorit($params = []){
-        $profile = $this->model->getProfie($_SESSION['id_user']);
-        if ($profile['profile_user'] == ""){
-            $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+        if ($this->isLogInPencari()) 
+        {
+            $profile = $this->model->getProfie($_SESSION['id_user']);
+            if ($profile['profile_user'] == ""){
+                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+            }
+            $this->view("Pencari/favorit",[
+                "title" => "favorit",
+                "profile" => $profile
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
         }
-        $this->view("Pencari/favorit",[
-            "title" => "favorit",
-            "profile" => $profile
-        ]);
     }
 
     function profile($params = []){
-        $erors = [];
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {   
-            $validator = Validation::createValidator();
-            $hapus = false;
+        if ($this->isLogInPencari()) 
+        {
+            $erors = [];
+            if ($_SERVER["REQUEST_METHOD"] == "POST")
+            {   
+                $validator = Validation::createValidator();
+                $hapus = false;
 
-            // validasi foto profile
+                // validasi foto profile
 
-            if (isset($_FILES['ubah_gambar'])){
-                if (!isset($_POST['pp_default'])){
-                    $file_path = $_FILES['ubah_gambar']['tmp_name'];
-                    if (!empty($file_path)){
-                        $mimeType = mime_content_type($file_path);
-    
-                        if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
-                            $erors['foto_profile'] = 'Gambar harus berformat JPEG atau PNG.';
+                if (isset($_FILES['ubah_gambar'])){
+                    if (!isset($_POST['pp_default'])){
+                        $file_path = $_FILES['ubah_gambar']['tmp_name'];
+                        if (!empty($file_path)){
+                            $mimeType = mime_content_type($file_path);
+        
+                            if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
+                                $erors['foto_profile'] = 'Gambar harus berformat JPEG atau PNG.';
+                            }
                         }
                     }
+                } 
+
+                // validasi username
+
+                $username = $_POST["username"];
+
+                $violationUsername = $validator->validate($username, [
+                    new Assert\NotBlank(["message" => "Username Tidak Boleh Kosong"]),
+                    new Assert\Length([
+                        "min" => 5,
+                        "minMessage" => "Username Minimal 5 character",
+                        "max" => 30,
+                        "maxMessage" => "Username Maximal 30 character"
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[A-Za-z0-9]+$/',
+                        'message' => 'Username Hanya mengizinkan Huruf dan angka saja'
+                    ])
+                ]);
+
+                // validasi nama lengkap 
+
+                $nama_lengkap = $_POST["nama_lengkap"];
+
+                $pattern = "/^[a-zA-Z\s\-]+$/";
+
+                if (!preg_match( $pattern, $nama_lengkap)) {
+                    $erors['fullname'] = "Nama hanya boleh berupa alfabet";
+                } 
+
+                // jenis kelamin
+
+                $jenis_kelamin = $_POST["kelamin"];
+
+                // validasi email
+
+                $email = $_POST["email"];
+
+                $violatiolnEmail = $validator->validate($email, [
+                    new Assert\Email(["message" => "Email Tidak Valid"]),
+                    new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
+                ]);
+                
+                // validasi no hp
+
+                $no_hp = $_POST['no_hp'];
+
+                $violationNoHp = $validator->validate($no_hp, [
+                    new Assert\NotBlank(["message" => "Nomor Hanphone tidak boleh kosong"]),
+                    new Assert\Regex([
+                        'pattern' => "/^[0-9]+$/",
+                        'message' => "No handphone hanya boleh angka"
+                    ]),
+                    new Assert\Length([
+                        'min' => 10,
+                        'minMessage' => "no handphone minimal 10 character",
+                        'max' => 13,
+                        'maxMessage' => "no handphone maximal 13 character"
+                    ])
+                ]);
+
+                // input eror username
+
+                foreach ($violationUsername as $violation)
+                {
+                    $erors['username'] = $violation->getMessage();
                 }
-            } 
 
-            // validasi username
+                // input eror email
 
-            $username = $_POST["username"];
+                foreach ($violatiolnEmail as $violation)
+                {
+                    $erors['email'] = $violation->getMessage();
+                }   
 
-            $violationUsername = $validator->validate($username, [
-                new Assert\NotBlank(["message" => "Username Tidak Boleh Kosong"]),
-                new Assert\Length([
-                    "min" => 5,
-                    "minMessage" => "Username Minimal 5 character",
-                    "max" => 30,
-                    "maxMessage" => "Username Maximal 30 character"
-                ]),
-                new Assert\Regex([
-                    'pattern' => '/^[A-Za-z0-9]+$/',
-                    'message' => 'Username Hanya mengizinkan Huruf dan angka saja'
-                ])
-            ]);
+                // input eror no hp
 
-            // validasi nama lengkap 
+                foreach ($violationNoHp as $violation)
+                {
+                    $erors['hp'] = $violation->getMessage();
+                }
 
-            $nama_lengkap = $_POST["nama_lengkap"];
+                $provinsi = $_POST['provinsi'];
+                $kota = $_POST['kota'];
 
-            $pattern = "/^[a-zA-Z\s\-]+$/";
-
-            if (!preg_match( $pattern, $nama_lengkap)) {
-                $erors['fullname'] = "Nama hanya boleh berupa alfabet";
-            } 
-
-            // jenis kelamin
-
-            $jenis_kelamin = $_POST["kelamin"];
-
-            // validasi email
-
-            $email = $_POST["email"];
-
-            $violatiolnEmail = $validator->validate($email, [
-                new Assert\Email(["message" => "Email Tidak Valid"]),
-                new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
-            ]);
+                if (count($erors) == 0) {
+                    $this->model->updateProfile($_FILES, $_POST, $_SESSION['id_user']);
+                }
+            }
             
-            // validasi no hp
+            $profile = $this->model->getProfie($_SESSION['id_user']);
+            if ($profile['profile_user'] == ""){
+                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+            }
 
-            $no_hp = $_POST['no_hp'];
-
-            $violationNoHp = $validator->validate($no_hp, [
-                new Assert\NotBlank(["message" => "Nomor Hanphone tidak boleh kosong"]),
-                new Assert\Regex([
-                    'pattern' => "/^[0-9]+$/",
-                    'message' => "No handphone hanya boleh angka"
-                ]),
-                new Assert\Length([
-                    'min' => 10,
-                    'minMessage' => "no handphone minimal 10 character",
-                    'max' => 13,
-                    'maxMessage' => "no handphone maximal 13 character"
-                ])
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
+            $this->view("Pencari/profile", [
+                "title" => "Profile",
+                "data_user" => $data,
+                "profile" => $profile,
+                "eror" => $erors
             ]);
-
-            // input eror username
-
-            foreach ($violationUsername as $violation)
-            {
-                $erors['username'] = $violation->getMessage();
-            }
-
-            // input eror email
-
-            foreach ($violatiolnEmail as $violation)
-            {
-                $erors['email'] = $violation->getMessage();
-            }   
-
-            // input eror no hp
-
-            foreach ($violationNoHp as $violation)
-            {
-                $erors['hp'] = $violation->getMessage();
-            }
-
-            $provinsi = $_POST['provinsi'];
-            $kota = $_POST['kota'];
-
-            if (count($erors) == 0) {
-                $this->model->updateProfile($_FILES, $_POST, $_SESSION['id_user']);
-            }
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
         }
-        
-        $profile = $this->model->getProfie($_SESSION['id_user']);
-        if ($profile['profile_user'] == ""){
-            $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-        }
-
-        $data = $this->model->getAllDataUser($_SESSION['id_user']);
-        $this->view("Pencari/profile", [
-            "title" => "Profile",
-            "data_user" => $data,
-            "profile" => $profile,
-            "eror" => $erors
-        ]);
     }
 
 
     function reviewGambarKost($params = []){
-        $id = (int) $params[0];
-        $gambar = $this->model->getImageKost($id);
-        $judul = $this->model->getNamaKost($id);
-        $this->view("Pencari/reviewGambarKost", [
-            "title" => "ReviewGambarKost",
-            "gambar" => $gambar,
-            "id" => $id,
-            "judul" => $judul,
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $id = (int) $params[0];
+            $gambar = $this->model->getImageKost($id);
+            $judul = $this->model->getNamaKost($id);
+            $this->view("Pencari/reviewGambarKost", [
+                "title" => "ReviewGambarKost",
+                "gambar" => $gambar,
+                "id" => $id,
+                "judul" => $judul,
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function faq($params = []){
-        $this->view("Pencari/faq", [
-            "title" => "faq"
-        ]);
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/faq", [
+                "title" => "faq"
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
-    function coba($params = []){
-        $this->view("Pencari/coba", [
-            "title" => "coba"
-        ]);
+
+    function getMessage($params = [])
+    {   
+        
+        echo json_encode($this->model->getChat($params[0]));
     }
 
+    
+    function chatting($params = [])
+    {
+        if ($this->isLogInPencari()) 
+        {
+            $this->view("Pencari/chatting", [
+                "title" => "Chat",
+                "id_user" => $params[0],
+                "user" => $this->model->getUserById($params[0]),
+                "chat" => $this->model->getChat($params[0]),
+                "contact" => $this->model->getContact(),
+            ]);
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+    }
+
+    function sendMessage($params = [])
+    {
+        if ($this->isLogInPencari()) 
+        {
+            $data = json_decode(file_get_contents('php://input'), true);
+            $this->model->sendMessage($data['message'], $params[0]);
+            echo json_encode("SUCCESS");
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+    }
+
+    function getContact()
+    {
+        echo json_encode($this->model->getContact());
+    }
 }

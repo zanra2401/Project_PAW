@@ -94,7 +94,7 @@ class PencariModel {
 
     function getProfie($id)
     {
-        $data = '';
+        $data = [];
         $this->DB->query("SELECT profile_user FROM user WHERE role_user = 'pencari' AND id_user = $id");
         $path_profile = $this->DB->getAll();
         foreach($path_profile as $pp)
@@ -173,6 +173,7 @@ class PencariModel {
                 "sisa_kamar" => 0,
                 "gambar" => [],
                 "pemilik" => '',
+                "id_pemilik" => 0,
                 "profile_pemilik" => ''
             ];
 
@@ -188,15 +189,16 @@ class PencariModel {
                 $data[$kost['id_kost']]['gambar'][] = $g;
             }
 
-            $this->DB->query("SELECT u.username_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user");
+            $this->DB->query("SELECT u.username_user, u.id_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user AND id_kost = {$id}");
             $result = $this->DB->getAll();
             $data[$kost['id_kost']]['pemilik'] = $result[0]['username_user'];
+            $data[$kost['id_kost']]['id_pemilik'] = $result[0]['id_user'];
 
             $this->DB->query("SELECT u.profile_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user");
             $result = $this->DB->getAll();
             $data[$kost['id_kost']]['profile_pemilik'] = $result[0]['profile_user'];
         }
-
+       
         return $data;
     }
 
@@ -321,6 +323,52 @@ class PencariModel {
         foreach ($result as $res) 
         {
             $data[] = $res;
+        }
+
+        return $data;
+    }
+
+    function getChat($idPengirim, $noUpdate = true)
+    {
+        if ($noUpdate)
+        {
+            $this->DB->query("UPDATE chat SET status_chat = 1 WHERE id_user_penerima = ? AND id_user_pengirim = ?", "ii", [$_SESSION['id_user'], $idPengirim]);
+        }
+        $this->DB->query("SELECT * FROM chat WHERE (id_user_penerima = ? AND id_user_pengirim = ?) OR (id_user_penerima = ? AND id_user_pengirim = ?) ORDER BY tanggal_chat ASC", 'iiii', [$_SESSION['id_user'], $idPengirim, $idPengirim, $_SESSION['id_user']]);
+        return $this->DB->getAll();
+    }
+
+    function sendMessage($message, $idPenerima)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $current_datetime = date('Y-m-d H:i:s');
+        $this->DB->query("INSERT INTO chat(id_user_pengirim, id_user_penerima, isi_chat, tanggal_chat, status_chat) VALUES(?, ?, ?, ?, 0)", "iiss", [$_SESSION['id_user'], $idPenerima, $message, $current_datetime]);
+        return true;
+    }
+
+    function getUserById($id)
+    {
+        $this->DB->query("SELECT * FROM user WHERE id_user = ?", 'i', [$id]);
+        return $this->DB->getFirst();
+    }
+
+
+    function getContact()
+    {
+        $data = [];
+        $this->DB->query("SELECT DISTINCT u.id_user, u.username_user, u.profile_user FROM user u JOIN chat c ON u.id_user = c.id_user_pengirim WHERE c.id_user_penerima = ?;", "i", [$_SESSION['id_user']]);
+        foreach ($this->DB->getAll() as $key => $contact) {
+            $data[$key][] = $contact;
+            $message = $this->getChat($contact['id_user'], false);
+            $unread = 0;
+            foreach ($message as $chat) 
+            {   
+                if ($chat['status_chat'] == 0 and $chat['id_user_pengirim'] != $_SESSION['id_user'])
+                {
+                    $unread += 1;
+                }
+            }   
+            $data[$key]['unread'] = $unread;
         }
 
         return $data;
