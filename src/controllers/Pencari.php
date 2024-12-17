@@ -48,11 +48,7 @@ class Pencari extends Controller {
     }
  
 
-    function lupapassword($params = []) {
-        $this->view("Pencari/lupapassword", [
-            "title" => "lupapassword"
-        ]);
-    }
+
 
     function ubahpassword($params = []) {
         $this->view("Pencari/ubahpassword", [

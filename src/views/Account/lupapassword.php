@@ -5,7 +5,7 @@
     <p class="text-gray-700 text-center mb-6">
       Masukkan alamat email Anda, kami akan mengirimkan kode untuk mengatur ulang kata sandi Anda.
     </p>
-    <form>
+    <form actiont="/<?= PROJECT_NAME ?>/account/resetpassword" method="POST">
       <div class="mb-4">
         <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
         <input 
@@ -16,7 +16,7 @@
           required
         />
       </div>
-      <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-warna-second hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
+      <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-red-500 hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
         Lanjut
       </button>
     </form>

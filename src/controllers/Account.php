@@ -324,4 +324,31 @@ class Account extends Controller {
         session_destroy();
         header("Location: /" . PROJECT_NAME . "/account/login");
     }
+
+    function lupapassword($params = []) {
+        $this->view("Account/lupapassword", [
+            "title" => "lupapassword"
+        ]);
+    }
+
+    function resetPassword($params = [])
+    {
+        $violations = [];
+        $email = $_POST['email'];
+
+        $violatiolnEmail = $validator->validate($email, [
+            new Assert\Email(["message" => "Email Tidak Valid"]),
+            new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
+        ]);
+
+        foreach ($violatiolnEmail as $violation)
+        {
+            $violations[] = $violation->getMessage();
+        }
+
+        if (count($violations) < 1)
+        {
+        
+        }
+    }
 }
