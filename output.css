@@ -554,36 +554,6 @@ video {
   display: none;
 }
 
-@font-face {
-  font-family: 'Roboto normal';
-
-  font-style: normal;
-
-  font-weight: 400;
-
-  src: url("/project_paw/public/assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: 'Roboto medium';
-
-  font-style: normal;
-
-  font-weight: 700;
-
-  src: url("/project_paw/public/assets/fonts/Roboto/Roboto-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: 'Roboto bold';
-
-  font-weight: 900;
-
-  font-style: bold;
-
-  src: url("/project_paw/public/assets/fonts/Roboto/Roboto-Bold.ttf") format("truetype");
-}
-
 .container {
   width: 100%;
 }

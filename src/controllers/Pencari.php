@@ -84,13 +84,18 @@ class Pencari extends Controller {
         ]);
     }
     function homeberita($params = []) {
+        $data = $this->model->getAllBerita();
         $this->view("Pencari/homeberita", [
-            "title" => "homeberita"
+            "title" => "homeberita",
+            "data_berita" => $data
         ]);
     }
     function isiberita($params = []) {
+        $id = $params[0];
+        $data = $this->model->getOneBerita($id);
         $this->view("Pencari/isiberita", [
-            "title" => "isiberita"
+            "title" => "isiberita",
+            "data_berita" => $data
         ]);
     }
 
@@ -138,8 +143,10 @@ class Pencari extends Controller {
         ]);
     }
 
-    function test()
-    {
-        var_dump(count($this->model->unique("username_user", "zanuar", "user")));
-    }
+    // function test()
+    // {
+    //     var_dump(count($this->model->unique("username_user", "zanuar", "user")));
+    // }
+
+
 }

@@ -15,7 +15,7 @@
         <input type="password" id="password" name="password" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan password" required style="background-color: white;"/>
       </div>
       <div class="flex items-center justify-between mb-6">
-        <a href="#" class="text-sm text-base-color hover:underline">Lupa password?</a>
+        <a href="lupapassword.php" class="text-sm text-base-color hover:underline">Lupa password?</a>
       </div>
       <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-warna-second hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
         Masuk
