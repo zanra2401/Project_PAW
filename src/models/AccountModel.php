@@ -46,4 +46,28 @@ class AccountModel {
         $this->DB->query("SELECT username_user, email_user, nama_user, alamat, no_hp_user, role_user FROM user WHERE username_user = ?", 's', [$username]);
         return $this->DB->getFirst();
     }
+
+    function isEmailExist($email)
+    {
+        $this->DB->query("SELECT * FROM user WHERE email_user = ?", "s", [$email]);
+        return $this->DB->getFirst() != NULL;
+    }
+
+    function updateResetCode($code, $email)
+    {
+        $this->DB->query("UPDATE user SET reset_code = ? WHERE email_user = ?", "ss", [$code, $email]);
+    }
+
+    function resetPassword($id, $resetPassword)
+    {
+       
+        // Hash password baru
+        $resetPasswordHash = password_hash($resetPassword, PASSWORD_BCRYPT);
+
+        // Perbarui password di database
+        $this->DB->query("UPDATE user SET password_user = ? WHERE id_user = ?", "ss", [$resetPasswordHash, $id]);
+        
+        return true;
+    }
+
 }

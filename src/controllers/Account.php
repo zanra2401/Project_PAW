@@ -6,6 +6,9 @@ require_once "Controller.php";
 
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 
 class Account extends Controller {
@@ -324,5 +327,118 @@ class Account extends Controller {
     {
         session_destroy();
         header("Location: /" . PROJECT_NAME . "/account/login");
+    }
+
+    function lupapassword($params = []) {
+        if ($_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            $message = "";
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $email = $_POST['email'];
+
+
+                if ($this->model->isEmailExist($email)) {
+                    // Generate token unik
+                    $token = bin2hex(random_bytes(50));
+                    // $expire_time = date("Y-m-d H:i:s", strtotime("+1 hour")); // Token berlaku 1 jam
+
+                    // Simpan token ke database
+                    
+                    $this->model->updateResetCode($token, $email);
+
+                    // Kirim email menggunakan PHPMailer
+                    $mail = new PHPMailer(true);
+
+                try {
+                    //Server settings
+                    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                    $mail->isSMTP();                                            //Send using SMTP
+                    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                    $mail->Username   = 'nabiilahrizqiamal@gmail.com';                     //SMTP username
+                    $mail->Password   = 'qzhaeghaehcyulpw';                               //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                    //Recipients
+                    $mail->setFrom('from@example.com', 'Mailer');
+                    $mail->addAddress($email, 'User');     //Add a recipient              //Name is optional
+                    $mail->addReplyTo('no-reply@example.com', 'Information');
+
+                    //Content
+                    $mail->isHTML(true);    
+                    $resetLink = "http://localhost/project_paw/resetpassword?token=$token";
+                    $email_template = "
+                        <h2>Klik tautan berikut</h2>
+                        Klik link berikut untuk mereset password Anda: <a href='$resetLink'>Reset Password</a>
+                    ";                             //Set email format to HTML
+                    $mail->Subject = 'verifikasi email';
+                    $mail->Body    = $email_template;
+                    
+
+                    $mail->send();
+                    } catch (Exception $e) {
+                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    }
+            } else {
+                    $message = "<div class='alert alert-danger'>Email tidak ditemukan.</div>";
+                }
+            }
+            } else {
+            $this->view("Account/lupapassword", [
+                "title" => "lupapassword"
+            ]);
+        }
+    }
+    
+    function resetpassword($params = []) {
+        if ($this->isLogInPencari()) 
+        {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                
+                $errors = [];
+                $id = 0;
+                $password = $_POST['new-password'];
+                $verifPass = $_POST['confirm-password'];
+                $validator = Validation::createValidator();
+
+                $violationPassword = $validator->validate($password, [
+                    new Assert\NotBlank(["message" => "Password tidak boleh kosong"]),
+                    new Assert\Regex([
+                        'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/",
+                        'message' => "Username atau password tidak valid"
+                    ]),
+                    new Assert\Length([
+                        "min" => 8,
+                        "minMessage" => "Username atau password tidak valid"
+                    ])
+                ]);
+                
+                foreach ($violationPassword as $violation)
+                {
+                    $errors[] = $violation->getMessage();
+                }
+    
+                if ($password ==  $verifPass)
+                {
+                    $errors[] = "Password tidak cocok";
+                }
+    
+                if (count($errors) < 1)
+                {
+                    $this->model->resetPassword($id, $password);
+                    header("Location: /" . PROJECT_NAME . "/account/login");
+                } else {
+                    var_dump("Error");
+                }
+            } else {
+                $this->view("Account/resetpassword", [
+                    "title" => "Reset Page",
+                ]);
+            }
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 }
