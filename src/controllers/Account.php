@@ -103,7 +103,7 @@ class Account extends Controller {
             } else {
                 $this->model->register($username, $email, $password, "pencari");
                 $_SESSION['berhasil'] = ["Berhasil membuat akun"];
-                header("Location: /project_paw/account/regPenyewa");
+                header("Location: /project_paw/account/login");
             }
 
         }
@@ -209,7 +209,7 @@ class Account extends Controller {
             if (count($errors) > 0)
             {
                 $_SESSION['errors_register'] = $errors;
-                header("Location: /project_paw/pencari/regPemilik");
+                header("Location: /project_paw/pemilik/regPemilik");
             } else {
                 $this->model->register($username, $email, $password, "pemilik");
                 $_SESSION['berhasil'] = ["Berhasil membuat akun"];
@@ -226,6 +226,7 @@ class Account extends Controller {
         {   
             $username = $_POST["username"];
             $password = $_POST["password"];
+            $validator = Validation::createValidator();
 
 
             $errors = [];
@@ -260,21 +261,15 @@ class Account extends Controller {
 
 
             $dbUsername = $this->model->getOneData('username_user', $username, 'user');
-            $encryptedPassowrd = $this->model->getOneData('password_user', $username, 'user');
-
-            if ($dbUsername == NULL or $encryptedPassowrd == NULL)
+            $hashPass = $this->model->getData($username)['password_user'];
+           
+            if ($dbUsername == NULL or $hashPass == NULL)
             {
-                $errors[] = "Username atau Password tidak valid";
+                $errors[] = "Username atau Password tidak vali1d";
             }
 
-
-            $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-            $iv = substr($encryptedPassword, 0, IV_LENGTH);
-
-            $decryptedPassowrd = openssl_decrypt($encryptedPassowrd, 'aes-256-cbc', KEY, 0, IV);
-
-            if ($password != $decryptedPassowrd)
-
+            
+            if (!password_verify($password, $hashPass))
             {
                 $errors[] = "Username atau Password tidak valid";
             }
@@ -288,10 +283,10 @@ class Account extends Controller {
             {
                 $_SESSION["loged_in"] = true;
                 $_SESSION["username"] = $username;
-                $role =  ($this->model->getOneData("role_user", $username, "user"))["role_user"];
-                $id =  ($this->model->getOneData("id_user", $username, "user"))["id_user"];
+                $role =  ($this->model->getData($username))["role_user"];
+                $id =  ($this->model->getData($username))["id_user"];
                 $_SESSION["role_user"] = $role;
-                $_SESSION["id_user"] = $role;
+                $_SESSION["id_user"] = $id;
                 if ($role == "pemilik")
                 {
                     header("Location: /" . PROJECT_NAME ."/pemilik");
@@ -305,7 +300,8 @@ class Account extends Controller {
     function login($params = []){
         if ($this->isLogIn())
         {
-            $role = $this->model->getOneData("role" ,$_SESSION["username"], "user");
+            $role = $this->model->getData($_SESSION["username"])['role_user'];
+            var_dump($role);
             if ($role = "pemilik")
             {
                 header("Location: /" . PROJECT_NAME ."/pemilik"); 
@@ -322,5 +318,11 @@ class Account extends Controller {
         $this->view("Account/login", [
             "title" => "Login"
         ]);
+    }
+
+    function logOut()
+    {
+        session_destroy();
+        header("Location: /" . PROJECT_NAME . "/account/login");
     }
 }

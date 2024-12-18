@@ -1,70 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zoom Gambar</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        /* Gaya untuk gambar kecil */
-        .thumbnail {
-            width: 200px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .thumbnail:hover {
-            transform: scale(1.1);
-        }
-
-        /* Gaya untuk modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal img {
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Pengguna</title>
+  <style>
+    .profile-container {
+      text-align: center;
+      margin-top: 50px;
+    }
+    .profile-container img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .btn-change {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-change:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <!-- Gambar kecil -->
-    <img src="https://via.placeholder.com/200" class="thumbnail" alt="Thumbnail" id="thumbnail">
 
-    <!-- Modal -->
-    <div class="modal" id="imageModal">
-        <img src="https://via.placeholder.com/200" alt="Zoomed Image">
-    </div>
+<div class="profile-container">
+  <h1>Profil Pengguna</h1>
+  <img id="profile-picture" src="default-profile.jpg" alt="Foto Profil">
+  <br>
+  <button class="btn-change" onclick="document.getElementById('file-input').click()">Change Profile Picture</button>
+  <input type="file" id="file-input" style="display:none" accept="image/*" onchange="changeProfilePicture(event)">
+</div>
 
-    <script>
-        const thumbnail = document.getElementById('thumbnail');
-        const modal = document.getElementById('imageModal');
+<script>
+  function changeProfilePicture(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-        // Buka modal saat gambar diklik
-        thumbnail.addEventListener('click', () => {
-            modal.classList.add('active');
-        });
+    reader.onload = function(e) {
+      const profilePic = document.getElementById('profile-picture');
+      profilePic.src = e.target.result;
+    };
 
-        // Tutup modal saat area luar gambar diklik
-        modal.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-    </script>
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+</script>
+
 </body>
 </html>
