@@ -1,3 +1,55 @@
+<?php
+// Sambungkan ke database
+$conn = new mysqli("localhost", "root", "", "cari_kost");
+
+// Mengecek koneksi
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Memeriksa apakah form dikirim
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Mengambil data dari form
+    $id_kost = $conn->real_escape_string($_POST['id_kost']);
+    $id_user = $conn->real_escape_string($_POST['id_user']); 
+    $nama_user = $conn->real_escape_string($_POST['nama_user']); // Correct this
+    $tgl_bayar = $conn->real_escape_string($_POST['tgl_bayar']);
+    $metode_bayar = $conn->real_escape_string($_POST['metode_bayar']);
+    $jumlah_bayar = $conn->real_escape_string($_POST['jumlah_bayar']);
+    $status_pembayaran = "Belum Bayar"; // Use this in the query as status_pembayaran
+    
+    // Validasi id_kost: Cek apakah ada di tabel kost
+    $check_id_kost = "SELECT * FROM kost WHERE id_kost = '$id_kost'";
+    $result = $conn->query($check_id_kost);
+
+    if ($result->num_rows > 0) {
+        // Jika id_kost ada, jalankan query insert
+        $sql = "INSERT INTO pembayaran (id_kost, id_user, nama_user, tanggal_bayar, metode_bayar, jumlah_bayar, status_pembayaran) 
+                VALUES ('$id_kost', '$id_user', '$nama_user', '$tgl_bayar', '$metode_bayar', '$jumlah_bayar', '$status_pembayaran')";
+        
+        if ($conn->query($sql) === TRUE) {
+            // Redirect berdasarkan metode pembayaran
+            if ($metode_bayar === "QRIS") {
+                header("Location: /project_paw/pencari/transaksiqris");
+                exit();
+            } elseif ($metode_bayar === "Ditempat") {
+                header("Location: /project_paw/pencari/transaksiditempat");
+                exit();
+            }
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    } else {
+        echo "<script>alert('ID Kost tidak valid! Pastikan ID Kost tersedia di database.');</script>";
+    }
+}
+
+// Tutup koneksi database
+$conn->close();
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,28 +58,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran Kost</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-    /* Custom styles */
-    .container {
-        max-width: 700px;
-    }
-
-    .card-input {
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .success-container {
-        max-width: 700px;
-        margin: 100px auto;
-        background: rgb(255, 255, 255);
-        color: rgb(0, 0, 0);
-        padding: 30px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    </style>
 </head>
 
 <body class="bg-gray-50">
@@ -37,37 +67,42 @@
         </div>
     </nav>
 
-    <!-- Form Section -->
+    <!-- Form Pembayaran -->
     <div class="container mx-auto">
-        <div class="card-input bg-white p-8 shadow rounded-lg">
-            <form id="paymentForm" action="success.html" method="post">
+        <div class="bg-white p-8 shadow rounded-lg max-w-md mx-auto">
+            <form action="" method="post">
                 <!-- ID Kost -->
                 <div class="mb-4">
                     <label for="id_kost" class="block text-sm font-medium text-gray-700">ID Kost</label>
-                    <input type="text" id="id_kost" name="id_kost"
-                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan ID Kost"
-                        required />
+                    <input type="text" name="id_kost" id="id_kost" required
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan ID Kost">
                 </div>
 
-                <!-- Nama -->
                 <div class="mb-4">
-                    <label for="nama" class="block text-sm font-medium text-gray-700">Nama</label>
-                    <input type="text" id="nama" name="nama" class="p-3 w-full border border-gray-300 rounded-md mt-2"
-                        placeholder="Masukkan Nama" required />
+                    <label for="id_user" class="block text-sm font-medium text-gray-700">ID User</label>
+                    <input type="text" name="id_user" id="id_user" required
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan ID User">
                 </div>
+
+                <div class="mb-4">
+                    <label for="nama_user" class="block text-sm font-medium text-gray-700">Nama</label>
+                    <input type="text" name="nama_user" id="nama_user" required
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan Nama">
+                </div>
+
 
                 <!-- Tanggal Bayar -->
                 <div class="mb-4">
                     <label for="tgl_bayar" class="block text-sm font-medium text-gray-700">Tanggal Bayar</label>
-                    <input type="date" id="tgl_bayar" name="tgl_bayar"
-                        class="p-3 w-full border border-gray-300 rounded-md mt-2" required />
+                    <input type="date" name="tgl_bayar" id="tgl_bayar" required
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2">
                 </div>
 
                 <!-- Metode Bayar -->
                 <div class="mb-4">
-                    <label for="metode_dibayar" class="block text-sm font-medium text-gray-700">Metode Bayar</label>
-                    <select id="metode_dibayar" name="metode_dibayar"
-                        class="p-3 w-full border border-gray-300 rounded-md mt-2" required>
+                    <label for="metode_bayar" class="block text-sm font-medium text-gray-700">Metode Bayar</label>
+                    <select name="metode_bayar" id="metode_bayar" required
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2">
                         <option value="" disabled selected>-- Pilih Metode --</option>
                         <option value="QRIS">QRIS</option>
                         <option value="Ditempat">Ditempat</option>
@@ -77,84 +112,19 @@
                 <!-- Jumlah Bayar -->
                 <div class="mb-4">
                     <label for="jumlah_bayar" class="block text-sm font-medium text-gray-700">Jumlah Bayar</label>
-                    <input type="text" id="jumlah_bayar" name="jumlah_bayar"
-                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan Jumlah Bayar"
-                        required />
+                    <input type="number" name="jumlah_bayar" id="jumlah_bayar" required
+                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan Jumlah Bayar">
                 </div>
 
-                <!-- Submit Button -->
-                <div class="mt-6 text-center">
-                    <button type="submit" id="continue-button"
-                        class="bg-[#68422d] text-white px-6 py-3 rounded-lg hover:bg-[#5a3724] transition duration-200">
+                <!-- Tombol Submit -->
+                <div class="text-center">
+                    <button type="submit"
+                        class="bg-[#68422d] text-white px-6 py-3 rounded-lg hover:bg-[#523524] transition">
                         Lanjutkan Pembayaran
                     </button>
                 </div>
             </form>
         </div>
-    </div>
-</body>
-
-</html>
-
-<!-- Halaman Success -->
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transaksi Sukses</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-50">
-    <div class="success-container">
-        <h1 class="text-2xl font-bold">SELAMAT PEMBAYARAN ANDA TELAH BERHASIL</h1>
-        <p class="mt-4 text-lg">Silahkan datang ke tempat kost untuk melakukan transaksi.</p>
-        <a href="index.html"
-            class="mt-6 inline-block text-sm font-semibold text-white bg-[#68422d] px-6 py-3 rounded-lg hover:bg-[#5a3724] transition">Selesai</a>
-    </div>
-</body>
-
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran QRIS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-    .qr-container {
-        max-width: 700px;
-        margin: 100px auto;
-        background: rgb(255, 255, 255);
-        color: rgb(0, 0, 0);
-        padding: 30px;
-        border-radius: 8px;
-        text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .qr-image {
-        max-width: 300px;
-        margin: 20px auto;
-    }
-    </style>
-</head>
-
-<body class="bg-gray-50">
-    <div class="qr-container">
-        <h1 class="text-2xl font-bold">GUNAKAN APLIKASI PEMBAYARAN UNTUK MELAKUKAN SCAN PADA KODE QR DI BAWAH</h1>
-
-
-        <!-- QRIS Image -->
-        <img src="path-to-your-qris-image.jpg" alt="QRIS Code" class="qr-image" />
-
-        <a href="success.html"
-            class="mt-6 inline-block text-sm font-semibold text-white bg-[#68422d] px-6 py-3 rounded-lg hover:bg-[#5a3724] transition">Selesai</a>
     </div>
 </body>
 

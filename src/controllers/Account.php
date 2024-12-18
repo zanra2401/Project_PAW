@@ -307,11 +307,11 @@ class Account extends Controller {
         if ($this->isLogIn())
         {
             $role = $this->model->getOneData("role" ,$_SESSION["username"], "user");
-<<<<<<< HEAD
+
             if ($role_user = "pemilik")
-=======
+
             if ($role = "pemilik")
->>>>>>> main
+
             {
                 header("Location: /" . PROJECT_NAME ."/pemilik"); 
             }

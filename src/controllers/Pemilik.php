@@ -181,6 +181,12 @@ class Pemilik extends Controller {
             "kosts" => $this->model->getMyKost(),
         ]);
     }
+    function pembayaran($params = []) {
+        $this->view("Pemilik/pembayaran", [
+            "title" => "pembayaran",
+            "pembayaran" => $this->model->getMyKost(),
+        ]);
+    }
 
     function profile($params = [])
     {

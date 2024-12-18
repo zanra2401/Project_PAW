@@ -146,4 +146,14 @@ class Pencari extends Controller {
             "title" => "notifikasi"
         ]);
     }
+    function transaksiditempat($params = []){
+        $this->view("Pencari/transaksiditempat", [
+            "title" => "transaksiditempat"
+        ]);
+    }
+    function transaksiqris($params = []){
+        $this->view("Pencari/transaksiqris", [
+            "title" => "transaksiqris"
+        ]);
+    }
 }

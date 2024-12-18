@@ -59,12 +59,14 @@
                 </a>
 
                 <!-- Menu 6: Statistik -->
-                <a href="/statistik.html"
+                <!-- Menu 6: Pembayaran -->
+                <a href="/pembayaran.html"
                     class="flex flex-col items-center bg-gray-300 rounded-lg p-16 hover:bg-gray-400 transition shadow-lg">
-                    <img src="https://img.icons8.com/ios-filled/80/000000/combo-chart.png" alt="Statistik"
+                    <img src="https://img.icons8.com/ios-filled/80/000000/money.png" alt="Pembayaran"
                         class="h-20 w-20 mb-6">
-                    <p class="text-2xl font-semibold">Statistik</p>
+                    <p class="text-2xl font-semibold">Pembayaran</p>
                 </a>
+
 
             </div>
 
