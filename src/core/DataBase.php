@@ -80,4 +80,3 @@ class DataBase {
 }
 
 $DB = DataBase::getInstance();
-

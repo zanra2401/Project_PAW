@@ -142,8 +142,10 @@ class Pencari extends Controller {
         var_dump(count($this->model->unique("username_user", "zanuar", "user")));
     }
     function notifikasi($params = []){
+        $data = $this->model->getPengumuman($_SESSION["id_user"]);
         $this->view("Pencari/notifikasi", [
-            "title" => "notifikasi"
+            "title" => "notifikasi",
+            "data" => $data
         ]);
     }
     function transaksiditempat($params = []){

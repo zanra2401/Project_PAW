@@ -9,23 +9,28 @@ if ($conn->connect_error) {
 
 // Memeriksa apakah form dikirim
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Mengambil data dari form
-    $id_kost = $conn->real_escape_string($_POST['id_kost']);
-    $id_user = $conn->real_escape_string($_POST['id_user']); 
-    $nama_user = $conn->real_escape_string($_POST['nama_user']); // Correct this
+    // Mengambil data dari form dan melakukan validasi input
+    $nama_user = $conn->real_escape_string($_POST['nama_user']); // Pastikan nama_user valid
     $tgl_bayar = $conn->real_escape_string($_POST['tgl_bayar']);
     $metode_bayar = $conn->real_escape_string($_POST['metode_bayar']);
     $jumlah_bayar = $conn->real_escape_string($_POST['jumlah_bayar']);
-    $status_pembayaran = "Belum Bayar"; // Use this in the query as status_pembayaran
     
-    // Validasi id_kost: Cek apakah ada di tabel kost
-    $check_id_kost = "SELECT * FROM kost WHERE id_kost = '$id_kost'";
-    $result = $conn->query($check_id_kost);
+    // Pastikan jumlah_bayar adalah angka positif
+    if (!is_numeric($jumlah_bayar) || $jumlah_bayar <= 0) {
+        echo "<script>alert('Jumlah Bayar harus berupa angka positif!');</script>";
+        exit();
+    }
+
+    $status_pembayaran = "Belum Bayar"; // Status pembayaran sementara
+    
+    // Validasi nama_user: Cek apakah ada di tabel users
+    $check_user = "SELECT * FROM users WHERE nama_user = '$nama_user'";
+    $result = $conn->query($check_user);
 
     if ($result->num_rows > 0) {
-        // Jika id_kost ada, jalankan query insert
-        $sql = "INSERT INTO pembayaran (id_kost, id_user, nama_user, tanggal_bayar, metode_bayar, jumlah_bayar, status_pembayaran) 
-                VALUES ('$id_kost', '$id_user', '$nama_user', '$tgl_bayar', '$metode_bayar', '$jumlah_bayar', '$status_pembayaran')";
+        // Jika nama_user ada, jalankan query insert
+        $sql = "INSERT INTO pembayaran (nama_user, tanggal_bayar, metode_bayar, jumlah_bayar, status_pembayaran) 
+                VALUES ('$nama_user', '$tgl_bayar', '$metode_bayar', '$jumlah_bayar', '$status_pembayaran')";
         
         if ($conn->query($sql) === TRUE) {
             // Redirect berdasarkan metode pembayaran
@@ -40,15 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
     } else {
-        echo "<script>alert('ID Kost tidak valid! Pastikan ID Kost tersedia di database.');</script>";
+        echo "<script>alert('Nama User tidak valid!');</script>";
     }
 }
 
 // Tutup koneksi database
 $conn->close();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,25 +74,11 @@ $conn->close();
     <div class="container mx-auto">
         <div class="bg-white p-8 shadow rounded-lg max-w-md mx-auto">
             <form action="" method="post">
-                <!-- ID Kost -->
-                <div class="mb-4">
-                    <label for="id_kost" class="block text-sm font-medium text-gray-700">ID Kost</label>
-                    <input type="text" name="id_kost" id="id_kost" required
-                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan ID Kost">
-                </div>
-
-                <div class="mb-4">
-                    <label for="id_user" class="block text-sm font-medium text-gray-700">ID User</label>
-                    <input type="text" name="id_user" id="id_user" required
-                        class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan ID User">
-                </div>
-
                 <div class="mb-4">
                     <label for="nama_user" class="block text-sm font-medium text-gray-700">Nama</label>
                     <input type="text" name="nama_user" id="nama_user" required
                         class="p-3 w-full border border-gray-300 rounded-md mt-2" placeholder="Masukkan Nama">
                 </div>
-
 
                 <!-- Tanggal Bayar -->
                 <div class="mb-4">

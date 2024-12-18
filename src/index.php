@@ -5,8 +5,8 @@ session_start();
 // DEBUG UNUTUK LOGIN
 $_SESSION["username"] = "grexgrub";
 $_SESSION["loged_in"] = true;
-$_SESSION["role"] = "pemilik";
-$_SESSION["id_user"] = 1;
+$_SESSION["role"] = "pencari";
+$_SESSION["id_user"] = 2;
 
 // if (isset($_SESSION["username"]))
 // {
@@ -27,7 +27,7 @@ require_once "core/Router.php";
 
 $hostname = "localhost";
 $username = "root";
-$password = "Zanra@2401";
+$password = "";
 $dbname = "cari_kost";
 
 $DB->createConnection($hostname, $username, $password, $dbname);
