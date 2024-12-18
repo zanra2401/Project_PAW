@@ -124,8 +124,6 @@ class Pencari extends Controller {
             "title" => "favorit",
             "kosts" => $this->model->getFavorit()
         ]);
-        
-
     }
 
     function profile($params = []){
@@ -145,12 +143,19 @@ class Pencari extends Controller {
         var_dump(count($this->model->unique("username_user", "zanuar", "user")));
     }
 
-    function hapusFavorit()
-    {
-        var_dump($_POST['idFavorit']);
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {
-            $idFav = $this->model->hapusFavorit($_POST['idFavorit']);
+    // function hapusFavorit()
+    // {
+    //     var_dump($_POST['idFavorit']);
+    //     if ($_SERVER["REQUEST_METHOD"] == "POST")
+    //     {
+    //         $idFav = $this->model->hapusFavorit($_POST['idFavorit']);
+    //     }
+    // }
+
+    function hapusFavorit($params = []){
+        if(isset($_POST['idKost'])){
+            $idKost = $_POST['idKost'];
+            $this->model->hapusFavoritbyId($idKost);
         }
     }
 }

@@ -52,9 +52,20 @@ class PencariModel {
         return $data;
     }
 
-    function hapusFavorit($idFav){
+    function hapusFavoritById($idKost) {
+        $this->DB->query("DELETE FROM favorit WHERE id_user = ? AND id_kost = ? ", "ii" ,[$_SESSION["id_user"], $idKost]);
+    }
+    
 
-        $this->DB->query("DELETE FROM favorit WHERE id_user = ? AND id_favorit = ?","ii",[1],[$idFav]);
+    // function hapusFavorit($idFav,$idUser){
+    //     $this->DB->query("DELETE FROM favorit WHERE id_user = ? AND id_favorit = ?","ii",[1],[$idFav]);
+    // }
+
+    function getLaporanById($idLaporan)
+    {
+        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$id_laporan]);
+        // $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user, l.id_laporan FROM user AS u, laporan AS l WHERE l.id_laporan = ?","i",[$idLaporan]);
+        return $this->DB->getFirst();
     }
 }
 

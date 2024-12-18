@@ -63,7 +63,8 @@
                         <div class="flex items-center ml-auto">
                             <i class="fa fa-heart text-red-500"></i>
                             <form action="/<?= PROJECT_NAME ?>/Pencari/hapusFavorit" method="POST">
-                                <input type="hidden" name="idFavorit" value="${item['id_favorit']}">
+                                <input type="hidden" name="idUser" value"${item['id_user']}">
+                                <input type="hidden" name="idKost" value="${item['id_kost']}">
                                 <button type="submit" class="pl-2 text-sm text-gray-700 cursor-pointer">Hapus</button>
                             </form>
                         </div>

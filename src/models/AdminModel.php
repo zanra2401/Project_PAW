@@ -11,7 +11,7 @@ class AdminModel {
 
     function getAllLaporan()
     {
-        $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user FROM user AS u, laporan AS l WHERE l.id_user = u.id_user");
+        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan ,l.id_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_user = u.id_user");
         return $this->DB->getAll();
     }
 
@@ -60,6 +60,13 @@ class AdminModel {
             "ssi", 
             [$judul, $deskripsi, $idBerita]
         );
+    }
+
+    function getLaporanById($idLaporan)
+    {
+        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$id_laporan]);
+        // $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user, l.id_laporan FROM user AS u, laporan AS l WHERE l.id_laporan = ?","i",[$idLaporan]);
+        return $this->DB->getFirst();
     }
     
 }

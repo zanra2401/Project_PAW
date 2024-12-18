@@ -1,5 +1,21 @@
 <?php require './views/Components/Head.php'; ?>
 <body class="min-h-screen flex">
+    <style>
+        .btn-brown {
+            background-color: #8B4513; /* Warna coklat */
+            color: white; /* Warna teks putih */
+            padding: 8px 12px; /* Padding untuk ukuran tombol */
+            border-radius: 8px; /* Border melengkung */
+            text-align: center;
+            font-size: 14px; /* Ukuran teks */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Efek transisi */
+        }
+
+        .btn-brown:hover {
+            background-color: #A0522D; /* Warna coklat lebih terang saat hover */
+        }
+    </style>
 <?php require "./views/Components/sidebarAdmin.php"; ?>
 <main class="p-5 w-full min-h-screen box-border bg-gray-50 flex flex-col">
     <h2 class="text-xl font-bold mb-4">Edit Berita</h2>
@@ -19,7 +35,7 @@
                   class="w-full p-2 border rounded mb-4"><?= htmlspecialchars($data['berita']['deskripsi_berita']); ?></textarea>
 
         <!-- Tombol Submit -->
-        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+        <button type="submit" class="px-4 py-2  text-white rounded btn-brown">
             Update Berita
         </button>
     </form>

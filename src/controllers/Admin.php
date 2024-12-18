@@ -136,4 +136,14 @@ class Admin extends Controller
             header("Location: /" . PROJECT_NAME . "/admin/berita");
         }
     }
+
+    
+    function detailLaporan($params = []){
+        $idLaporan = $_POST['idLaporan']; // Ambil ID Berita dari parameter
+        $this->view("Admin/detailLaporan", [
+            "title" => "detail",
+            "active-menu" => "laporan",
+            "laporan" => $this->model->getLaporanById($idLaporan) // Panggil berita berdasarkan ID
+        ]);
+    }
 }
