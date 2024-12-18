@@ -21,6 +21,18 @@ class AccountModel {
         $this->DB->query("INSERT INTO user(username_user, email_user, password_user, role_user) VALUES(?, ?, ?, ?)", "ssss", [$username, $email, $password, $role]);
     }
 
+    function resetPassword($id, $risetPassword)
+    {
+       
+        // Hash password baru
+        $resetPasswordHash = password_hash($resetPassword, PASSWORD_BCRYPT);
+
+        // Perbarui password di database
+        $this->DB->query("UPDATE user SET password_user = ? WHERE id_user = ?", "ss", [$resetPasswordHash, $id]);
+        
+        return true;
+    }
+
     function unique($field, $value, $table)
     {
         $this->DB->query("SELECT {$field} FROM {$table} WHERE {$field} = '{$value}'");

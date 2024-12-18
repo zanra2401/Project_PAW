@@ -327,4 +327,52 @@ class Account extends Controller {
         session_destroy();
         header("Location: /" . PROJECT_NAME . "/account/login");
     }
+
+    function resetpassword($params = []) {
+        if ($this->isLogInPencari()) 
+        {
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                
+                $errors = [];
+                $id = 0;
+                $password = $_POST['new-password'];
+                $verifPass = $_POST['confirm-password'];
+                $violationPassword = $validator->validate($password, [
+                    new Assert\NotBlank(["message" => "Password tidak boleh kosong"]),
+                    new Assert\Regex([
+                        'pattern' => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/",
+                        'message' => "Username atau password tidak valid"
+                    ]),
+                    new Assert\Length([
+                        "min" => 8,
+                        "minMessage" => "Username atau password tidak valid"
+                    ])
+                ]);
+                
+                foreach ($violationPassword as $violation)
+                {
+                    $errors[] = $violation->getMessage();
+                }
+    
+                if ($password ==  $verifPass)
+                {
+                    $errors[] = "Password tidak cocok";
+                }
+    
+                if (count($errors) < 1)
+                {
+                    $this->model->resetPassword($id, $password);
+                    header("Location: /" . PROJECT_NAME . "/account/login");
+                } else {
+                    var_dump("Error");
+                }
+            } else {
+                $this->view("Account/resetpassword", [
+                    "title" => "Reset Page",
+                ]);
+            }
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+    }
 }

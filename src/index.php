@@ -5,15 +5,15 @@ session_start();
 // DEBUG UNUTUK LOGIN
 // $_SESSION["username"] = "grexgrub";
 // $_SESSION["loged_in"] = true;
-// $_SESSION["role"] = "pencari";
+$_SESSION["role"] = "pencari";
 // $_SESSION["id_user"] = 2;
 // $_SESSION["username"] = "bagoes123";
 // $_SESSION["loged_in"] = true;
-// $_SESSION["role_user"] = "pencari";
+$_SESSION["role_user"] = "pencari";
 // $_SESSION["id_user"] = 2;
 // $_SESSION["username"] = "irawan12";
 // $_SESSION["loged_in"] = true;
-// $_SESSION["role_user"] = "pemilik";
+$_SESSION["role_user"] = "pemilik";
 // $_SESSION["id_user"] = 1;
 // $_SESSION['id_admin'] = 1;
 
