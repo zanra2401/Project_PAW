@@ -253,14 +253,14 @@
                                     <button id="review" type="submit" class="mt-4 w-full  text-white font-semibold rounded-lg py-2" style="background-color: #83493d;">Kirim Review</button>
                                 </form>
                                 <?php
-                                $reviews = $this->getreview();
+                                // $reviews = $this->getreview();
 
-                                foreach ($reviews as $review) {
-                                    echo "<div class='p-4 bg-gray-100 mb-2'>";
-                                    echo "<p><strong>{$review['nama']}</strong> - {$review['tanggal']}</p>";
-                                    echo "<p>{$review['isi_review']}</p>";
-                                    echo "</div>";
-                                }
+                                // foreach ($reviews as $review) {
+                                //     echo "<div class='p-4 bg-gray-100 mb-2'>";
+                                //     echo "<p><strong>{$review['nama']}</strong> - {$review['tanggal']}</p>";
+                                //     echo "<p>{$review['isi_review']}</p>";
+                                //     echo "</div>";
+                                // }
                                 ?>
                             </div>
                         </div>

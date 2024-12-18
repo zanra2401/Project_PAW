@@ -27,7 +27,7 @@
                     <div class="absolute w-44 left-1/2 mt-[2px] -translate-x-[73%] hidden group-hover:block bg-white text-black text-sm rounded py-1 px-2 shadow-md">
                         <div class="grid gap-3 p-2">
                             <a href="#" class="font-medium hover:text-warna-second">Pusat Bantuan</a>
-                            <a href="#" class="font-medium hover:text-warna-second">FAQ</a>
+                            <a href="/project_paw/pencari/faq" class="font-medium hover:text-warna-second">FAQ</a>
                             <a href="#" class="font-medium hover:text-warna-second">Syarat dan Ketentuan</a>
                             <a href="#" class="font-medium hover:text-warna-second">Tentang Kami</a>
                         </div>
@@ -36,15 +36,14 @@
             </div>
 
             <div>
-
-                <img id="pp" src="https://i.pinimg.com/736x/dd/1a/d5/dd1ad561fbf608248bec0a3e2539ff89.jpg" alt="" class="w-14 rounded-full cursor-pointer">
+                <!-- <img id="pp" src="https://i.pinimg.com/736x/dd/1a/d5/dd1ad561fbf608248bec0a3e2539ff89.jpg" alt="" class="w-14 rounded-full cursor-pointer">
                 <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">
                     <ul class="grid text-sm gap-3 p-2">
                         <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
                         <li class="hover:text-warna-second font-medium"><a href="">Logout</a></li>
                     </ul>
-                </div>
-                <!-- <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a> -->
+                </div> -->
+                <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a>
             </div>
         </div>
     </div>

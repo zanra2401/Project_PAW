@@ -14,13 +14,13 @@
                 <i class="fas fa-location-dot absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
             </div>
             <div class="relative piihan-menu">
-                <button class="inline-flex justify-center w-full p-3 pl-10 pr-8 border border-gray-300 bg-white rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second" aria-expanded="false" aria-haspopup="true" id="tipe-menu-button">
+                <button class="inline-flex justify-center w-full p-3 pl-10 pr-8 border border-gray-300 bg-white rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second" aria-expanded="false" aria-haspopup="true" id="menu">
                     Pilih Tipe
                     <i class="fas fa-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     <i class="fas fa-caret-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                 </button>
 
-                <div class="dropdown-menu absolute hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mt-2 w-48 rounded-2xl z-10" aria-labelledby="tipe-menu-button">
+                <div class="dropdown-menu absolute hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mt-2 w-48 rounded-2xl z-10" aria-labelledby="menu">
                     <div class="py-1">
                         <div class="relative">
                             <a href="#" class="text-gray-700 block pl-10 p-3 text-sm">Kost Pria</a>
@@ -540,7 +540,7 @@
         </div>
     </div>
     <?php require './views/Components/FooterHomepage.php' ?>
-    
+
     <script>
         const filter_button = document.getElementById('filter_button')
         const filter = document.getElementById('filter')
@@ -548,6 +548,7 @@
         const contain_filter = document.getElementById('contain_filter')
 
         filter_button.addEventListener('click', () => {
+            console.log("Konzz")
             filter.classList.remove('hidden')
             setTimeout(() => {
                 contain_filter.classList.remove('scale-0')
@@ -586,18 +587,7 @@
             input.value = 'Rp ' + formattedValue;
         }
 
-        const pp = document.getElementById('pp')
-        const pp_menu = document.getElementById('menu_pp')
-
-        pp.addEventListener('click', () => {
-            if (pp_menu.classList.contains('hidden')) {
-                console.log("oioio")
-                pp_menu.classList.remove('hidden')
-            } else {
-                pp_menu.classList.add('hidden')
-            }
-        })
-        const button = document.getElementById('tipe-menu-button');
+        const button = document.getElementById('menu');
         const menu = document.querySelector('.dropdown-menu');
 
         button.addEventListener('click', () => {
@@ -613,7 +603,6 @@
         const slides = Array.from(track.children);
         const nextButton = document.querySelector('.right-button');
         const prevButton = document.querySelector('.left-button');
-
         const slideWidth = slides[0].getBoundingClientRect().width;
 
         slides.forEach((slide, index) => {

@@ -6,7 +6,7 @@ session_start();
 $_SESSION["username"] = "grexgrub";
 $_SESSION["loged_in"] = true;
 $_SESSION["role"] = "pemilik";
-$_SESSION["id_user"] = 1;
+$_SESSION["id_user"] = 102;
 
 // if (isset($_SESSION["username"]))
 // {
