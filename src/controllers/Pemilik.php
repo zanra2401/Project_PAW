@@ -12,16 +12,20 @@ class Pemilik extends Controller {
     private $model;
     private $validator;
 
+    private $DB;
     function __construct() {
         $this->model = new PemilikModel();
         $this->validator = new KostValidator();
+        $this->DB = DataBase::getInstance();
     }
 
     function dashboard() {
         if ($this->isLogInPemilik())
-        {
+        {   
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/dashboard", [
-                "title" => "dashboard"
+                "title" => "dashboard",
+                "data_user" => $data
             ]);
         }
         else 
@@ -46,9 +50,11 @@ class Pemilik extends Controller {
     function chat($params = []) {
         if ($this->isLogInPemilik()) 
         {
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/chat", [
                 "title" => "Chat",
                 "contact" => $this->model->getContact(),
+                "data_user" => $data
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -117,7 +123,7 @@ class Pemilik extends Controller {
     function tambahkost($params = []) {
         if ($this->isLogInPemilik()) 
         {
-            
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             if ($this->isLogInPemilik())
             {
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -209,7 +215,8 @@ class Pemilik extends Controller {
                     $this->view("Pemilik/tambahkost", [
                         "title" => "tambahkost",
                         "fasilitas_kamar" => $this->model->getFasilitasKamar(),
-                        "fasilitas_bersama" =>  $this->model->getFasilitasBersama()
+                        "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
+                        "data_user" => $data
                     ]);
                 }
             } else {
@@ -234,17 +241,21 @@ class Pemilik extends Controller {
 
     function kosts($params = []) {
         if ($this->isLogInPemilik()) 
-        {
+        {   
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             if (isset($params[0]) and $params[0] == "cari" and $_SERVER['REQUEST_METHOD'] == "POST") {
                 $this->view("Pemilik/kosts", [
                     "title" => "Kosts",
                     "kosts" => $this->model->cariKost($_POST['cari']),
+                    "data_user" => $data
                 ]);
             }
 
             $this->view("Pemilik/kosts", [
                 "title" => "Kosts",
                 "kosts" => $this->model->getMyKost(),
+                "data_user" => $data
+                
             ]);
             
         } else {
@@ -255,10 +266,114 @@ class Pemilik extends Controller {
     function profile($params = [])
     {   
         if ($this->isLogInPemilik())
-        {
+        {   
+            $erors = [];
+            if ($_SERVER["REQUEST_METHOD"] == "POST")
+            {   
+                $validator = Validation::createValidator();
+
+                // validasi foto profile
+
+                if (isset($_FILES['ubah_gambar'])){
+                    if (!isset($_POST['pp_default'])){
+                        $file_path = $_FILES['ubah_gambar']['tmp_name'];
+                        if (!empty($file_path)){
+                            $mimeType = mime_content_type($file_path);
+        
+                            if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
+                                $erors['foto_profile'] = 'Gambar harus berformat JPEG atau PNG.';
+                            }
+                        }
+                    }
+                } 
+
+                // validasi username
+
+                $username = $_POST["username"];
+
+                $violationUsername = $validator->validate($username, [
+                    new Assert\NotBlank(["message" => "Username Tidak Boleh Kosong"]),
+                    new Assert\Length([
+                        "min" => 5,
+                        "minMessage" => "Username Minimal 5 character",
+                        "max" => 30,
+                        "maxMessage" => "Username Maximal 30 character"
+                    ]),
+                    new Assert\Regex([
+                        'pattern' => '/^[A-Za-z0-9]+$/',
+                        'message' => 'Username Hanya mengizinkan Huruf dan angka saja'
+                    ])
+                ]);
+
+                // validasi nama lengkap 
+
+                $nama_lengkap = $_POST["nama_lengkap"];
+
+                $pattern = "/^[a-zA-Z\s\-]+$/";
+
+                if ($nama_lengkap != ""){
+                    if (!preg_match( $pattern, $nama_lengkap)) {
+                        $erors['fullname'] = "Nama hanya boleh berupa alfabet";
+                    }
+                } 
+
+                // jenis kelamin
+
+                $jenis_kelamin = $_POST["kelamin"];
+
+                // validasi email
+
+                $email = $_POST["email"];
+
+                $violatiolnEmail = $validator->validate($email, [
+                    new Assert\Email(["message" => "Email Tidak Valid"]),
+                    new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
+                ]);
+                
+                // validasi no hp
+
+                $no_hp = $_POST['no_hp'];
+
+                $pattern = "/^[0-9]+$/";
+                if ($no_hp != ""){
+                    if (!preg_match($pattern, $no_hp)){
+                        $erors['hp'] = "no hp hanya boleh berupa numerik";
+                    }
+                }
+
+                // input eror username
+
+                foreach ($violationUsername as $violation)
+                {
+                    $erors['username'] = $violation->getMessage();
+                }
+
+                // input eror email
+
+                foreach ($violatiolnEmail as $violation)
+                {
+                    $erors['email'] = $violation->getMessage();
+                }   
+
+
+                $provinsi = $_POST['provinsi'];
+                $kota = $_POST['kota'];
+
+
+                if (count($erors) == 0) {
+                    $this->model->updateProfile($_FILES, $_POST, $_SESSION['id_user']);
+                }
+            }
+            
+            $profile = $this->model->getProfie($_SESSION['id_user']);
+
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/profile", [
                 "title" => "Profile",
-                "user" => $this->model->getDataUser($_SESSION["username"])
+                "user" => $this->model->getDataUser($_SESSION["username"]),
+                "data_user" => $data,
+                "profile" => $profile,
+                "eror" => $erors
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -424,9 +539,11 @@ class Pemilik extends Controller {
     function getMessage($params = [])
     {   
         if ($this->isLogInPemilik()) 
-        {
+        {   
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/getmessage", [
                 "title" => "Chat",
+                "data_user" => $data
             ]);
             
         } else {
@@ -460,5 +577,18 @@ class Pemilik extends Controller {
             $this->model->sendMessage($data['message'], $params[0]);
             echo json_encode("SUCCESS");
         }
+    }
+
+    function getAllDataUser($id)
+    {
+        $data = [];
+        $this->DB->query("SELECT username_user, email_user, nama_user, no_HP_user, jenis_kelamin_user, email_user, no_HP_user, provinsi_user, kota_user, profile_user FROM user WHERE id_user = $id");
+        $result = $this->DB->getAll();
+        foreach($result as $res)
+        {
+            $data[] = $res;
+        }
+
+        return $data;
     }
 }

@@ -22,28 +22,26 @@ class Pencari extends Controller {
             {
                 $nama_lokasi = isset($_POST['lokasi_nama'])? $_POST['lokasi_nama'] : '';
                 $tipe = isset($_POST['tipe'])? $_POST['tipe'] : '';
-                $data = $this->model->filterKost($nama_lokasi, $tipe);
-                $profile = $this->model->getProfie($_SESSION['id_user']);
-                if ($profile['profile_user'] == ""){
-                    $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+                if ($nama_lokasi == "" && $tipe == ""){
+                    $data = $this->model->getAllKost();
+                    $profile = $this->model->getProfie($_SESSION['id_user']);
+                } else {
+                    $data = $this->model->filterKost($nama_lokasi, $tipe);
+                    $profile = $this->model->getProfie($_SESSION['id_user']);
                 }
-                $this->view("Pencari/homepage", [
-                    "title" => "Homepage",
-                    "data" => $data,
-                    "profile" => $profile
-                ]);
             } else {
                 $data = $this->model->getAllKost();
                 $profile = $this->model->getProfie($_SESSION['id_user']);
-                if ($profile == []){
-                    $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-                }
-                $this->view("Pencari/homepage", [
-                    "title" => "Homepage",
-                    "data" => $data,
-                    "profile" => $profile
-                ]);
             }
+
+            if ($profile == []){
+                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
+            }
+            $this->view("Pencari/homepage", [
+                "title" => "Homepage",
+                "data" => $data,
+                "profile" => $profile
+            ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
         }
@@ -378,8 +376,10 @@ class Pencari extends Controller {
 
                 $pattern = "/^[a-zA-Z\s\-]+$/";
 
-                if (!preg_match( $pattern, $nama_lengkap)) {
-                    $erors['fullname'] = "Nama hanya boleh berupa alfabet";
+                if ($nama_lengkap != ""){
+                    if (!preg_match( $pattern, $nama_lengkap)) {
+                        $erors['fullname'] = "Nama hanya boleh berupa alfabet";
+                    }
                 } 
 
                 // jenis kelamin
@@ -399,19 +399,12 @@ class Pencari extends Controller {
 
                 $no_hp = $_POST['no_hp'];
 
-                $violationNoHp = $validator->validate($no_hp, [
-                    new Assert\NotBlank(["message" => "Nomor Hanphone tidak boleh kosong"]),
-                    new Assert\Regex([
-                        'pattern' => "/^[0-9]+$/",
-                        'message' => "No handphone hanya boleh angka"
-                    ]),
-                    new Assert\Length([
-                        'min' => 10,
-                        'minMessage' => "no handphone minimal 10 character",
-                        'max' => 13,
-                        'maxMessage' => "no handphone maximal 13 character"
-                    ])
-                ]);
+                $pattern = "/^[0-9]+$/";
+                if ($no_hp != ""){
+                    if (!preg_match($pattern, $no_hp)){
+                        $erors['hp'] = "no hp hanya boleh berupa numerik";
+                    }
+                }
 
                 // input eror username
 
@@ -427,12 +420,6 @@ class Pencari extends Controller {
                     $erors['email'] = $violation->getMessage();
                 }   
 
-                // input eror no hp
-
-                foreach ($violationNoHp as $violation)
-                {
-                    $erors['hp'] = $violation->getMessage();
-                }
 
                 $provinsi = $_POST['provinsi'];
                 $kota = $_POST['kota'];
