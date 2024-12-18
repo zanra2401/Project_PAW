@@ -8,7 +8,8 @@
         <img class="w-15 h-10" src="<?= PUBLIC_FOLDER ?>/assets/image/logo.png" alt="Illustration" class="w-2/3">
     </div>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6" style="margin-bottom: 40px">Masuk Akun</h2>
-    <form action="/<?= PROJECT_NAME ?>/account/loginUser" method="POST">
+
+    <form action="/<?= PROJECT_NAME ?>/account/loginuser" method="post">
       <div class="mb-4">
         <label for="username" class="block text-sm font-medium text-gray-700">ID Username</label>
         <input type="username" id="username" name="username" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan username" required style="background-color: white;"/>
@@ -18,7 +19,7 @@
         <input type="password" id="password" name="password" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan password" required style="background-color: white;"/>
       </div>
       <div class="flex items-center justify-between mb-6">
-        <a href="/project_paw/pencari/lupapassword" class="text-sm text-base-color hover:underline">Lupa password?</a>
+        <a href="/project_paw/account/lupapassword" class="text-sm text-base-color hover:underline">Lupa password?</a>
       </div>
       <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-red-500  hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2 ">
         Masuk

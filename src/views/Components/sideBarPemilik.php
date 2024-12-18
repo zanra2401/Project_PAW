@@ -48,12 +48,41 @@
           </span>
         </a>
 
-        <a href="/<?= PROJECT_NAME ?>/pemilik/Profile" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <button onclick="showLogoutModal()" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-right-from-bracket text-warna-third text-[15px]"></i>
           <span class="ml-3">
               Log Out
           </span>
-        </a>
+        </button>
 
       </nav>
+
+      <div id="logoutModal" class="fixed inset-0 z-40 bg-gray-500 bg-opacity-50 flex justify-center items-center hidden">
+          <div class="bg-white p-6 rounded-md shadow-lg w-1/3">
+              <h2 class="text-xl font-bold mb-4">Konfirmasi Logout</h2>
+              <p>Apakah Anda yakin ingin logout?</p>
+              <div class="mt-4 flex justify-between">
+                  <button onclick="confirmLogout()" class="bg-red-500 text-white px-4 py-2 rounded-md">Logout</button>
+                  <button onclick="cancelLogout()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Batal</button>
+              </div>
+          </div>
+      </div>
+
+  <script>
+      // Menampilkan modal konfirmasi logout
+      function showLogoutModal() {
+          document.getElementById('logoutModal').classList.remove('hidden');
+      }
+
+      // Menangani klik pada tombol Batal (menutup modal)
+      function cancelLogout() {
+          document.getElementById('logoutModal').classList.add('hidden');
+      }
+
+      // Menangani klik pada tombol Logout (melakukan aksi logout)
+      function confirmLogout() {
+          // Lakukan aksi logout, misalnya mengarahkan ke halaman logout
+          window.location.href = '/<?= PROJECT_NAME ?>/account/logout';  // Ganti dengan URL logout sesuai aplikasi Anda
+      }
+  </script>
     </aside>

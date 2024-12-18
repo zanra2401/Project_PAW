@@ -11,7 +11,7 @@ class AccountModel {
 
     function register($username, $email, $password, $role, $nohp = "")
     {
-        $password = openssl_encrypt($password, 'aes-256-cbc', KEY, 0, IV);
+        $password = password_hash($password, PASSWORD_BCRYPT);
         
         if ($nohp != "")
         {
@@ -33,9 +33,28 @@ class AccountModel {
         return $this->DB->getFirst();
     }
 
+    
+    function getData($username) 
+    {
+        $this->DB->query("SELECT * FROM user WHERE username_user = ?", "s", [$username]);
+        return $this->DB->getFirst();
+
+    }
+
     function getDataUser($username)
     {
         $this->DB->query("SELECT username_user, email_user, nama_user, alamat, no_hp_user, role_user FROM user WHERE username_user = ?", 's', [$username]);
         return $this->DB->getFirst();
+    }
+
+    function isEmailExist($email)
+    {
+        $this->DB->query("SELECT * FROM user WHERE email_user = ?", "s", [$email]);
+        return $this->DB->getFirst() != NULL;
+    }
+
+    function updateResetCode($code, $email)
+    {
+        $this->DB->query("UPDATE user SET reset_code = ? WHERE email_user = ?", "ss", [$code, $email]);
     }
 }

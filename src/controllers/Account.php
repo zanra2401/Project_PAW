@@ -6,6 +6,9 @@ require_once "Controller.php";
 
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 
 class Account extends Controller {
@@ -103,7 +106,7 @@ class Account extends Controller {
             } else {
                 $this->model->register($username, $email, $password, "pencari");
                 $_SESSION['berhasil'] = ["Berhasil membuat akun"];
-                header("Location: /project_paw/account/regPenyewa");
+                header("Location: /project_paw/account/login");
             }
 
         }
@@ -261,24 +264,16 @@ class Account extends Controller {
 
 
             $dbUsername = $this->model->getOneData('username_user', $username, 'user');
-            $encryptedPassowrd = $this->model->getOneData('password_user', $username, 'user');
 
-            var_dump($encryptedPassowrd);
-            die();
-            if ($dbUsername == NULL or $encryptedPassowrd == NULL)
+            $hashPass = $this->model->getData($username)['password_user'];
+           
+            if ($dbUsername == NULL or $hashPass == NULL)
             {
-                $errors[] = "Username atau Password tidak valid";
+                $errors[] = "Username atau Password tidak vali1d";
             }
 
-
-            $ivLength = openssl_cipher_iv_length('aes-256-cbc');
-            $iv = substr($encryptedPassowrd, 0, $ivLength);
-            $passwordData = substr($encryptedPassowrd, $ivLength);
-
-            $decryptedPassowrd = openssl_decrypt($passwordData, 'aes-256-cbc', KEY, 0, $iv);
-
-            if ($password != $decryptedPassowrd)
-
+            
+            if (!password_verify($password, $hashPass))
             {
                 $errors[] = "Username atau Password tidak valid";
             }
@@ -292,10 +287,10 @@ class Account extends Controller {
             {
                 $_SESSION["loged_in"] = true;
                 $_SESSION["username"] = $username;
-                $role =  ($this->model->getOneData("role_user", $username, "user"))["role_user"];
-                $id =  ($this->model->getOneData("id_user", $username, "user"))["id_user"];
+                $role =  ($this->model->getData($username))["role_user"];
+                $id =  ($this->model->getData($username))["id_user"];
                 $_SESSION["role_user"] = $role;
-                $_SESSION["id_user"] = $role;
+                $_SESSION["id_user"] = $id;
                 if ($role == "pemilik")
                 {
                     header("Location: /" . PROJECT_NAME ."/pemilik");
@@ -309,8 +304,9 @@ class Account extends Controller {
     function login($params = []){
         if ($this->isLogIn())
         {
-            $role = $this->model->getOneData("role" ,$_SESSION["username"], "user");
-            $role = $this->model->getOneData("role_user" ,$_SESSION["username"], "user");
+
+            $role = $this->model->getData($_SESSION["username"])['role_user'];
+            var_dump($role);
             if ($role = "pemilik")
             {
                 header("Location: /" . PROJECT_NAME ."/pemilik"); 
@@ -327,5 +323,75 @@ class Account extends Controller {
         $this->view("Account/login", [
             "title" => "Login"
         ]);
+    }
+
+    function logOut()
+    {
+        session_destroy();
+        header("Location: /" . PROJECT_NAME . "/account/login");
+    }
+
+    function lupapassword($params = []) {
+        if ($_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            $message = "";
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $email = $_POST['email'];
+
+
+                if ($this->model->isEmailExist($email)) {
+                    // Generate token unik
+                    $token = bin2hex(random_bytes(50));
+                    // $expire_time = date("Y-m-d H:i:s", strtotime("+1 hour")); // Token berlaku 1 jam
+
+                    // Simpan token ke database
+                    
+                    $this->model->updateResetCode($token, $email);
+
+                    // Kirim email menggunakan PHPMailer
+                    $mail = new PHPMailer(true);
+
+                try {
+                    //Server settings
+                    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                    $mail->isSMTP();                                            //Send using SMTP
+                    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+                    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                    $mail->Username   = 'nabiilahrizqiamal@gmail.com';                     //SMTP username
+                    $mail->Password   = 'qzhaeghaehcyulpw';                               //SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
+                    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+                    //Recipients
+                    $mail->setFrom('from@example.com', 'Mailer');
+                    $mail->addAddress($email, 'User');     //Add a recipient              //Name is optional
+                    $mail->addReplyTo('no-reply@example.com', 'Information');
+
+                    //Content
+                    $mail->isHTML(true);    
+                    $resetLink = "http://localhost/project_paw/resetpassword?token=$token";
+                    $email_template = "
+                        <h2>Klik tautan berikut</h2>
+                        Klik link berikut untuk mereset password Anda: <a href='$resetLink'>Reset Password</a>
+                    ";                             //Set email format to HTML
+                    $mail->Subject = 'verifikasi email';
+                    $mail->Body    = $email_template;
+                    
+
+                    $mail->send();
+                    } catch (Exception $e) {
+                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    }
+            } else {
+                    $message = "<div class='alert alert-danger'>Email tidak ditemukan.</div>";
+                }
+            }
+            } else {
+            $this->view("Account/lupapassword", [
+                "title" => "lupapassword"
+            ]);
+        }
+    
     }
 }
