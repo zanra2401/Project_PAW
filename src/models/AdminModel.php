@@ -11,8 +11,32 @@ class AdminModel {
 
     function getAllLaporan()
     {
-        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan ,l.id_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_user = u.id_user");
-        return $this->DB->getAll();
+        $data = [];
+        $this->DB->query("SELECT * FROM laporantokategori");
+
+        foreach ($this->DB->getAll() as $ltk)
+        {
+            $this->DB->query("SELECT id_user, deskripsi_laporan, tanggal_laporan FROM laporan WHERE id_laporan = {$ltk['id_laporan']}");
+            $dataLaporan = $this->DB->getFirst();
+            $this->DB->query("SELECT username_user FROM user WHERE id_user = {$dataLaporan['id_user']}");
+            $username = $this->DB->getFirst()['username_user'];
+            $this->DB->query("SELECT * FROM kategori_laporan WHERE id_kategori_laporan = {$ltk['id_kategori_laporan']}");
+            $nama_laporan = $this->DB->getFirst()['nama_laporan'];
+
+            if (array_key_exists($ltk['id_laporan'], $data))
+            {
+                $data[$ltk['id_laporan']]['kategori'][] = $nama_laporan;
+                continue;
+            }
+
+            $data[$ltk['id_laporan']] = [];
+            $data[$ltk['id_laporan']]['kategori'][] = $nama_laporan;
+            $data[$ltk['id_laporan']]['username'] = $username;
+            $data[$ltk['id_laporan']]['data'] = $dataLaporan;
+
+        }
+
+        return $data;   
     }
 
     function getAllUser()
@@ -64,9 +88,59 @@ class AdminModel {
 
     function getLaporanById($idLaporan)
     {
-        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$id_laporan]);
-        // $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user, l.id_laporan FROM user AS u, laporan AS l WHERE l.id_laporan = ?","i",[$idLaporan]);
-        return $this->DB->getFirst();
+        $data = [];
+        $this->DB->query("SELECT * FROM laporantokategori WHERE id_laporan = $idLaporan");
+
+        foreach ($this->DB->getAll() as $ltk)
+        {
+            $this->DB->query("SELECT id_user, deskripsi_laporan, tanggal_laporan FROM laporan WHERE id_laporan = {$ltk['id_laporan']}");
+            $dataLaporan = $this->DB->getFirst();
+            $this->DB->query("SELECT username_user FROM user WHERE id_user = {$dataLaporan['id_user']}");
+            $username = $this->DB->getFirst()['username_user'];
+            $this->DB->query("SELECT * FROM kategori_laporan WHERE id_kategori_laporan = {$ltk['id_kategori_laporan']}");
+            $nama_laporan = $this->DB->getFirst()['nama_laporan'];
+
+            if (array_key_exists($ltk['id_laporan'], $data))
+            {
+                $data[$ltk['id_laporan']]['kategori'][] = $nama_laporan;
+                continue;
+            }
+
+            $data[$ltk['id_laporan']] = [];
+            $data[$ltk['id_laporan']]['kategori'][] = $nama_laporan;
+            $data[$ltk['id_laporan']]['username'] = $username;
+            $data[$ltk['id_laporan']]['data'] = $dataLaporan;
+
+        }
+
+        return $data; 
     }
     
+
+    function uploadPengumuman($post)
+    {
+        $this->DB->query("INSERT INTO pengumuman(tipe_pengumuman, isi_pengumuman, tanggal_pengumuman, id_admin, judul_pengumuman) VALUES (?, ?, NOW(), ?, ?)", "ssis", [$post['tipe_pengumuman'], $post['isi_pengumuman'], $_SESSION['id_admin'], $post['judul_pengumuman']]);
+        return true;
+    }
+
+    function getAllPengumuman($param, $cari = false)
+    {
+        if ($cari == false)
+        {
+            if ($param == "semua")
+            {
+                $this->DB->query("SELECT * FROM pengumuman");
+            }elseif ($param == "pencari") {
+                $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = ?", "s", ['pencari']);
+            }else {
+                $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = ?", "s", [$param]);
+            }
+        } else 
+        {
+            $this->DB->query("SELECT * FROM pengumuman WHERE judul_pengumuman LIKE ?", "s", [$param]);
+        }
+        return $this->DB->getAll();
+
+
+    }
 }

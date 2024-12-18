@@ -14,12 +14,12 @@ abstract class Controller
 
   protected function isLogInPemilik()
   {
-    return (isset($_SESSION["loged_in"]) && $_SESSION["role"] == "pemilik" );
+    return (isset($_SESSION["loged_in"]) && $_SESSION["role_user"] == "pemilik" );
   }
 
   protected function isLogInPencari()
   {
-    return (isset($_SESSION["loged_in"]) && $_SESSION["role"] == "pencari" );
+    return (isset($_SESSION["loged_in"]) && $_SESSION["role_user"] == "pencari" );
   }
 
 

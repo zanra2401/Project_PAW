@@ -18,23 +18,26 @@
                     </tr>
                 </thead>
                 <tbody>
-    <?php foreach ($data['laporan'] as $laporan) : ?>
+
+    <?php foreach ($data['laporan'] as $key => $laporan) : ?>
         <tr class="bg-white border-b">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                <?= htmlspecialchars($laporan['username_user']); ?>
+                <?= htmlspecialchars($laporan['username']); ?>
             </th>
             <td class="px-6 py-4">
-                <?= $laporan['nama_laporan']; ?>
+            <?php foreach ($laporan['kategori'] as $kategori): ?>
+                <?= $kategori; ?>, 
+            <?php endforeach; ?>
             </td>
             <td class="px-6 py-4">
-                <?= htmlspecialchars($laporan['deskripsi_laporan']); ?>
+                <?= htmlspecialchars($laporan['data']['deskripsi_laporan']); ?>
             </td>
             <td class="px-6 py-4">
-                <?= htmlspecialchars($laporan['tanggal_laporan']); ?>
+                <?= htmlspecialchars($laporan['data']['tanggal_laporan']); ?>
             </td>
             <td class="px-6 py-4">
                 <form action="/<?= PROJECT_NAME ?>/Admin/detailLaporan" method="POST">
-                    <input type="hidden" name="idLaporan" value="<?= $laporan['id_laporan'] ?>">
+                    <input type="hidden" name="idLaporan" value="<?= $key ?>">
                     <button type="submit"
                         class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                         Detail
