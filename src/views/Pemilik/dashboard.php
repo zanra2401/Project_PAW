@@ -1,4 +1,9 @@
-<?php require "./views/Components/Head.php"; ?>
+<?php 
+    require "./views/Components/Head.php"; 
+    
+    $foto_profile = $data['data_user'][0]['profile_user'];
+
+?>
     <script src="<?= JS ?>/libs/chart.js"></script>
     <script src="<?= JS ?>/libs/fullcalendar.js"></script>    
     <body class="overflow-hidden flex p-0 m-0 h-screen ">

@@ -12,7 +12,14 @@ class PencariModel {
     function filterKost($nama_lokasi, $tipe){
         $data = [];
 
-        $this->DB->query("SELECT * FROM kost WHERE (nama_kost LIKE '%$nama_lokasi%' OR kota_kost LIKE '%$nama_lokasi%' OR provinsi_kost LIKE '%$nama_lokasi%') AND tipe_kost = '$tipe'");
+        if ($nama_lokasi == "" && $tipe != ""){
+            $this->DB->query("SELECT * FROM kost WHERE tipe_kost = '$tipe'");
+        } else if ($nama_lokasi != "" && $tipe == ""){
+            $this->DB->query("SELECT * FROM kost WHERE (nama_kost LIKE '%$nama_lokasi%' OR kota_kost LIKE '%$nama_lokasi%' OR provinsi_kost LIKE '%$nama_lokasi%')");
+        } else {
+            $this->DB->query("SELECT * FROM kost WHERE (nama_kost LIKE '%$nama_lokasi%' OR kota_kost LIKE '%$nama_lokasi%' OR provinsi_kost LIKE '%$nama_lokasi%') AND tipe_kost = '$tipe'");
+        }
+
         $kosts = $this->DB->getAll();
     
         foreach ($kosts as $kost)
@@ -276,7 +283,7 @@ class PencariModel {
         }
 
         foreach ($kategori as $id_kategori){
-            $this->DB->query("INSERT INTO laporantokategori (id_laporan, id_kategori_laporan) VALUE (?,?)", "ii", [$data, $id_kategori]);
+            $this->DB->query("INSERT INTO laporantokategori (id_lapora n, id_kategori_laporan) VALUE (?,?)", "ii", [$data, $id_kategori]);
         }
     }
 

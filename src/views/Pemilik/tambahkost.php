@@ -1,4 +1,9 @@
-<?php require "./views/Components/Head.php"; ?>
+<?php 
+    require "./views/Components/Head.php"; 
+    
+    $foto_profile = $data['data_user'][0]['profile_user'];
+
+?>
     <script src="<?= NODE_MODULES ?>leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">  
     <script src="<?= JS ?>/libs/chart.js"></script>

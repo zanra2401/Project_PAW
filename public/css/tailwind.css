@@ -1126,6 +1126,14 @@ video {
   height: 100vh;
 }
 
+.h-\[200px\] {
+  height: 200px;
+}
+
+.h-28 {
+  height: 7rem;
+}
+
 .max-h-80 {
   max-height: 20rem;
 }
@@ -1975,6 +1983,11 @@ video {
 
 .bg-center {
   background-position: center;
+}
+
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .object-cover {

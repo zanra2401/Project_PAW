@@ -2,10 +2,10 @@
       <!-- Header -->
       <div class="p-4 border-b">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+          <div class="w-10 h-10 bg-gray-200 rounded-full"><img src="<?= "/" . PROJECT_NAME . "/" . $foto_profile?>" alt="" class="rounded-full w-full h-full"></div>
           <div>
-            <p class="text-sm font-medium text-gray-800">Kevin Dukkon</p>
-            <p class="text-xs text-gray-500">hey@kevdu.co</p>
+            <p class="text-sm font-medium text-gray-800"><?= $data['data_user'][0]['username_user']?></p>
+            <p class="text-xs text-gray-500"><?= $data['data_user'][0]['email_user']?></p>
           </div>
         </div>
       </div>
