@@ -337,4 +337,72 @@ class PemilikModel {
         }
         return $data;
     }
+
+    function updateProfile($files, $post, $id)
+    {
+        $gambar = $_FILES['ubah_gambar'];
+        $path_gambar = $gambar['name'];
+
+        if (!($path_gambar == "")){
+            $uploadDir = STORAGE . "gambarProfile/";
+            $pathDir = "/public/storage/gambarProfile/";
+    
+            $tmpname = $gambar['tmp_name'];
+    
+            $uid = uniqid() . "_" . basename($path_gambar);
+            $newFileName = $uploadDir . $uid;
+            $pathName = $pathDir . $uid;
+        } else {
+            if (isset($_POST['pp_default'])){
+                $pathName = $_POST['pp_default'];
+            }
+        }
+
+        $username = $post["username"];
+        $nama_lengkap = $post["nama_lengkap"];
+        $jenis_kelamin = $post["kelamin"];
+        $email = $post["email"];
+
+        $no_hp = $post['no_hp'];
+        $provinsi = $post['provinsi'];
+        $kota = $post['kota'];
+        
+        if (isset($tmpname) && isset($newFileName)){
+            if (move_uploaded_file($tmpname, $newFileName)) {
+                $this->DB->query("UPDATE user SET username_user = '$username', email_user = '$email', nama_user = '$nama_lengkap', no_HP_user = '$no_hp', jenis_kelamin_user = '$jenis_kelamin', provinsi_user = $provinsi, kota_user = $kota, profile_user = '$pathName' WHERE id_user = $id");
+            } else {
+                $this->DB->query("UPDATE user SET username_user = '$username', email_user = '$email', nama_user = '$nama_lengkap', no_HP_user = '$no_hp', jenis_kelamin_user = '$jenis_kelamin', provinsi_user = $provinsi, kota_user = $kota WHERE id_user = $id");
+            }
+        } else if (isset($pathName)) {
+            $this->DB->query("UPDATE user SET username_user = '$username', email_user = '$email', nama_user = '$nama_lengkap', no_HP_user = '$no_hp', jenis_kelamin_user = '$jenis_kelamin', provinsi_user = $provinsi, kota_user = $kota, profile_user = '$pathName' WHERE id_user = $id");
+        } else {
+            $this->DB->query("UPDATE user SET username_user = '$username', email_user = '$email', nama_user = '$nama_lengkap', no_HP_user = '$no_hp', jenis_kelamin_user = '$jenis_kelamin', provinsi_user = $provinsi, kota_user = $kota WHERE id_user = $id");
+        }
+    }
+
+    function getProfie($id)
+    {
+        $data = [];
+        $this->DB->query("SELECT profile_user FROM user WHERE role_user = 'pencari' AND id_user = $id");
+        $path_profile = $this->DB->getAll();
+        foreach($path_profile as $pp)
+        {
+            $data = $pp;
+        }
+
+        return $data;
+    }
+
+    function getAllDataUser($id)
+    {
+        $data = [];
+        $this->DB->query("SELECT username_user, email_user, nama_user, no_HP_user, jenis_kelamin_user, email_user, no_HP_user, provinsi_user, kota_user, profile_user FROM user WHERE id_user = $id");
+        $result = $this->DB->getAll();
+        foreach($result as $res)
+        {
+            $data[] = $res;
+        }
+
+        return $data;
+    }
 }

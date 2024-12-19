@@ -40,7 +40,7 @@
                     <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">
                         <ul class="grid text-sm gap-3 p-2">
                             <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
-                            <li class="hover:text-warna-second font-medium"><a href="">Logout</a></li>
+                            <li class="hover:text-warna-second font-medium"><a href="/project_paw/Account/logout" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a></li>
                         </ul>
                     </div>
                 <?php else:?>

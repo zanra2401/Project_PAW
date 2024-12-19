@@ -518,6 +518,8 @@
                 });
             });
 
+            
+
             const map = L.map('map').setView([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>], 10); // Jakarta
 
             
