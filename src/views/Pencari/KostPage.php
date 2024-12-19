@@ -45,32 +45,39 @@
             $harga = formatRupiah($kost['data_kost']['harga_kost']);
             echo <<<EOD
                 <div class="w-[90%] mx-auto pt-4 items-center" id="gambar">
-                    <div class="grid w-full flex-1">
-                        <div class="grid grid-cols-2 gap-2">
+
+                    <div class="grid w-full h-[400px] overflow-hidden">
+                        <div class="grid grid-cols-2 gap-3">
             EOD;
             $temp = 0;
             $path = "/" . PROJECT_NAME . "/";
             $profle_pemilik = $path . $kost['profile_pemilik'];
             foreach ($kost['gambar'] as $gambar)
             {
+
                 
                 if ($temp > 4){
                     break;
                 }
 
+
                 if ($temp == 0){
                     $imagePath = $path . $gambar['path_gambar'];
                     echo <<<EOD
+
                         <div class="w-full h-[400px]">
                             <img class="h-full object-cover w-full" src="{$imagePath} " alt="">
                         </div>
     
                         <div class="grid grid-cols-2 gap-2 h-[400px] relative overflow-hidden">
+
+
                     EOD;
                 } else {
                     $imagePath = $path . $gambar['path_gambar'];
                     echo <<<EOD
                         <img src="{$imagePath}" alt="" class="object-cover w-full h-full">
+
                     EOD;
                 }
 
@@ -91,7 +98,8 @@
                                 <div class="flex items-center">
                                     <p class="p-2 border-2 border-gray-300 rounded flex items-center mr-4" >Kos {$kost['data_kost']['tipe_kost']}</p>
                                     <i class="fa-solid fa-location-dot mr-2"></i>
-                                    <p id="alamat_kost"></p>
+
+                                    <p>{$kost['data_kost']['kota_kost']}, {$kost['data_kost']['provinsi_kost']}</p>
                                 </div>
                                 <div class="flex items-center justify-between mb-7">
                                     <div class="flex items-center">
@@ -355,7 +363,7 @@
             const rect1 = isi_kostpage.getBoundingClientRect();
             const rect = gambar.getBoundingClientRect();
             const initialRect = tableView.getBoundingClientRect().top;
-            console.log(rect1.top);
+
             if (rect1.top <= 90 && rect.bottom > 389.6875) {
                 tableView.classList.add('fixed');
             } else if (rect.bottom <= 389.6875) {
@@ -559,13 +567,57 @@
                 });
             });
             })
+        const track = document.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const nextButton = document.querySelector('.right-button');
+        const prevButton = document.querySelector('.left-button');
 
+        const slideWidth = slides[0].getBoundingClientRect().width;
 
-            
+        slides.forEach((slide, index) => {
+            slide.style.left = `${slideWidth * index}px`;
+        });
 
-            
-    
-    
+        const updateButtons = (currentIndex) => {
+ 
+            if (currentIndex === 0) {
+                prevButton.classList.add('hidden');
+            } else {
+                prevButton.classList.remove('hidden');
+            }
+
+            if (currentIndex === slides.length - 1) {
+                nextButton.classList.add('hidden');
+            } else {
+                nextButton.classList.remove('hidden');
+            }
+        };
+
+        const moveToSlide = (track, currentSlide, targetSlide) => {
+            track.style.transform = `translateX(-${targetSlide.style.left})`;
+            currentSlide.classList.remove('current-slide');
+            targetSlide.classList.add('current-slide');
+
+            const targetIndex = slides.findIndex(slide => slide === targetSlide);
+            updateButtons(targetIndex);
+        };
+
+        updateButtons(0);
+
+        prevButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentSlide = track.querySelector('.current-slide');
+            const prevSlide = currentSlide.previousElementSibling;
+            if (prevSlide) moveToSlide(track, currentSlide, prevSlide);
+        });
+
+        nextButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentSlide = track.querySelector('.current-slide');
+            const nextSlide = currentSlide.nextElementSibling;
+            if (nextSlide) moveToSlide(track, currentSlide, nextSlide);
+        });
+
 
     </script>
 </body>

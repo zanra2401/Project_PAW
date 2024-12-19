@@ -4,6 +4,10 @@
     $data_kota = $data['data_user'][0]['kota_user'];
 
     $foto_profile = $data['data_user'][0]['profile_user'];
+
+    if ($foto_profile == ""){
+        $foto_profile = "/public/storage/gambarProfile/pp_kosong.jpeg";
+    }
 ?>  
 
 <body class="bg-gray-100">

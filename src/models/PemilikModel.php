@@ -83,6 +83,26 @@ class PemilikModel {
     }
 
 
+    function getFasilitasBersamaByID($id)
+    {
+        $this->DB->query("SELECT fk.id_fasilitas, f.nama_fasilitas FROM fasilitas AS f, fasilitas_kost AS fk WHERE f.tipe_fasilitas = 'bersama' AND fk.id_kost = ? AND f.id_fasilitas = fk.id_fasilitas", "i", [$id]);
+        return $this->DB->getAll();
+    }
+
+    function getUserById($id)
+    {
+        $this->DB->query("SELECT * FROM user WHERE id_user = ?", 'i', [$id]);
+        return $this->DB->getFirst();
+    }
+
+    
+    function getFasilitasKamarByID($id)
+    {
+        $this->DB->query("SELECT fk.id_fasilitas, f.nama_fasilitas FROM fasilitas AS f, fasilitas_kost AS fk WHERE f.tipe_fasilitas = 'kamar' AND fk.id_kost = ? AND f.id_fasilitas = fk.id_fasilitas", "i", [$id]);
+        return $this->DB->getAll();
+    }
+
+
     function tambahKost($files, $post)
     {
         $fasilitas = json_decode($_POST['fasilitas'], true);
@@ -338,6 +358,7 @@ class PemilikModel {
         }
         return $data;
     }
+<<<<<<< HEAD
 
     function updateProfile($files, $post, $id)
     {
@@ -406,4 +427,6 @@ class PemilikModel {
 
         return $data;
     }
+=======
+>>>>>>> tuhu
 }

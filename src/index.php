@@ -3,6 +3,12 @@
 session_start();
 
 // DEBUG UNUTUK LOGIN
+// $_SESSION["username"] = "tuhu01";
+// $_SESSION["loged_in"] = true;
+// $_SESSION["role"] = "pemilik";
+// $_SESSION["id_user"] = 1;
+
+
 // $_SESSION["username"] = "bagoes123";
 // $_SESSION["loged_in"] = true;
 // $_SESSION["role_user"] = "pencari";
@@ -12,6 +18,7 @@ session_start();
 // $_SESSION["role_user"] = "pemilik";
 // $_SESSION["id_user"] = 1;
 // $_SESSION['id_admin'] = 1;
+
 
 // if (isset($_SESSION["username"]))
 // {

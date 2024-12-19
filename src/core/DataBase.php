@@ -75,6 +75,7 @@ class DataBase {
     public function getFirst() {
         return mysqli_fetch_assoc(self::$result);
     }
+    
 
 
 

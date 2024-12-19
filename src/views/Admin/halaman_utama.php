@@ -34,8 +34,7 @@
                 <!-- Total Pengguna Aktif Card -->
                 <div class="bg-white rounded-lg shadow-gray-500 shadow-sm p-5 h-96">
                     <p class="text-gray-500 mb-2">Total Pengguna Aktif</p>
-                    <h1 class="text-4xl font-bold mb-4">100</h1>
-                
+                    <h1 class="text-4xl font-bold mb-4"><?= $data['jumlahUser'];?></h1>
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -44,18 +43,17 @@
                                     <th scope="col" class="px-6 py-3">Tanggal Daftar</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="userTable">
+                                <?php foreach($data['user'] as $user): ?>
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Tuhu Pangestu</th>
-                                    <td class="px-6 py-4">05-07-2024</td>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $user['nama_user'] ?></th>
+                                    <td class="px-6 py-4"><?= $user['tanggal_akun_dibuat_user'] ?></td>
                                 </tr>
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Zanuar Rikza</th>
-                                    <td class="px-6 py-4">25-07-2024</td>
-                                </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
+                    <div id="pagination" class="flex justify-center mt-4"></div> <!-- Centered pagination buttons -->
                 </div>
 
                 <!-- History Transaksi Card -->
@@ -104,19 +102,47 @@
             </div>
             <div class="rounded-lg shadow-sm shadow-gray-500 p-5 h-fit">
                 <div class="h-full w-full">
-                <div id="calendar"></div>
+                    <div id="calendar"></div>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
-        const calendarElement = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarElement, {
-            initialView: "dayGridMonth"
-        });
-        calendar.render();
-    </script>
+        // Pagination setup for users
+        const users = <?= json_encode($data['user']); ?>;
+        const rowsPerPage = 3; // Adjust the number of rows per page as needed
 
+        function renderTablePage(page) {
+            const start = (page - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedUsers = users.slice(start, end);
+
+            const tableBody = document.getElementById('userTable');
+            tableBody.innerHTML = ''; // Clear the table body
+
+            paginatedUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.className = "bg-white border-b dark:bg-gray-800 dark:border-gray-700";
+                row.innerHTML = `
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${user['nama_user']}</th>
+                    <td class="px-6 py-4">${user['tanggal_akun_dibuat_user']}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        $('#pagination').pagination({
+            dataSource: users,
+            pageSize: rowsPerPage,
+            callback: function(data, pagination) {
+                renderTablePage(pagination.pageNumber);
+            }
+        });
+
+        // Initialize first page
+        renderTablePage(1);
+    </script>
 </body>
 
 <?php require './views/Components/Foot.php' ?>

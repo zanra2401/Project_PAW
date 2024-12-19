@@ -22,6 +22,7 @@ class Pencari extends Controller {
             {
                 $nama_lokasi = isset($_POST['lokasi_nama'])? $_POST['lokasi_nama'] : '';
                 $tipe = isset($_POST['tipe'])? $_POST['tipe'] : '';
+
                 if ($nama_lokasi == "" && $tipe == ""){
                     $data = $this->model->getAllKost();
                     $profile = $this->model->getProfie($_SESSION['id_user']);
@@ -42,6 +43,7 @@ class Pencari extends Controller {
                 "data" => $data,
                 "profile" => $profile
             ]);
+
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
         }
@@ -316,12 +318,16 @@ class Pencari extends Controller {
         if ($this->isLogInPencari()) 
         {
             $profile = $this->model->getProfie($_SESSION['id_user']);
+
+            $kost = $this->model->getFavorit();
             if ($profile['profile_user'] == ""){
                 $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
             }
             $this->view("Pencari/favorit",[
                 "title" => "favorit",
-                "profile" => $profile
+
+                "profile" => $profile,
+                "kosts" => $kost
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -375,7 +381,7 @@ class Pencari extends Controller {
                 $nama_lengkap = $_POST["nama_lengkap"];
 
                 $pattern = "/^[a-zA-Z\s\-]+$/";
-
+ 
                 if ($nama_lengkap != ""){
                     if (!preg_match( $pattern, $nama_lengkap)) {
                         $erors['fullname'] = "Nama hanya boleh berupa alfabet";
@@ -398,13 +404,13 @@ class Pencari extends Controller {
                 // validasi no hp
 
                 $no_hp = $_POST['no_hp'];
-
                 $pattern = "/^[0-9]+$/";
                 if ($no_hp != ""){
                     if (!preg_match($pattern, $no_hp)){
                         $erors['hp'] = "no hp hanya boleh berupa numerik";
                     }
                 }
+
 
                 // input eror username
 
@@ -420,6 +426,12 @@ class Pencari extends Controller {
                     $erors['email'] = $violation->getMessage();
                 }   
 
+                // input eror no hp
+
+                foreach ($violationNoHp as $violation)
+                {
+                    $erors['hp'] = $violation->getMessage();
+                }
 
                 $provinsi = $_POST['provinsi'];
                 $kota = $_POST['kota'];
@@ -514,5 +526,22 @@ class Pencari extends Controller {
     function getContact()
     {
         echo json_encode($this->model->getContact());
+
+    }
+
+    // function hapusFavorit()
+    // {
+    //     var_dump($_POST['idFavorit']);
+    //     if ($_SERVER["REQUEST_METHOD"] == "POST")
+    //     {
+    //         $idFav = $this->model->hapusFavorit($_POST['idFavorit']);
+    //     }
+    // }
+
+    function hapusFavorit($params = []){
+        if(isset($_POST['idKost'])){
+            $idKost = $_POST['idKost'];
+            $this->model->hapusFavoritbyId($idKost);
+        }
     }
 }
