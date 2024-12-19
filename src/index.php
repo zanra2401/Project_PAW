@@ -9,11 +9,11 @@ $_SESSION["role"] = "pencari";
 // $_SESSION["id_user"] = 2;
 // $_SESSION["username"] = "bagoes123";
 // $_SESSION["loged_in"] = true;
-$_SESSION["role_user"] = "pencari";
+// $_SESSION["role_user"] = "pencari";
 // $_SESSION["id_user"] = 2;
 // $_SESSION["username"] = "irawan12";
 // $_SESSION["loged_in"] = true;
-$_SESSION["role_user"] = "pemilik";
+// $_SESSION["role_user"] = "pemilik";
 // $_SESSION["id_user"] = 1;
 // $_SESSION['id_admin'] = 1;
 
@@ -21,7 +21,7 @@ $_SESSION["role_user"] = "pemilik";
 // {
 //     unset($_SESSION["username"]);
 // }
-
+    
 // if (isset($_SESSION["loged_in"]))
 // {
 //     unset($_SESSION["loged_in"]);
