@@ -98,7 +98,7 @@ class Account extends Controller {
             
             if (count($errors) > 0)
             {
-                $_SESSION['errors_register'] = $errors;
+                $_SESSION['errors_register'] = [$errors];
                 header("Location: /project_paw/pencari/regPenyewa");
             } else {
                 $this->model->register($username, $email, $password, "pencari");
@@ -150,7 +150,7 @@ class Account extends Controller {
                 ])
             ]);
 
-            $uniqueUsername = $this->model->unique("username_user", $username, "user");
+            $uniqueUsername = $this->model->unique("email_user", $email, "user");
             if (!$uniqueUsername) $errors[] = "Username Telah Di gunakan";
 
             $violatiolnEmail = $validator->validate($email, [
@@ -268,7 +268,6 @@ class Account extends Controller {
                 $errors[] = "Username atau Password tidak vali1d";
             }
 
-            
             if (!password_verify($password, $hashPass))
             {
                 $errors[] = "Username atau Password tidak valid";
@@ -342,6 +341,11 @@ class Account extends Controller {
             new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
         ]);
 
+        if (!$this->model->isEmailExist($email))
+        {
+            $violations[] = "Email tidak di temukan";
+        }
+        
         foreach ($violatiolnEmail as $violation)
         {
             $violations[] = $violation->getMessage();
@@ -349,7 +353,18 @@ class Account extends Controller {
 
         if (count($violations) < 1)
         {
-        
+            $token = bin2hex(random_bytes(32));
+            $expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+            $id = $this->model->getUserByEmail($email);
+
+            $this->model->insertToken($id, $token, $expires);
+
+            $resetLink = "http://yourwebsite.com/<?= PROJECT_NAME ?>/account/reset_password?token=" . $token;
+
+            mail($email, "Reset Password", "Klik link berikut untuk reset password Anda: $resetLink");
+
+            $_SESSION['reset_password'] = "link reset password telah di kirim ke ";
         }
     }
 }

@@ -60,12 +60,12 @@
                         contacts = ``;
                         data.forEach(contact => {
                             contacts += `<a href="/<?= PROJECT_NAME ?>/pencari/chatting/${contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
-                                    <img src="${contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
+                                    <img src="/<?= PROJECT_NAME ?>/${contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
                                     <div class="flex-1">
                                         <h3 class="text-lg font-medium ">${contact[0]['username_user']}</h3>
                                     </div>`
                             if (contact['unread'] > 0){
-                                contact += `<span class="flex justify-center items-center right-0 -mt-2 -mr-2 w-5 h-5 bg-warna-second text-white text-xs font-semibold rounded-full">
+                                contacts += `<span class="flex justify-center items-center right-0 -mt-2 -mr-2 w-5 h-5 bg-warna-second text-white text-xs font-semibold rounded-full">
                                     ${contact['unread']}
                                 </span>`
                             }

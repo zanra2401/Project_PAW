@@ -22,12 +22,27 @@
         </style>
         <script src="<?= NODE_MODULES ?>leaflet/dist/leaflet.js"></script>
         <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">
-
+     
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="overflow-scroll w-screen h-screen pb-10">
-            <div class="w-[90%] mx-auto mt-5 pb-10">
 
-                    <div id="gambar" class="h-[500px] grid grid-cols-3 grid-rows-2 gap-1 relative rounded-lg overflow-hidden">
+        <?php
+            if (isset($_SESSION['berhasil-update']))
+            {
+                $hellper->flashSuccess("berhasil edit kost", $_SESSION['berhasil-update']);
+                unset($_SESSION['berhasil-update']);
+            }
+            
+            if (isset($_SESSION['gagal-update'])) {
+                $hellper->flashAlert("gagal edit kost", $_SESSION['gagal-update']);
+                unset($_SESSION['gagal-update']);
+
+            }
+            ?>
+            <div class="w-[90%] mx-auto mt-5 pb-10">
+                <span class="mb-3 font-Roboto-medium h-10 s text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-pencil"></i> <a href="">Edit Kost</a> <i class="fas fa-chevron-right"></i> </span>
+
+                    <div id="gambar" class="h-[500px] mt-3 grid grid-cols-3 grid-rows-2 gap-1 relative rounded-lg overflow-hidden">
                         <div class="row-span-2 h-full  col-span-2">
                             <img class="w-full object-center object-cover" src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][0]['path_gambar'] ?>" alt="">
                         </div>
@@ -62,7 +77,7 @@
                                 </div>
                                 <div class="">
                                     <p class="inline-block">
-                                        Sisa Kamar 1
+                                        Sisa Kamar <?= $data['kost']['data_kost']['sisa_kamar'] ?>
                                     </p>
                                 </div>
                             </span>
@@ -124,7 +139,7 @@
                             </div>
                       
     
-                        <div class="py-4 border-t-2">
+                        <!-- <div class="py-4 border-t-2">
                             <div class="relative overflow-hidden h-fit">
                                 <button data-lokasi="lantai-1" onclick="show(event)" class="hover:cursor-pointer w-full text-left">
                                     <i data-lokasi-icon="lantai-1" class="fas fa-chevron-down"></i>
@@ -189,7 +204,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
     
                         <div class="relative h-fit py-4 border-t-2"">
                             <h1>Lokasi</h1>
@@ -370,8 +385,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="sisaKamar" class="block text-sm font-medium text-gray-800">Sisa Kamar</label>
-                                <input type="number" id="sisaKamar" name="sisa_kamar" placeholder="Masukkan jumlah sisa kamar" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                <label for="sisaKamar" class="block text-sm font-medium text-gray-800" ">Sisa Kamar</label>
+                                <input type="number" id="sisaKamar" name="sisa_kamar" value="<?= $data['kost']['data_kost']['sisa_kamar'] ?>" placeholder="Masukkan jumlah sisa kamar" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             </div>
                             <div>
                                 <label for="sisaKamar" class="block text-sm font-medium text-gray-800">Sisa Kamar</label>

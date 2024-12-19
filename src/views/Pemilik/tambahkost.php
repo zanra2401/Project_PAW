@@ -5,6 +5,13 @@
     <script src="<?= JS ?>/libs/fullcalendar.js"></script>    
     <body class="overflow-hidden flex p-0 m-0 h-screen ">
         <?php require "./views/Components/sidebarPemilik.php" ?>
+        <?php
+            if (isset($_SESSION['success_tambahkost']))
+            {
+                $hellper->flashSuccess("Tambah Kost berhasil", $_SESSION['success_tambahkost']);
+                unset($_SESSION['success_tambahkost']);
+            }
+        ?>
         <main class="flex-1 flex flex-col p-5 overflow-y-auto">
             <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
             <div  class="container">
@@ -143,6 +150,11 @@
                             <input value="<?= (isset($_SESSION['data_sebelumnya']) ? "{$_SESSION['data_sebelumnya']['long']}" : "") ?>" id="long-input" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Longitude" disabled>
                         </span>
                     </div>  
+                    <div class="h-fit w-full flex gap-2 pl-3 items-center p-1 rounded-md border-2 border-gray-400 shaodwmdm shadow-gray-700">
+                        <i class="fas fa-search text-gray-500"></i>
+                        <input id="nama-lokasi-map" type="text" placeholder="Cari Lokasi Kost Anda" class="w-full border-none focus:outline-none font-medium" >
+                        <button id="cari-lokasi-map" class="px-3 py-1 bg-warna-second text-white font-Roboto-bold rounded-md">cari</button>
+                    </div> 
                     <?= (isset($_SESSION['errors_tambahkost']['lat']) or isset($_SESSION['errors_tambahkost']['long'])) ? " <p class='text-red-500 font-Roboto-medium'>lat dan lng wajib di isi</p>" : "" ?>
 
 
@@ -173,6 +185,7 @@
             const provinsi = document.getElementById("provinsi");
             const kota = document.getElementById("kota");
             const reader = new FileReader();
+
             var id = 0;
             var dataKost = {
                 nama : "",
@@ -228,6 +241,9 @@
                 }
             }
 
+            
+      
+
             fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
             .then(response => response.json())
             .then(provinces => {
@@ -260,7 +276,7 @@
 
             const namaLokasiMap = document.getElementById("nama-lokasi-map");
             const cariLokasiMap = document.getElementById("cari-lokasi-map")
-            const mapSet = L.map('map-set').setView([20, 20], 5);
+            const mapSet = L.map('map-set').setView([-6, 106], 10);
             const latInput = document.getElementById('lat-input');
             const longInput = document.getElementById('long-input');
 
@@ -271,7 +287,7 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(mapSet);
 
-            L.marker([20, 20]).addTo(markerLayerMapSet);
+            L.marker([-6, 106]).addTo(markerLayerMapSet);
 
             mapSet.on('click', (e) => {
                 mapSet.setView([e.latlng.lat, e.latlng.lng],e.target._zoom);
@@ -283,6 +299,22 @@
                 longInput.value = `${e.latlng.lng}`;
                 console.log(dataKost);
             });
+
+            cariLokasiMap.addEventListener('click', async (e) => {
+                const url = `https://nominatim.openstreetmap.org/search?q=${namaLokasiMap.value}&format=json&addressdetails=1`;
+
+                await fetch(url).then(async (result) => {
+                    await result.json().then((r) => {
+                        mapSet.setView([r[0].lat, r[0].lon], 15);
+                        markerLayerMapSet.clearLayers();
+                        L.marker([r[0].lat, r[0].lon]).addTo(markerLayerMapSet)
+                        latInput.value = r[0].lat;
+                        longInput.value =r[0].lon;
+                    })
+                });
+
+                
+            })
 
             // cariLokasiMap.addEventListener('click', async (e) => {
             //     console.log("a")

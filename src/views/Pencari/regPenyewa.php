@@ -1,5 +1,5 @@
 <?php require './views/Components/Head.php' ?>
-<?php require './helper/helper.php' ?>
+<?php require_once './helper/helper.php' ?>
 <style>
     .alert {
         animation: message 0.5s ease 1;
@@ -24,7 +24,7 @@
     <?php 
         if (isset($_SESSION["errors_register"]))
         {
-            $hellper->flashAlert($_SESSION["errors_register"]); 
+            $hellper->flashAlert($_SESSION["errors_register"], "Gagal Registrasi"); 
             unset($_SESSION["errors_register"]);
         }
     ?>

@@ -46,4 +46,26 @@ class AccountModel {
         $this->DB->query("SELECT username_user, email_user, nama_user, alamat, no_hp_user, role_user FROM user WHERE username_user = ?", 's', [$username]);
         return $this->DB->getFirst();
     }
+
+    function isEmailExist($email)
+    {
+        $this->DB->query("SELECT * FROM user WHERE email_user = ?", "?", [$email]);
+        return $this->DB->getFirst != NULL;
+    }
+
+
+    function getUserByEmail($email)
+    {
+        $this->DB->query("SELECT * FROM user WHERE email = {$email}");
+        return $this->DB->getAll();
+    }
+    
+
+    function insertToken($id, $token, $expired)
+    {
+        
+        $this->DB->query("INSERT INTO token_user VALUES(?, ?, ?)", "iis", [$id, $token, ]);
+        return true;
+    }
+     
 }

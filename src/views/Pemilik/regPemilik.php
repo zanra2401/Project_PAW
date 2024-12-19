@@ -1,30 +1,11 @@
 <?php require './views/Components/Head.php' ?>
-<?php require './helper/helper.php' ?>
-<style>
-    .alert {
-        animation: message 0.5s ease 1;
-        top: 10px;
-    }
+<?php require_once './helper/helper.php' ?>
 
-    @keyframes message {
-        0% {
-            top: -100%;
-        }
-
-        50% {
-            top: -50%;
-        }
-
-        100% {
-            top: 10px;
-        }
-    }
-</style>
 <body class="bg-blue-50 flex items-center justify-center min-h-screen">
     <?php 
             if (isset($_SESSION["errors_register"]))
             {
-                $hellper->flashAlert($_SESSION["errors_register"]); 
+                $hellper->flashAlert($_SESSION["errors_register"], "Gagal Registrasi"); 
                 unset($_SESSION["errors_register"]);
             }
     ?>

@@ -175,7 +175,6 @@ class PemilikModel {
        
         $data = [
             "data_kost" => $kost,
-            "sisa_kamar" => 0,
             "gambar" => []
         ];
 
@@ -261,7 +260,7 @@ class PemilikModel {
 
     function updateBaseInfo($post)
     {
-        $this->DB->query("UPDATE kost SET nama_kost = ?, harga_kost = ?, tipe_kost = ?, provinsi_kost = ?, kota_kost = ? WHERE id_kost = ?", "sisiii", [$post['nama'], $post['harga'], $post['tipe'], $post['provinsi'], $post['kota'], $post['id_kost']]);
+        $this->DB->query("UPDATE kost SET nama_kost = ?, harga_kost = ?, tipe_kost = ?, provinsi_kost = ?, kota_kost = ?, sisa_kamar = ? WHERE id_kost = ?", "sisiiii", [$post['nama'], $post['harga'], $post['tipe'], $post['provinsi'], $post['kota'], $post['sisa_kamar'], $post['id_kost']]);
     }
 
     function updateLatLong($post)

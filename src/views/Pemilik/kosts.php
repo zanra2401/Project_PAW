@@ -2,7 +2,9 @@
     <body class="overflow-hidden min-h-screen flex p-0 m-0">
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="p-5 flex-1 overflow-y-scroll h-screen">
-            <form action="/<?= PROJECT_NAME ?>/pemilik/kosts/cari" method="POST" class="h-fit w-full flex gap-2 px-5 items-center p-1 rounded-sm border-2 border-gray-200 shaodwmdm shadow-gray-700">
+            <span class="mb-3 font-Roboto-medium h-10 s text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a><i class="fas fa-chevron-right mr-2"></i> </span>
+
+            <form action="/<?= PROJECT_NAME ?>/pemilik/kosts/cari" method="POST" class="h-fit mt-5 w-full flex gap-2 px-5 items-center p-1 rounded-sm border-2 border-gray-200 shaodwmdm shadow-gray-700">
                 <i class="fas fa-search text-gray-500"></i>
                 <input type="text" id="cariKost" name="cari" placeholder="Cari Kost Anda" class="w-full border-none focus:outline-none font-medium">
                 <button class="h-full p-3 px-6 text-white font-Roboto-bold rounded-md bg-warna-second">Cari</button>

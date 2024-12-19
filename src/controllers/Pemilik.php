@@ -94,8 +94,23 @@ class Pemilik extends Controller {
     {
         if ($this->isLogInPemilik()) 
         {
+            $trans = array(
+                'transaction_details' => array(
+                    'order_id' => rand(),
+                    'gross_amount' => 10000,
+                ),
+                'customer_details' => array(
+                    'first_name' => 'budi',
+                    'last_name' => 'pratama',
+                    'email' => 'budi.pra@example.com',
+                    'phone' => '08111222333',
+                ),
+            );
+            
+            $snapToken = \Midtrans\Snap::getSnapToken($trans);
             $this->view("Pemilik/iklan", [
-                'title' => "Iklan"
+                'title' => "Iklan",
+                'snapToken' => $snapToken
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -199,7 +214,7 @@ class Pemilik extends Controller {
                     }
                     else 
                     {
-                        $_SESSION['success_tambahkost'] = "Berhasil Menambahkan Kost";
+                        $_SESSION['success_tambahkost'] = ["Berhasil Menambahkan Kost"];
                         $this->model->tambahKost($_FILES, $_POST);
                         header("Location: /" . PROJECT_NAME . "/pemilik/tambahkost");
                     }
@@ -295,11 +310,13 @@ class Pemilik extends Controller {
                 if (count($violations) < 1)
                 {
                     $this->model->updateGambar($_FILES, $_POST);
+                    $_SESSION['berhasil-update'] = ["Berhasil mengupdate gambar kost"];
                     header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
                 }
                 else
                 {
-                    var_dump($violations);
+                    $_SESSION['gagal-update'] = ["Gagal menupdate gambar kost"];
+                    header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
                 }
             }
         } else {
@@ -337,6 +354,11 @@ class Pemilik extends Controller {
                 if (count($violations) < 1)
                 {
                     $this->model->updateBaseInfo($_POST);
+                    $_SESSION['berhasil-update'] = ["Berhasil menupdate info kost"];
+                    header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+                } else {
+                    
+                    $_SESSION['gagal-update'] = ["Gagal menupdate info kost"];
                     header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
                 }
             }
@@ -368,7 +390,11 @@ class Pemilik extends Controller {
                 if (count($violations) < 1)
                 {
                     $this->model->updateLatLong($_POST);
-                    $_SESSION['berhasil-update'] = "Berhasil menupdate lokasi kost";
+                    $_SESSION['berhasil-update'] = ["Berhasil menupdate lokasi kost"];
+                    header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+                } else {
+                    
+                    $_SESSION['gagal-update'] = ["gagal menupdate lokasi kost"];
                     header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
                 }
             }
@@ -410,8 +436,12 @@ class Pemilik extends Controller {
     
     
                 if (count($violations) < 1){
-                    $_SESSION['berhasil-update'] = "Berhasil mengupdate fasilitas";
+                    $_SESSION['berhasil-update'] = ["Berhasil mengupdate fasilitas"];
                     $this->model->updateFasilitas($fasilitas, $fasilitasDel, $_POST['id_kost']);
+                    header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
+                } else {
+                    
+                    $_SESSION['gagal-update'] = ["Gagal mengupdate fasilitas"];
                     header("Location: /" . PROJECT_NAME . "/pemilik/editkost/{$_POST['id_kost']}");
                 }
             }
