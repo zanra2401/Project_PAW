@@ -58,18 +58,34 @@ class AdminModel {
 
     function insertBerita($files, $post)
     {
-        $uploadDirectory = STORAGE . "/cover_berita";
-        $pathDir = "/public/storage/cover_berita";
-        $tmpName = $files['cover_berita']['tmp_name'];
-        $name = $files['cover_berita']['name'];
-        $uid = uniqid() . "_" . basename($name);
-
-        $newFileName = $uploadDirectory . $uid;
-        $newDir = $pathDir . $uid;
+        $uploadDirectory = STORAGE . "/cover_berita";  // Direktori penyimpanan file
+        $pathDir = "/public/storage/cover_berita/";    // Direktori untuk disimpan di database
+        $tmpName = $files['cover_berita']['tmp_name']; // Nama file sementara yang diupload
+        $name = $files['cover_berita']['name'];        // Nama asli file
+        $uid = uniqid() . "_" . basename($name);       // Membuat nama file unik
+    
+        // Tentukan path lengkap untuk file yang diupload
+        $newFileName = $uploadDirectory . '/' . $uid; // Menambahkan '/' agar path valid
+        $newDir = $pathDir . $uid;                    // Path yang disimpan di database
+    
+        // Pastikan direktori tujuan ada, jika belum buat direktori
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
+    
+        // Pindahkan file ke direktori tujuan dan simpan data ke database
         if (move_uploaded_file($tmpName, $newFileName)) {
-            $this->DB->query("INSERT INTO berita (judul_berita,deskripsi_berita,cover_berita, id_admin) VALUES(?,?,?,?)","sssi",[$post['judulBerita'],$post['deskripsiBerita'],$pathDir, 1]);
+            $this->DB->query(
+                "INSERT INTO berita (judul_berita, deskripsi_berita, cover_berita, id_admin) VALUES(?, ?, ?, ?)",
+                "sssi",
+                [$post['judulBerita'], $post['deskripsiBerita'], $newDir, 1]
+            );
+        } else {
+            // Jika gagal upload
+            echo "Error uploading file.";
         }
     }
+    
 
     function getBeritaById($idBerita)
     {
@@ -77,13 +93,34 @@ class AdminModel {
         return $this->DB->getFirst();
     }
 
-    function updateBerita($idBerita, $judul, $deskripsi)
+    function updateBerita($files,$post)
     {
-        $this->DB->query(
-            "UPDATE berita SET judul_berita = ?, deskripsi_berita = ? WHERE id_berita = ?", 
-            "ssi", 
-            [$judul, $deskripsi, $idBerita]
-        );
+        $uploadDirectory = STORAGE . "/cover_berita";  // Direktori penyimpanan file
+        $pathDir = "/public/storage/cover_berita/";    // Direktori untuk disimpan di database
+        $tmpName = $files['cover_berita']['tmp_name']; // Nama file sementara yang diupload
+        $name = $files['cover_berita']['name'];        // Nama asli file
+        $uid = uniqid() . "_" . basename($name);       // Membuat nama file unik
+    
+        // Tentukan path lengkap untuk file yang diupload
+        $newFileName = $uploadDirectory . '/' . $uid; // Menambahkan '/' agar path valid
+        $newDir = $pathDir . $uid;                    // Path yang disimpan di database
+    
+        // Pastikan direktori tujuan ada, jika belum buat direktori
+        if (!file_exists($uploadDirectory)) {
+            mkdir($uploadDirectory, 0777, true);
+        }
+    
+        // Pindahkan file ke direktori tujuan dan simpan data ke database
+        if (move_uploaded_file($tmpName, $newFileName)) {
+            $this->DB->query(
+                "UPDATE berita SET judul_berita = ?  ,deskripsi_berita = ? ,cover_berita = ?",
+                "sss",
+                [$post['judul'], $post['deskripsi'], $newDir]
+            );
+        } else {
+            // Jika gagal upload
+            echo "Error uploading file.";
+        }
     }
 
     function getLaporanById($idLaporan)
@@ -143,4 +180,24 @@ class AdminModel {
 
 
     }
+
+    function getPertanyaan(){
+        $this->DB->query("SELECT p.id_pertanyaan, p.tanggal_pertanyaan, p.isi_pertanyaan, p.id_user, u.username_user, u.id_user 
+                          FROM pertanyaan AS p
+                          JOIN user AS u ON u.id_user = p.id_user
+                          LEFT JOIN jawaban AS j ON j.id_pertanyaan = p.id_pertanyaan");
+        return $this->DB->getAll();
+    }
+
+    function getPertanyaanById($idPertanyaan){
+        $this->DB->query("SELECT p.id_pertanyaan,p.tanggal_pertanyaan,p.isi_pertanyaan,p.id_user,u.username_user,u.id_user FROM pertanyaan AS p,user AS u WHERE id_pertanyaan = $idPertanyaan");
+        return $this->DB->getFirst();
+    }
+
+    function mengisiBalasan($idPertanyaan,$isiBalasan){
+        $this->DB->query("INSERT INTO jawaban(tanggal_jawaban,isi_jawaban,id_pertanyaan) VALUES (NOW(),?,?)","si",[$isiBalasan,$idPertanyaan]);
+        return true;
+    }
+    
+    
 }

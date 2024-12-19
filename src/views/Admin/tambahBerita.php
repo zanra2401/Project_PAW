@@ -52,7 +52,7 @@
                 <!-- Editor untuk Isi Berita -->
                 <div id="editor" class="border-box" name="deskripsi_berita"></div>
                 
-                <button type="submit" class="p-1 bg-warna-second mt-2 text-white px-2 rounded-lg w-full hover:bg-base-color">
+                <button type="submit" class="p-1 bg-blue-600 mt-2 text-white px-2 rounded-lg w-full hover:bg-base-color">
                     POST
                     <i class="fas fa-paper-plane"></i>
                 </button>

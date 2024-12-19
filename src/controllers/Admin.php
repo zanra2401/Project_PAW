@@ -85,7 +85,8 @@ class Admin extends Controller
     {
         $this->view("Admin/pertanyaan", [
             "title" =>  "pertanyaan",
-            "active-menu" => "pertanyaan"
+            "active-menu" => "pertanyaan",
+            "dataPertanyaan" => $this->model->getPertanyaan()
         ]);
     }
 
@@ -109,10 +110,21 @@ class Admin extends Controller
 
     function balaspertanyaan($params = [])
     {
+        $idPertanyaan = $_POST['idPertanyaan'];
         $this->view("Admin/balaspertanyaan", [
             "title" => "Balas Pertanyaan",
-            "active-menu" => "pertanyaan"
+            "active-menu" => "pertanyaan",
+            "pertanyaan" => $this->model->getPertanyaanById($idPertanyaan)
         ]);
+    }
+
+    function mengisiBalasan($params = []){
+        $idPertanyaan = $_POST['idPertanyaan'];
+        $isiBalasan = $_POST['balasan'];
+        $tanggalBalasan = $_POST['hiddenDateTime'];
+        $this->model->mengisiBalasan($idPertanyaan,$isiBalasan,$tanggalBalasan);
+        header("Location: /" . PROJECT_NAME . "/Admin/pertanyaan");
+        exit();
     }
 
     function editberita($params = [])
@@ -128,21 +140,17 @@ class Admin extends Controller
 
     function updateBerita()
     {
-        $idBerita = $_POST['idBerita'];
-        $judul = $_POST['judul'];
-        $deskripsi = $_POST['deskripsi'];
-
-        // Update data ke database
-        $this->model->updateBerita($idBerita, $judul, $deskripsi);
-
-        // Redirect ke halaman daftar berita
-        header("Location: /" . PROJECT_NAME . "/Admin/berita");
-        exit();
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $this->model->updateBerita($_FILES, $_POST);
+            header("Location: /" . PROJECT_NAME . "/admin/berita");
+        }
     }
 
 
     function insertBerita($params = [])
     {
+        var_dump($_FILES['cover_berita']['name']);
         if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             $this->model->insertBerita($_FILES, $_POST);
@@ -168,5 +176,6 @@ class Admin extends Controller
             header("Location: /" . PROJECT_NAME . "/admin/pengumuman");
         }
     }
+
 
 }
