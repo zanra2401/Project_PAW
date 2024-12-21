@@ -20,6 +20,7 @@ class PencariModel {
             $this->DB->query("SELECT * FROM kost WHERE (nama_kost LIKE '%$nama_lokasi%' OR kota_kost LIKE '%$nama_lokasi%' OR provinsi_kost LIKE '%$nama_lokasi%') AND tipe_kost = '$tipe'");
         }
 
+
         $kosts = $this->DB->getAll();
     
         foreach ($kosts as $kost)
@@ -76,6 +77,29 @@ class PencariModel {
         }
 
         return $data;
+    }
+
+    function getFavorit(){
+        $this->DB->query("SELECT id_kost,id_favorit FROM favorit WHERE id_user = (?)","i",[$_SESSION['id_user']]);
+        $id = $this->DB->getALL();
+        $data = [];
+        foreach($id as $i){
+            $this->DB->query("SELECT * FROM kost WHERE id_kost = ?","i",[$i["id_kost"]]);
+            $data[] = $this->DB->getFirst();
+        }
+        return $data;
+    }
+
+    function hapusFavoritById($idKost) {
+        $this->DB->query("DELETE FROM favorit WHERE id_user = ? AND id_kost = ? ", "ii" ,[$_SESSION["id_user"], $idKost]);
+    }
+    
+
+    function getLaporanById($idLaporan)
+    {
+        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$id_laporan]);
+        // $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user, l.id_laporan FROM user AS u, laporan AS l WHERE l.id_laporan = ?","i",[$idLaporan]);
+        return $this->DB->getFirst();
     }
 
     function getAllFasilitas($id_kost)
@@ -283,7 +307,8 @@ class PencariModel {
         }
 
         foreach ($kategori as $id_kategori){
-            $this->DB->query("INSERT INTO laporantokategori (id_lapora n, id_kategori_laporan) VALUE (?,?)", "ii", [$data, $id_kategori]);
+            $this->DB->query("INSERT INTO laporantokategori (id_laporan, id_kategori_laporan) VALUE (?,?)", "ii", [$data, $id_kategori]);
+
         }
     }
 
@@ -396,3 +421,5 @@ class PencariModel {
         return true;
     }
 }
+
+

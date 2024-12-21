@@ -63,6 +63,16 @@ class PemilikModel {
     }
 
 
+ 
+
+    
+    function getFasilitasKamarByID($id)
+    {
+        $this->DB->query("SELECT fk.id_fasilitas, f.nama_fasilitas FROM fasilitas AS f, fasilitas_kost AS fk WHERE f.tipe_fasilitas = 'kamar' AND fk.id_kost = ? AND f.id_fasilitas = fk.id_fasilitas", "i", [$id]);
+        return $this->DB->getAll();
+    }
+
+
     function getFasilitasBersamaByID($id)
     {
         $this->DB->query("SELECT fk.id_fasilitas, f.nama_fasilitas FROM fasilitas AS f, fasilitas_kost AS fk WHERE f.tipe_fasilitas = 'bersama' AND fk.id_kost = ? AND f.id_fasilitas = fk.id_fasilitas", "i", [$id]);
@@ -76,11 +86,6 @@ class PemilikModel {
     }
 
     
-    function getFasilitasKamarByID($id)
-    {
-        $this->DB->query("SELECT fk.id_fasilitas, f.nama_fasilitas FROM fasilitas AS f, fasilitas_kost AS fk WHERE f.tipe_fasilitas = 'kamar' AND fk.id_kost = ? AND f.id_fasilitas = fk.id_fasilitas", "i", [$id]);
-        return $this->DB->getAll();
-    }
 
 
     function tambahKost($files, $post)
@@ -420,6 +425,7 @@ class PemilikModel {
 
         return $data;
     }
+    
     function getAllKamar($id)
     {
         $this->DB->query("SELECT lokasi_kamar,  GROUP_CONCAT(CONCAT(nomor_kamar, '|', status_kamar)) AS kamar_status_array FROM kamar WHERE id_kost = $id GROUP BY lokasi_kamar;");
@@ -514,3 +520,4 @@ class PemilikModel {
     }
   
 }
+

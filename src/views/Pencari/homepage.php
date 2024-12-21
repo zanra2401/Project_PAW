@@ -222,7 +222,10 @@
                         $harga = formatRupiah($kost['data_kost']['harga_kost']);
                         $path = "/" . PROJECT_NAME . "/";
                         echo <<<EOD
+
                             <a href="/project_paw/pencari/kostPage/{$kost['data_kost']['id_kost']}" class="group ">
+
+
                                 <div class="carousel">
                                     <div class="carousel-track-container">
                                         <ul class="carousel-track">
@@ -233,6 +236,7 @@
                             echo <<<EOD
                                 <li class="carousel-slide current-slide w-full h-40 overflow-hidden">
                                     <img src="{$imagePath}" alt="Image 1" class="object-fit">
+
                                 </li>
                             EOD;
                         }

@@ -1,53 +1,75 @@
-<?php require './views/Components/Head.php' ?>
+<?php require './views/Components/Head.php'; ?>
+<script src="<?= NODE_MODULES ?>/quill/dist/quill.js"></script>
 <body class="min-h-screen flex">
-<link rel="stylesheet" href="<?= NODE_MODULES ?>/quill/dist/quill.snow.css">
-    <script src="<?= NODE_MODULES ?>/quill/dist/quill.js"></script>
-    <?php require "./views/Components/sidebarAdmin.php" ?>
     <style>
-        #editor {
-            height: 85%;
+        /* Styling untuk input file */
+        .input-file-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .input-file {
+            display: none; /* Menyembunyikan input file asli */
         }
     </style>
-    <main class="p-5 w-full min-h-screen box-border bg-gray-50 flex flex-col">
-            <div class="flex gap-2 w-full flex-1">
-                <div class="w-48 bg-white overflow-hidden rounded-lg shadow-sm h-fit shadow-violet-300">
-                    <div class="p-2 bg-gray-100 w-100 border-b border-gray-300">
-                        kategori
-                    </div>
-                    <ul class="p-2 w-full">
-                       <li class="flex justify-between">kehilangan <input name="tujuan" type="radio" checked></li>
-                       <li class="flex justify-between">Dicari <input name="tujuan" type="radio"></li>
-                       <li class="flex justify-between">Lainnya <input name="tujuan" type="radio"></li> 
-                    </ul>
-                </div>
-                <div class="flex-1 p-2 bg-white rounded-lg shadow-sm w-fit shadow-violet-300 ">
-                    <input type="text" placeholder="Judul Berita" value="Dicari STNK hilang dengan nopol 'S 3624 AV' Hubungi" class="border mx-2 w-full p-2 m-2">
-                    <div id="editor" class="border-box">
 
-                    </div>
-                    <button class="p-1 bg-warna-second mt-2 text-white px-2 rounded-lg w-full">
-                        UPDATE
-                        <i class="fas fa-save"></i>
-                    </button>
-                </div>
-            </div>
-    </main>
+<?php require "./views/Components/sidebarAdmin.php"; ?>
 
-    <script>
-        const editorContainer = document.getElementById("editor");
-        const options = {
-            debug: 'info',
-            modules: {
-                toolbar: true,
-            },
-            placeholder: 'Isi Berita',
-            theme: 'snow'
+<main class="p-5 w-full min-h-screen box-border bg-gray-50 flex flex-col">
+    <span class="text-gray-600"><i class="fas fa-newspaper"></i> Berita <i class="fas fa-chevron-right"></i> <i class="fas fa-file"></i> Edit Berita</span>
+    <h2 class="text-xl font-bold mb-4 mt-4">Edit Berita</h2>
+
+    <form action="/<?= PROJECT_NAME ?>/Admin/updateBerita" method="POST" enctype="multipart/form-data">
+        <div class="mb-4">
+            <img id="previewImage" src="<?= "/" . PROJECT_NAME . "/" . $data['berita']['cover_berita']?>" class="w-36 rounded-lg" alt="Cover Berita">
+        </div>
+
+        <!-- Ubah Cover -->
+        <div class="input-file-wrapper mb-4">
+            <input type="file" id="cover_berita" name="cover_berita" accept="image/*" onchange="previewImageFunction()" class="input-file">
+            <label for="cover_berita" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-base-color">
+                Ubah Cover
+            </label>
+        </div>
+
+        <!-- Input ID Berita -->
+        <input type="hidden" name="idBerita" value="<?= htmlspecialchars($data['berita']['id_berita']); ?>">
+
+        <!-- Input Judul Berita -->
+        <label for="judul" class="block text-gray-700">Judul Berita</label>
+        <input type="text" id="judul" name="judul" 
+               value="<?= htmlspecialchars($data['berita']['judul_berita']); ?>" 
+               class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-brown-600">
+
+        <!-- Input Deskripsi Berita -->
+        <label for="deskripsi" class="block text-gray-700">Deskripsi Berita</label>
+        <textarea id="deskripsi" name="deskripsi" 
+                  class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-brown-600"><?= htmlspecialchars($data['berita']['deskripsi_berita']); ?></textarea>
+
+        <!-- Tombol Submit -->
+        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-base-color ">
+            Update Berita
+        </button>
+    </form>
+</main>
+
+<script>
+    // Fungsi untuk menampilkan preview gambar sebelum di-upload
+    function previewImageFunction() {
+        const file = document.getElementById('cover_berita').files[0]; // Ambil file yang dipilih
+        const reader = new FileReader(); // Membaca file
+
+        reader.onload = function(e) {
+            const preview = document.getElementById('previewImage'); // Gambar preview
+            preview.src = e.target.result; // Set sumber gambar dengan hasil pembacaan file
         };
-        const quill = new Quill(editorContainer, options);
 
-        // Set initial content for editing
-        const content = "<p>Berita ini adalah contoh isi berita untuk keperluan edit. Anda dapat mengganti teks ini dengan konten berita yang sesuai.</p>";
-        quill.root.innerHTML = content;
-    </script>
+        if (file) {
+            reader.readAsDataURL(file); // Mulai pembacaan file sebagai data URL
+        }
+    }
+</script>
+
 </body>
-<?php require './views/Components/Foot.php' ?>
+<?php require './views/Components/Foot.php'; ?>

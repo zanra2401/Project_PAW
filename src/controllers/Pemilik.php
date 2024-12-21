@@ -72,11 +72,13 @@ class Pemilik extends Controller {
     function chat($params = []) {
         if ($this->isLogInPemilik()) 
         {
+
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/chat", [
                 "title" => "Chat",
                 "contact" => $this->model->getContact(),
                 "data_user" => $data
+
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -166,6 +168,7 @@ class Pemilik extends Controller {
         {
             
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
+
             if ($this->isLogInPemilik())
             {
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -259,6 +262,7 @@ class Pemilik extends Controller {
                         "fasilitas_kamar" => $this->model->getFasilitasKamar(),
                         "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
                         "data_user" => $data
+
                     ]);
                 }
             } else {
@@ -285,6 +289,7 @@ class Pemilik extends Controller {
         if ($this->isLogInPemilik()) 
         {   
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
+
             if (isset($params[0]) and $params[0] == "cari" and $_SERVER['REQUEST_METHOD'] == "POST") {
                 $this->view("Pemilik/kosts", [
                     "title" => "Kosts",
@@ -304,6 +309,8 @@ class Pemilik extends Controller {
             header("Location: /" . PROJECT_NAME ."/account/login");
         }
     }
+
+  
 
     function profile($params = [])
     {   
@@ -601,6 +608,7 @@ class Pemilik extends Controller {
             $this->view("Pemilik/getmessage", [
                 "title" => "Chat",
                 "data_user" => $data
+
             ]);
             
         } else {
@@ -677,4 +685,5 @@ class Pemilik extends Controller {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
+
 }
