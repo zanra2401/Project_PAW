@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Pencari extends Controller {
+
     public $default = "homepage";
     private $model; 
 
@@ -72,11 +73,11 @@ class Pencari extends Controller {
        
     }
 
-    function kode($params = []) {
+    function verifikasiKode($params = []) {
         if ($this->isLogInPencari()) 
         {
-            $this->view("Pencari/kode", [
-                "title" => "kode"
+            $this->view("Pencari/verifikasiKode", [
+                "title" => "verifikasiKode"
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -154,11 +155,13 @@ class Pencari extends Controller {
         if ($this->isLogInPencari()) 
         {
             $profile = $this->model->getProfie($_SESSION['id_user']);
+            $data = $this->model->getAllBerita();
             if ($profile['profile_user'] == ""){
                 $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
             }
             $this->view("Pencari/homeberita", [
                 "title" => "homeberita",
+                "data_berita" => $data,
                 "profile" => $profile
             ]);
         } else {
@@ -169,7 +172,10 @@ class Pencari extends Controller {
     function isiberita($params = []) {
         if ($this->isLogInPencari()) 
         {
+            $id = $params[0];
+            $data = $this->model->getOneBerita($id);
             $this->view("Pencari/isiberita", [
+                "data_berita" => $data,
                 "title" => "isiberita"
             ]);
         } else {
@@ -414,12 +420,7 @@ class Pencari extends Controller {
                     $erors['email'] = $violation->getMessage();
                 }   
 
-                // input eror no hp
-
-                foreach ($violationNoHp as $violation)
-                {
-                    $erors['hp'] = $violation->getMessage();
-                }
+              
 
                 $provinsi = $_POST['provinsi'];
                 $kota = $_POST['kota'];
@@ -463,6 +464,12 @@ class Pencari extends Controller {
             header("Location: /" . PROJECT_NAME ."/account/login");
         }
     }
+
+    // function test()
+    // {
+    //     var_dump(count($this->model->unique("username_user", "zanuar", "user")));
+    // }
+
 
     function faq($params = []){
         if ($this->isLogInPencari()) 
@@ -576,4 +583,13 @@ class Pencari extends Controller {
         $this->model->saveTransaction($notif);
         echo json_encode($notif);
     }
+
+    function notifikasi($params = []){
+        $data = $this->model->getPengumuman($_SESSION["id_user"]);
+        $this->view("Pencari/notifikasi", [
+            "title" => "notifikasi",
+            "data" => $data
+        ]);
+    }
+    
 }

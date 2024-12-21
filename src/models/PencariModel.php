@@ -9,6 +9,53 @@ class PencariModel {
         $this->DB = DataBase::getInstance();
     }
 
+
+    function getAllBerita(){
+        $data = [];
+        $this->DB->query("SELECT * FROM berita");
+        $result = $this->DB->getAll();
+        foreach ($result as $res)
+        {
+            $data[] = $res;
+        }
+
+        return $data;
+    }
+
+    function getOneBerita($id){
+        $data = [];
+        $this->DB->query("SELECT * FROM berita WHERE id_berita=$id");
+        $result = $this->DB->getAll();
+        foreach ($result as $res)
+        {
+            $data[] = $res;
+        }
+
+        return $data;
+    }
+
+    function email($email){
+        $data = [];
+        $this->DB->query("SELECT * FROM user WHERE email = '$email'");
+        $result = $this->DB->getAll();
+        foreach($result as $res)
+        {
+            $data[] = $res;
+        }
+        return $data;
+    }
+
+    function token($token, $email){
+        $data = [];
+        $this->DB->query("UPDATE user SET reset_code = '$token' WHERE email = '$email'");
+        $result = $this->DB->getAll();
+        foreach($result as $res)
+        {
+            $data[] = $res;
+        }
+        return $data;
+    }
+    
     function filterKost($nama_lokasi, $tipe){
         $data = [];
 
@@ -97,7 +144,7 @@ class PencariModel {
 
     function getLaporanById($idLaporan)
     {
-        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$id_laporan]);
+        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$idLaporan]);
         // $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user, l.id_laporan FROM user AS u, laporan AS l WHERE l.id_laporan = ?","i",[$idLaporan]);
         return $this->DB->getFirst();
     }
@@ -420,6 +467,17 @@ class PencariModel {
         }
         return true;
     }
+
+
+
+    function getPengumuman($id_user) {
+        $data = [];
+        
+        // Query to fetch data from the 'd_pengumuman' table
+        $this->DB->query("SELECT * FROM pengumuman");
+        $data = $this->DB->getAll();
+        
+        // Pass the data to the view
+        return $data;
+    }
 }
-
-

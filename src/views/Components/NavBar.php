@@ -35,6 +35,7 @@
             </div>
         
             <div>
+
                 <?php if(isset($_SESSION["loged_in"])):?>
                     <img id="pp" src="<?= "/" . PROJECT_NAME . "/" . $data['profile']['profile_user'] ?>" alt="" class="w-14 h-14 rounded-full cursor-pointer">
                     <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">

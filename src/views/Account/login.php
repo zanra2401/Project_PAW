@@ -1,10 +1,26 @@
 <?php require './views/Components/Head.php' ?>
 <body class="bg-gray-50 flex items-center justify-center min-h-screen">
+<?php require_once './helper/helper.php' ?>
+
+  <?php 
+    if (isset($_SESSION['errors']))
+    {
+      $hellper->flashAlert("Gagal Login", $_SESSION['errors']);
+      unset($_SESSION['errors']);
+    }
+
+    if (isset($_SESSION['success']))
+    {
+        $hellper->flashSuccess("berhasil", $_SESSION['success']);
+        unset($_SESSION['success']);
+    }
+  ?>
   <div class="w-full max-w-md bg-white shadow-md rounded-lg p-8">
     <div class="flex justify-center mb-6" style="margin-bottom: 30px">
         <img class="w-15 h-10" src="<?= PUBLIC_FOLDER ?>/assets/image/logo.png" alt="Illustration" class="w-2/3">
     </div>
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6" style="margin-bottom: 40px">Masuk Akun</h2>
+
     <form action="/<?= PROJECT_NAME ?>/account/loginuser" method="post">
       <div class="mb-4">
         <label for="username" class="block text-sm font-medium text-gray-700">ID Username</label>
