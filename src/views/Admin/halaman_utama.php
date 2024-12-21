@@ -45,9 +45,10 @@
                             </thead>
                             <tbody id="userTable">
                                 <?php foreach($data['user'] as $user): ?>
+                                
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"><?= $user['nama_user'] ?></th>
-                                    <td class="px-6 py-4"><?= $user['tanggal_akun_dibuat_user'] ?></td>
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></th>
+                                    <td class="px-6 py-4"></td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -125,7 +126,7 @@
                 const row = document.createElement('tr');
                 row.className = "bg-white border-b dark:bg-gray-800 dark:border-gray-700";
                 row.innerHTML = `
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${user['nama_user']}</th>
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">${user['username_user']}</th>
                     <td class="px-6 py-4">${user['tanggal_akun_dibuat_user']}</td>
                 `;
                 tableBody.appendChild(row);
