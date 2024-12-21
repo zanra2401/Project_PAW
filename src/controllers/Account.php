@@ -275,6 +275,7 @@ class Account extends Controller {
 
 
             $dbUsername = $this->model->getOneData('username_user', $username, 'user');
+
             $hashPass = $this->model->getData($username)['password_user'];
            
             if ($dbUsername == NULL or $hashPass == NULL)
@@ -314,6 +315,7 @@ class Account extends Controller {
     function login($params = []){
         if ($this->isLogIn())
         {
+
             $role = $this->model->getData($_SESSION["username"])['role_user'];
             var_dump($role);
             if ($role = "pemilik")
@@ -344,6 +346,7 @@ class Account extends Controller {
         if ($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $message = "";
+
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $email = $_POST['email'];
 
@@ -383,6 +386,18 @@ class Account extends Controller {
                         <h2>Klik tautan berikut</h2>
                         Klik link berikut untuk mereset password Anda: <a href='$resetLink'>Reset Password</a>
                     ";                             
+
+                    $mail->setFrom('from@example.com', 'Mailer');
+                    $mail->addAddress($email, 'User');     //Add a recipient              //Name is optional
+                    $mail->addReplyTo('no-reply@example.com', 'Information');
+
+                    //Content
+                    $mail->isHTML(true);    
+                    $resetLink = "http://localhost/project_paw/resetpassword?token=$token";
+                    $email_template = "
+                        <h2>Klik tautan berikut</h2>
+                        Klik link berikut untuk mereset password Anda: <a href='$resetLink'>Reset Password</a>
+                    ";                             //Set email format to HTML
                     $mail->Subject = 'verifikasi email';
                     $mail->Body    = $email_template;
                     
@@ -535,6 +550,4 @@ class Account extends Controller {
             }
         }
     }
-
-
 }

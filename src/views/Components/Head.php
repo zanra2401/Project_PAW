@@ -19,6 +19,7 @@
             font-weight: 600;
         }
 
+
         .menu-foot {
             display:flex; 
             justify-content: center; 
