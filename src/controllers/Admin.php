@@ -177,4 +177,10 @@ class Admin extends Controller
             header("Location: /" . PROJECT_NAME . "/admin/pengumuman");
         }
     }
+
+    function pembayaran($params = []){
+        $this->view("Admin/pembayaran",[
+            "tittle" => "pembayaran",
+        ]);
+    }
 }

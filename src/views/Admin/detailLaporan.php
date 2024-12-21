@@ -24,7 +24,7 @@
             <?php foreach ($laporan['kategori'] as $kategori): ?>
                 <?= $kategori; ?>, 
             <?php endforeach; ?>
-        </div>
+            </div>
         
         <!-- Isi Laporan -->
         <div class="border-t border-gray-300 pt-4">

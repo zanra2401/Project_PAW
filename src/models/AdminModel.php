@@ -9,8 +9,6 @@ class AdminModel {
         $this->DB = DataBase::getInstance();
     }
 
-<<<<<<< HEAD
-=======
     function getAllLaporan()
     {
         $data = [];
@@ -156,7 +154,7 @@ class AdminModel {
     }
     
 
->>>>>>> tuhu
+
     function uploadPengumuman($post)
     {
         $this->DB->query("INSERT INTO pengumuman(tipe_pengumuman, isi_pengumuman, tanggal_pengumuman, id_admin, judul_pengumuman) VALUES (?, ?, NOW(), ?, ?)", "ssis", [$post['tipe_pengumuman'], $post['isi_pengumuman'], $_SESSION['id_admin'], $post['judul_pengumuman']]);
@@ -183,9 +181,7 @@ class AdminModel {
 
 
     }
-<<<<<<< HEAD
-}
-=======
+
 
     function getPertanyaan(){
         $this->DB->query("SELECT p.id_pertanyaan, p.tanggal_pertanyaan, p.isi_pertanyaan, p.id_user, u.username_user, u.id_user 
@@ -207,4 +203,3 @@ class AdminModel {
     
     
 }
->>>>>>> tuhu
