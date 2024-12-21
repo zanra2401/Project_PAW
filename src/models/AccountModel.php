@@ -50,7 +50,7 @@ class AccountModel {
     function isEmailExist($email)
     {
         $this->DB->query("SELECT * FROM user WHERE email_user = ?", "?", [$email]);
-        return $this->DB->getFirst != NULL;
+        return $this->DB->getFirst() != NULL;
     }
 
 

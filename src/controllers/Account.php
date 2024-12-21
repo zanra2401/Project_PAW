@@ -335,6 +335,8 @@ class Account extends Controller {
     {
         $violations = [];
         $email = $_POST['email'];
+        $validator = Validation::createValidator();
+
 
         $violatiolnEmail = $validator->validate($email, [
             new Assert\Email(["message" => "Email Tidak Valid"]),
