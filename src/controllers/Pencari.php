@@ -503,4 +503,48 @@ class Pencari extends Controller {
     {
         echo json_encode($this->model->getContact());
     }
+
+    function gerbangPembayaran($params= [])
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST")
+        {
+            $kostID = 0;
+            $pencariID = 1;
+            $pemilikID = 2;
+            $hargaKost = 200000;
+            $namaKost = 'zanra';
+
+            $trans = array(
+                'transaction_details' => array(
+                    'order_id' => rand(),
+                    'gross_amount' => $hargaKost,
+                ),
+                'detail_pembayaran' => array(
+                    'kostID'=> $kostID,
+                    'pencariID' => $pencariID,
+                    'pemilikID' => $pemilikID,
+                    'nama_kost' => $namaKost
+                ),
+            );
+            
+            $snapToken = \Midtrans\Snap::getSnapToken($trans);
+
+            $this->view("Pencari/pembayaranKost", [
+                "title" => "PembayaranKost",
+                "snapToken" => $snapToken
+            ]);
+        } else 
+        {
+            $this->view("Pencari/pembayaranKost", [
+                "title" => "PembayaranKost"
+            ]);
+        }
+    }
+
+    function saveTransaction($params = [])
+    {
+        $notif = json_decode(file_get_contents('php://input'), true);
+        $this->model->saveTransaction($notif);
+        echo json_encode($notif);
+    }
 }

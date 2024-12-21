@@ -25,16 +25,30 @@
         // Data dummy
         const dataKost = <?= json_encode($data["kosts"]) ?>;
         const kostArray = Object.values(dataKost); // Mengonversi objek menjadi array
-        console.log(kostArray[0]['gambar']);  // Periksa hasil konversi
 
         const data = kostArray.map((kost) => `
-            <div class="aspect-square rounded-lg overflow-hidden flex flex-col">
-                <img src="/<?= PROJECT_NAME ?>/${kost.gambar[0].path_gambar}" class="w-full z-10 object-cover aspect-video" alt="">
-                <div class="w-full p-2 flex rounded-b-lg flex-col border-2 flex-1 border-gray-300 border-t-0">
-                    <h2 class="text-gray-700 font-Roboto-bold">${kost.data_kost.nama_kost}</h2>
-                    <a href="/<?= PROJECT_NAME ?>/pemilik/editkost/${kost.data_kost.id_kost}" class="bg-warna-second text-center mt-auto p-1 w-full font-Roboto-bold text-white">Lihat Detail</a>
+           <div class=" rounded-lg overflow-hidden flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div class="relative w-full">
+                    <img src="/<?= PROJECT_NAME ?>/${kost.gambar[0].path_gambar}" class="w-full z-10 object-cover aspect-video" alt="Gambar Kost">
+                    <div class="absolute top-2 right-2 bg-gray-900 bg-opacity-50 text-white text-xs px-2 py-1 rounded-lg shadow">
+                        ${kost.data_kost.sisa_kamar} Kamar Tersedia
+                    </div>
+                </div>
+                <div class="w-full p-4 flex flex-col rounded-b-lg border border-gray-300 bg-white flex-1">
+                    <h2 class="text-gray-800 font-bold text-lg mb-2">${kost.data_kost.nama_kost}</h2>
+                    <div class="mt-auto flex gap-2 items-center">
+                        <a href="/<?= PROJECT_NAME ?>/pemilik/editkost/${kost.data_kost.id_kost}" 
+                        class="bg-warna-second text-center py-2 px-4 rounded-md font-bold text-white flex-1 hover:bg-warna-second-dark">
+                            Lihat Detail
+                        </a>
+                        <a href="/<?= PROJECT_NAME ?>/pemilik/review/${kost.data_kost.id_kost}" 
+                        class="bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">
+                            <i class="fas fa-comment text-lg"></i> <!-- Ikon Font Awesome -->
+                        </a>
+                    </div>
                 </div>
             </div>
+
         `);
 
         // Inisialisasi Pagination.js

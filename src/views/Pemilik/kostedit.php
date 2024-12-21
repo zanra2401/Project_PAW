@@ -1,4 +1,8 @@
-<?php require './views/Components/Head.php' ?>
+<?php 
+    require './views/Components/Head.php';
+    $foto_profile = $data['data_user'][0]['profile_user'];
+
+?>
     <body class="overflow-hidden flex">
         <style>
             /* For most browsers */
@@ -24,8 +28,7 @@
         <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">
      
         <?php require "./views/Components/sidebarPemilik.php" ?>
-        <main class="overflow-scroll w-screen h-screen pb-10">
-
+        <main class="p-5 flex-1 overflow-y-scroll h-screen">
         <?php
             if (isset($_SESSION['berhasil-update']))
             {
@@ -137,74 +140,37 @@
                                     </ul>
                                 </div>
                             </div>
-                      
-    
-                        <!-- <div class="py-4 border-t-2">
-                            <div class="relative overflow-hidden h-fit">
-                                <button data-lokasi="lantai-1" onclick="show(event)" class="hover:cursor-pointer w-full text-left">
-                                    <i data-lokasi-icon="lantai-1" class="fas fa-chevron-down"></i>
-                                    <span>
-                                        Lantai 1
-                                    </span>
-                                    <i class="fas fa-pencil text-warna-second"></i>
-                                </button>
-    
-                                <div data-lokasi-kamar="lantai-1" class="flex py-3 px-1 flex-wrap gap-3 -translate-y-[120%] absolute">
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        Kamar 02
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow bg-warna-second text-white font-bold hover:text-white shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
+
+                            
+                            <div class="py-4 border-t-2">
+                                <?php if (isset($data['kamar'])): ?>
+                                <?php foreach ($data['kamar'] as $key => $lantai): ?>
+                                <div class="relative overflow-hidden h-fit">
+                                    <button data-lokasi="lantai-<?= $key ?>" onclick="show(event)" class="hover:cursor-pointer w-full text-left">
+                                        <i data-lokasi-icon="lantai-1" class="fas fa-chevron-down"></i>
+                                        <span>
+                                            Lantai <?= $key ?>
+                                        </span>
+                                        <i class="fas fa-pencil text-warna-second"></i>
+                                    </button>
+                                    
+                                    <div id='<?= $key ?>'  data-lokasi-kamar="lantai-<?= $key ?>" class="flex py-3 px-1 flex-wrap gap-3 -translate-y-[120%] absolute">
+                                    <?php foreach ($lantai as $kamar): ?>
+                                        <div onclick="changeStatus(event)" data-kamar='<?= $kamar[0] ?>' data-lantai='<?= $key ?>' data-status='<?= $kamar[1] ?>' class="shadow font-bold w-[60px] h-[60px] flex justify-center items-center hover:text-white  shadow-gray-400 <?= ($kamar[1] == "kosong") ? "text-gray-800" : "bg-warna-second text-white" ?> rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
+                                            <?= $kamar[0] ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                    <button  data-id=<?= $key ?> onclick="tambahKamar(event)" class="w-[60px] h-[60px] bg-warna-second text-white flex justify-center items-center shadow rounded-sm shadow-gray-400">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
-                             
-                            <div class="relative overflow-hidden h-fit">
-                                <button data-lokasi="lantai-2" onclick="show(event)"  class="hover:cursor-pointer w-full text-left">
-                                    <i data-lokasi-icon="lantai-2" class="fas fa-chevron-down"></i>
-                                    <span>
-                                        Lantai 2
-                                    </span>
-                                    <i class="fas fa-pencil text-warna-second"></i>
-                                </button>
-    
-                                <div data-lokasi-kamar="lantai-2" class="flex py-3 flex-wrap gap-3 -translate-y-[120%] absolute">
-                                    <div class="shadow font-bold hover:text-white text-gray-800 shadow-gray-400 rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
-                                        01
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                        <?php endforeach; ?>
+                        <?php endif; ?>
+                        <button onclick="showTambahLantai()" class="w-[60px] h-[60px] mt-5 bg-warna-second text-white flex justify-center items-center shadow rounded-sm shadow-gray-400">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        </div>
     
                         <div class="relative h-fit py-4 border-t-2"">
                             <h1>Lokasi</h1>
@@ -404,6 +370,27 @@
                 </div>
             </div>
 
+            
+            <div id="tambahLantaiModal" class="absolute z-10 w-screen h-screen -top-full left-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                <button onclick="hideTambahLantai()" class="absolute top-5 right-5 focus:outline-none">
+                    <i class="fas fa-close text-3xl text-red-800 hover:text-red-600 transition"></i>
+                </button>
+
+                <div class="modal-container flex flex-col items-center h-auto max-h-[90%] w-[95%] md:w-[60%] lg:w-[40%] overflow-auto rounded-lg bg-white shadow-lg">
+                    <div class="w-full p-6 bg-white rounded-lg">
+                        <form action="/<?= PROJECT_NAME ?>/pemilik/tambahlantai/<?= $data['kost']['data_kost']['id_kost'] ?>" method="POST" class="space-y-6">
+                            <div>
+                                <label for="namaKost" class="block text-sm font-medium text-gray-800">Jumlah Kamar</label>
+                                <input type="number" id="namaKost" name="kamar" placeholder="Masukkan nama kost" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value="<?= $data['kost']['data_kost']['nama_kost'] ?>">
+                            </div>
+                            <div class="flex justify-end space-x-4">
+                                <button type="submit" class="px-6 py-2 bg-red-500 text-white font-semibold  rounded-lg shadow-md hover:bg-base-color transition">Tambah Lantai</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
         <script type="module" src="<?= JS ?>pemilikjs/editkost.js"></script>
 
 
@@ -518,6 +505,71 @@
                 });
             });
 
+            <?php if (isset($data['kamar'])): ?>
+                function tambahKamar(event)
+                {
+                    fetch(`/<?= PROJECT_NAME ?>/pemilik/tambahkamar/<?= $data["kost"]['data_kost']['id_kost'] ?>/${event.target.dataset.id}` , {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok ' + response.statusText);
+                            }
+                            return response.json(); // Parse JSON response
+                        })
+                        .then(data => {
+                            lantai = document.getElementById(data.lokasi_kamar);
+                            const button = lantai.querySelector(`button[data-id="${data.lokasi_kamar}"]`);
+                            button.insertAdjacentHTML(
+                                'beforebegin', // Posisi sisipan
+                                `
+                                <div class="shadow font-bold w-[60px] h-[60px] flex justify-center items-center hover:text-white shadow-gray-400 ${data.status_kamar === "kosong" ? "text-gray-800" : "bg-warna-second text-white"} rounded-sm px-4 py-3 hover:cursor-pointer hover:bg-warna-second">
+                                    ${data.nomor_kamar}
+                                </div>
+                                `
+                            );
+                        
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+                }
+
+                function changeStatus(event)
+                {
+                    if (event.target.dataset.status == "kosong")
+                    {
+                        status = "terisi";
+                    } else {
+                        status = "kosong";
+                    }
+                    fetch(`/<?= PROJECT_NAME ?>/pemilik/changestatuskamar/<?= $data["kost"]['data_kost']['id_kost'] ?>/${event.target.dataset.lantai}/${event.target.dataset.kamar}/${status}` , {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok ' + response.statusText);
+                            }
+                            return response.json(); // Parse JSON response
+                        })
+                        .then(data => {
+                        event.target.classList.toggle("text-white");
+                        event.target.classList.toggle("text-gray-800");
+                        event.target.classList.toggle("bg-warna-second");
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+                }
+
+            <?php endif; ?>
+
             
 
             const map = L.map('map').setView([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>], 10); // Jakarta
@@ -529,7 +581,7 @@
             const openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
             const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
 
-            L.tileLayer(stadiamaps, {
+            L.tileLayer(openstreetmap, {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
             }).addTo(map);
@@ -545,7 +597,7 @@
 
             const namaLokasiMap = document.getElementById("nama-lokasi-map");
             const cariLokasiMap = document.getElementById("cari-lokasi-map")
-            const mapSet = L.map('map-set').setView([20, 20], 5);
+            const mapSet = L.map('map-set').setView([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>], 5);
             const latSet = document.getElementById('lat-set');
             const longSet = document.getElementById('long-set');
             const latInput = document.getElementById('lat-input');
@@ -553,12 +605,12 @@
            
             const markerLayerMapSet = L.layerGroup().addTo(mapSet);
 
-            L.tileLayer(stadiamaps, {
+            L.tileLayer(openstreetmap, {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
             }).addTo(mapSet);
 
-            L.marker([20, 20]).addTo(markerLayerMapSet);
+            L.marker([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>]).addTo(markerLayerMapSet);
 
             mapSet.on('click', (e) => {
                 mapSet.setView([e.latlng.lat, e.latlng.lng],e.target._zoom);
@@ -606,6 +658,17 @@
             {
                 mapEditModal.classList.remove('-top-full')
                 mapEditModal.classList.add('top-0')
+            }
+
+            function showTambahLantai(){
+                tambahLantaiModal.classList.remove('-top-full')
+                tambahLantaiModal.classList.add('top-0')
+            }
+
+            function hideTambahLantai()
+            {
+                tambahLantaiModal.classList.remove('top-0')
+                tambahLantaiModal.classList.add('-top-full')
             }
 
 

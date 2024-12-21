@@ -86,6 +86,7 @@ class PemilikModel {
     function tambahKost($files, $post)
     {
         $fasilitas = json_decode($_POST['fasilitas'], true);
+    
         
         $this->DB->connect();
         
@@ -109,6 +110,20 @@ class PemilikModel {
         {
             $this->DB->query("INSERT INTO fasilitas_kost VALUES (?, ?)", "ss", [$id, $f]);
         }
+        
+        if (isset($post['lantai']))
+        {
+            $lantai = json_decode($post['lantai'], true);
+            foreach ($lantai as $key => $l)
+            {
+                for ($i = 1; $i <= $l; $i++)
+                {
+                    $this->DB->query("INSERT INTO kamar(id_kost, nomor_kamar, lokasi_kamar, status_kamar) VALUES ($id, $i, $key, 'kosong')");
+                }
+            }
+        }
+
+
     
         $uploadDirectory =  STORAGE . 'gambarKost/';
         $pathDir = '/public/storage/gambarKost/';
@@ -383,13 +398,13 @@ class PemilikModel {
     function getProfie($id)
     {
         $data = [];
-        $this->DB->query("SELECT profile_user FROM user WHERE role_user = 'pencari' AND id_user = $id");
+        $this->DB->query("SELECT profile_user FROM user WHERE id_user = $id");
         $path_profile = $this->DB->getAll();
         foreach($path_profile as $pp)
         {
             $data = $pp;
         }
-
+      
         return $data;
     }
 
@@ -405,4 +420,97 @@ class PemilikModel {
 
         return $data;
     }
+    function getAllKamar($id)
+    {
+        $this->DB->query("SELECT lokasi_kamar,  GROUP_CONCAT(CONCAT(nomor_kamar, '|', status_kamar)) AS kamar_status_array FROM kamar WHERE id_kost = $id GROUP BY lokasi_kamar;");
+        $data = $this->DB->getAll();
+
+        $finalResult = [];
+
+        foreach ($data as $row) {
+            $kamarStatus = explode(',', $row['kamar_status_array']); // Pisahkan data GROUP_CONCAT
+            $kamarArray = [];
+        
+            foreach ($kamarStatus as $kamar) {
+                list($nomor, $status) = explode('|', $kamar); // Pisahkan nomor dan status
+                $kamarArray[] = [(int)$nomor, $status];
+            }
+        
+            $finalResult[$row['lokasi_kamar']] = $kamarArray;
+        }
+       
+        return $finalResult;
+    }
+
+    function tambahKamar($id_kost, $lantai)
+    {
+        $this->DB->query("SELECT * FROM kamar WHERE id_kost = $id_kost AND lokasi_kamar = $lantai");
+        $total_kamar = count($this->DB->getAll()) + 1;
+        $this->DB->query("INSERT INTO kamar(id_kost, nomor_kamar, lokasi_kamar, status_kamar) VALUES ($id_kost, $total_kamar, $lantai, 'kosong')");
+        $this->DB->query("SELECT * FROM kamar WHERE id_kost = $id_kost AND lokasi_kamar = $lantai ORDER BY nomor_kamar DESC");
+        return $this->DB->getFirst();
+    }
+
+    function changeStatusKamar($kost, $lantai, $kamar, $status)
+    {
+        $this->DB->query("UPDATE kamar SET status_kamar = ? WHERE id_kost = ? AND lokasi_kamar = ? AND nomor_kamar = ?", 'siii', [$status, $kost, $lantai, $kamar]);
+        return true;
+    }
+
+    function tambahLantai($id_kost, $kamar)
+    {
+        $this->DB->query("SELECT lokasi_kamar FROM kamar WHERE id_kost = $id_kost ORDER BY lokasi_kamar DESC");
+        $lantai = $this->DB->getFirst()['lokasi_kamar'] + 1;
+
+       
+        for ($i = 1; $i <= $kamar; $i++)
+        {
+            $this->DB->query("INSERT INTO kamar(id_kost, nomor_kamar, lokasi_kamar, status_kamar) VALUES ($id_kost, $i, $lantai, 'kosong')");
+        }
+        
+        return true;
+    }
+
+    function getReview($id_kost)
+    {
+        $data = [];
+        $this->DB->query("SELECT * FROM review WHERE id_kost = $id_kost");
+        $result =  $this->DB->getAll();
+        foreach ($result as $key => $review)
+        {
+            $data[$key] = [];
+            $data[$key]['review'] = $review;
+            $this->DB->query("SELECT id_user, username_user, profile_user FROM user WHERE id_user = {$review['id_user']}");
+            $data[$key]['user'] = $this->DB->getFirst();
+            $this->DB->query("SELECT id_suka_review FROM suka_review WHERE id_review = {$review['id_review']}");
+            $like = $this->DB->getAll();
+            $data[$key]['like'] = ( $like != NULL) ? count($like) : 0;
+            $this->DB->query("SELECT * FROM balasan_review WHERE id_review = {$review['id_review']}");
+            $balasan = $this->DB->getFirst();
+            if ($balasan != NULL)
+            {
+                $data[$key]['balasan']['balasan_data'] = $balasan;
+
+                $this->DB->query("SELECT * FROM user WHERE id_user = {$balasan['id_user']}");
+
+                $data[$key]['balasan']['user'] = $this->DB->getFirst();
+            }
+        }
+        
+        return $data;
+    }
+
+    function balasReview($id_review, $isi_balasan)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $current_datetime = date('Y-m-d H:i:s');
+        $this->DB->query("INSERT INTO balasan_review(tanggal_dibalas_review, isi_balasan_review, id_review, id_user) VALUES(?, ?, ?, {$_SESSION['id_user']})", "ssi", [$current_datetime, $isi_balasan ,$id_review]);
+    }
+
+    function sukaReview($id_review)
+    {
+        $this->DB->query("INSERT INTO suka_review(id_user,  id_review) VALUES({$_SESSION['id_user']}, ?)", "i", [$id_review]);
+        return true;
+    }
+  
 }

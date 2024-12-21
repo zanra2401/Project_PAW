@@ -15,10 +15,10 @@ class AccountModel {
         
         if ($nohp != "")
         {
-            $this->DB->query("INSERT INTO user(username_user, email_user, no_hp_user ,password_user, role_user) VALUES(?, ?, ?, ?, ?)", "sssss", [$username, $email, $nohp, $password, $role]);
+            $this->DB->query("INSERT INTO user(username_user, email_user, no_hp_user ,password_user, role_user, profile_user) VALUES(?, ?, ?, ?, ?, '/public/storage/gambarProfile/pp-default.png')", "sssss", [$username, $email, $nohp, $password, $role]);
         }
 
-        $this->DB->query("INSERT INTO user(username_user, email_user, password_user, role_user) VALUES(?, ?, ?, ?)", "ssss", [$username, $email, $password, $role]);
+        $this->DB->query("INSERT INTO user(username_user, email_user, password_user, role_user, profile_user) VALUES(?, ?, ?, ?, '/public/storage/gambarProfile/pp-default.png')", "ssss", [$username, $email, $password, $role]);
     }
 
     function unique($field, $value, $table)

@@ -19,7 +19,7 @@ class Pemilik extends Controller {
         $this->DB = DataBase::getInstance();
     }
 
-    function dashboard() {
+    function dashboard($params = []) {
         if ($this->isLogInPemilik())
         {   
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
@@ -34,14 +34,36 @@ class Pemilik extends Controller {
         }
     }
     
-    function review() {
+    function review($params = []) {
         if ($this->isLogInPemilik()) 
         {
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
+            $review = $this->model->getReview($params[0]);
             $this->view("Pemilik/review", [
-                "title" => "review" 
+                "title" => "review",
+                "data_user" => $data,
+                "review" => $review,
+                "kost" => $this->model->getKost($params[0]),
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
+        }
+    }
+
+    function balasReview($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $this->model->balasReview($_POST['id_review'], $_POST['isi_balasan']);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+    }
+    function like($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "GET")
+        {
+            $this->model->sukaReview($params[0]);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
     
@@ -68,13 +90,17 @@ class Pemilik extends Controller {
             
             if ($this->isLogInPemilik()) 
             {
+                $data = $this->model->getAllDataUser($_SESSION['id_user']);
                 $this->view("Pemilik/kostedit", [
                     "title" => "Edit Kost",
                     "kost" => $this->model->getKost($params[0]),
                     "fasilitas_kamar" => $this->model->getFasilitasKamar(),
                     "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
                     "fasilitas_kamar_info" => $this->model->getFasilitasKamarByID($params[0]),
-                    "fasilitas_bersama_info" => $this->model->getFasilitasBersamaByID($params[0])
+                    "fasilitas_bersama_info" => $this->model->getFasilitasBersamaByID($params[0]),
+                    "data_user" => $data,
+                    "kamar" => $this->model->getAllKamar($params[0])
+
                 ]);
             }
         } else {
@@ -138,6 +164,7 @@ class Pemilik extends Controller {
     function tambahkost($params = []) {
         if ($this->isLogInPemilik()) 
         {
+            
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
             if ($this->isLogInPemilik())
             {
@@ -586,12 +613,14 @@ class Pemilik extends Controller {
     {
         if ($this->isLogInPemilik()) 
         {
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/chatting", [
                 "title" => "Chat",
                 "id_user" => $params[0],
                 "user" => $this->model->getUserById($params[0]),
                 "chat" => $this->model->getChat($params[0]),
                 "contact" => $this->model->getContact(),
+                "data_user" => $data
             ]);
             
         } else {
@@ -620,5 +649,32 @@ class Pemilik extends Controller {
         }
 
         return $data;
+    }
+
+    function tambahKamar($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $kamar = $this->model->tambahKamar($params[0], $params[1]);
+            echo json_encode($kamar);
+        }
+    }
+
+    function changeStatusKamar($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $this->model->changeStatusKamar($params[0], $params[1], $params[2], $params[3]);
+            echo json_encode(["SUCCESS"]);
+        }
+    }
+
+    function tambahLantai($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $this->model->tambahLantai($params[0], $_POST['kamar']);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
     }
 }

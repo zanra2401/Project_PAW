@@ -62,7 +62,7 @@ class PencariModel {
                 "gambar" => []
             ];
 
-            $this->DB->query("SELECT COUNT(*) AS total_kamar FROM kamar WHERE kamar.id_kost = {$kost['id_kost']} AND kamar.status_kamar = 'kosong'");
+            $this->DB->query("SELECT COUNT(*) AS total_kamar FROM kamar WHERE id_kost = {$kost['id_kost']} AND status_kamar = 'kosong'");
             $kamar = $this->DB->getAll();
             $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];;
 
@@ -247,7 +247,7 @@ class PencariModel {
 
             $this->DB->query("SELECT COUNT(*) AS total_kamar FROM kamar WHERE kamar.id_kost = {$kost['id_kost']} AND kamar.status_kamar = 'kosong'");
             $kamar = $this->DB->getAll();
-            $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];;
+            $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];
 
             $this->DB->query("SELECT g.path_gambar FROM gambar_kost as g WHERE g.id_kost = {$kost['id_kost']}");
             $gambar = $this->DB->getAll();
@@ -377,7 +377,22 @@ class PencariModel {
             }   
             $data[$key]['unread'] = $unread;
         }
-
+  
         return $data;
+    }
+
+    function saveTransaction($notif)
+    {
+        // $detail_pembayaran = json_decode($data['detail_pembayaran'], true);
+        $this->DB->query("SELECT * FROM transaksi WHERE id_transaksi = {$notif['order_id']}");
+        $isExist = $this->DB->getFirst() != NULL;
+        if ($isExist)
+        {   
+            $this->DB->query("UPDATE transaksi SET status_transaksi = '{$notif['transaction_status']}' WHERE id_transaksi = {$notif['order_id']}");
+        } else 
+        {
+            $this->DB->query("INSERT INTO transaksi VALUES(?, ?, ?, ?, ?, ?, ?, ?)", "iiiiisss", [$notif['order_id'], 7, 10, 29, $notif['gross_amount'], $notif['transaction_status'], $notif['transaction_time'], $notif['payment_type']]);
+        }
+        return true;
     }
 }

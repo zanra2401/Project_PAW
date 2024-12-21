@@ -17,6 +17,7 @@
                 unset($_SESSION['success_tambahkost']);
             }
         ?>
+
         <main class="flex-1 flex flex-col p-5 overflow-y-auto">
             <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
             <div  class="container">
@@ -116,29 +117,22 @@
 
                     <?= (isset($_SESSION['errors_tambahkost']['fasilitas_bersama'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['fasilitas_bersama']}</p>" : "" ?>
 
+                    <ul id="Kamar" class="px-6
+                    ">
+                        <li class="flex w-full px-0">
+                                <span class="flex-1 px-0 font-Roboto-bold  ml-0">Lantai</span>
+                                <span class="flex-1 px-0 font-Roboto-bold">Jumlah Kamar</span>
+                        </li>
+                    </ul>
+
+                    <button id="tambahLantaiButton" class="w-full font-Roboto-bold text-white  border-2 flex justify-center py-4 px-4 items-center rounded-md bg-red-500 o">
+                        <i class="fas fa-bed"></i>  
+                        <span class="ml-3">
+                            Tambah Lantai
+                        </span>
+                    </button>
                     
-                    <!-- <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
-                        <h1 class="text-2xl font-bold text-center mb-4">Input Lantai dan Kamar</h1>
-                        
-                        <div class="mb-4">
-                            <label for="numFloors" class="block font-medium mb-2">Masukkan jumlah lantai:</label>
-                            <input 
-                                type="number" 
-                                id="numFloors" 
-                                min="1" 
-                                placeholder="Contoh: 3"
-                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-                        <button 
-                            id="generateFloors" 
-                            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-                            Generate Input Kamar
-                        </button>
 
-                        <div id="floorInputs" class="mt-4"></div>
-
-                    </div> -->
 
                     <h2 class="font-Roboto-medium">Lokasi Kost Anda</h2>
                     <div class="w-full  grid grid-cols-2 gap-2 ">
@@ -162,8 +156,7 @@
                     </div> 
                     <?= (isset($_SESSION['errors_tambahkost']['lat']) or isset($_SESSION['errors_tambahkost']['long'])) ? " <p class='text-red-500 font-Roboto-medium'>lat dan lng wajib di isi</p>" : "" ?>
 
-
-                    <div class="w-1/2 h-[400px]">
+                    <div class="w-full h-[400px]">
                         <div id="map-set" class='h-full rounded-md'></div>
                     </div>
 
@@ -183,6 +176,7 @@
         ?>
 
         <script>
+
             const alidade = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
             const openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
             const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
@@ -207,8 +201,34 @@
                     lat: "",
                     long: "",
                 },
+                lantai : {
+
+                }
                 
             };
+
+            tambahLantaiButton.addEventListener("click", function () {
+                Kamar.innerHTML += `<li class="flex w-full px-0 relative mt-2">
+                <span class="flex-1 font-roboto-bold">Lantai ${Object.keys(dataKost.lantai).length + 1}</span> <input type="number" onkeyup="updateDataKamar(event)" data-id=${Object.keys(dataKost.lantai).length + 1} value="0" class="flex-1  p-1 rounded-md border-2 border-gray-400 shaodwmdm shadow-gray-700">
+                <button data-id=${Object.keys(dataKost.lantai).length + 1} onclick="hapusLantai(event)" class="right-0 absolute">
+                    <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
+                </button>
+                </li>`;
+                dataKost.lantai[Object.keys(dataKost.lantai).length + 1] = 0;
+            })
+
+            function hapusLantai(event)
+            {
+                delete dataKost.lantai[event.target.parentNode.dataset.id];
+                event.target.parentNode.parentNode.remove();
+                console.log(dataKost.hapusLantai)
+            }
+
+            function updateDataKamar(event)
+            {
+                dataKost.lantai[event.target.dataset.id] = event.target.value;
+                console.log(dataKost.lantai)
+            }
             
             function readFileAsync(file) {
                 return new Promise((resolve, reject) => {
@@ -219,7 +239,7 @@
                     reader.onerror = reject;  // Reject the promise if there's an error
                     reader.readAsDataURL(file);  // Start reading the file
             });
-}
+            }
 
             function deleteFoto(event)
             {
@@ -287,7 +307,7 @@
 
             const markerLayerMapSet = L.layerGroup().addTo(mapSet);
 
-            L.tileLayer(stadiamaps, {
+            L.tileLayer(openstreetmap, {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
             }).addTo(mapSet);
@@ -374,6 +394,8 @@
                 // Menambahkan field fasilitas (bersama & kamar) dalam bentuk JSON
                 form.appendChild(buatInputTersembunyi("fasilitas", JSON.stringify(dataKost.fasilitas)));
 
+                form.appendChild(buatInputTersembunyi("lantai", JSON.stringify(dataKost.lantai)));
+
                 // Menambahkan field lokasi (lat & long)
                 form.appendChild(buatInputTersembunyi("lat", latInput.value));
                 form.appendChild(buatInputTersembunyi("long", longInput.value));
@@ -389,7 +411,6 @@
                     dataTransfer.items.add(dataKost.gambar[id]);
                     fileInput.files = dataTransfer.files;
                     form.appendChild(fileInput);
-                    console.log()
                 });
 
                 // Menambahkan form ke body dan submit
@@ -484,46 +505,7 @@
                 kirimDataDenganRedirect(dataKost);
             });
 
-                const numFloorsInput = document.getElementById("numFloors");
-                const generateFloorsBtn = document.getElementById("generateFloors");
-                const floorInputsContainer = document.getElementById("floorInputs");
-                const showResultsBtn = document.getElementById("showResults");
-                const resultsContainer = document.getElementById("results");
-
-                generateFloorsBtn.addEventListener("click", () => {
-                    const numFloors = parseInt(numFloorsInput.value);
-                    floorInputsContainer.innerHTML = ""; // Hapus input sebelumnya
-                    resultsContainer.classList.add("hidden");
-                    showResultsBtn.classList.add("hidden");
-
-                    if (isNaN(numFloors) || numFloors < 1) {
-                        alert("Masukkan jumlah lantai yang valid (>= 1).");
-                        return;
-                    }
-
-                    // Generate input untuk setiap lantai
-                    for (let i = 1; i <= numFloors; i++) {
-                        const floorDiv = document.createElement("div");
-                        floorDiv.classList = "floor-input mb-3";
-
-                        floorDiv.innerHTML = `
-                            <label class="block font-medium mb-1">
-                                Lantai ${i} - Masukkan jumlah kamar:
-                            </label>
-                            <input 
-                                type="number" 
-                                min="0"
-                                placeholder="Jumlah kamar lantai ${i}"
-                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                id="floor-${i}"
-                            />
-                        `;
-                        floorInputsContainer.appendChild(floorDiv);
-                    }
-
-                    // Tampilkan tombol hasil
-                    showResultsBtn.classList.remove("hidden");
-                });
+           
 
             </script>
 

@@ -1,4 +1,8 @@
-<?php require "./views/Components/Head.php"; ?>
+<?php 
+    require "./views/Components/Head.php"; 
+    $foto_profile = $data['data_user'][0]['profile_user'];
+
+?>
     <body class="overflow-hidden flex p-0 m-0">
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="flex flex-1">
@@ -54,7 +58,7 @@
                     <!-- Chat Header -->
                     <div class="bg-white w-full p-4 border-b border-gray-200 flex items-center justify-between shadow-sm">
                         <div class="flex items-center space-x-3">
-                            <img src="<?= $data['user']['profile_user'] ?>" alt="Profile" class="w-10 h-10 rounded-full">
+                            <img src="<?= "/" . PROJECT_NAME . "/" . $data['user']['profile_user'] ?>" alt="Profile" class="w-10 h-10 rounded-full">
                             <div>
                                 <h2 class="text-lg font-semibold"><?= $data['user']['username_user'] ?></h2>
                             </div>
@@ -186,13 +190,13 @@
 
             setInterval(
                 function () {
-                    fetch("/<?= PROJECT_NAME ?>/pencari/getContact")
+                    fetch("/<?= PROJECT_NAME ?>/pemilik/getContact")
                     .then(response => response.json())
                     .then(data => {
                         contacts = ``;
                         data.forEach(contact => {
-                            contacts += `<a href="/<?= PROJECT_NAME ?>/pencari/chatting/${contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
-                                    <img src="${contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
+                            contacts += `<a href="/<?= PROJECT_NAME ?>/pemilik/chatting/${contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
+                                    <img src="/project_paw/${contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
                                     <div class="flex-1">
                                         <h3 class="text-lg font-medium ">${contact[0]['username_user']}</h3>
                                     </div>`

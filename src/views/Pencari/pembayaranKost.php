@@ -1,24 +1,27 @@
 <?php require "./views/Components/Head.php" ?>
 
-<script type="text/javascript" src="http://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-cbiugUUXzP_WNrv0"></script>
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-cbiugUUXzP_WNrv0"></script>
 <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
 
 <body>
-  <button id="pay-button">Pay!</button>
+  <form method="POST" action="/<?= PROJECT_NAME ?>/pencari/gerbangpembayaran">
+    <button>pay</button>
+  </form>
 
   <!-- @TODO: You can add the desired ID as a reference for the embedId parameter. -->
-  <div id="snap-container"></div>
+   <div class="w-screen h-screen flex items-center justify-center">
+       <div id="snap-container">
+     
+       </div>
+   </div>
 
   <script type="text/javascript">
     // For example trigger on button clicked, or any time you need
-    var payButton = document.getElementById('pay-button');
-    payButton.addEventListener('click', function () {
-      // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token.
-      // Also, use the embedId that you defined in the div above, here.
+    <?php if(isset($data['snapToken'])): ?>
       window.snap.embed('<?= $data['snapToken'] ?>', {
         embedId: 'snap-container'
       });
-    });
+    <?php endif; ?>
   </script>
 </body>
 

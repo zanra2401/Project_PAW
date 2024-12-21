@@ -1,6 +1,6 @@
 <nav id="navbar" class="w-screen flex h-20 fixed z-50 transition-all duration-300 bg-transparent">
     <div class="w-[90%] mx-auto flex h-full items-center">
-        <a href="/project_paw" class="self-center">
+        <a href="/<?= PROJECT_NAME ?>/" class="self-center">
             <img src="<?= ASSETS ?>image/logo.png" class="w-12" alt="">
         </a>
         <h1 class="font-medium text-base-color text-w text-2xl ml-2 font-Roboto-medium self-center">Cari Kost</h1>
