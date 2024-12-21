@@ -10,17 +10,20 @@
     Jika tidak menemukannya di kotak masuk,
     harap periksa folder spam atau junk
     </p>
-    <form>
+    <form method="post" action="/<?= PROJECT_NAME ?>/account/isCodeMatch">
       <div class="mb-4 flex justify-center">
         <input 
           type="text" 
           id="kode" 
+          name="verif_code"
           placeholder="Masukan kode" 
           class="w-64 py-3 px-6 text-center text-black border font-semibold border-[#c48d6e] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#c48d6e]"
           style="margin-bottom: 10px"
           required
         />
       </div>
+      <input type="text" name="id_user" value="<?= $data['id_user'] ?>" hidden>
+      <input type="text" name="email_user" value="<?= $data['email_user'] ?>" hidden>
       <div class="flex justify-center">
         <button type="submit" class="w-40 text-white py-2 px-4 rounded-md bg-warna-second hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
           Lanjut

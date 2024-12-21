@@ -22,10 +22,10 @@
 </style>
 <body class="bg-blue-50 flex items-center justify-center min-h-screen">
     <?php 
-        if (isset($_SESSION["errors_register"]))
+        if (isset($_SESSION["errors"]))
         {
-            $hellper->flashAlert($_SESSION["errors_register"]); 
-            unset($_SESSION["errors_register"]);
+            $hellper->flashAlert($_SESSION["errors"]); 
+            unset($_SESSION["errors"]);
         }
     ?>
     <div class="flex bg-white rounded-lg shadow-lg overflow-hidden w-[800px]">
@@ -53,6 +53,8 @@
                     <input type="password" name="password-verif" id="confirm-password" placeholder="Masukkan kembali password" 
                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
                 </div>
+
+
                 <button type="submit" class="w-full text-white bg-red-500 py-2 px-4 rounded-md bg-warna-second hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
                     Daftar
                 </button>
@@ -66,5 +68,6 @@
             <img class="w-full" style="margin-top:60px" src="<?= PUBLIC_FOLDER?>/assets/image/penyewa.png" alt="Illustration">
         </div>
     </div>
+
 </body>
 <?php require './views/Components/Foot.php' ?>

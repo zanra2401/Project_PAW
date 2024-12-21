@@ -35,4 +35,19 @@ class AdminModel {
 
 
     }
+
+    function getOneData($field, $value, $table)
+    {
+        $this->DB->query("SELECT {$field} FROM {$table} WHERE {$field} = '{$value}'");
+        return $this->DB->getFirst();
+    }
+
+    function getData($admin_username) 
+    {
+        $this->DB->query("SELECT * FROM admin WHERE username_admin = ?", "s", [$admin_username]);
+        return $this->DB->getFirst();
+
+    }
+
+    
 }

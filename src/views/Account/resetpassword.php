@@ -1,8 +1,18 @@
 <?php
 require './views/Components/Head.php';
 ?>
+<?php require './helper/helper.php' ?>
+
 
 <body class="bg-gray-50 flex items-center justify-center min-h-screen">
+    <?php 
+            if (isset($_SESSION["error-reset"]))
+            {
+                $hellper->flashAlert($_SESSION["error-reset"]); 
+                unset($_SESSION["error-reset"]);
+            }
+    ?>
+    
     <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-sm">
         <h1 class="text-2xl font-bold text-orange-500 mb-4 text-center">Reset Password</h1>
         <p class="text-gray-700 text-center mb-6">
@@ -30,6 +40,9 @@ require './views/Components/Head.php';
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500 text-gray-900"
                     required />
             </div>
+
+            <input type="text" name="token" value="<?= $data['token'] ?>" hidden>
+            <input type="text" name="id" value="<?= $data['id_user'] ?>" hidden>
 
             <div class="mb-4">
                 <label for="confirm-password" class="block text-sm font-medium text-gray-700">Tulis Ulang Password

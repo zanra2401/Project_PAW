@@ -70,11 +70,11 @@ class Pencari extends Controller {
        
     }
 
-    function kode($params = []) {
+    function verifikasiKode($params = []) {
         if ($this->isLogInPencari()) 
         {
-            $this->view("Pencari/kode", [
-                "title" => "kode"
+            $this->view("Pencari/verifikasiKode", [
+                "title" => "verifikasiKode"
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -515,4 +515,13 @@ class Pencari extends Controller {
     {
         echo json_encode($this->model->getContact());
     }
+
+    function notifikasi($params = []){
+        $data = $this->model->getPengumuman($_SESSION["id_user"]);
+        $this->view("Pencari/notifikasi", [
+            "title" => "notifikasi",
+            "data" => $data
+        ]);
+    }
+    
 }

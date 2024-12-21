@@ -380,4 +380,15 @@ class PencariModel {
 
         return $data;
     }
+
+    function getPengumuman($id_user) {
+        $data = [];
+        
+        // Query to fetch data from the 'd_pengumuman' table
+        $this->DB->query("SELECT * FROM pengumuman");
+        $data = $this->DB->getAll();
+        
+        // Pass the data to the view
+        return $data;
+    }
 }

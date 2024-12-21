@@ -55,7 +55,7 @@
 
 <body class="bg-gray-50 flex items-center justify-center min-h-screen">
   <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-sm">
-    <h1 class="text-2xl font-bold text-orange-500 mb-4 text-center">Reset Password</h1>
+    <h1 class="text-2xl font-bold text-orange-500 mb-4 text-center">Lupa Password</h1>
     <p class="text-gray-700 text-center mb-6">
       Masukkan alamat email Anda, kami akan mengirimkan kode untuk mengatur ulang kata sandi Anda.
     </p>
