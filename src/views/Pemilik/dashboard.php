@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="w-full h-fit p-4 mt-5 bg-gray-100 min-h-7 rounded-lg">
-                    <canvas id="chart"></canvas>
+                    <canvas id="chart" class="w-[900px]"></canvas>
                 </div>
 
                 <div class="w-full h-fit mt-5" id="date">

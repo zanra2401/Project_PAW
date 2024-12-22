@@ -102,7 +102,7 @@ class PemilikModel {
             [$_SESSION['id_user'], $_POST['nama'], $_POST['harga'], $_POST['provinsiID'], $_POST['kotaID'], $_POST['tipe'], $_POST['lat'], $_POST['long']]
         );
 
-        $id = mysqli_insert_id($this->DB->getConnection());
+        $id = mysqli_insert_id(mysql: $this->DB->getConnection());
         
         $this->DB->closeConnection();
 

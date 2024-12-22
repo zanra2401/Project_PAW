@@ -2,24 +2,114 @@
 
 require_once "./core/DataBase.php";
 
-class PencariModel {
+class PencariModel
+{
     private $DB;
     function __construct()
     {
         $this->DB = DataBase::getInstance();
     }
 
-    function filterKost($nama_lokasi, $tipe){
+    function getAllBerita(){
         $data = [];
-
-        if ($nama_lokasi == "" && $tipe != ""){
-            $this->DB->query("SELECT * FROM kost WHERE tipe_kost = '$tipe'");
-        } else if ($nama_lokasi != "" && $tipe == ""){
-            $this->DB->query("SELECT * FROM kost WHERE (nama_kost LIKE '%$nama_lokasi%' OR kota_kost LIKE '%$nama_lokasi%' OR provinsi_kost LIKE '%$nama_lokasi%')");
-        } else {
-            $this->DB->query("SELECT * FROM kost WHERE (nama_kost LIKE '%$nama_lokasi%' OR kota_kost LIKE '%$nama_lokasi%' OR provinsi_kost LIKE '%$nama_lokasi%') AND tipe_kost = '$tipe'");
+        $this->DB->query("SELECT * FROM berita");
+        $result = $this->DB->getAll();
+        foreach ($result as $res)
+        {
+            $data[] = $res;
         }
 
+        return $data;
+    }
+
+    function getOneBerita($id){
+        $data = [];
+        $this->DB->query("SELECT * FROM berita WHERE id_berita=$id");
+        $result = $this->DB->getAll();
+        foreach ($result as $res)
+        {
+            $data[] = $res;
+        }
+
+        return $data;
+    }
+
+    function email($email){
+        $data = [];
+        $this->DB->query("SELECT * FROM user WHERE email = '$email'");
+        $result = $this->DB->getAll();
+        foreach($result as $res)
+        {
+            $data[] = $res;
+        }
+        return $data;
+    }
+
+    function token($token, $email){
+        $data = [];
+        $this->DB->query("UPDATE user SET reset_code = '$token' WHERE email = '$email'");
+        $result = $this->DB->getAll();
+        foreach($result as $res)
+        {
+            $data[] = $res;
+        }
+        return $data;
+    }
+    
+
+    function filterKost($nama_lokasi, $tipe, $filter_data, $min_harga, $max_harga, $urutan){
+        $data = [];
+
+        $condition = [];
+        foreach ($filter_data AS $key => $temp) 
+        {
+            if(!empty($temp))
+            {
+                $condition[] = $key = $temp;
+            }
+        }
+
+        $perintah = "SELECT k.* FROM kost AS k, fasilitas_kost AS fk WHERE k.id_kost = fk.id_kost";
+
+        if ($nama_lokasi != '') {
+            $perintah .= " AND (k.nama_kost LIKE '%$nama_lokasi%' OR k.kota_kost LIKE '%$nama_lokasi%' OR k.provinsi_kost LIKE '%$nama_lokasi%')";
+        }
+
+        if ($tipe != ''){
+            $perintah .= " AND k.tipe_kost = '$tipe'";
+        }
+
+        if ($min_harga != 0 && $max_harga != 0){
+            $perintah .= " AND k.harga_kost BETWEEN {$min_harga} AND {$max_harga}";
+        } else if ($min_harga != 0 && $max_harga == 0) {
+            $perintah .= " AND k.harga_kost >= $min_harga";
+        } else if ($min_harga == 0 && $max_harga != 0) {
+            $perintah .= " AND k.harga_kost <= $min_harga";
+        }
+
+        if (!empty($condition))
+        {   
+            $exc = " AND id_fasilitas IN (";
+            for ($i = 0; $i < count($condition);$i++)
+            {
+                if ($i == (count($condition)-1)){
+                    $exc .= $condition[$i];
+                } else {
+                    $exc .= $condition[$i] . ",";
+                }
+            }
+
+            $pan = count($condition);
+            $perintah .= "$exc) GROUP BY id_kost HAVING COUNT(DISTINCT id_fasilitas) = $pan";
+        }
+
+        if ($urutan != ''){
+            $perintah .= " ORDER BY harga_kost {$urutan}";
+        }
+
+        $perintah .= ";";
+
+        $this->DB->query($perintah);
 
         $kosts = $this->DB->getAll();
     
@@ -44,7 +134,19 @@ class PencariModel {
             }
         }
 
+        return $data;
+    }
 
+    function getFasilitasKost()
+    {   
+        $data = [];
+        $this->DB->query("SELECT * FROM fasilitas");
+        $result = $this->DB->getAll();
+
+        foreach ($result as $res)
+        {
+            $data[$res['id_fasilitas']] = $res['nama_fasilitas'];
+        }
         return $data;
     }
 
@@ -97,7 +199,7 @@ class PencariModel {
 
     function getLaporanById($idLaporan)
     {
-        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$id_laporan]);
+        $this->DB->query("SELECT l.deskripsi_laporan,l.tanggal_laporan ,u.username_user , kl.nama_laporan FROM user AS u,laporan AS l ,kategori_laporan AS kl WHERE l.id_laporan = ?","i",[$idLaporan]);
         // $this->DB->query("SELECT l.isi_laporan, l.tanggal_melapor, u.username_user, l.id_laporan FROM user AS u, laporan AS l WHERE l.id_laporan = ?","i",[$idLaporan]);
         return $this->DB->getFirst();
     }
@@ -196,16 +298,17 @@ class PencariModel {
 
         $this->DB->query("SELECT * FROM kost WHERE id_kost = $id");
         $kosts = $this->DB->getAll();
-    
+        
         foreach ($kosts as $kost)
         {
+
             $data[$kost['id_kost']] = [
                 "data_kost" => $kost,
                 "sisa_kamar" => 0,
                 "gambar" => [],
                 "pemilik" => '',
                 "id_pemilik" => 0,
-                "profile_pemilik" => ''
+                "profile_pemilik" => '',
             ];
 
             $this->DB->query("SELECT COUNT(*) AS total_kamar FROM kamar WHERE kamar.id_kost = {$kost['id_kost']} AND kamar.status_kamar = 'kosong'");
@@ -225,12 +328,23 @@ class PencariModel {
             $data[$kost['id_kost']]['pemilik'] = $result[0]['username_user'];
             $data[$kost['id_kost']]['id_pemilik'] = $result[0]['id_user'];
 
-            $this->DB->query("SELECT u.profile_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user");
+            $this->DB->query("SELECT u.profile_user FROM user AS u, kost AS k WHERE k.id_user = u.id_user AND k.id_kost = $id");
             $result = $this->DB->getAll();
             $data[$kost['id_kost']]['profile_pemilik'] = $result[0]['profile_user'];
         }
        
         return $data;
+    }
+
+    function checkIfLiked($id_review, $id_user)
+    {
+        $this->DB->query("SELECT * FROM suka_review WHERE id_user = $id_user AND id_review = $id_review");
+        $result = $this->DB->getAll();
+        if (empty($result)){
+            return 'tidak ada';
+        } else {
+            return 'ada';
+        }
     }
 
     function getImageKost($id){
@@ -350,7 +464,21 @@ class PencariModel {
     function getAllReview($id_kost)
     {
         $data = [];
-        $this->DB->query("SELECT kl.tanggal_review, kl.isi_review, u.profile_user, u.username_user FROM review AS kl, user AS u WHERE kl.id_kost = $id_kost AND kl.id_user = u.id_user");
+        $this->DB->query("
+            SELECT kl.id_review, 
+                kl.tanggal_review, 
+                kl.isi_review, 
+                u.profile_user, 
+                u.username_user, 
+                COUNT(sr.id_review) AS total_suka,
+                bl.isi_balasan_review
+            FROM review AS kl
+            JOIN user AS u ON kl.id_user = u.id_user
+            LEFT JOIN suka_review AS sr ON kl.id_review = sr.id_review
+            LEFT JOIN balasan_review AS bl ON bl.id_review = kl.id_review
+            WHERE kl.id_kost = $id_kost
+            GROUP BY kl.id_review, kl.tanggal_review, kl.isi_review, u.profile_user, u.username_user;
+        ");
         $result = $this->DB->getAll();
         foreach ($result as $res) 
         {
@@ -358,6 +486,16 @@ class PencariModel {
         }
 
         return $data;
+    }
+
+    function addLikeReview($id_review, $id_user) 
+    {
+        $this->DB->query("INSERT INTO suka_review (id_user, id_review) VALUES (?,?)", "ii", [$id_user, $id_review]);
+    }
+
+    function removeLikeReview($id_review, $id_user)
+    {
+        $this->DB->query("DELETE FROM suka_review WHERE id_user = $id_user AND id_review = $id_review");
     }
 
     function getChat($idPengirim, $noUpdate = true)
@@ -420,6 +558,110 @@ class PencariModel {
         }
         return true;
     }
+
+
+
+    function getPengumuman($id_user) {
+        $data = [];
+        
+        // Query to fetch data from the 'd_pengumuman' table
+        $this->DB->query("SELECT * FROM pengumuman");
+        $data = $this->DB->getAll();
+        
+        // Pass the data to the view
+        return $data;
+    }
+
+    function getpertanyaan()
+    {
+        $this->DB->query("SELECT id_pertanyaan FROM pertanyaan ORDER BY id_pertanyaan DESC LIMIT 1");
+        $result = $this->DB->getAll();
+        $temp = $result[0]['id_pertanyaan'];
+
+        $this->DB->query("SELECT id_jawaban FROM jawaban WHERE id_pertanyaan = $temp");
+        $result = $this->DB->getAll();
+
+        if ($result == [])
+        {
+            $data = [];
+            $this->DB->query('SELECT * FROM  pertanyaan');
+    
+            $pertanyaan = $this->DB->getAll();
+    
+            foreach ($pertanyaan as $p) {
+                $data = [];
+                $this->DB->query("SELECT id_pertanyaan FROM pertanyaan");
+                $jawaban = $this->DB->getAll();
+    
+                foreach ($jawaban as $jaw) {
+                    $data[$jaw['id_pertanyaan']] = [
+                        "pertanyaan" => '',
+                        "jawaban" => ''
+                    ];
+
+                    $this->DB->query("SELECT id_jawaban FROM jawaban WHERE id_pertanyaan = {$jaw['id_pertanyaan']}");
+                    $result = $this->DB->getAll();
+                    if($result == []){
+                        $this->DB->query("SELECT isi_pertanyaan FROM pertanyaan WHERE id_pertanyaan = {$jaw['id_pertanyaan']}");
+                        $result = $this->DB->getAll();
+                        $data[$jaw['id_pertanyaan']]['pertanyaan'] = $result[0]['isi_pertanyaan'];
+                    } else {
+                        $this->DB->query("SELECT p.isi_pertanyaan, j.isi_jawaban FROM pertanyaan AS p, jawaban AS j where j.id_pertanyaan = p.id_pertanyaan AND j.id_pertanyaan = {$jaw['id_pertanyaan']}");
+                        $result = $this->DB->getAll();
+                        $data[$jaw['id_pertanyaan']]['pertanyaan'] = $result[0]['isi_pertanyaan'];
+                        $data[$jaw['id_pertanyaan']]['jawaban'] = $result[0]['isi_jawaban'];
+
+                    }
+                }
+            }
+        } else {
+            $data = [];
+            $this->DB->query('SELECT * FROM  pertanyaan');
+    
+            $pertanyaan = $this->DB->getAll();
+    
+            foreach ($pertanyaan as $p) {
+                $data = [];
+                $this->DB->query("SELECT id_pertanyaan FROM pertanyaan");
+                $jawaban = $this->DB->getAll();
+    
+    
+                foreach ($jawaban as $jaw) {
+                    $data[$jaw['id_pertanyaan']] = [
+                        "pertanyaan" => '',
+                        "jawaban" => ''
+                    ];
+                    $this->DB->query("SELECT p.isi_pertanyaan, j.isi_jawaban FROM pertanyaan AS p, jawaban AS j where j.id_pertanyaan = p.id_pertanyaan and j.id_pertanyaan = {$jaw['id_pertanyaan']}");
+                    $result = $this->DB->getAll();
+                    foreach ($result AS $res)
+                    {
+                        $data[$jaw['id_pertanyaan']]['pertanyaan'] = $res['isi_pertanyaan'];
+                        $data[$jaw['id_pertanyaan']]['jawaban'] = $res['isi_jawaban'];
+                    }
+                }
+            }
+        }
+
+
+
+        return $data;
+    }
+
+    function addPertanyaan($isi, $id)
+    {
+        $this->DB->query("INSERT INTO pertanyaan (isi_pertanyaan, id_user) VALUES (?, ?)", "si", [$isi, $id]);
+    }
+
+    function getOnlyOnePertanyaan(){
+        $data = [];
+        $this->DB->query("SELECT id_pertanyaan FROM pertanyaan ORDER BY id_pertanyaan DESC LIMIT 1");
+        $result = $this->DB->getAll();
+        $temp = $result[0]['id_pertanyaan'];
+
+        $this->DB->query("SELECT isi_pertanyaan FROM pertanyaan WHERE id_pertanyaan = $temp");
+        $result = $this->DB->getAll();
+        $data = $result[0]['isi_pertanyaan'];
+        
+        return$data;
+    }
 }
-
-

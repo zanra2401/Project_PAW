@@ -88,8 +88,7 @@ class Pemilik extends Controller {
     function editKost($params = []) 
     {
         if ($this->isLogInPemilik()) 
-        {
-            
+        {            
             if ($this->isLogInPemilik()) 
             {
                 $data = $this->model->getAllDataUser($_SESSION['id_user']);
@@ -619,7 +618,7 @@ class Pemilik extends Controller {
 
     function chatting($params = [])
     {
-        if ($this->isLogInPemilik()) 
+        if ($this->isLogInPemilik())    
         {
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/chatting", [

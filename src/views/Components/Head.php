@@ -20,6 +20,7 @@
             font-weight: 600;
         }
 
+
         .menu-foot {
             display:flex; 
             justify-content: center; 
@@ -38,26 +39,51 @@
                 margin-bottom: 20px;
             }
         }
-    </style>    
-    <style>
-    .alert {
-        animation: message 0.5s ease 1;
-        right: 10px;
-    }
-
-    @keyframes message {
-        0% {
-            right: -100%;
-        }
-
-        50% {
-            right: -50%;
-        }
-
-        100% {
+        
+        .alert {
+            animation: message 0.5s ease 1;
             right: 10px;
         }
-    }
-</style>
-    
+
+        @keyframes message {
+            0% {
+                right: -100%;
+            }
+
+            50% {
+                right: -50%;
+            }
+
+            100% {
+                right: 10px;
+            }
+        }
+            
+        @keyframes slideIn {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Animasi keluar ke kanan */
+        @keyframes slideOut {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .box-enter {
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        .box-exit {
+            animation: slideOut 0.5s ease-in-out forwards;
+        }
+    </style>
 </head>

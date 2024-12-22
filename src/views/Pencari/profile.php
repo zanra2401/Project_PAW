@@ -204,7 +204,77 @@
             </div>
         </div>
     </div>
+
+    <div id="box" class="hidden box-exit fixed top-0 right-0 w-[30%] h-full bg-white text-black shadow-lg" style="z-index: 9999;">
+        <div class="flex items-center justify-between p-6">
+            <h2 class="font-semibold text-3xl">Chats</h2>
+            <button class="text-gray-700 hover:opacity-70" id="close_chat" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="w-full h-2 border-b shadow-lg"></div>
+        <div id="contact-sidebar" class=" bg-white h-full  border-r flex flex-col items-center border-gray-200 overflow-y-auto">
+
+            <!-- Contact List -->
+            <div id="contact-list" class="p-2 w-[99%] ">    
+                <!-- Repeat for more contacts -->
+                <?php
+                    $path = "/" . PROJECT_NAME . "/"; 
+                    foreach ($data['contact'] as $contact) {
+                        $image_path = $path . $contact[0]['profile_user'];
+                        echo <<<EOD
+                            <a href="/
+                        EOD;
+                        
+                        echo PROJECT_NAME;
+
+                        echo <<<EOD
+                        /pencari/chatting/{$contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer border-b  ">
+                                <img src="{$image_path}" alt="Profile" class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-medium ">{$contact[0]['username_user']}</h3>
+                                </div>
+                        EOD;
+                        if ($contact['unread'] > 0)
+                        {
+                            echo <<<EOD
+                                    <span class="flex justify-center items-center right-0 -mt-2 -mr-2 w-5 h-5 bg-warna-second text-white text-xs font-semibold rounded-full">
+                                        {$contact['unread']}
+                                    </span>
+                            EOD;
+                        }
+                                
+                        echo "</a>";
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
     <script>
+
+        const toggleBoxBtn = document.getElementById("chat_button");
+        const box = document.getElementById("box");
+        const content = document.getElementById("content");
+        const close_chat = document.getElementById('close_chat');
+
+        toggleBoxBtn.addEventListener("click", function() {
+            box.classList.remove('hidden');
+            box.classList.remove("box-exit");
+            box.classList.add("box-enter");
+            document.body.classList.add("no-scroll");
+        });
+
+        close_chat.addEventListener('click', ()=>{
+            box.classList.remove("box-enter");
+            box.classList.add("box-exit");
+            setTimeout(() => {
+                box.classList.add('hidden');
+                document.body.classList.remove("no-scroll");
+            }, 500);
+        })
+
         function changeProfilePicture(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
