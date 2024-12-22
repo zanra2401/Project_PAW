@@ -2,7 +2,8 @@
 
 require_once "./core/DataBase.php";
 
-class AccountModel {
+class AccountModel
+{
     private $DB;
     function __construct()
     {
@@ -13,8 +14,7 @@ class AccountModel {
     {
         $password = password_hash($password, PASSWORD_BCRYPT);
         $this->DB->connect();
-        if ($nohp != "")
-        {
+        if ($nohp != "") {
             $this->DB->queryNew("INSERT INTO user(username_user, email_user, no_hp_user ,password_user, role_user, profile_user) VALUES(?, ?, ?, ?, ?, '/public/storage/gambarProfile/pp-default.png')", "sssss", [$username, $email, $nohp, $password, $role]);
         } else {
             $this->DB->queryNew("INSERT INTO user(username_user, email_user, password_user, role_user, profile_user) VALUES(?, ?, ?, ?, '/public/storage/gambarProfile/pp-default.png')", "ssss", [$username, $email, $password, $role]);
@@ -36,12 +36,11 @@ class AccountModel {
         return $this->DB->getFirst();
     }
 
-    
-    function getData($username) 
+
+    function getData($username)
     {
         $this->DB->query("SELECT * FROM user WHERE username_user = ?", "s", [$username]);
         return $this->DB->getFirst();
-
     }
 
     function getDataUser($username)
@@ -60,8 +59,8 @@ class AccountModel {
 
     function insertToken($id, $token, $expired)
     {
-        
-        $this->DB->query("INSERT INTO token_user VALUES(?, ?, ?)", "iis", [$id, $token, ]);
+
+        $this->DB->query("INSERT INTO token_user VALUES(?, ?, ?)", "iis", [$id, $token,]);
         return true;
     }
 
@@ -109,8 +108,7 @@ class AccountModel {
     {
         $this->DB->query("SELECT * FROM user WHERE id_user = ? AND verif_code = ?", "is", [$id, $kodeAcak]);
         $isMatch = $this->DB->getFirst() != NULL;
-        if ($isMatch)
-        {
+        if ($isMatch) {
             $this->DB->query("UPDATE user SET status_akun = 'aktif' WHERE id_user = ?", "i", [$id]);
             return true;
         }

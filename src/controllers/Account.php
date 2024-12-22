@@ -11,7 +11,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-class Account extends Controller {
+class Account extends Controller
+{
     private $model;
     public $default;
 
@@ -21,9 +22,9 @@ class Account extends Controller {
         $this->default = 'login';
     }
 
-    function registerAkunPencari($params = []){
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {
+    function registerAkunPencari($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $email = $_POST["email"];
             $password = $_POST["password"];
@@ -76,37 +77,31 @@ class Account extends Controller {
                 ])
             ]);
 
-            if (!$password == $password_verif)
-            {
+            if (!$password == $password_verif) {
                 $errors['password'] = "password dan password verifikasi tidak sama";
             }
 
-            foreach ($violationUsername as $violation)
-            {
+            foreach ($violationUsername as $violation) {
                 $errors[] = $violation->getMessage();
                 break;
             }
 
-            foreach ($violatiolnEmail as $violation)
-            {
+            foreach ($violatiolnEmail as $violation) {
                 $errors[] = $violation->getMessage();
                 break;
             }
 
-            foreach ($violationPassword as $violation)
-            {
+            foreach ($violationPassword as $violation) {
                 $errors[] = $violation->getMessage();
                 break;
             }
 
-            foreach ($violationPasswordVerif as $violation)
-            {
+            foreach ($violationPasswordVerif as $violation) {
                 $errors[] = $violation->getMessage();
                 break;
             }
-            
-            if (count($errors) > 0)
-            {
+
+            if (count($errors) > 0) {
 
                 $_SESSION['errors'] = $errors;
                 header("Location: /project_paw/pencari/regPenyewa");
@@ -117,14 +112,13 @@ class Account extends Controller {
                 $_SESSION['berhasil'] = ["Berhasil membuat akun, silakan aktifasi akun anda"];
                 header("Location: /project_paw/account/verifikasiakun/$id");
             }
-
         }
     }
 
 
-    function registerAkunPemilik($params = []){
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {
+    function registerAkunPemilik($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $email = $_POST["email"];
             $no_hp = $_POST["no-hp"];
@@ -191,38 +185,30 @@ class Account extends Controller {
                 ])
             ]);
 
-            if (!$password == $password_verif)
-            {
+            if (!$password == $password_verif) {
                 $errors[] = "password dan password verifikasi tidak sama";
             }
 
-            foreach ($violationUsername as $violation)
-            {
+            foreach ($violationUsername as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violatiolnEmail as $violation)
-            {
+            foreach ($violatiolnEmail as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationPassword as $violation)
-            {
+            foreach ($violationPassword as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationPasswordVerif as $violation)
-            {
+            foreach ($violationPasswordVerif as $violation) {
                 $errors[] = $violation->getMessage();
             }
 
-            foreach ($violationNoHp as $violation)
-            {
+            foreach ($violationNoHp as $violation) {
                 $errors[] = $violation->getMessage();
             }
-            
-            if (count($errors) > 0)
-            {
+            if (count($errors) > 0) {
                 $_SESSION['errors'] = $errors;
                 $this->verifikasiAkun();
                 header("Location: /project_paw/pemilik/regPemilik");
@@ -233,15 +219,13 @@ class Account extends Controller {
                 $_SESSION['success'] = ["Berhasil membuat akun, silakan verifikasi akun anda"];
                 header("Location: /project_paw/account/verifikasiakun/$id");
             }
-
         }
     }
 
 
     function loginUser($params = [])
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-        {   
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $username = $_POST["username"];
             $password = $_POST["password"];
             $validator = Validation::createValidator();
@@ -281,55 +265,43 @@ class Account extends Controller {
             $dbUsername = $this->model->getOneData('username_user', $username, 'user');
 
             $hashPass = $this->model->getData($username)['password_user'];
-           
-            if ($dbUsername == NULL or $hashPass == NULL)
-            {
+
+            if ($dbUsername == NULL or $hashPass == NULL) {
                 $errors[] = "Username atau Password tidak vali1d";
             }
 
-            if (!password_verify($password, $hashPass))
-            {
+            if (!password_verify($password, $hashPass)) {
                 $errors[] = "Username atau Password tidak valid";
             }
 
-            if (count($errors) > 0)
-            {
+            if (count($errors) > 0) {
                 $_SESSION["errors"] = [$errors[0]];
-                header("Location: /" . PROJECT_NAME ."/account/login");
-            }
-            else
-            {
+                header("Location: /" . PROJECT_NAME . "/account/login");
+            } else {
                 $_SESSION["loged_in"] = true;
                 $_SESSION["username"] = $username;
                 $role =  ($this->model->getData($username))["role_user"];
                 $id =  ($this->model->getData($username))["id_user"];
                 $_SESSION["role_user"] = $role;
                 $_SESSION["id_user"] = $id;
-                if ($role == "pemilik")
-                {
-                    header("Location: /" . PROJECT_NAME ."/pemilik");
+                if ($role == "pemilik") {
+                    header("Location: /" . PROJECT_NAME . "/pemilik");
                 } else {
-                    header("Location: /" . PROJECT_NAME ."/pencari");
+                    header("Location: /" . PROJECT_NAME . "/pencari");
                 }
             }
         }
     }
 
-    function login($params = []){
-        if ($this->isLogIn())
-        {
+    function login($params = [])
+    {
+        if ($this->isLogIn()) {
 
             $role = $this->model->getData($_SESSION["username"])['role_user'];
-            if ($role = "pemilik")
-            {
-                header("Location: /" . PROJECT_NAME ."/pemilik"); 
-            }
-
-            else
-
-            {
-                header("Location: /" . PROJECT_NAME ."/pencari");
-
+            if ($role = "pemilik") {
+                header("Location: /" . PROJECT_NAME . "/pemilik");
+            } else {
+                header("Location: /" . PROJECT_NAME . "/pencari");
             }
         }
 
@@ -358,19 +330,16 @@ class Account extends Controller {
                 new Assert\Email(["message" => "Email Tidak Valid"]),
                 new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
             ]);
-    
-            if (!$this->model->isEmailExist($email))
-            {
+
+            if (!$this->model->isEmailExist($email)) {
                 $violations[] = "Email tidak di temukan";
             }
-            
-            foreach ($violatiolnEmail as $violation)
-            {
+
+            foreach ($violatiolnEmail as $violation) {
                 $violations[] = $violation->getMessage();
             }
 
-            if (count($violations) > 0)
-            {
+            if (count($violations) > 0) {
                 $_SESSION['errors'] = $violations;
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
                 return;
@@ -383,7 +352,7 @@ class Account extends Controller {
                 // $expire_time = date("Y-m-d H:i:s", strtotime("+1 hour")); // Token berlaku 1 jam
 
                 // Simpan token ke database
-                
+
                 $this->model->updateResetCode($token, $email);
 
                 // Kirim email menggunakan PHPMailer
@@ -406,46 +375,45 @@ class Account extends Controller {
                     $mail->addReplyTo('no-reply@example.com', 'Information');
                     $id = $this->model->getUserByEmail($email)['id_user'];
                     //Content
-                    $mail->isHTML(true);    
+                    $mail->isHTML(true);
                     $resetLink = "http://{$_SERVER['SERVER_NAME']}/project_paw/account/resetpassword/$token/$id";
                     $email_template = "
                         <h2>Klik tautan berikut</h2>
                         Klik link berikut untuk mereset password Anda: <a href='$resetLink'>Reset Password</a>
-                    ";      
+                    ";
 
                     $mail->Subject = 'reset password';
                     $mail->Body    = $email_template;
-                    
+
 
                     $mail->send();
                     header("Location: " . $resetLink);
                     return;
-                    } catch (Exception $e) {
-                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                    }
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
-            }else {
-                    $this->view("Account/lupapassword", [
-                        "title" => "lupapassword"
-                    ]);
             }
-        
+        } else {
+            $this->view("Account/lupapassword", [
+                "title" => "lupapassword"
+            ]);
+        }
     }
-    
-    function resetpassword($params = []) {
+
+    function resetpassword($params = [])
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-           
+
             $errors = [];
             $id = $_POST['id'];
             $password = $_POST['new-password'];
             $verifPass = $_POST['confirm-password'];
             $token = $_POST['token'];
             $validator = Validation::createValidator();
-       
 
-           
-            if ($this->model->checkToken($id, $token))
-            {
+
+
+            if ($this->model->checkToken($id, $token)) {
                 $violationPassword = $validator->validate($password, [
                     new Assert\NotBlank(["message" => "Password tidak boleh kosong"]),
                     new Assert\Regex([
@@ -457,19 +425,16 @@ class Account extends Controller {
                         "minMessage" => "password tidak valid"
                     ])
                 ]);
-                
-                foreach ($violationPassword as $violation)
-                {
+
+                foreach ($violationPassword as $violation) {
                     $errors[] = $violation->getMessage();
                 }
-    
-                if ($password !=  $verifPass)
-                {
+
+                if ($password !=  $verifPass) {
                     $errors[] = "Password tidak cocok";
                 }
-    
-                if (count($errors) < 1)
-                {
+
+                if (count($errors) < 1) {
                     $this->model->resetPassword($id, $password);
                     $_SESSION['success'] = ["Reset Password Berhasil"];
                     header("Location: /" . PROJECT_NAME . "/account/login");
@@ -478,32 +443,31 @@ class Account extends Controller {
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
             }
-
         } else {
             $this->view("Account/resetpassword", [
                 "title" => "Reset Page",
                 "token" => $params[0],
-                "id_user" => $params[1] 
+                "id_user" => $params[1]
             ]);
         }
     }
 
-    function verifikasiAkun($params = []) {
-        if ($_SERVER['REQUEST_METHOD'] == "POST")
-        {
+    function verifikasiAkun($params = [])
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $message = "";
             $email = $_POST['email'];
-        
+
             if ($this->model->isEmailExist($email)) {
                 $message = "<div class='alert alert-danger'>Email sudah terdaftar.</div>";
                 //generate kode angka random
-                $kodeAcak = rand(100000,999999);// 6 digit
-                
+                $kodeAcak = rand(100000, 999999); // 6 digit
+
                 $this->model->verifCode($kodeAcak, $_SESSION['id_user']);
-                
+
                 // Kirim email menggunakan PHPMailer
                 $mail = new PHPMailer(true);
-            try {
+                try {
                     //Server settings
                     $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
                     $mail->isSMTP();                                            //Send using SMTP
@@ -518,7 +482,7 @@ class Account extends Controller {
                     $mail->addAddress($email, 'User');     //Add a recipient              //Name is optional
                     // $id = $this->model->getUserByEmail($email)['id_user'];
                     //Content
-                    $mail->isHTML(true);   
+                    $mail->isHTML(true);
                     $veriflink = "{$_SERVER['SERVER_NAME']}/project_paw/account/verifikasiakun/{$_SESSION['id_user']}";
                     $email_template = "
                         <h2>Kode Verifikasi Anda</h2>
@@ -526,7 +490,7 @@ class Account extends Controller {
                         <p>Masukkan kode ini untuk melanjutkan proses registrasi.</p>
                         <p>Masuk ke: <a href='{$veriflink}' /> Verifikasi Akun </a><p>
                         <p>Untuk memasukan code<p>
-                    ";                             
+                    ";
                     $mail->Subject = 'Kode Verifikasi';
                     $mail->Body    = $email_template;
 
@@ -536,42 +500,35 @@ class Account extends Controller {
                 } catch (Exception $e) {
                     $message = "<div class='alert alert-danger'>Pesan gagal dikirim. Kesalahan: {$mail->ErrorInfo}</div>";
                 }
-            }    
+            }
+        } else {
+            if (isset($params[0])) {
+                $this->view("Account/verifikasiakun", [
+                    "title" => "verifikasiAKun",
+                    "id_user" => $params[0],
+                    "email_user" => $this->model->getEmailByID($params[0])
+                ]);
             } else {
-                if (isset($params[0]))
-                {
-                    $this->view("Account/verifikasiakun", [
-                        "title" => "verifikasiAKun",
-                        "id_user" => $params[0],
-                        "email_user" => $this->model->getEmailByID($params[0])
-                    ]);
-                }
-                else
-                {
-                    header("Location: /". PROJECT_NAME . "/account/login");
-                }
+                header("Location: /" . PROJECT_NAME . "/account/login");
+            }
         }
     }
 
     function isCodeMatch($params = [])
     {
-        if ($_SERVER['REQUEST_METHOD'] == "POST")
-        {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $id = $_POST['id_user'];
             $codeAcak = $_POST['verif_code'];
-            if ($this->model->getUserById($id)['status_akun'] != "aktif") 
-            {
-                if ($this->model->isCodeMatch($id, $codeAcak))
-                {
+            if ($this->model->getUserById($id)['status_akun'] != "aktif") {
+                if ($this->model->isCodeMatch($id, $codeAcak)) {
                     $_SESSION['success'] = ["Verifikasi Code Berhasil Silahkan Log In"];
-                    header("Location: /". PROJECT_NAME . "/account/login");
-                } else 
-                {
+                    header("Location: /" . PROJECT_NAME . "/account/login");
+                } else {
                     $_SESSION['errors'] = ["Verifikasi Code Gagal Silahkan Masukan Code yang benar"];
                     header('Location: ' . $_SERVER['HTTP_REFERER']);
                 }
             } else {
-                header("Location: /". PROJECT_NAME . "/account/login");
+                header("Location: /" . PROJECT_NAME . "/account/login");
             }
         }
     }

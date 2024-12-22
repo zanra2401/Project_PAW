@@ -1,6 +1,7 @@
 <?php
 
-class DataBase {
+class DataBase
+{
     private static $hostname;
     private static $username;
     private static $password;
@@ -11,15 +12,17 @@ class DataBase {
     private static $result;
 
     private function __construct() {}
-    
-    public function createConnection($hostname, $username, $password, $dbname) {
+
+    public function createConnection($hostname, $username, $password, $dbname)
+    {
         self::$hostname = $hostname;
         self::$username = $username;
         self::$password = $password;
         self::$dbname = $dbname;
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance == null) {
             self::$instance = new DataBase();
         }
@@ -27,7 +30,8 @@ class DataBase {
         return self::$instance;
     }
 
-    public static function connect() {
+    public static function connect()
+    {
         self::$conn = mysqli_connect(self::$hostname, self::$username, self::$password, self::$dbname);
     }
 
@@ -41,7 +45,8 @@ class DataBase {
         self::$conn->close();
     }
 
-    public function query($query, $type = "", $parameters = []) {
+    public function query($query, $type = "", $parameters = [])
+    {
         self::connect();
         $stmt = mysqli_prepare(self::$conn, $query);
         if ($type != "" or $parameters != []) {
@@ -53,7 +58,9 @@ class DataBase {
         self::$conn->close();
     }
 
-    public function queryNew($query, $type = "", $parameters = []) {
+
+    public function queryNew($query, $type = "", $parameters = [])
+    {
         $stmt = mysqli_prepare(self::$conn, $query);
         if ($type != "" or $parameters != []) {
             $stmt->bind_param($type, ...$parameters);
@@ -63,7 +70,8 @@ class DataBase {
         $stmt->close();
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $data = [];
         while ($row = mysqli_fetch_assoc(self::$result)) {
             $data[] = $row;
@@ -71,15 +79,10 @@ class DataBase {
         return $data;
     }
 
-
-    public function getFirst() {
+    public function getFirst()
+    {
         return mysqli_fetch_assoc(self::$result);
     }
-    
-
-
-
 }
 
 $DB = DataBase::getInstance();
-

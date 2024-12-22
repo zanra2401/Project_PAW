@@ -45,8 +45,9 @@ session_start();
 //     unset($_SESSION["loged_in"]);
 // }
 
-require_once "core/Globals.php";    
+require_once "core/Globals.php";
 // require_once "midtrans-php-master/Midtrans.php";
+
 require_once VENDOR . "autoload.php";
 require_once "core/DataBase.php";
 require_once "core/Router.php";

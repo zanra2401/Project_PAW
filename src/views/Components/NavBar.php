@@ -10,7 +10,7 @@
                     <i class="fa-regular fa-heart"></i>
                     Favorit
                 </a>
-                <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400" >
+                <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
                     <i class="fa-regular fa-newspaper"></i>
                     Berita
                 </a>
@@ -20,7 +20,7 @@
                 </a>
                 <div class="relative group inline-block">
                     <button class="flex items-center space-x-1 group-hover:rotate-0 transition-transform group-hover:text-warna-second font-medium text-lg text-gray-800">
-                        <span>Lainnya</span>  
+                        <span>Lainnya</span>
                         <i class="fas fa-caret-down rotate-180 mt-1 group-hover:rotate-0 group-hover:text-warna-second transition-transform text-gray-800" id="icon_lainnya"></i>
                     </button>
                     <div class="absolute mt-[2px] group-hover:block hidden left-1/2 -translate-x-[70%] -translate-y-full border-[6px] border-white border-t-0 border-l-transparent border-r-transparent"></div>
@@ -33,23 +33,20 @@
                     </div>
                 </div>
             </div>
-        
-            <div>
+            <?php if (isset($_SESSION["loged_in"])): ?>
+                <img id="pp" src="<?= "/" . PROJECT_NAME . "/" . $data['profile']['profile_user'] ?>" alt="" class="w-14 h-14 rounded-full cursor-pointer">
+                <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">
+                    <ul class="grid text-sm gap-3 p-2">
+                        <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
+                        <li class="hover:text-warna-second font-medium"><a href="/project_paw/Account/logout" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a></li>
 
-                <?php if(isset($_SESSION["loged_in"])):?>
-                    <img id="pp" src="<?= "/" . PROJECT_NAME . "/" . $data['profile']['profile_user'] ?>" alt="" class="w-14 h-14 rounded-full cursor-pointer">
-                    <div class="bg-white w-[85px] mt-2 p-2 absolute hidden" id="menu_pp">
-                        <ul class="grid text-sm gap-3 p-2">
-                            <li class="hover:text-warna-second font-medium"><a href="/project_paw/pencari/profile">Profile</a></li>
-                            <li class="hover:text-warna-second font-medium"><a href="/project_paw/Account/logout" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a></li>
-
-                        </ul>
-                    </div>
-                <?php else:?>
-                    <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a>
-                <?php endif;?>
-            </div>
+                    </ul>
+                </div>
+            <?php else: ?>
+                <a class="ml-auto border-2 border-base-color p-1 pl-2 pr-2 rounded-md text-base-color font-Roboto-bold hover:text-white flex hover:bg-base-color" href="/project_paw/account/login">Masuk</a>
+            <?php endif; ?>
         </div>
+    </div>
     </div>
 </nav>
 <br><br><br>
@@ -75,15 +72,15 @@
         }
     });
 
-    
+
     const pp = document.getElementById('pp')
     const pp_menu = document.getElementById('menu_pp')
 
-    pp.addEventListener('click', ()=>{
-        if (pp_menu.classList.contains('hidden')){
+    pp.addEventListener('click', () => {
+        if (pp_menu.classList.contains('hidden')) {
             pp_menu.classList.remove('hidden')
         } else {
             pp_menu.classList.add('hidden')
         }
-    }) 
-</script>                                       
+    })
+</script>
