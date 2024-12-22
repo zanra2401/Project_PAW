@@ -172,10 +172,7 @@
                             }
                             chatMessages.innerHTML = chat;
                         });
-                        chatMessages.scrollTo({
-                            top: chatMessages.scrollHeight, // Ketinggian total halaman
-                            behavior: 'auto'               // Animasi scroll yang halus
-                        });
+                      
                     })
                     .catch(error => console.error('Error fetching messages:', error));
                 }

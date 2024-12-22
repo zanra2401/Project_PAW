@@ -18,7 +18,7 @@
         <p class="mt-4 text-center sm:text-bold px-4">
             Bingung Mau Cari Kost Dimana? Disini Aja! Cari kost jadi lebih mudah, cepat, dan hemat waktu.
         </p>
-        <div class="flex bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 70%; gap:10px;">
+        <div class="flex bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 80%; gap:10px;">
             <div class="relative w-1/2 field-inputan-search">
                 <input name="lokasi_nama" id="nama_lokasi" type="text" placeholder="Cari lokasi atau nama kost.." class="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second">
                 <i class="fas fa-location-dot absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>

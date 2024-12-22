@@ -77,11 +77,52 @@ class AdminModel
             $this->DB->query(
                 "INSERT INTO berita (judul_berita, deskripsi_berita, cover_berita, id_admin) VALUES(?, ?, ?, ?)",
                 "sssi",
-                [$post['judulBerita'], $post['deskripsiBerita'], $newDir, 1]
+                [$post['judulBerita'], $post['deskripsiBerita'], $newDir, $_SESSION['id_user']]
             );
         } else {
             // Jika gagal upload
             echo "Error uploading file.";
+        }
+    }
+
+    function updateBerita($files, $post)
+    {
+        
+        $uploadDirectory = STORAGE . "/cover_berita";  // Direktori penyimpanan file
+        $pathDir = "/public/storage/cover_berita/";    // Direktori untuk disimpan di database
+        $tmpName = $files['cover_berita']['tmp_name']; // Nama file sementara yang diupload
+        $name = $files['cover_berita']['name'];        // Nama asli file
+        $uid = uniqid() . "_" . basename($name);       // Membuat nama file unik
+        
+        if ($tmpName != "") 
+        {
+
+            // Tentukan path lengkap untuk file yang diupload
+            $newFileName = $uploadDirectory . '/' . $uid; // Menambahkan '/' agar path valid
+            $newDir = $pathDir . $uid; // Path yang disimpan di database
+    
+            // Pastikan direktori tujuan ada, jika belum buat direktori
+            if (!file_exists($uploadDirectory)) {
+                mkdir($uploadDirectory, 0777, true);
+            }
+    
+            // Pindahkan file ke direktori tujuan dan simpan data ke database
+            if (move_uploaded_file($tmpName, $newFileName)) {
+                $this->DB->query(
+                    "UPDATE berita SET judul_berita = ?  ,deskripsi_berita = ? ,cover_berita = ? WHERE id_berita = ?",
+                    "sssi",
+                    [$post['judul'], $post['deskripsi'], $newDir, $post['idBerita']]
+                );
+            } else {
+                // Jika gagal upload
+                echo "Error uploading file.";
+            }
+        } else {
+            $this->DB->query(
+                "UPDATE berita SET judul_berita = ?  ,deskripsi_berita = ? WHERE id_berita = ?",
+                "ssi",
+                [$post['judul'], $post['deskripsi'], $post['idBerita']]
+            );
         }
     }
 
@@ -92,35 +133,7 @@ class AdminModel
         return $this->DB->getFirst();
     }
 
-    function updateBerita($files, $post)
-    {
-        $uploadDirectory = STORAGE . "/cover_berita";  // Direktori penyimpanan file
-        $pathDir = "/public/storage/cover_berita/";    // Direktori untuk disimpan di database
-        $tmpName = $files['cover_berita']['tmp_name']; // Nama file sementara yang diupload
-        $name = $files['cover_berita']['name'];        // Nama asli file
-        $uid = uniqid() . "_" . basename($name);       // Membuat nama file unik
-
-        // Tentukan path lengkap untuk file yang diupload
-        $newFileName = $uploadDirectory . '/' . $uid; // Menambahkan '/' agar path valid
-        $newDir = $pathDir . $uid;                    // Path yang disimpan di database
-
-        // Pastikan direktori tujuan ada, jika belum buat direktori
-        if (!file_exists($uploadDirectory)) {
-            mkdir($uploadDirectory, 0777, true);
-        }
-
-        // Pindahkan file ke direktori tujuan dan simpan data ke database
-        if (move_uploaded_file($tmpName, $newFileName)) {
-            $this->DB->query(
-                "UPDATE berita SET judul_berita = ?  ,deskripsi_berita = ? ,cover_berita = ?",
-                "sss",
-                [$post['judul'], $post['deskripsi'], $newDir]
-            );
-        } else {
-            // Jika gagal upload
-            echo "Error uploading file.";
-        }
-    }
+    
 
     function getLaporanById($idLaporan)
     {
@@ -217,4 +230,41 @@ class AdminModel
     {
         $this->DB->query("UPDATE user SET status_akun = 'unbanned' WHERE id_user = ?", 's', [(int)$id]);
     }
+
+    function getAllTransaksi()
+    {
+        $this->DB->query("
+            SELECT 
+                u.id_user, 
+                t.id_user_pencari, 
+                u.username_user, 
+                t.harga_transaksi, 
+                t.tanggal_dipesan_transaksi, 
+                t.status_transaksi, 
+                t.tipe_transaksi 
+            FROM transaksi AS t, user AS u 
+            WHERE t.id_user_pencari = u.id_user
+        ");
+        return $this->DB->getAll();
+    }
+
+    function getTotalTransaksi() {
+        $this->DB->query("SELECT * FROM transaksi;");
+        return count($this->DB->getAll());
+    }
+
+    function getTotalBerhasil(){
+        $this->DB->query("SELECT * FROM transaksi WHERE status_transaksi = ?" ,"s",["settlement"]);
+        return count($this->DB->getAll());
+    }
+
+    function getTotalGagal(){
+        $this->DB->query("SELECT * FROM transaksi WHERE status_transaksi = ?" ,"s",["expire"]);
+        return count($this->DB->getAll());
+    }
+
+    function hapusBerita($idBerita){
+        $this->DB->query("DELETE FROM berita WHERE id_berita = ?" , "i",[$idBerita]);
+    }
+    
 }

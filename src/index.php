@@ -46,22 +46,22 @@ session_start();
 // }
 
 require_once "core/Globals.php";
-// require_once "midtrans-php-master/Midtrans.php";
+require_once "midtrans-php-master/Midtrans.php";
 
 require_once VENDOR . "autoload.php";
 require_once "core/DataBase.php";
 require_once "core/Router.php";
 
-// \Midtrans\Config::$serverKey = 'SB-Mid-server-sQHnNKLANytZ8Vf6KNx5bSHN';
-// \Midtrans\Config::$isProduction = false;
-// \Midtrans\Config::$isSanitized = true;
-// \Midtrans\Config::$is3ds = true;
+\Midtrans\Config::$serverKey = 'SB-Mid-server-sQHnNKLANytZ8Vf6KNx5bSHN';
+\Midtrans\Config::$isProduction = false;
+\Midtrans\Config::$isSanitized = true;
+\Midtrans\Config::$is3ds = true;
 
 
 $hostname = "localhost";
 $username = "root";
 $password = "";
-$dbname = "cari_kost";
+$dbname = "cariKost";
 
 $DB->createConnection($hostname, $username, $password, $dbname);
 

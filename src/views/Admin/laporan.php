@@ -18,22 +18,24 @@
                     </tr>
                 </thead>
                 <tbody>
-
     <?php foreach ($data['laporan'] as $key => $laporan) : ?>
         <tr class="bg-white border-b">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                 <?= htmlspecialchars($laporan['username']); ?>
             </th>
             <td class="px-6 py-4">
-            <?php foreach ($laporan['kategori'] as $kategori): ?>
-                <?= $kategori; ?>, 
-            <?php endforeach; ?>
+                <?php 
+                    $kategoriCount = count($laporan['kategori']);
+                    foreach ($laporan['kategori'] as $index => $kategori): 
+                ?>
+                    <?= $kategori; ?><?php if ($index < $kategoriCount - 1) echo ', '; ?>
+                <?php endforeach; ?>
             </td>
             <td class="px-6 py-4">
                 <?= htmlspecialchars($laporan['data']['deskripsi_laporan']); ?>
             </td>
             <td class="px-6 py-4">
-                <?= htmlspecialchars($laporan['data']['tanggal_laporan']); ?>
+                <?= date('Y-m-d', strtotime($laporan['data']['tanggal_laporan'])); ?>
             </td>
             <td class="px-6 py-4">
                 <form action="/<?= PROJECT_NAME ?>/Admin/detailLaporan" method="POST">

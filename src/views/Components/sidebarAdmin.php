@@ -4,14 +4,8 @@
     <div class="flex items-center space-x-3">
       <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
       <div>
-        <p class="text-sm font-medium text-gray-800">Kevin Dukkon</p>
-        <p class="text-xs text-gray-500">hey@kevdu.co</p>
+        <p class="text-sm font-medium text-gray-800"><?= $_SESSION['username_admin'] ?></p>
       </div>
-      <button class="ml-auto text-gray-500 hover:text-gray-800">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 14l8-8H4z" />
-        </svg>
-      </button>
     </div>
   </div>
   <!-- Menu -->
@@ -37,7 +31,7 @@
     <!-- sub menu pengumuman -->
     <div class=" text-sm font-medium text-gray-600 ml-5 px-1 border-l-2 border-warna-second   mt-0">
       <a href="/<?= PROJECT_NAME ?>/admin/logpengumuman" class="ml-1">
-        <i class="fas fa-clipboard ml-2"></i>
+        <i class="far fa-clipboard ml-2"></i>
         <span class="ml-1">
           Log Pengumuman
         </span>
@@ -51,7 +45,7 @@
     </a>
     <div class=" text-sm font-medium text-gray-600 ml-5 px-1 border-l-2 border-warna-second   mt-0">
       <a href="/<?= PROJECT_NAME ?>/admin/laporan" class="ml-1">
-        <i class="fas fa-clipboard ml-2"></i>
+        <i class="far fa-file ml-2"></i>
         <span class="ml-1">
           Detail Laporan
         </span>
@@ -65,7 +59,7 @@
     </a>
     <div class=" text-sm font-medium text-gray-600 ml-5 px-1 border-l-2 border-warna-second   mt-0">
       <a href="/<?= PROJECT_NAME ?>/admin/tambahBerita" class="ml-1">
-        <i class="fas fa-clipboard ml-2"></i>
+        <i class="far fa-newspaper ml-2"></i>
         <span class="ml-1">
           Tambah Berita
         </span>
@@ -77,12 +71,50 @@
         Pertanyaan
       </span>
     </a>
-    <div class=" text-sm font-medium text-gray-600 px-3 mt-0">
-      <div class="ml-[7.5px] relative">
-        <a href="/<?= PROJECT_NAME ?>/admin/pertanyaan" class="ml-5">Balas Pertanyaan</a>
-        <div class="absolute rounded-t-md inline-block h-1/2 left-0 top-0 bg-gray-600 w-[2px]"></div>
-        <div class="absolute inline-block rounded-r-md h-[3px] left-0  bg-gray-600 w-[10px] top-1/2"></div>
-      </div>
+
+    <div class=" text-sm font-medium text-gray-600 ml-5 px-1 border-l-2 border-warna-second   mt-0">
+      <a href="/<?= PROJECT_NAME ?>/admin/pertanyaan" class="ml-1">
+        <i class="far fa-bell text-black ml-2"></i>
+        <span class="ml-1">
+          Balas Pertanyaan
+        </span>
+      </a>
     </div>
+
+    <button onclick="showLogoutModal()" class="flex items-center px-3 py-2 text-sm font-medium text-warna-second rounded-lg">
+          <i class="fas fa-right-from-bracket text-warna-second text-[15px]"></i>
+          <span class="ml-3">
+              Log Out
+          </span>
+    </button>
+
+    <div id="logoutModal" class="fixed inset-0 z-40 bg-gray-500 bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white p-6 rounded-md shadow-lg w-1/3">
+            <h2 class="text-xl font-bold mb-4">Konfirmasi Logout</h2>
+            <p>Apakah Anda yakin ingin logout?</p>
+            <div class="mt-4 flex justify-between">
+                <button onclick="confirmLogout()" class="bg-red-500 text-white px-4 py-2 rounded-md">Logout</button>
+                <button onclick="cancelLogout()" class="bg-gray-500 text-white px-4 py-2 rounded-md">Batal</button>
+            </div>
+        </div>
+    </div>
+
   </nav>
+  <script>
+      // Menampilkan modal konfirmasi logout
+      function showLogoutModal() {
+          document.getElementById('logoutModal').classList.remove('hidden');
+      }
+
+      // Menangani klik pada tombol Batal (menutup modal)
+      function cancelLogout() {
+          document.getElementById('logoutModal').classList.add('hidden');
+      }
+
+      // Menangani klik pada tombol Logout (melakukan aksi logout)
+      function confirmLogout() {
+          // Lakukan aksi logout, misalnya mengarahkan ke halaman logout
+          window.location.href = '/<?= PROJECT_NAME ?>/admin/logout';  // Ganti dengan URL logout sesuai aplikasi Anda
+      }
+  </script>
 </aside>

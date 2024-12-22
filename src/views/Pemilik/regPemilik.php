@@ -40,7 +40,7 @@
                     <input type="password" name="password-verif" id="confirm-password" placeholder="Masukkan kembali password" 
                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400">
                 </div>
-                <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-red-500 hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
+                <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
                     Daftar
                 </button>
             </form>

@@ -5,9 +5,11 @@
 
     $foto_profile = $data['data_user'][0]['profile_user'];
 
-    if ($foto_profile == ""){
-        $foto_profile = "/public/storage/gambarProfile/pp_kosong.jpeg";
+    function formatRupiah($angka) {
+        $angka = (float) $angka;
+        return 'Rp ' . number_format($angka, 0, ',', '.');
     }
+
 ?>  
 
 <body class="bg-gray-100">
@@ -157,17 +159,25 @@
                     </div>
     
                     <div id="bookingCards" class="mt-8 grid grid-cols-2 gap-5">
-                        <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
-                            <h2 class="text-2xl font-bold text-gray-800">Kosan Mawar</h2>
-                            <p class="text-lg text-gray-600">ID Kost : 001</p>
-                            <p class="text-lg text-gray-600">Lokasi : Surabaya</p>
-                            <p class="text-lg text-gray-600">Harga : Rp 1,500,000</p>
-                            <p class="text-lg text-gray-600">Tanggal Pemesanan : 2024-01-15</p>
-                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
-                                style="background-color: #68422d;">Review</button>
+                        <?php 
+                            
+                            foreach($data['riwayat'] AS $riwt
+                            {
+                                $harga = formatRupiah($riw['harga_kost']);
+                                echo <<<EDO
+                                    <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
+                                        <h2 class="text-2xl font-bold text-gray-800">{$riw['nama_kost']}</h2>
+                                        <p class="text-lg text-gray-600">Harga : {$riw['nama_kost']}</p>
+                                        <p class="text-lg text-gray-600">Tanggal Pemesanan : 2024-01-15</p>
+                                        <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
+                                            style="background-color: #68422d;">Review</button>
 
-                        </div>
+                                    </div>
+                                EDO;
+                            })
+                       ?>
 
+<!-- 
                         <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Malang">
                             <h2 class="text-2xl font-bold text-gray-800">Kosan Melati</h2>
                             <p class="text-lg text-gray-600">ID Kost: 002</p>
@@ -196,11 +206,42 @@
                             <p class="text-lg text-gray-600">Harga: Rp 5,000,000,000</p>
                             <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-12-05</p>
                             <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
-                                style="background-color: #68422d;">Review</button>
+                                style="background-color: #68422d;" id="tombol_review">Review</button>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div> 
+
+                <div id="popup_review" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <!-- Pop-up Content -->
+                    <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full p-6 grid gap-5" id="box_review">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Review Kost abc</h2>
+                        <div class="flex gap-4">
+                            <img src="<?= "/". PROJECT_NAME . "/"?>public/storage/gambarKost/6767b32487624_713_302746617.jpg" alt="" class="w-1/2 h-[240px]">
+                            <textarea
+                            name=""
+                            id=""
+                            class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-base-color focus:border-base-color text-gray-700 resize-none"
+                            placeholder="Tulis review anda tentang kost ini..."
+                            ></textarea>
+
+                        </div>
+                        <div class="flex flex-col space-y-4">
+                            <button 
+                            id="offlineButton" 
+                            class="bg-base-color text-white font-semibold px-4 py-2 rounded hover:opacity-80 transition"
+                            >
+                            Kirim
+                            </button>
+                            <button 
+                                id="closeButton" 
+                                class="mt-6 text-gray-500 hover:text-gray-800 text-sm font-semibold"
+                            >
+                                Batalkan
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -216,10 +257,7 @@
         </div>
         <div class="w-full h-2 border-b shadow-lg"></div>
         <div id="contact-sidebar" class=" bg-white h-full  border-r flex flex-col items-center border-gray-200 overflow-y-auto">
-
-            <!-- Contact List -->
             <div id="contact-list" class="p-2 w-[99%] ">    
-                <!-- Repeat for more contacts -->
                 <?php
                     $path = "/" . PROJECT_NAME . "/"; 
                     foreach ($data['contact'] as $contact) {
@@ -253,6 +291,30 @@
         </div>
     </div>
     <script>
+
+        const tombol_review = document.getElementById('tombol_review');
+        const popup_review = document.getElementById('popup_review');
+        const closeButton = document.getElementById('closeButton');
+        const box_review = document.getElementById('box_review');
+
+        tombol_review.addEventListener('click', ()=>{
+            popup_review.classList.remove('hidden')
+            setTimeout(()=>{
+                box_review.classList.remove('scale-0')
+                box_review.classList.add('scale-100')
+            }, 50)
+        })
+
+        closeButton.addEventListener('click', ()=>{
+            box_review.classList.remove('scale-100')
+            box_review.classList.add('scale-0')
+            setTimeout(()=>{
+                popup_review.classList.add('hidden')
+            }, 300)
+            
+        })
+
+
 
         const toggleBoxBtn = document.getElementById("chat_button");
         const box = document.getElementById("box");

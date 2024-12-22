@@ -20,7 +20,7 @@ $foto_profile = $data['data_user'][0]['profile_user'];
     ?>
 
     <main class="flex-1 flex flex-col p-5 overflow-y-auto">
-        <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
+        <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="/<?= PROJECT_NAME ?>/pemilik/kosts">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
         <div class="container">
             <input type="hidden" id="jsObject" name="jsObject">
             <div class="flex flex-col space-y-5">

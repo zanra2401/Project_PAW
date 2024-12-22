@@ -45,20 +45,30 @@
             <div class="w-[90%] mx-auto mt-5 pb-10">
                 <span class="mb-3 font-Roboto-medium h-10 s text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-pencil"></i> <a href="">Edit Kost</a> <i class="fas fa-chevron-right"></i> </span>
 
-                    <div id="gambar" class="h-[500px] mt-3 grid grid-cols-3 grid-rows-2 gap-1 relative rounded-lg overflow-hidden">
-                        <div class="row-span-2 h-full  col-span-2">
-                            <img class="w-full object-center object-cover" src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][0]['path_gambar'] ?>" alt="">
-                        </div>
-                        <div class="overflow-hidden">
-                            <img class="object-cover h-full" src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][1]['path_gambar'] ?>" alt="">
-                        </div>
-                        <div class="overflow-hidden">
-                            <img class="object-cover h-full" src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][2]['path_gambar'] ?>" alt="">
-                        </div>
-                        <button id="edit-gambar-kost" onclick="showGambarInputEdit()" class="absolute aspect-square right-2 shadow bg-warna-second shadow-gray-800 bottom-2 hover:bg-base-color py-2 font-bold text-white rounded-md px-4">
-                            <i class="fas fa-pencil"></i>
-                        </button>
+                <div id="gambar" class="h-[500px] mt-3 grid grid-cols-3 grid-rows-2 gap-2 relative rounded-lg overflow-hidden">
+                    <!-- Gambar utama (besar) -->
+                    <div class="row-span-2 h-full col-span-2 overflow-hidden rounded-lg shadow-md">
+                        <img class="w-full h-full object-center object-cover transition-transform duration-300 hover:scale-105" 
+                            src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][0]['path_gambar'] ?>" alt="">
                     </div>
+                    <!-- Gambar kecil (1) -->
+                    <div class="overflow-hidden h-[240px] rounded-lg shadow-md">
+                        <img class="object-cover w-full h-full transition-transform duration-300 hover:scale-105" 
+                            src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][1]['path_gambar'] ?>" alt="">
+                    </div>
+                    <!-- Gambar kecil (2) -->
+                    <div class="overflow-hidden h-[240px] rounded-lg shadow-md">
+                        <img class="object-cover w-full h-full transition-transform duration-300 hover:scale-105" 
+                            src="<?= "/" . PROJECT_NAME . "/" . $data['kost']['gambar'][2]['path_gambar'] ?>" alt="">
+                    </div>
+                    <!-- Tombol Edit -->
+                    <button id="edit-gambar-kost" 
+                            onclick="showGambarInputEdit()" 
+                            class="absolute aspect-square right-2 bottom-2 shadow bg-warna-second shadow-gray-800 hover:bg-base-color py-2 font-bold text-white rounded-md px-4 transition-transform duration-300 hover:scale-105">
+                        <i class="fas fa-pencil"></i>
+                    </button>
+                </div>
+
                     <div class="tooltip" id="edit-gambar-kost-tooltip">
                         Edit Gambar Kost
                         <div class="arrow" data-popper-arrow></div>

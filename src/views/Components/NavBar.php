@@ -1,23 +1,11 @@
 <nav id="navbar" class="w-screen flex h-20 fixed z-50 transition-all duration-300 bg-transparent">
-<<<<<<< HEAD
-    <div class="w-[90%] mx-auto flex h-full items-center">
-        <a href="/<?= PROJECT_NAME ?>/" class="self-center">
-=======
     <div class="w-[90%] mx-auto flex h-full items-center pr-5">
         <a href="/project_paw" class="self-center">
->>>>>>> danendra
             <img src="<?= ASSETS ?>image/logo.png" class="w-12" alt="">
         </a>
         <h1 class="font-medium text-base-color text-w text-2xl ml-2 font-Roboto-medium self-center">Cari Kost</h1>
         <div class="ml-auto flex gap-7 items-center">
             <div class="flex gap-3 items-center">
-<<<<<<< HEAD
-                <a href="/project_paw/pencari/favorit" class="font-medium text-lg text-gray-800 hover:text-warna-second border-r border-gray-400 pr-5">
-                    <i class="fa-regular fa-heart"></i>
-                    Favorit
-                </a>
-                <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
-=======
                 <?php if(isset($_SESSION["loged_in"])):?>
                     <a href="/project_paw/pencari/favorit" class="font-medium text-lg text-gray-800 hover:text-warna-second border-r border-gray-400 pr-5">
                         <i class="fa-regular fa-heart"></i>
@@ -25,12 +13,11 @@
                     </a>
                 <?php endif;?>
                 <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400" >
->>>>>>> danendra
                     <i class="fa-regular fa-newspaper"></i>
                     Berita
                 </a>
                 <?php if(isset($_SESSION["loged_in"])):?>
-                    <a href="" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
+                    <a href="/project_paw/pencari/notifikasi" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
                         <i class="fa-regular fa-bell"></i>
                         Notifikasi
                     </a>
@@ -44,7 +31,7 @@
                     <div class="absolute w-44 left-1/2 mt-[2px] -translate-x-[73%] hidden group-hover:block bg-white text-black text-sm rounded py-1 px-2 shadow-md">
                         <div class="grid gap-3 p-2">
                             <a href="/project_paw/pencari/faq" class="font-medium hover:text-warna-second">FAQ</a>
-                            <a href="/project_paw/pencari/kebijakan" class="font-medium hover:text-warna-second">Syarat dan Ketentuan</a>
+                            <a href="/project_paw/pencari/kebijakan" class="font-medium hover:text-warna-second">Kebijakan Aplikasi</a>
                             <a href="/project_paw/pencari/tentangkami" class="font-medium hover:text-warna-second">Tentang Kami</a>
                         </div>
                     </div>
@@ -102,7 +89,6 @@
         document.getElementById('logoutModal').classList.add('hidden');
     }
 
-    // Menangani klik pada tombol Logout (melakukan aksi logout)
     function confirmLogout() {
         // Lakukan aksi logout, misalnya mengarahkan ke halaman logout
         window.location.href = '/<?= PROJECT_NAME ?>/account/logout';  // Ganti dengan URL logout sesuai aplikasi Anda
@@ -124,11 +110,14 @@
     const pp = document.getElementById('pp')
     const pp_menu = document.getElementById('menu_pp')
 
-    pp.addEventListener('click', () => {
-        if (pp_menu.classList.contains('hidden')) {
-            pp_menu.classList.remove('hidden')
-        } else {
-            pp_menu.classList.add('hidden')
-        }
-    })
+    if (pp){
+        pp.addEventListener('click', () => {
+            if (pp_menu.classList.contains('hidden')) {
+                pp_menu.classList.remove('hidden')
+            } else {
+                pp_menu.classList.add('hidden')
+            }
+        })
+    }
+
 </script>

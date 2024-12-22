@@ -13,13 +13,10 @@
                 <h2 class="mb-6 font-semibold text-warna-second uppercase main-menu-foot">CARI KOST</h2>
                 <ul class="text-gray-500 dark:text-gray-400 font-medium" style="color: #fff;">
                     <li class="mb-4">
-                        <a href="https://flowbite.com/" class="hover:underline">Tentang Kami</a>
+                        <a href="/project_paw/pencari/tentangKami" class="hover:underline">Tentang Kami</a>
                     </li>
                     <li class="mb-4">
-                        <a href="https://tailwindcss.com/" class="hover:underline">FAQ</a>
-                    </li>
-                    <li class="mb-4">
-                        <a href="https://tailwindcss.com/" class="hover:underline">Pusat Bantuan</a>
+                        <a href="/project_paw/pencari/faq" class="hover:underline">FAQ</a>
                     </li>
                 </ul>
             </div>
@@ -27,7 +24,7 @@
                 <h2 class="mb-6 font-semibold text-warna-second uppercase main-menu-foot">KEBIJAKAN</h2>
                 <ul class="font-medium" style="color: #fff;">
                     <li class="mb-4">
-                        <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Kebijakan</a>
+                        <a href="/project_paw/pencari/kebijakan" class="hover:underline ">Kebijakan</a>
                     </li>
                     <li>
                         <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Syarat dan Ketentuan Umum</a>

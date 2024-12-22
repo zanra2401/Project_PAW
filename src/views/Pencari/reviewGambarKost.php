@@ -11,7 +11,7 @@
 
 
     <div class="mx-auto w-1/2 grid gap-6 mt-6 mb-10">
-        <h1 class="font-semibold text-xl">Foto/Video Kost</h1>
+        <h1 class="font-semibold text-xl">Foto Kost</h1>
         <div class="grid gap-2">
         <?php
             $data_gambar = $data['gambar'];
@@ -54,38 +54,38 @@
         </div>
     </div>
     
-    <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+    <!-- <div id="imageModal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
       <img
         src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840"
         alt="Zoomed Image"
         class="w-[800px] h-[600px] object-cover rounded-lg shadow-lg"
       />
       <button class="absolute top-5 right-5 text-white text-2xl font-bold" id="closeModal">&times;</button>
-    </div>
+    </div> -->
 
 
 
 
 
   <script>
-    const thumbnails = document.querySelectorAll("#thumbnail");
-    const modal = document.getElementById("imageModal");
-    const closeModal = document.getElementById("closeModal");
+    // const thumbnails = document.querySelectorAll("#thumbnail");
+    // const modal = document.getElementById("imageModal");
+    // const closeModal = document.getElementById("closeModal");
 
-    thumbnails.forEach((thumbnail) => {
-      thumbnail.addEventListener("click", () => {
-        modal.classList.remove("hidden");
-      });
-    })
+    // thumbnails.forEach((thumbnail) => {
+    //   thumbnail.addEventListener("click", () => {
+    //     modal.classList.remove("hidden");
+    //   });
+    // })
 
-    closeModal.addEventListener("click", () => {
-      modal.classList.add("hidden");
-    });
+    // closeModal.addEventListener("click", () => {
+    //   modal.classList.add("hidden");
+    // });
 
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.add("hidden");
-      }
-    });
+    // modal.addEventListener("click", (e) => {
+    //   if (e.target === modal) {
+    //     modal.classList.add("hidden");
+    //   }
+    // });
   </script>
 </body>

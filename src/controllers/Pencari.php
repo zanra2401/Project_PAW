@@ -149,7 +149,6 @@ class Pencari extends Controller
             $this->view("Pencari/berita", [
                 "title" => "berita",
                 "contact" => $this->model->getContact()
-                
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -215,9 +214,7 @@ class Pencari extends Controller
         if ($this->isLogInPencari()) {
             $profile = $this->model->getProfie($_SESSION['id_user']);
             $data = $this->model->getAllBerita();
-            if ($profile['profile_user'] == "") {
-                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-            }
+
             $this->view("Pencari/homeberita", [
                 "title" => "homeberita",
                 "data_berita" => $data,
@@ -244,70 +241,69 @@ class Pencari extends Controller
     }
 
     function kostPage($params = []) {
-        if ($this->isLogInPencari()) 
+        if ($_SERVER["REQUEST_METHOD"] == "POST") 
         {   
-            if ($_SERVER["REQUEST_METHOD"] == "POST") 
-            {   
-                if(isset($_POST['id_user_favorit'])){
-                    $id_user = $_POST['id_user_favorit'];
-                    $id_kost = $_POST['id_kost_favorit'];
-                    $isFavorited = $_POST['isFavorited'];
+            if(isset($_POST['id_user_favorit'])){
+                $id_user = $_POST['id_user_favorit'];
+                $id_kost = $_POST['id_kost_favorit'];
+                $isFavorited = $_POST['isFavorited'];
 
-                    if ($isFavorited === 'tidak ada') {
-
-                        $this->model->removeFromFavorites($id_user, $id_kost);
-                    } else {
-
-                        $this->model->addToFavorites($id_user, $id_kost);
-                    }
-
-                    header("Location: /project_paw/pencari/kostPage/$id_kost");
-                    exit;
-                } else if (isset($_POST['review_suka'])) {
-
-                    $islike = $_POST['isLiked'];
-                    if ($islike == 'tidak ada'){
-                        $this->model->addLikeReview( $_POST['review_suka'], $_SESSION['id_user']);
-                    } else {
-                        $this->model->removeLikeReview( $_POST['review_suka'], $_SESSION['id_user']);
-                    }
-                    header("Location: /project_paw/pencari/kostPage/{$_POST['id_kost']}");
-                    exit;
+                if ($isFavorited === 'tidak ada') {
+                    $this->model->removeFromFavorites($id_user, $id_kost);
                 } else {
-                    $kategori = $_POST['kategori_laporan'];
-                    $detail = $_POST['detail_laporan'];
-                    $id = $_SESSION['id_user'];
-                    $id_kost = $_POST['id_kost'];
-
-                    $erors = [];
-
-                    if (empty($kategori)) {
-                        $erors['kategori'] = "Pilih salah satu";
-                    }
-
-                    if (empty($detail)) {
-                        $erors['detail'] = "inputan tidak boleh kosong";
-                    } else if (strlen($detail) <= 10) {
-                        $erors['detail'] = "inputan harus lebih dari 11 karakter";
-                    }
-
-                    if (empty($erors)) {
-                        $this->model->insertDataLaporan($kategori, $detail, $id, $id_kost);
-                        header("Location: /project_paw/pencari/kostPage/$id_kost");
-                        exit;
-                    }
+                    $this->model->addToFavorites($id_user, $id_kost);
                 }
+
+                header("Location: /project_paw/pencari/kostPage/$id_kost");
+                exit;
+            } else if (isset($_POST['review_suka'])) {
+
+                $islike = $_POST['isLiked'];
+                if ($islike == 'tidak ada'){
+                    $this->model->addLikeReview( $_POST['review_suka'], $_SESSION['id_user']);
+                } else {
+                    $this->model->removeLikeReview( $_POST['review_suka'], $_SESSION['id_user']);
+                }
+                header("Location: /project_paw/pencari/kostPage/{$_POST['id_kost']}");
+                exit;
             } else {
+                $kategori = $_POST['kategori_laporan'];
+                $detail = $_POST['detail_laporan'];
+                $id = $_SESSION['id_user'];
+                $id_kost = $_POST['id_kost'];
+
+                $erors = [];
+
+                if (empty($kategori)) {
+                    $erors['kategori'] = "Pilih salah satu";
+                }
+
+                if (empty($detail)) {
+                    $erors['detail'] = "inputan tidak boleh kosong";
+                } else if (strlen($detail) <= 10) {
+                    $erors['detail'] = "inputan harus lebih dari 11 karakter";
+                }
+
+                if (empty($erors)) {
+                    $this->model->insertDataLaporan($kategori, $detail, $id, $id_kost);
+                    header("Location: /project_paw/pencari/kostPage/$id_kost");
+                    return;
+                }
+            }
+        } else {
+            if ($this->isLogInPencari()) {
+
+
                 $id = (int) $params[0];
                 $data = $this->model->getOneDataKost($id);
-
+    
                 $fasilitas = $this->model->getAllFasilitas($id);
                 $profile = $this->model->getProfie($_SESSION['id_user']);
-
+                
                 $rekomendasi = $this->model->rekomendasiKost($id);
                 $kategori_laporan = $this->model->getKategoriLaporan();
                 $id_user = $_SESSION['id_user'];
-
+                
                 $review = $this->model->getAllReview($id);
                 $udah_lapor = $this->model->cekPelapor($id_user, $id);
                 $cekFavorit = $this->model->cekFavorit($id_user, $id);
@@ -326,11 +322,31 @@ class Pencari extends Controller
                     "id_pemilik" => $data[$id]['id_pemilik'],
                     "contact" => $this->model->getContact()
                 ]);
+                
+            } else {
+                $id = (int) $params[0];
+                $data = $this->model->getOneDataKost($id);
+                $fasilitas = $this->model->getAllFasilitas($id);
+
+                $rekomendasi = $this->model->rekomendasiKost($id);
+                $kategori_laporan = $this->model->getKategoriLaporan();
+
+                $review = $this->model->getAllReview($id);
+                $rekomendasi = $this->model->rekomendasiKost($id);
+                $this->view("Pencari/KostPage", [
+                    "title" => "Kost Page",
+                    "id" => $id,
+                    "data" => $data,
+                    "fasilitas" => $fasilitas,
+                    "rekomendasi" => $rekomendasi,
+                    "kategori_laporan" => $kategori_laporan,
+                    "review" => $review,
+                    "id_pemilik" => $data[$id]['id_pemilik']
+                ]);
             }
-        } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
         }
     }
+    
     function kebijakan($params = [])
     {
         if ($this->isLogInPencari()) {
@@ -489,17 +505,15 @@ class Pencari extends Controller
             }
 
             $profile = $this->model->getProfie($_SESSION['id_user']);
-            if ($profile['profile_user'] == "") {
-                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-            }
-
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
+            $riwayat = $this->model->getKostRiwayatBeli($_SESSION['id_user']);
             $this->view("Pencari/profile", [
                 "title" => "Profile",
                 "data_user" => $data,
                 "profile" => $profile,
                 "eror" => $erors,
-                "contact" => $this->model->getContact()
+                "contact" => $this->model->getContact(),
+                "riwayat" => $riwayat
             ]);
         } else {
             header("Location: /" . PROJECT_NAME . "/account/login");
@@ -524,18 +538,21 @@ class Pencari extends Controller
         }
     }
 
-    // function test()
-    // {
-    //     var_dump(count($this->model->unique("username_user", "zanuar", "user")));
-    // }
-
 
     function faq($params = [])
     {
         if ($this->isLogInPencari()) {
-            $this->view("Pencari/faq", [
-                "title" => "faq"
-            ]);
+            if ($_SERVER["REQUEST_METHOD"] == "POST") 
+            {
+                $this->model->tambahPertanyaan($_POST);
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            } else  {
+                $pertanyaan = $this->model->getAllPertanyaan();
+                $this->view("Pencari/faq", [
+                    "title" => "faq",
+                    "pertanyaan" => $pertanyaan 
+                ]);
+            }
         } else {
             header("Location: /" . PROJECT_NAME . "/account/login");
         }
@@ -588,44 +605,10 @@ class Pencari extends Controller
         }
     }
 
-    function gerbangPembayaran($params = [])
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $kostID = 0;
-            $pencariID = 1;
-            $pemilikID = 2;
-            $hargaKost = 200000;
-            $namaKost = 'zanra';
-
-            $trans = array(
-                'transaction_details' => array(
-                    'order_id' => rand(),
-                    'gross_amount' => $hargaKost,
-                ),
-                'detail_pembayaran' => array(
-                    'kostID' => $kostID,
-                    'pencariID' => $pencariID,
-                    'pemilikID' => $pemilikID,
-                    'nama_kost' => $namaKost
-                ),
-            );
-
-            $snapToken = \Midtrans\Snap::getSnapToken($trans);
-
-            $this->view("Pencari/pembayaranKost", [
-                "title" => "PembayaranKost",
-                "snapToken" => $snapToken
-            ]);
-        } else {
-            $this->view("Pencari/pembayaranKost", [
-                "title" => "PembayaranKost"
-            ]);
-        }
-    }
-
     function saveTransaction($params = [])
     {
         $notif = json_decode(file_get_contents('php://input'), true);
+        
         $this->model->saveTransaction($notif);
         echo json_encode($notif);
     }
@@ -645,5 +628,47 @@ class Pencari extends Controller
             "title" => "coba"
         ]);
     }
+
+    function pembayaranOffline($params = [])
+    {
+        if (isset($params[0]) and isset($params[1]))
+        {
+            $this->model->transaksiOffline($params[0], $params[1]);
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        } else {
+            header("Location: /" . PROJECT_NAME . "/");
+        }
+    }
+
+    
+    function pembayaranOnline($params = [])
+    {
+        if (isset($params[0]) and isset($params[1])) {
+            $kostID = $params[1];
+            $pencariID = $_SESSION['id_user'];
+            $pemilikID = $params[0];
+            $hargaKost = $this->model->getOneDataKost($params[1])[$params[1]]['data_kost']['harga_kost'];
+
+            $transaksi_id = (time() * 10000) + random_int(1000, 9999);
+            $trans = array(
+                'transaction_details' => array(
+                    'order_id' => $transaksi_id,
+                    'gross_amount' => $hargaKost,
+                ),
+                'detail_pembayaran' => array(
+                    'kostID' => $kostID,
+                    'pencariID' => $pencariID,
+                    'pemilikID' => $pemilikID,
+                ),
+            );
+                $_SESSION['snapToken'] = \Midtrans\Snap::getSnapToken($trans);
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            } 
+            else 
+            {
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            }
+    }
+
 }
 

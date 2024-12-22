@@ -22,5 +22,8 @@ abstract class Controller
     return (isset($_SESSION["loged_in"]) && $_SESSION["role_user"] == "pencari" );
   }
 
-
+  function isLogInAdmin()
+  {
+    return (isset($_SESSION['is_admin_login']) && $_SESSION['role_admin'] == "admin");
+  }
 }

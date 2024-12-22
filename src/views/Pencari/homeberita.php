@@ -1,7 +1,6 @@
 <?php 
     require './views/Components/Head.php';
     $data_berita = $data['data_berita'];
-
 ?>
 <body class="bg-gray-100">
     <?php require "./views/Components/NavBar.php" ?> 
@@ -44,7 +43,7 @@
                     $short_description .= '...';
                 echo <<< EDO
                     <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{$dat['gambar_berita']}" class="w-full h-full object-cover" alt="...">
+                        <img src="{$dat['cover_berita']}" class="w-full h-full object-cover" alt="...">
                         <a class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white p-6" href="/project_paw/pencari/isiberita/{$dat['id_berita']}">
                             <div class="text-left pt-80">
                                 <h1 class="text-2xl font-bold mb-2 hover:underline">{$dat['judul_berita']}</h1>
@@ -123,18 +122,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php 
                 foreach($data_berita as $dat){
-                    $full_description = $dat['deskripsi_berita'];
 
+                    $full_description = $dat['deskripsi_berita'];
                     // Batasi deskripsi hanya beberapa kata (misalnya 20 kata)
                     $words = explode(' ', $full_description); // Pisahkan menjadi array kata
                     $short_description = implode(' ', array_slice($words, 0, 30)); // Ambil 20 kata pertama
-
+                    $project_name = PROJECT_NAME;
                     // Tambahkan tanda "..." jika deskripsi lebih panjang dari 20 kata
                     if (count($words) > 30) {
                         $short_description .= '...';
+                    }
                     echo <<< EDO
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <img src="{$dat['gambar_berita']}" alt="Artikel 1" class="w-full h-48 object-cover">
+                        <img src="/{$project_name}/{$dat['cover_berita']}" alt="Artikel 1" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="text-xl font-bold  text-gray-800">{$dat['judul_berita']}</h3>
                             <p class="text-gray-600 mt-2">{$short_description}</p>
@@ -142,7 +142,7 @@
                         </div>
                     </div>
                     EDO;
-                }
+                
             }
                 ?>
         

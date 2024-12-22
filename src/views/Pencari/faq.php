@@ -80,69 +80,6 @@
                     EDO;
             }
             ?>
-            <!-- 
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Apakah saya bisa memfilter hasil pencarian berdasarkan fasilitas?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Ya, Anda bisa memfilter hasil pencarian berdasarkan fasilitas seperti Wi-Fi, parkir, Dapur, Kulkas, dan lain-lain. Gunakan opsi filter untuk memperluas pilihan Anda.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Bagaimana cara menghubungi pemilik atau pengelola kos?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Setelah menemukan kos yang menarik, cukup klik tombol kontak untuk mengirim pesan atau menjadwalkan kunjungan dengan pemilik atau pengelola kos.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Apakah saya bisa menyimpan kos ke daftar favorit?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Ya, Anda bisa menyimpan kos ke daftar favorit dengan mengklik ikon hati di halaman Kost Page.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Apakah yang disediakan web Carikos?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Kami menyediakan yang memungkinkan Anda mencari kos, menyimpan favorit, dan menghubungi pemilik kos di mana saja.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Apakah saya bisa mengatur pencarian berdasarkan harga?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Ya, Anda bisa mengatur pencarian berdasarkan harga dengan memasukkan kisaran harga yang Anda inginkan.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Apa yang harus saya lakukan jika tidak menemukan kos yang sesuai?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Jika Anda tidak menemukan kos yang sesuai, Anda bisa mengaktifkan notifikasi atau memberi tahu kami lokasi dan preferensi Anda, dan kami akan mengirimkan pembaruan jika ada kos baru yang terdaftar.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Apakah saya bisa melihat foto-foto kos sebelum mengunjungi?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Ya, setiap kost page biasanya menyertakan foto-foto untuk memberi gambaran tentang kondisi dan fasilitas kos tersebut. Pastikan untuk memeriksa galeri foto sebelum membuat keputusan.</p>
-            </div>
-
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Bagaimana cara mengetahui apakah kos masih tersedia?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Status ketersediaan kos biasanya ditampilkan di halaman Kost page. Jika Anda ragu, Anda bisa menghubungi pemilik kos untuk memastikan ketersediaannya.</p>
-            </div> -->
-            <!-- 
-            <div class="faq-item border rounded-lg overflow-hidden">
-                <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium border-b focus:outline-none" onclick="toggleFaq(this)">
-                    Bagaimana cara membatalkan pemesanan kos?
-                </button>
-                <p class="hidden px-4 py-3 text-gray-600">Untuk membatalkan pemesanan, Anda bisa menghubungi pemilik kos langsung atau melakukannya melalui aplikasi jika pemilik telah mengaktifkan opsi pembatalan online.</p>
-            </div> -->
             <div class="mt-8">
                 <div class="mt-8">
                     <p class="text-2xl font-semibold">Tambahkan Pertanyaan</p>
@@ -184,29 +121,7 @@
                     }
                 });
             }
-            document.getElementById('add-question-form').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const question = document.getElementById('question').value.trim();
-                if (!question) {
-                    alert('Pertanyaan tidak boleh kosong.');
-                    return;
-                }
-                const faqContainer = document.getElementById('faq-container');
-                const newFaqItem = document.createElement('div');
-                newFaqItem.className = 'faq-item border rounded-lg overflow-hidden';
-                newFaqItem.innerHTML = `
-            <button class="w-full text-left px-4 py-3 bg-white text-lg font-medium focus:outline-none" onclick="toggleFaq(this)">
-                ${question}
-            </button>
-            <p class="hidden px-4 py-3 text-gray-600">Kami telah menerima pertanyaan ini. Jawaban akan segera tersedia.</p>`;
-
-                faqContainer.insertBefore(newFaqItem, faqContainer.lastElementChild);
-
-
-                alert('Pertanyaan berhasil dikirim!');
-
-                this.submit();
-            });
+           
         </script>
 </body>
 

@@ -110,17 +110,43 @@ class Pemilik extends Controller {
     }
 
     function regPemilik($params = []) {
-        $this->view("Pemilik/regPemilik", [
-            "title" => "regPemilik"
-        ]);
+      
+            $this->view("Pemilik/regPemilik", [
+                "title" => "regPemilik",
+            ]);
+    
     }
 
     function transaksiHistory($params = [])
     {
-        $this->view("Pemilik/transaksiHistory", 
-        [
-            "title" => "Transaksi History"
-        ]);
+        if ($this->isLogInPemilik())
+        {
+            if ($_SERVER['REQUEST_METHOD'] == "POST")
+            {
+                $idTransaksi = $_POST['namaTransaksi'];
+                $transaksi = $this->model->getTransaksi($idTransaksi);
+                $data = $this->model->getAllDataUser($_SESSION['id_user']);
+                $this->view("Pemilik/transaksiHistory", 
+                [
+                    "title" => "Transaksi History",
+                    "data_user" => $data,
+                    "transaksi" => $transaksi   
+    
+                ]);
+            } else {
+                $data = $this->model->getAllDataUser($_SESSION['id_user']);
+                $transaksi = $this->model->getTransaksiByID();
+                $this->view("Pemilik/transaksiHistory", 
+                [
+                    "title" => "Transaksi History",
+                    "data_user" => $data,
+                    "transaksi" => $transaksi   
+    
+                ]);
+            }
+        } else {
+            header("Location: /" . PROJECT_NAME ."/account/login");
+        }
     }
 
     function iklan($params = [])
@@ -683,6 +709,12 @@ class Pemilik extends Controller {
             $this->model->tambahLantai($params[0], $_POST['kamar']);
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
+    }
+
+    function selesaiTransaksi($params = [])
+    {
+        $this->model->selesaiTransaksi($params[0]);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
 }

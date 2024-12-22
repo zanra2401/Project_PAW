@@ -518,6 +518,22 @@ class PemilikModel {
         $this->DB->query("INSERT INTO suka_review(id_user,  id_review) VALUES({$_SESSION['id_user']}, ?)", "i", [$id_review]);
         return true;
     }
-  
+
+    function getTransaksiByID() {
+        $this->DB->query("SELECT * FROM transaksi WHERE id_user_pemilik = {$_SESSION['id_user']}");
+        return $this->DB->getAll();
+    }
+
+    function selesaiTransaksi($id)
+    {
+        $this->DB->query("UPDATE transaksi SET status_transaksi = 'settlement' WHERE id_transaksi = $id");
+        return true;
+    }
+
+    function getTransaksi($idTransaksi)
+    {
+        $this->DB->query("SELECT * FROM transaksi WHERE id_transaksi LIKE '%$idTransaksi%'");
+        return $this->DB->getAll();
+    }
 }
 

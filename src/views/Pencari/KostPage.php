@@ -7,15 +7,19 @@
         return 'Rp ' . number_format($angka, 0, ',', '.');
     }
 
-    $id_user = $data['id_user'];
     $id_kost = $data['id'];
-    $isFavorited = $data['check_favorit'];
-    $iconClass = $isFavorited === 'ada' ? 'fa-solid fa-heart text-red-600' : 'fa-regular fa-heart';
-    $buttonText = $isFavorited === 'ada' ? 'Disimpan' : 'Simpan';
+
+    if (isset($_SESSION["loged_in"])){
+        $id_user = $data['id_user'];
+        $isFavorited = $data['check_favorit'];
+        $iconClass = $isFavorited === 'ada' ? 'fa-solid fa-heart text-red-600' : 'fa-regular fa-heart';
+        $buttonText = $isFavorited === 'ada' ? 'Disimpan' : 'Simpan';
+    }
 
     $total_review = count($data['review']);
 ?>
 
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-cbiugUUXzP_WNrv0"></script>
 <script src="<?= NODE_MODULES ?>leaflet/dist/leaflet.js"></script>
 <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">
 <body>
@@ -51,34 +55,34 @@
                     <div class="grid w-full flex-1">
                         <div class="grid grid-cols-2 gap-2">
             EOD;
-            $temp = 0;
-            $path = "/" . PROJECT_NAME . "/";
-            $profle_pemilik = $path . $kost['profile_pemilik'];
-            foreach ($kost['gambar'] as $gambar)
-            {
+                        $temp = 0;
+                        $path = "/" . PROJECT_NAME . "/";
+                        $profle_pemilik = $path . $kost['profile_pemilik'];
+                        foreach ($kost['gambar'] as $gambar)
+                        {
+                            
+                            if ($temp > 4){
+                                break;
+                            }
+
+                            if ($temp == 0){
+                                $imagePath = $path . $gambar['path_gambar'];
+                                echo <<<EOD
+                                    <div class="w-full h-[400px]">
+                                        <img class="h-full object-cover w-full" src="{$imagePath} " alt="">
+                                    </div>
                 
-                if ($temp > 4){
-                    break;
-                }
+                                    <div class="grid grid-cols-2 gap-2 h-[400px] relative overflow-hidden">
+                                EOD;
+                            } else {
+                                $imagePath = $path . $gambar['path_gambar'];
+                                echo <<<EOD
+                                    <img src="{$imagePath}" alt="" class="object-cover w-full h-full">
+                                EOD;
+                            }
 
-                if ($temp == 0){
-                    $imagePath = $path . $gambar['path_gambar'];
-                    echo <<<EOD
-                        <div class="w-full h-[400px]">
-                            <img class="h-full object-cover w-full" src="{$imagePath} " alt="">
-                        </div>
-    
-                        <div class="grid grid-cols-2 gap-2 h-[400px] relative overflow-hidden">
-                    EOD;
-                } else {
-                    $imagePath = $path . $gambar['path_gambar'];
-                    echo <<<EOD
-                        <img src="{$imagePath}" alt="" class="object-cover w-full h-full">
-                    EOD;
-                }
-
-                $temp += 1;
-            }
+                            $temp += 1;
+                        }
 
             echo <<<EOD
                                 <a class="absolute bottom-3 right-3 bg-white text-black px-4 py-2 rounded shadow-lg duration-300 font-medium hover:bg-[#83493d] hover:text-white" href="/project_paw/pencari/reviewGambarKost/{$kost['data_kost']['id_kost']}">
@@ -101,18 +105,24 @@
                                         <i class="fa-solid fa-bed mr-2"></i>
                                         <p>Tersisa <span class="text-red-600 italic">{$kost['sisa_kamar']} Kamar</span></p>
                                     </div>
-            
-                                    <div class="flex gap-3">
-                                        <form id="favoritForm" action="/<?= PROJECT_NAME ?>/Pencari/KostPage" class="grid gap-5" method="POST">
-                                            <input type="hidden" name="id_user_favorit" id="id_user_favorit" value="$id_user">
-                                            <input type="hidden" name="id_kost_favorit" id="id_kost_favorit" value="$id_kost">
-                                            <input type="hidden" id="isFavorited" value="{$isFavorited}">
-                                            <button id="tombolFavorit" type="button" class="p-2 border-2 border-gray-300 w-[110px] duration-300 rounded hover:opacity-70">
-                                                <i id="favoritIcon" class="$iconClass"></i>
-                                                <span id="favoritText">$buttonText</span>
-                                            </button>
-                                        </form>
-                                    </div>
+            EOD;             
+
+                                if (isset($_SESSION["loged_in"])) {
+                                    echo <<<EOD
+                                        <div class="flex gap-3">
+                                            <form id="favoritForm" action="/<?= PROJECT_NAME ?>/Pencari/KostPage" class="grid gap-5" method="POST">
+                                                <input type="hidden" name="id_user_favorit" id="id_user_favorit" value="$id_user">
+                                                <input type="hidden" name="id_kost_favorit" id="id_kost_favorit" value="$id_kost">
+                                                <input type="hidden" id="isFavorited" value="{$isFavorited}">
+                                                <button id="tombolFavorit" type="button" class="p-2 border-2 border-gray-300 w-[110px] duration-300 rounded hover:opacity-70">
+                                                    <i id="favoritIcon" class="$iconClass"></i>
+                                                    <span id="favoritText">$buttonText</span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    EOD;
+                                }
+            echo <<<EOD
                                 </div>
                             </div>
                             <div class="flex justify-between items-center mt-5 pb-5 border-b border-gray-200">
@@ -124,14 +134,14 @@
                                 <div class="grid grid-cols-3 gap-5 text-lg font-medium">
             EOD;
 
-                foreach($data['fasilitas']['kamar'] as $fas){
-                    echo <<<EOD
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-check"></i>
-                            <p>{$fas}</p>
-                        </div>
-                    EOD;
-                }
+                            foreach($data['fasilitas']['kamar'] as $fas){
+                                echo <<<EOD
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid fa-check"></i>
+                                        <p>{$fas}</p>
+                                    </div>
+                                EOD;
+                            }
             
             echo <<<EOD
                                 </div>
@@ -142,23 +152,16 @@
             
             EOD;
 
-                foreach($data['fasilitas']['bersama'] as $fas){
-                    echo <<<EOD
-                        <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-check"></i>
-                            <p>{$fas}</p>
-                        </div>
-                    EOD;
-                }
+                            foreach($data['fasilitas']['bersama'] as $fas){
+                                echo <<<EOD
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid fa-check"></i>
+                                        <p>{$fas}</p>
+                                    </div>
+                                EOD;
+                            }
             
             echo <<<EOD
-                                </div>
-                            </div>
-                            <div class="grid gap-4 border-b border-gray-200 pb-10 mt-5">
-                                <p class="text-3xl font-semibold">Deskripsi Kost</p>
-                                <div class="grid">
-                                    <p>{$kost['data_kost']['deskripsi_kost']}</p>
-                            
                                 </div>
                             </div>
                             <div class="grid gap-4 border-b border-gray-200 pb-10 mt-5">
@@ -215,10 +218,10 @@
                                                         <div class="grid gap-3 p-4 bg-gray-200">
                                                             <p class="font-semibold">Respon Pemilik Kos : </p>
                                                             <p>Halo, Kakak. Terima kasih atas reviewnya. Semoga Anda selalu betah untuk singgah di kost kami :)</p>
+                                                        </div>
                                                     EOD;
                                                 }
                                 echo <<<EOD
-                                            </div>
                                         </div>
                                     </div>
                                 EOD;
@@ -318,11 +321,10 @@
             echo <<<EOD
                     </div>
                 </div>
-                <?php require './views/Components/FooterHomepage.php' ?>
                 <div id="report" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" style="z-index:100;">
                     <div class="bg-white p-6 rounded shadow-lg w-1/3 transition-all duration-300 transform scale-0" id="contain_report">
             EOD;
-                    ?>    
+        ?>    
     <?php endforeach;?>
     <?php if($data['sudah_lapor']):?>
             <div class="flex justify-between items-center mb-4">
@@ -333,6 +335,7 @@
                     </svg>
                 </button>
                 </div>
+            </div
         <?php else:?>
             <form action="/<?= PROJECT_NAME ?>/Pencari/KostPage" class="grid gap-5" method="POST">
                         <div class="flex justify-between items-center mb-4">
@@ -366,9 +369,9 @@
                             Laporkan
                         </button>
                     </form>
-                </div>
-            </div>   
-        <?php endif;?>
+                <?php endif;?>
+            </div>
+        </div>   
 
     <div id="box" class="hidden box-exit fixed top-0 right-0 w-[30%] h-full bg-white text-black shadow-lg" style="z-index: 9999;">
         <div class="flex items-center justify-between p-6">
@@ -430,28 +433,69 @@
             </div>
             <p class="text-gray-600 mb-6">Silakan pilih metode pembayaran yang Anda inginkan:</p>
             <div class="flex flex-col space-y-4">
-                <button 
+                <a 
                 id="offlineButton" 
                 class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition font-semibold"
+                href="/<?= PROJECT_NAME ?>/pencari/pembayaranoffline/<?= $data['id_pemilik'] ?>/<?= $id_kost ?>"
                 >
                 Bayar Offline
-                </button>
-                <button 
+                </a>
+                <a 
                 id="onlineButton" 
                 class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition font-semibold"
+                href="/<?= PROJECT_NAME ?>/pencari/pembayaranonline/<?= $data['id_pemilik'] ?>/<?= $id_kost ?>"
                 >
                 Bayar Online
-                </button>
+                </a>
             </div>
         </div>
     </div>
 
+    
+    <?php if (isset($_SESSION['snapToken'])): ?>
+        <div id="popupOnline" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div id="snap-container" class="flex flex-col space-y-4">
+            </div>
+            <button 
+                id="closeButtonOnline" 
+                class="mt-6 text-gray-500 absolute hover:text-gray-800 text-2xl top-0 right-5"
+                >
+                <i class="fas fa-close"></i>
+            </button>
+        </div>
+    <?php endif; ?>
 
+
+
+    <!-- popUP harus login -->
+    <div id="popup_harus_login" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <!-- Pop-up Content -->
+        <div class="bg-white rounded-lg shadow-lg max-w-sm w-full p-6 transition-all duration-300 transform scale-0" id="box_harus_login">
+            <h2 class="text-lg font-semibold mb-4 text-red-500">Anda belum login!</h2>
+            <div class="flex flex-col space-y-4">
+                <button 
+                id="button_arah_login" 
+                class="bg-base-color text-white px-4 py-2 rounded hover:opacity-80 transition"
+                >
+                    Login
+                </button>
+                <button 
+                    id="close_popUp_login" 
+                    class="mt-6 text-gray-500 hover:text-gray-800 text-sm"
+                >
+                    Batal
+                </button>
+            </div>
+
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
 
-        const tombol_pesan = document.getElementById('tombol_pesan');
+        const isLogin = '<?=isset($_SESSION["loged_in"])? "login": "belom"?>';
+
+        const tombol_ipesan = document.getElementById('tombol_pesan');
         const popup_pesan = document.getElementById('popup_pesan');
         const box_pesan = document.getElementById('box_pesan');
         const close_payment = document.getElementById('close_payment');
@@ -473,6 +517,15 @@
             
         })
 
+        <?php if (isset($_SESSION['snapToken'])): ?>
+        closeButtonOnline.addEventListener('click', ()=>{
+            setTimeout(()=>{
+                popupOnline.classList.add('hidden')
+            }, 300)
+            
+        })
+        <?php endif; ?>
+
         const map = L.map('map').setView([<?= $data['data'][$id_kost]['data_kost']['lat'] ?>, <?= $data['data'][$id_kost]['data_kost']['lng'] ?>], 10); // Jakarta
                     
         const markerLayer = L.layerGroup().addTo(map);
@@ -493,21 +546,23 @@
         const content = document.getElementById("content");
         const close_chat = document.getElementById('close_chat');
 
-        toggleBoxBtn.addEventListener("click", function() {
-            box.classList.remove('hidden');
-            box.classList.remove("box-exit");
-            box.classList.add("box-enter");
-            document.body.classList.add("no-scroll");
-        });
-
-        close_chat.addEventListener('click', ()=>{
-            box.classList.remove("box-enter");
-            box.classList.add("box-exit");
-            setTimeout(() => {
-                box.classList.add('hidden');
-                document.body.classList.remove("no-scroll");
-            }, 500);
-        })
+        if (toggleBoxBtn){
+            toggleBoxBtn.addEventListener("click", function() {
+                box.classList.remove('hidden');
+                box.classList.remove("box-exit");
+                box.classList.add("box-enter");
+                document.body.classList.add("no-scroll");
+            });
+    
+            close_chat.addEventListener('click', ()=>{
+                box.classList.remove("box-enter");
+                box.classList.add("box-exit");
+                setTimeout(() => {
+                    box.classList.add('hidden');
+                    document.body.classList.remove("no-scroll");
+                }, 500);
+            })
+        }
 
         function toggleLike(idReview) {
             const icon_like = document.getElementById(`icon_sukaUlasan_${idReview}`);
@@ -532,14 +587,12 @@
             });
 
 
-            fetch('/<?= PROJECT_NAME ?>/Pencari/KostPage', {
+            fetch('/project name/Pencari/KostPage', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             })
             .then(response => response.text())
-
-
         }
 
         function capitalizeFirstLetter(input) {
@@ -584,8 +637,6 @@
             const rect1 = isi_kostpage.getBoundingClientRect();
             const rect = gambar.getBoundingClientRect();
             const initialRect = tableView.getBoundingClientRect().top;
-            console.log(rect.bottom);
-            console.log(rect1.top);
             if (rect1.top <= 90 && rect.bottom > 476.796875) {
                 tableView.classList.add('fixed');
             } else if (rect.bottom <= 476.796875) {
@@ -603,13 +654,11 @@
             const favorit_form = document.getElementById('favoritForm');
             let isFavorited = document.getElementById('isFavorited').value; 
             
-            if(isFavorited == 'ada'){
+            if(isFavorited == 'ada'){   
                 isFavorited = 'tidak ada'; 
             }else {
                 isFavorited = 'ada';
             }
-            
-            console.log(isFavorited)
 
             const icon = document.getElementById('favoritIcon');
             const text = document.getElementById('favoritText');
@@ -632,13 +681,14 @@
                 isFavorited: isFavorited
             });
             
-            fetch('/<?= PROJECT_NAME ?>/Pencari/KostPage', {
+            fetch('/<?= PROJECT_NAME?>/Pencari/KostPage', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: data
             })
             .then(response => response.text())
         });
+
 
 
         flatpickr("#datepicker", {
@@ -663,12 +713,34 @@
         const textarea = document.getElementById('detail_laporan');
         const laporkan = document.getElementById('laporkan')
 
-        tombol_lapor.addEventListener('click', ()=>{
-            report.classList.remove('hidden')
+        const popup_harus_login = document.getElementById('popup_harus_login');
+        const box_harus_login = document.getElementById('box_harus_login');
+        const button_arah_login = document.getElementById('button_arah_login');
+        const close_popUp_login = document.getElementById('close_popUp_login');
+
+        close_payment.addEventListener('click', ()=>{
+            box_pesan.classList.remove('scale-100')
+            box_pesan.classList.add('scale-0')
             setTimeout(()=>{
-                contain_report.classList.remove('scale-0')
-                contain_report.classList.add('scale-100')
-            }, 50)
+                popup_pesan.classList.add('hidden')
+            }, 300)
+            
+        })
+
+        tombol_lapor.addEventListener('click', ()=>{
+            if(isLogin == "login"){
+                report.classList.remove('hidden')
+                setTimeout(()=>{
+                    contain_report.classList.remove('scale-0')
+                    contain_report.classList.add('scale-100')
+                }, 50)
+            } else {
+                popup_harus_login.classList.remove('hidden')
+                setTimeout(()=>{
+                    box_harus_login.classList.remove('scale-0')
+                    box_harus_login.classList.add('scale-100')
+                }, 50)
+            }
         })
 
         close_report.addEventListener('click', ()=>{
@@ -677,8 +749,20 @@
             setTimeout(()=>{
                 report.classList.add('hidden')
             }, 300)
-            
         })
+
+        button_arah_login.addEventListener('click', ()=>{
+            window.location.href = "/project_paw/account/login";
+        })
+
+        close_popUp_login.addEventListener('click', ()=>{
+            box_harus_login.classList.remove('scale-100')
+            box_harus_login.classList.add('scale-0')
+            setTimeout(()=>{
+                popup_harus_login.classList.add('hidden')
+            }, 300)
+        })
+
 
         function validasiFromLaporan() {
 
@@ -697,17 +781,22 @@
             }
         }
 
-        window.onload = () => {   
-            checkbox.forEach(checkboxs => {
-                checkboxs.addEventListener('change', validasiFromLaporan); 
-            });
+        const sudah_lapor = '<?= $data["sudah_lapor"] ? "sudah": "belum";?>';
 
-            textarea.addEventListener('input', validasiFromLaporan)
-            validasiFromLaporan(); 
-        };
+        if(!sudah_lapor == "belum"){
+            window.onload = () => {   
+                checkbox.forEach(checkboxs => {
+                    checkboxs.addEventListener('change', validasiFromLaporan); 
+                });
+    
+                textarea.addEventListener('input', validasiFromLaporan);
+                validasiFromLaporan(); 
+            };
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const carousels = document.querySelectorAll('.carousel');
+
             carousels.forEach((carousel) => {
                 const track = carousel.querySelector('.carousel-track');
                 const slides = Array.from(track.children);
@@ -795,14 +884,16 @@
             });
             })
 
+    </script>
 
-            
 
-            
-    
-    
-
+    <script type="text/javascript">
+        <?php if(isset($_SESSION['snapToken'])): ?>
+        window.snap.embed('<?= $_SESSION['snapToken'] ?>', {
+            embedId: 'snap-container'
+        });
+        <?php unset($_SESSION['snapToken']) ?>
+        <?php endif; ?>
     </script>
 </body>
 <?php require "./views/Components/Foot.php"; ?>
-

@@ -28,7 +28,7 @@
         <!-- Ubah Cover -->
         <div class="input-file-wrapper mb-4">
             <input type="file" id="cover_berita" name="cover_berita" accept="image/*" onchange="previewImageFunction()" class="input-file">
-            <label for="cover_berita" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-base-color">
+            <label for="cover_berita" class="inline-block bg-red-500 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-red-600">
                 Ubah Cover
             </label>
         </div>
@@ -48,7 +48,7 @@
                   class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-brown-600"><?= htmlspecialchars($data['berita']['deskripsi_berita']); ?></textarea>
 
         <!-- Tombol Submit -->
-        <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-base-color ">
+        <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 ">
             Update Berita
         </button>
     </form>
