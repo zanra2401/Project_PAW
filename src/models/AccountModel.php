@@ -56,7 +56,7 @@ class AccountModel {
 
     function getUserByEmail($email)
     {
-        $this->DB->query("SELECT * FROM user WHERE email = {$email}");
+        $this->DB->query("SELECT * FROM user WHERE email = '{$email}'");
         return $this->DB->getAll();
     }
     

@@ -22,10 +22,10 @@
 </style>
 <body class="bg-blue-50 flex items-center justify-center min-h-screen">
     <?php 
-        if (isset($_SESSION["errors_register"]))
+        if (isset($_SESSION["errors"]))
         {
-            $hellper->flashAlert($_SESSION["errors_register"], "Gagal Registrasi"); 
-            unset($_SESSION["errors_register"]);
+            $hellper->flashAlert("Gagal Registrasi", $_SESSION["errors"]); 
+            unset($_SESSION["errors"]);
         }
     ?>
     <div class="flex bg-white rounded-lg shadow-lg overflow-hidden w-[800px]">

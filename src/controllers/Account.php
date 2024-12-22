@@ -98,11 +98,11 @@ class Account extends Controller {
             
             if (count($errors) > 0)
             {
-                $_SESSION['errors_register'] = [$errors];
+                $_SESSION['errors'] = $errors;
                 header("Location: /project_paw/pencari/regPenyewa");
             } else {
                 $this->model->register($username, $email, $password, "pencari");
-                $_SESSION['berhasil'] = ["Berhasil membuat akun"];
+                $_SESSION['success'] = ["Berhasil membuat akun"];
                 header("Location: /project_paw/account/login");
             }
 
@@ -208,11 +208,11 @@ class Account extends Controller {
             
             if (count($errors) > 0)
             {
-                $_SESSION['errors_register'] = [$errors];
+                $_SESSION['errors'] = $errors;
                 header("Location: /project_paw/pemilik/regPemilik");
             } else {
                 $this->model->register($username, $email, $password, "pemilik");
-                $_SESSION['berhasil'] = ["Berhasil membuat akun"];
+                $_SESSION['success'] = ["Berhasil membuat akun"];
                 header("Location: /project_paw/account/login");
             }
 
