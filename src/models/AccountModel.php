@@ -54,12 +54,6 @@ class AccountModel
         $this->DB->query("SELECT * FROM user WHERE email_user = ?", "s", [$email]);
         return $this->DB->getFirst() != NULL;
     }
-
-    function getUserByEmail($email)
-    {
-        $this->DB->query("SELECT * FROM user WHERE email = '{$email}'");
-        return $this->DB->getAll();
-    }
     
 
     function insertToken($id, $token, $expired)
