@@ -65,18 +65,16 @@ class Pemilik extends Controller {
     {
         if ($this->isLogInPemilik()) 
         {
-            
-            if ($this->isLogInPemilik()) 
-            {
-                $this->view("Pemilik/kostedit", [
-                    "title" => "Edit Kost",
-                    "kost" => $this->model->getKost($params[0]),
-                    "fasilitas_kamar" => $this->model->getFasilitasKamar(),
-                    "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
-                    "fasilitas_kamar_info" => $this->model->getFasilitasKamarByID($params[0]),
-                    "fasilitas_bersama_info" => $this->model->getFasilitasBersamaByID($params[0])
-                ]);
-            }
+            $data = $this->model->getAllDataUser($_SESSION['id_user']);
+            $this->view("Pemilik/kostedit", [
+                "title" => "Edit Kost",
+                "kost" => $this->model->getKost($params[0]),
+                "fasilitas_kamar" => $this->model->getFasilitasKamar(),
+                "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
+                "fasilitas_kamar_info" => $this->model->getFasilitasKamarByID($params[0]),
+                "fasilitas_bersama_info" => $this->model->getFasilitasBersamaByID($params[0]),
+                "data_user" => $data
+            ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
         }
@@ -554,14 +552,16 @@ class Pemilik extends Controller {
 
     function chatting($params = [])
     {
-        if ($this->isLogInPemilik()) 
+        if ($this->isLogInPemilik())    
         {
+            $data = $this->model->getAllDataUser($_SESSION['id_user']); 
             $this->view("Pemilik/chatting", [
                 "title" => "Chat",
                 "id_user" => $params[0],
                 "user" => $this->model->getUserById($params[0]),
                 "chat" => $this->model->getChat($params[0]),
                 "contact" => $this->model->getContact(),
+                "data_user" => $data
             ]);
             
         } else {

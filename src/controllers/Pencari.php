@@ -14,40 +14,101 @@ class Pencari extends Controller {
     function __construct() {
         $this->model = new PencariModel();
     }
+    
 
     function homepage($params = []) {
-        if ($this->isLogInPencari()) 
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
-            if ($_SERVER["REQUEST_METHOD"] == "POST")
-            {
-                $nama_lokasi = isset($_POST['lokasi_nama'])? $_POST['lokasi_nama'] : '';
-                $tipe = isset($_POST['tipe'])? $_POST['tipe'] : '';
-                if ($nama_lokasi == "" && $tipe == ""){
-                    $data = $this->model->getAllKost();
-                    $profile = $this->model->getProfie($_SESSION['id_user']);
-                } else {
-                    $data = $this->model->filterKost($nama_lokasi, $tipe);
+            $min_harga = isset($_POST['min_harga']) ? intval(str_replace(['Rp', ' ', '.'], '', $formatted = "{$_POST['min_harga']}")): '';
+            $max_harga = isset($_POST['max_harga']) ? intval(str_replace(['Rp', ' ', '.'], '', $formatted = "{$_POST['max_harga']}")) : '';
+            $nama_lokasi = isset($_POST['lokasi_nama'])? $_POST['lokasi_nama'] : '';
+            $tipe = isset($_POST['tipe'])? $_POST['tipe'] : '';
+            $urutan = isset($_POST['harga']) ? $_POST['harga'] : '';
+            $filter = [
+
+                'internet_wifi' => isset($_POST['1']) ? $_POST['1'] : '',
+                'parkir' => isset($_POST['2']) ? $_POST['2'] : '',
+                'kulkas' => isset($_POST['3']) ? $_POST['3'] : '',
+                'dapur' => isset($_POST['4']) ? $_POST['4'] : '',
+                'cctv' => isset($_POST['5']) ? $_POST['5'] : '',
+                'ruang_tamu' => isset($_POST['6']) ? $_POST['6'] : '',
+                'mesin_cuci' => isset($_POST['7']) ? $_POST['7'] : '',
+                'dispenser' => isset($_POST['8']) ? $_POST['8'] : '',
+
+                'jendela' => isset($_POST['9']) ? $_POST['9'] : '',
+                'ac' => isset($_POST['10']) ? $_POST['10'] : '',
+                'tv_kabel' => isset($_POST['11']) ? $_POST['11'] : '',
+                'kursi' => isset($_POST['12']) ? $_POST['12'] : '',
+                'kasur' => isset($_POST['13']) ? $_POST['13'] : '',
+                'kamar_mandi_dalam' => isset($_POST['14']) ? $_POST['14'] : '',
+                'meja' => isset($_POST['15']) ? $_POST['15'] : '',
+                'lemari' => isset($_POST['16']) ? $_POST['16'] : '',
+                'kipas_angin' => isset($_POST['17']) ? $_POST['17'] : '',
+            ];
+
+            $allEmpty = empty(array_filter($filter, function($value) {
+                return $value !== '';  
+            }));
+
+            if ($nama_lokasi == "" && $tipe == "" && $allEmpty && $min_harga == 0 && $max_harga == 0 && $urutan == ''){
+                $data = $this->model->getAllKost();
+                if ($this->isLogInPencari()) 
+                {
                     $profile = $this->model->getProfie($_SESSION['id_user']);
                 }
+                $fasi = $this->model->getFasilitasKost();
+            } else {
+                $data = $this->model->filterKost($nama_lokasi, $tipe, $filter, $min_harga, $max_harga, $urutan);
+                if ($this->isLogInPencari()) 
+                {
+                    $profile = $this->model->getProfie($_SESSION['id_user']);
+                }
+                $fasi = $this->model->getFasilitasKost();
+            }
+
+            if ($this->isLogInPencari()) 
+            {
+                $this->view("Pencari/homepage", [
+                    "title" => "Homepage",
+                    "data" => $data,
+                    "profile" => $profile,
+                    "fasilitas" => $fasi,
+                    "contact" => $this->model->getContact()
+                ]);
+            } else {
+                $this->view("Pencari/homepage", [
+                    "title" => "Homepage",
+                    "data" => $data,
+                    "fasilitas" => $fasi,
+                    "contact" => $this->model->getContact()
+                ]);
+            }
+        } else {
+            if ($this->isLogInPencari()) 
+            {
+                $data = $this->model->getAllKost();
+                $fasi = $this->model->getFasilitasKost();
+                $profile = $this->model->getProfie($_SESSION['id_user']);
+                $this->view("Pencari/homepage", [
+                    "title" => "Homepage",
+                    "data" => $data,
+                    "profile" => $profile,
+                    "fasilitas" => $fasi,
+                    "contact" => $this->model->getContact()
+                ]);
             } else {
                 $data = $this->model->getAllKost();
-                $profile = $this->model->getProfie($_SESSION['id_user']);
+                $fasi = $this->model->getFasilitasKost();
+                $this->view("Pencari/homepage", [
+                    "title" => "Homepage",
+                    "data" => $data,
+                    "fasilitas" => $fasi
+                ]);
             }
-
-            if ($profile == []){
-                $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-            }
-            $this->view("Pencari/homepage", [
-                "title" => "Homepage",
-                "data" => $data,
-                "profile" => $profile
-            ]);
-        } else {
-            header("Location: /" . PROJECT_NAME ."/account/login");
         }
+           
 
     }
-
 
 
     function chat($params = []) {
@@ -85,7 +146,8 @@ class Pencari extends Controller {
         if ($this->isLogInPencari()) 
         {
             $this->view("Pencari/berita", [
-                "title" => "berita"
+                "title" => "berita",
+                "contact" => $this->model->getContact()
                 
             ]);
         } else {
@@ -169,7 +231,8 @@ class Pencari extends Controller {
             }
             $this->view("Pencari/homeberita", [
                 "title" => "homeberita",
-                "profile" => $profile
+                "profile" => $profile,
+                "contact" => $this->model->getContact()
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -189,11 +252,10 @@ class Pencari extends Controller {
 
     function kostPage($params = []) {
         if ($this->isLogInPencari()) 
-        {
+        {   
             if ($_SERVER["REQUEST_METHOD"] == "POST") 
             {   
                 if(isset($_POST['id_user_favorit'])){
-
                     $id_user = $_POST['id_user_favorit'];
                     $id_kost = $_POST['id_kost_favorit'];
                     $isFavorited = $_POST['isFavorited'];
@@ -207,6 +269,16 @@ class Pencari extends Controller {
                     }
                     
                     header("Location: /project_paw/pencari/kostPage/$id_kost");
+                    exit;
+                } else if (isset($_POST['review_suka'])) {
+
+                    $islike = $_POST['isLiked'];
+                    if ($islike == 'tidak ada'){
+                        $this->model->addLikeReview( $_POST['review_suka'], $_SESSION['id_user']);
+                    } else {
+                        $this->model->removeLikeReview( $_POST['review_suka'], $_SESSION['id_user']);
+                    }
+                    header("Location: /project_paw/pencari/kostPage/{$_POST['id_kost']}");
                     exit;
                 } else {
                     $kategori = $_POST['kategori_laporan'];
@@ -241,9 +313,7 @@ class Pencari extends Controller {
             
                 $fasilitas = $this->model->getAllFasilitas($id);
                 $profile = $this->model->getProfie($_SESSION['id_user']);
-                if ($profile == []){
-                    $profile['profile_user'] = '/public/storage/gambarProfile/pp_kosong.jpeg';
-                }
+
                 $rekomendasi = $this->model->rekomendasiKost($id);
                 $kategori_laporan = $this->model->getKategoriLaporan();
                 $id_user = $_SESSION['id_user'];
@@ -263,7 +333,8 @@ class Pencari extends Controller {
                     "id_user" => $id_user,
                     "check_favorit" => $cekFavorit,
                     "review" => $review,
-                    "id_pemilik" => $data[$id]['id_pemilik']
+                    "id_pemilik" => $data[$id]['id_pemilik'],
+                    "contact" => $this->model->getContact()
                 ]);
             }
         } else {
@@ -321,7 +392,8 @@ class Pencari extends Controller {
             }
             $this->view("Pencari/favorit",[
                 "title" => "favorit",
-                "profile" => $profile
+                "profile" => $profile,
+                "contact" => $this->model->getContact()
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -439,7 +511,8 @@ class Pencari extends Controller {
                 "title" => "Profile",
                 "data_user" => $data,
                 "profile" => $profile,
-                "eror" => $erors
+                "eror" => $erors,
+                "contact" => $this->model->getContact()
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -514,5 +587,12 @@ class Pencari extends Controller {
     function getContact()
     {
         echo json_encode($this->model->getContact());
+    }
+
+    function coba($params = [])
+    {
+        $this->view("Pencari/coba", [
+            "title" => "coba"
+        ]);
     }
 }

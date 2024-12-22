@@ -1,4 +1,9 @@
-<?php require './views/Components/Head.php' ?>
+<?php 
+
+    require './views/Components/Head.php';
+    $foto_profile = $data['data_user'][0]['profile_user'];  
+    
+?>
     <body class="overflow-hidden flex">
         <style>
             /* For most browsers */
@@ -191,7 +196,7 @@
                             </div>
                         </div>
     
-                        <div class="relative h-fit py-4 border-t-2"">
+                        <div class="relative h-fit py-4 border-t-2">
                             <h1>Lokasi</h1>
                             <div id="map" style="height: 400px; width: 100%;" class="relative z-10">
                             </div>
@@ -514,15 +519,12 @@
             const openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
             const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
 
-            L.tileLayer(stadiamaps, {
+            L.tileLayer(openstreetmap, {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
             L.marker([<?= $data['kost']['data_kost']['lat'] ?>, <?= $data['kost']['data_kost']['lng'] ?>]).addTo(markerLayer);
-
-
-
 
 
 

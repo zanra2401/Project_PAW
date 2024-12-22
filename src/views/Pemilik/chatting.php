@@ -1,4 +1,7 @@
-<?php require "./views/Components/Head.php"; ?>
+<?php 
+    require "./views/Components/Head.php"; 
+    $foto_profile = $data['data_user'][0]['profile_user'];    
+?>
     <body class="overflow-hidden flex p-0 m-0">
         <?php require "./views/Components/sidebarPemilik.php" ?>
         <main class="flex flex-1">

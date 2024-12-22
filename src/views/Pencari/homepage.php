@@ -6,12 +6,12 @@
         return 'Rp ' . number_format($angka, 0, ',', '.');
     }
     
-    $data_profile = $data['profile']['profile_user'];
+    $data_profile = isset($data['profile']['profile_user'])? $data['profile']['profile_user']: '';
     
 ?>
 <body>
     <?php require "./views/Components/NavBar.php" ?>  
-    <form action="/<?= PROJECT_NAME ?>/Pencari/homepage" method="POST">
+    <form action="/<?= PROJECT_NAME ?>/Pencari/homepage" method="POST" id="form_search">
     <div class="absolute top-0 left-0 h-3/4 bg-[#d7dbdd] rounded-b-[50px] -z-10 overflow-y-hidden"  style="width: 100%;"></div>
     <div class="w-[90%] rounded-3xl mt-[50px] mx-auto">
         <h1 class="text-center text-3xl font-bold px-4" style="color:#83493d;">Sekarang Cari Kost Bisa Sambil Rebahan</h1>
@@ -20,18 +20,15 @@
         </p>
         <div class="flex bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 70%; gap:10px;">
             <div class="relative w-1/2 field-inputan-search">
-                <input name="lokasi_nama" type="text" placeholder="Cari lokasi atau nama kost.." class="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second">
+                <input name="lokasi_nama" id="nama_lokasi" type="text" placeholder="Cari lokasi atau nama kost.." class="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second">
                 <i class="fas fa-location-dot absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
             </div>
             <div class="relative">
-                <!-- Tombol Dropdown dengan lebar tetap -->
                 <button id="dropdownButton" type="button" class="inline-flex justify-between w-full min-w-[160px] p-3 pl-10 pr-8 border border-gray-300 bg-white rounded-full shadow-md focus:outline-none focus:ring focus:ring-blue-300 items-center">
                     <span id="dropdownSelected" class="text-gray-700">Pilih Tipe</span>
                     <i class="fas fa-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     <i class="fas fa-caret-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                 </button>
-
-                <!-- Menu Dropdown -->
                 <div id="dropdownMenu" class="absolute hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 mt-2 w-full rounded-2xl z-10">
                     <div class="py-1">
                         <div class="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer dropdown-item" data-value="Putra">
@@ -56,31 +53,30 @@
                 <button type="button" class="w-full p-3 rounded-full hover:opacity-70" id="filter_button"><i class="fas fa-sliders top-1/2 transform text-gray-500 "></i></button>
             </div>
         </div>
-    </form>
     </div>
     
     <div id="filter" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
         <div class="bg-white rounded shadow-lg w-1/2 transition-all duration-300 transform scale-0 h-[80%]" id="contain_filter">
             <div class="grid grid-cols-2 p-6">
-                <button class="text-gray-700 hover:opacity-70 " id="close_filter">
+                <button class="text-gray-700 hover:opacity-70 " id="close_filter" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
                 <p class="text-base-color font-semibold text-2xl">FILTER</p>
             </div>
-            <form class="grid">
+            <div class="grid">
                 <div class="rounded-xl h-[380px] overflow-y-scroll p-6 grid gap-5">
                     <div class="grid gap-5">
                         <p class="block text-gray-600 font-medium mb-2 text-xl">Urutkan</p>
                         <div class="grid gap-3">
                             <label class="flex items-center gap-3">
-                                <input type="radio" name="Urutkan" value="Harga terendah" class="hidden peer">
+                                <input type="radio" name="harga" class="hidden peer" value="ASC">
                                 <div class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-warna-second peer-checked:bg-warna-second transition"></div>
                                 <span class="text-gray-700 peer-checked:text-warna-second font-medium">Harga terendah</span>
                             </label>
                             <label class="flex items-center gap-3">
-                                <input type="radio" name="Urutkan" value="Harga tertinggi" class="hidden peer">
+                                <input type="radio" name="harga" class="hidden peer" value="DESC">
                                 <div class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-warna-second peer-checked:bg-warna-second transition"></div>
                                 <span class="text-gray-700 peer-checked:text-warna-second font-medium">Harga tertinggi</span>
                             </label>
@@ -91,128 +87,79 @@
                         <label class="block text-gray-600 font-medium mb-2 text-xl">Harga per Bulan</label>
                         <div class="flex space-x-4">
                             <input 
-                            type="text" 
-                            placeholder="Min"
-                            class="w-1/2 border h-14 border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-warna-second"
-                            oninput="formatRupiah(this)" />
+                                type="text" 
+                                name="min_harga"
+                                id="min_harga"
+                                placeholder="Min"
+                                class="w-1/2 border h-14 border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-warna-second"
+                                oninput="formatRupiah(this); checkMaxValue()" />
                             
                             <div class="flex items-center justify-center px-4">-</div>
                             
                             <input 
-                            type="text" 
-                            placeholder="Max"
-                            class="w-1/2 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-warna-second"
-                            oninput="formatRupiah(this)" />
+                                type="text" 
+                                name="max_harga"
+                                id="max_harga"
+                                placeholder="Max"
+                                class="w-1/2 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-warna-second"
+                                oninput="formatRupiah(this); checkMinValue()" />
                         </div>
+
                         
                     </div>
                     <div class="grid gap-5">
                         <label class="block text-gray-600 font-medium mb-2 text-xl">Fasilitas bersama</label>
                         <div class="grid grid-cols-2 grid-rows-4 gap-5">
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Internet/Wi-Fi</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Parkir Motor</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Kulkas</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Dapur</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>CCTV</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Ruang tamu</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Mesin cuci</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Dispenser</span>
-                            </label>
+                            <?php 
+                                foreach($data['fasilitas'] as $fas => $nama_fasilitas) {
+                                    if ($fas <= 8){
+                                        echo <<<DEO
+                                            <label class="container">
+                                                <input type="checkbox" name="{$fas}" value="$fas">
+                                                <div class="checkmark"></div>
+                                                <span>{$nama_fasilitas}</span>
+                                            </label>
+                                        DEO;
+                                    } 
+                                    
+                                }
+                            ?>
                         </div>
                     </div>
                     <div class="grid gap-5">
                         <label class="block text-gray-600 font-medium mb-2 text-xl">Fasilitas Kamar</label>
                         <div class="grid grid-cols-2 grid-rows-4 gap-5">
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Jendela</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>AC</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>TV kabel</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Kursi</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Kasur</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Kamar Mandi Dalam</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Meja</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Lemari</span>
-                            </label>
-                            <label class="container">
-                                <input type="checkbox">
-                                <div class="checkmark"></div>
-                                <span>Kipas Angin</span>
-                            </label>
+                            <?php 
+                                foreach($data['fasilitas'] as $fas => $nama_fasilitas) {
+                                    if($fas > 8) {
+                                        echo <<<DEO
+                                            <label class="container">
+                                                <input type="checkbox" name="{$fas}" value="$fas">
+                                                <div class="checkmark"></div>
+                                                <span>{$nama_fasilitas}</span>
+                                            </label>
+                                        DEO;
+                                    }
+                                }
+                            ?>
                         </div>
+
                     </div>
                 </div>
                 <div class="flex justify-between items-center p-6 border-t border-gray-100">
-                    <a href="#" class="font-medium hover:opacity-70">Reset</a>                    
-                    <button type="submit"
+                    <button class="font-medium hover:opacity-70" id="reset-button" type="button">Reset</button>                    
+                    <button 
+                        id="terapkan"
+                        type="button"
                         class="w-[130px] text-white py-2 rounded-lg font-medium focus:outline-none focus:ring focus:ring-[#83493d] hover:opacity-70"
                         style="background-color: #83493d;">
                         Terapkan Filter
                     </button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
+        </form>
     
     <div class="bg-white w-[90%] rounded-3xl mx-auto shadow-lg" style="margin-top:30px;">
         <div class="mx-auto max-w-2xl p-8 lg:max-w-7xl lg:px-8">
@@ -227,15 +174,15 @@
                                     <div class="carousel-track-container">
                                         <ul class="carousel-track">
                         EOD;
-                        foreach ($kost['gambar'] as $gambar)
-                        {
-                            $imagePath = $path . $gambar['path_gambar'];
-                            echo <<<EOD
-                                <li class="carousel-slide current-slide w-full h-40 overflow-hidden">
-                                    <img src="{$imagePath}" alt="Image 1" class="object-fit">
-                                </li>
-                            EOD;
-                        }
+                                foreach ($kost['gambar'] as $gambar)
+                                {
+                                    $imagePath = $path . $gambar['path_gambar'];
+                                    echo <<<EOD
+                                        <li class="carousel-slide current-slide w-full h-40 overflow-hidden">
+                                            <img src="{$imagePath}" alt="Image 1" class="object-fit">
+                                        </li>
+                                    EOD;
+                                }
                         
                         echo <<<EOD
                                         </ul>
@@ -265,7 +212,9 @@
                                     <p style="margin-left:10px; font-style:italic; color:red;">Sisa {$kost['sisa_kamar']} kamar</p>
                                 </div>
                                 <h2 class="mt-4 text-sm text-black font-bold">{$kost['data_kost']['nama_kost']}</h2>
-                                <p>{$kost['data_kost']['kota_kost']}, {$kost['data_kost']['provinsi_kost']}</p>
+                                 <p data-kota="{$kost['data_kost']['kota_kost']}" data-provinsi="{$kost['data_kost']['provinsi_kost']}">
+                                    Loading...
+                                </p>
                                 <p class="mt-1 text-lg font-medium text-gray-900">{$harga} / Bulan</p>
                             </a>
                         EOD;
@@ -274,12 +223,119 @@
            </div>
         </div>
     </div>
+
+    <div id="box" class="hidden box-exit fixed top-0 right-0 w-[30%] h-full bg-white text-black shadow-lg" style="z-index: 9999;">
+        <div class="flex items-center justify-between p-6">
+            <h2 class="font-semibold text-3xl">Chats</h2>
+            <button class="text-gray-700 hover:opacity-70" id="close_chat" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="w-full h-2 border-b shadow-lg"></div>
+        <div id="contact-sidebar" class=" bg-white h-full  border-r flex flex-col items-center border-gray-200 overflow-y-auto">
+
+            <!-- Contact List -->
+            <div id="contact-list" class="p-2 w-[99%] ">    
+                <!-- Repeat for more contacts -->
+                <?php
+                    $path = "/" . PROJECT_NAME . "/"; 
+                    foreach ($data['contact'] as $contact) {
+                        $image_path = $path . $contact[0]['profile_user'];
+                        echo <<<EOD
+                            <a href="/
+                        EOD;
+                        
+                        echo PROJECT_NAME;
+
+                        echo <<<EOD
+                        /pencari/chatting/{$contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer border-b  ">
+                                <img src="{$image_path}" alt="Profile" class="w-10 h-10 rounded-full">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-medium ">{$contact[0]['username_user']}</h3>
+                                </div>
+                        EOD;
+                        if ($contact['unread'] > 0)
+                        {
+                            echo <<<EOD
+                                    <span class="flex justify-center items-center right-0 -mt-2 -mr-2 w-5 h-5 bg-warna-second text-white text-xs font-semibold rounded-full">
+                                        {$contact['unread']}
+                                    </span>
+                            EOD;
+                        }
+                                
+                        echo "</a>";
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+    
+
     <?php require './views/Components/FooterHomepage.php' ?>
     <script>
+        const toggleBoxBtn = document.getElementById("chat_button");
+        const box = document.getElementById("box");
+        const content = document.getElementById("content");
+        const close_chat = document.getElementById('close_chat');
+
+        toggleBoxBtn.addEventListener("click", function() {
+            box.classList.remove('hidden');
+            box.classList.remove("box-exit");
+            box.classList.add("box-enter");
+            document.body.classList.add("no-scroll");
+        });
+
+        close_chat.addEventListener('click', ()=>{
+            box.classList.remove("box-enter");
+            box.classList.add("box-exit");
+            setTimeout(() => {
+                box.classList.add('hidden');
+                document.body.classList.remove("no-scroll");
+            }, 500);
+        })
+
+
+        function capitalizeFirstLetter(input) {
+            return input
+                .toLowerCase() 
+                .split(' ') 
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+                .join(' '); 
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const elements = document.querySelectorAll('p[data-kota][data-provinsi]');
+                const provinces = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                    .then(response => response.json());
+
+                elements.forEach(async (element) => {
+                    const provinceId = element.getAttribute('data-provinsi');
+                    const cityId = element.getAttribute('data-kota');
+
+                    const province = provinces.find(prov => prov.id == provinceId);
+                    const provinceName = province ? province.name : 'Provinsi tidak ditemukan';
+
+                    const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
+                        .then(response => response.json());
+
+                    const city = cities.find(cty => cty.id == cityId);
+                    const cityName = city ? city.name : 'Kota tidak ditemukan';
+
+                    element.textContent = `${capitalizeFirstLetter(cityName)}, ${capitalizeFirstLetter(provinceName)}`;
+                });
+            } catch (error) {
+                console.error('Terjadi kesalahan:', error);
+            }
+        });
+
         const filter_button = document.getElementById('filter_button')
         const filter = document.getElementById('filter')
         const close_filter = document.getElementById('close_filter')
         const contain_filter = document.getElementById('contain_filter')
+        const terapkan = document.getElementById('terapkan')
 
         filter_button.addEventListener('click', ()=>{
             filter.classList.remove('hidden')
@@ -290,6 +346,28 @@
         })
 
         close_filter.addEventListener('click', ()=>{
+            event.preventDefault(); 
+            
+            document.querySelectorAll('#filter input[type="text"]').forEach(input => {
+                input.value = ''; 
+            });
+
+            document.querySelectorAll('#filter input[type="radio"]').forEach(radio => {
+                radio.checked = false; 
+            });
+
+            document.querySelectorAll('#filter input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false; 
+            });
+
+            contain_filter.classList.remove('scale-100')
+            contain_filter.classList.add('scale-0')
+            setTimeout(()=>{
+                filter.classList.add('hidden')
+            }, 300)
+        })
+
+        terapkan.addEventListener('click', ()=>{
             contain_filter.classList.remove('scale-100')
             contain_filter.classList.add('scale-0')
             setTimeout(()=>{
@@ -320,6 +398,22 @@
             input.value = 'Rp ' + formattedValue;
         }
 
+        document.getElementById('reset-button').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            
+            document.querySelectorAll('#filter input[type="text"]').forEach(input => {
+                input.value = ''; 
+            });
+
+            document.querySelectorAll('#filter input[type="radio"]').forEach(radio => {
+                radio.checked = false; 
+            });
+
+            document.querySelectorAll('#filter input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false; 
+            });
+        });
+
         const dropdownButton = document.getElementById('dropdownButton');
         const dropdownMenu = document.getElementById('dropdownMenu');
         const dropdownItems = document.querySelectorAll('.dropdown-item');
@@ -349,57 +443,102 @@
             });
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousels = document.querySelectorAll('.carousel');
+            carousels.forEach((carousel) => {
+                const track = carousel.querySelector('.carousel-track');
+                const slides = Array.from(track.children);
+                const nextButton = carousel.querySelector('.right-button');
+                const prevButton = carousel.querySelector('.left-button');
 
+                const slideWidth = slides[0].getBoundingClientRect().width;
 
-        const track = document.querySelector('.carousel-track');
-        const slides = Array.from(track.children);
-        const nextButton = document.querySelector('.right-button');
-        const prevButton = document.querySelector('.left-button');
+                slides.forEach((slide, index) => {
+                    slide.style.left = `${slideWidth * index}px`;
+                });
 
-        const slideWidth = slides[0].getBoundingClientRect().width;
+                const updateButtons = (currentIndex) => {
+                    if (currentIndex === 0) {
+                        prevButton.classList.add('hidden');
+                    } else {
+                        prevButton.classList.remove('hidden');
+                    }
 
-        slides.forEach((slide, index) => {
-            slide.style.left = `${slideWidth * index}px`;
+                    if (currentIndex === slides.length - 1) {
+                        nextButton.classList.add('hidden');
+                    } else {
+                        nextButton.classList.remove('hidden');
+                    }
+                };
+
+                const moveToSlide = (track, currentSlide, targetSlide) => {
+                    track.style.transform = `translateX(-${targetSlide.style.left})`;
+                    currentSlide.classList.remove('current-slide');
+                    targetSlide.classList.add('current-slide');
+
+                    const targetIndex = slides.findIndex(slide => slide === targetSlide);
+                    updateButtons(targetIndex);
+                };
+
+                updateButtons(0);
+
+                prevButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const currentSlide = track.querySelector('.current-slide');
+                    const prevSlide = currentSlide.previousElementSibling;
+                    if (prevSlide) moveToSlide(track, currentSlide, prevSlide);
+                });
+
+                nextButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const currentSlide = track.querySelector('.current-slide');
+                    const nextSlide = currentSlide.nextElementSibling;
+                    if (nextSlide) moveToSlide(track, currentSlide, nextSlide);
+                });
+            });
+
         });
 
-        const updateButtons = (currentIndex) => {
- 
-            if (currentIndex === 0) {
-                prevButton.classList.add('hidden');
-            } else {
-                prevButton.classList.remove('hidden');
+
+
+        const form_search = document.getElementById('form_search');
+        form_search.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const nama_lokasi = document.getElementById('nama_lokasi');
+            let nl = nama_lokasi.value.toUpperCase(); 
+            let found = false;
+
+            const provinces = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
+                .then(response => response.json());
+
+            for (let element of provinces) {
+                if (element['name'].toUpperCase() === nl) {
+                    nama_lokasi.value = element['id']; 
+                    found = true;
+                    break;
+                }
             }
 
-            if (currentIndex === slides.length - 1) {
-                nextButton.classList.add('hidden');
-            } else {
-                nextButton.classList.remove('hidden');
+            for (let province of provinces) {
+                const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${province['id']}.json`)
+                    .then(response => response.json());
+
+                for (let city of cities) {
+                    if (city['name'].toUpperCase() === nl) {
+                        nama_lokasi.value = city['id']; 
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) break; 
             }
-        };
 
-        const moveToSlide = (track, currentSlide, targetSlide) => {
-            track.style.transform = `translateX(-${targetSlide.style.left})`;
-            currentSlide.classList.remove('current-slide');
-            targetSlide.classList.add('current-slide');
+            form_search.submit();
 
-            const targetIndex = slides.findIndex(slide => slide === targetSlide);
-            updateButtons(targetIndex);
-        };
 
-        updateButtons(0);
-
-        prevButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            const currentSlide = track.querySelector('.current-slide');
-            const prevSlide = currentSlide.previousElementSibling;
-            if (prevSlide) moveToSlide(track, currentSlide, prevSlide);
         });
 
-        nextButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            const currentSlide = track.querySelector('.current-slide');
-            const nextSlide = currentSlide.nextElementSibling;
-            if (nextSlide) moveToSlide(track, currentSlide, nextSlide);
-        });
     </script>
 </body>

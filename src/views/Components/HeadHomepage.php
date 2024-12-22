@@ -260,6 +260,33 @@
                 rotate: 0;
             }
         }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Animasi keluar ke kanan */
+        @keyframes slideOut {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .box-enter {
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        .box-exit {
+            animation: slideOut 0.5s ease-in-out forwards;
+        }
     </style>
 </head>
 
