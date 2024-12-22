@@ -1,43 +1,26 @@
 <?php require "./views/Components/Head.php" ?>
-<body class="h-screen font-Roboto-normal overflow-x-hidden">
-    <?php require "./views/Components/NavBar.php" ?>
-    <main class="w-[90%] mx-auto h-fit mt-5">
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Paket 1 Bulan -->
-            <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition">
-                <h3 class="text-lg font-semibold">Paket 1 Bulan</h3>
-                <p class="text-gray-600">Promosikan kost Anda selama 1 bulan penuh.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Pilih Paket</button>
-            </div>
 
-            <!-- Paket 3 Bulan -->
-            <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition">
-                <h3 class="text-lg font-semibold">Paket 3 Bulan</h3>
-                <p class="text-gray-600">Promosikan kost Anda selama 3 bulan penuh dengan harga lebih hemat.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Pilih Paket</button>
-            </div>
+<script type="text/javascript" src="http://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-cbiugUUXzP_WNrv0"></script>
+<!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
 
-            <!-- Paket 6 Bulan -->
-            <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition">
-                <h3 class="text-lg font-semibold">Paket 6 Bulan</h3>
-                <p class="text-gray-600">Promosikan kost Anda selama 6 bulan penuh untuk jangkauan lebih luas.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Pilih Paket</button>
-            </div>
+<body>
+  <button id="pay-button">Pay!</button>
 
-            <!-- Paket 1 Tahun -->
-            <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition">
-                <h3 class="text-lg font-semibold">Paket 1 Tahun</h3>
-                <p class="text-gray-600">Promosikan kost Anda selama 1 tahun penuh dengan paket terbaik.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Pilih Paket</button>
-            </div>
+  <!-- @TODO: You can add the desired ID as a reference for the embedId parameter. -->
+  <div id="snap-container"></div>
 
-            <!-- Paket Custom -->
-            <div class="border rounded-lg p-4 shadow-md hover:shadow-lg transition">
-                <h3 class="text-lg font-semibold">Paket Kustom</h3>
-                <p class="text-gray-600">Tentukan durasi promosi Anda sendiri jika lebih dari 1 tahun.</p>
-                <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Pilih Paket</button>
-            </div>
-        </section>
-    </main>
+  <script type="text/javascript">
+    // For example trigger on button clicked, or any time you need
+    var payButton = document.getElementById('pay-button');
+    payButton.addEventListener('click', function () {
+      // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token.
+      // Also, use the embedId that you defined in the div above, here.
+      window.snap.embed('<?= $data['snapToken'] ?>', {
+        embedId: 'snap-container'
+      });
+    });
+  </script>
 </body>
+
+
 <?php require "./views/Components/Foot.php" ?>

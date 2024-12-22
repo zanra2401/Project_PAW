@@ -1,10 +1,23 @@
-<?php require "./views/Components/Head.php"; ?>
+<?php 
+    require "./views/Components/Head.php"; 
+    
+    $foto_profile = $data['data_user'][0]['profile_user'];
+
+?>
     <script src="<?= NODE_MODULES ?>leaflet/dist/leaflet.js"></script>
     <link rel="stylesheet" href="<?= NODE_MODULES ?>leaflet/dist/leaflet.css">  
     <script src="<?= JS ?>/libs/chart.js"></script>
     <script src="<?= JS ?>/libs/fullcalendar.js"></script>    
     <body class="overflow-hidden flex p-0 m-0 h-screen ">
         <?php require "./views/Components/sidebarPemilik.php" ?>
+        <?php
+            if (isset($_SESSION['success_tambahkost']))
+            {
+                $hellper->flashSuccess("Tambah Kost berhasil", $_SESSION['success_tambahkost']);
+                unset($_SESSION['success_tambahkost']);
+            }
+        ?>
+
         <main class="flex-1 flex flex-col p-5 overflow-y-auto">
             <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-plus-square"></i> <a href="">Tambah Kost</a> <i class="fas fa-chevron-right"></i> </span>
             <div  class="container">
@@ -13,7 +26,7 @@
                     <div id="gambar-preview" class="w-full gap-3 grid grid-cols-4">
                         <button type="button" onchange="tambahFoto(event)" class="w-full relative aspect-square rounded-lg bg-gray-200">
                             <i class="fas fa-plus text-gray-700 text-[300%]"></i>
-                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0">
+                            <input type="file" class="w-full  absolute left-0 top-0 h-full opacity-0" multiple>
                         </button>
                     </div>
                     <?= (isset($_SESSION['errors_tambahkost']['gambar'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['gambar']}</p>" : "" ?>
@@ -104,6 +117,22 @@
 
                     <?= (isset($_SESSION['errors_tambahkost']['fasilitas_bersama'])) ? " <p class='text-red-500 font-Roboto-medium'>{$_SESSION['errors_tambahkost']['fasilitas_bersama']}</p>" : "" ?>
 
+                    <ul id="Kamar" class="px-6
+                    ">
+                        <li class="flex w-full px-0">
+                                <span class="flex-1 px-0 font-Roboto-bold  ml-0">Lantai</span>
+                                <span class="flex-1 px-0 font-Roboto-bold">Jumlah Kamar</span>
+                        </li>
+                    </ul>
+
+                    <button id="tambahLantaiButton" class="w-full font-Roboto-bold text-white  border-2 flex justify-center py-4 px-4 items-center rounded-md bg-red-500 o">
+                        <i class="fas fa-bed"></i>  
+                        <span class="ml-3">
+                            Tambah Lantai
+                        </span>
+                    </button>
+                    
+
 
                     <h2 class="font-Roboto-medium">Lokasi Kost Anda</h2>
                     <div class="w-full  grid grid-cols-2 gap-2 ">
@@ -120,10 +149,14 @@
                             <input value="<?= (isset($_SESSION['data_sebelumnya']) ? "{$_SESSION['data_sebelumnya']['long']}" : "") ?>" id="long-input" type="text" class="ml-5 border-none text-gray-700 focus:outline-none flex-1 font-Roboto-medium" placeholder="Longitude" disabled>
                         </span>
                     </div>  
+                    <div class="h-fit w-full flex gap-2 pl-3 items-center p-1 rounded-md border-2 border-gray-400 shaodwmdm shadow-gray-700">
+                        <i class="fas fa-search text-gray-500"></i>
+                        <input id="nama-lokasi-map" type="text" placeholder="Cari Lokasi Kost Anda" class="w-full border-none focus:outline-none font-medium" >
+                        <button id="cari-lokasi-map" class="px-3 py-1 bg-warna-second text-white font-Roboto-bold rounded-md">cari</button>
+                    </div> 
                     <?= (isset($_SESSION['errors_tambahkost']['lat']) or isset($_SESSION['errors_tambahkost']['long'])) ? " <p class='text-red-500 font-Roboto-medium'>lat dan lng wajib di isi</p>" : "" ?>
 
-
-                    <div class="w-1/2 h-[400px]">
+                    <div class="w-full h-[400px]">
                         <div id="map-set" class='h-full rounded-md'></div>
                     </div>
 
@@ -143,6 +176,7 @@
         ?>
 
         <script>
+
             const alidade = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
             const openstreetmap = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
             const stadiamaps = 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
@@ -150,6 +184,7 @@
             const provinsi = document.getElementById("provinsi");
             const kota = document.getElementById("kota");
             const reader = new FileReader();
+
             var id = 0;
             var dataKost = {
                 nama : "",
@@ -166,18 +201,45 @@
                     lat: "",
                     long: "",
                 },
+                lantai : {
+
+                }
                 
             };
+
+            tambahLantaiButton.addEventListener("click", function () {
+                Kamar.innerHTML += `<li class="flex w-full px-0 relative mt-2">
+                <span class="flex-1 font-roboto-bold">Lantai ${Object.keys(dataKost.lantai).length + 1}</span> <input type="number" onkeyup="updateDataKamar(event)" data-id=${Object.keys(dataKost.lantai).length + 1} value="0" class="flex-1  p-1 rounded-md border-2 border-gray-400 shaodwmdm shadow-gray-700">
+                <button data-id=${Object.keys(dataKost.lantai).length + 1} onclick="hapusLantai(event)" class="right-0 absolute">
+                    <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
+                </button>
+                </li>`;
+                dataKost.lantai[Object.keys(dataKost.lantai).length + 1] = 0;
+            })
+
+            function hapusLantai(event)
+            {
+                delete dataKost.lantai[event.target.parentNode.dataset.id];
+                event.target.parentNode.parentNode.remove();
+                console.log(dataKost.hapusLantai)
+            }
+
+            function updateDataKamar(event)
+            {
+                dataKost.lantai[event.target.dataset.id] = event.target.value;
+                console.log(dataKost.lantai)
+            }
             
-            reader.onload = function (e) {
-                gambarPreview.innerHTML += `
-                <div class="relative">
-                    <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square "><i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i></button>
-                    <img class="rounded-lg aspect-square object-cover" src="${e.target.result}"/>
-                </div>
-                `;
-                id += 1;
-            };
+            function readFileAsync(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        resolve(e.target.result);  // Return the result when the file is read
+                    };
+                    reader.onerror = reject;  // Reject the promise if there's an error
+                    reader.readAsDataURL(file);  // Start reading the file
+            });
+            }
 
             function deleteFoto(event)
             {
@@ -186,11 +248,26 @@
                 event.target.parentNode.parentNode.remove();
             }
 
-            async function tambahFoto(event)
-            {
-                dataKost.gambar[id] = event.target.files[0];
-                await reader.readAsDataURL(event.target.files[0]);
+            async function tambahFoto(event) {
+                for (let i = 0; i < event.target.files.length; i++) {
+                    dataKost.gambar[id] = event.target.files[i];
+
+                    const result = await readFileAsync(event.target.files[i]);
+
+                    gambarPreview.innerHTML += `
+                        <div class="relative">
+                            <button type="button" data-id=${id} onclick="deleteFoto(event)" class="absolute top-1 rounded-md overflow-hidden right-0 aspect-square">
+                                <i data-id=${id} class="fas p-2 w-full h-full z-10 text-white fa-trash"></i>
+                            </button>
+                            <img class="rounded-lg aspect-square object-cover" src="${result}" />
+                        </div>
+                    `;
+                    id += 1;
+                }
             }
+
+            
+      
 
             fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
             .then(response => response.json())
@@ -224,18 +301,18 @@
 
             const namaLokasiMap = document.getElementById("nama-lokasi-map");
             const cariLokasiMap = document.getElementById("cari-lokasi-map")
-            const mapSet = L.map('map-set').setView([20, 20], 5);
+            const mapSet = L.map('map-set').setView([-6, 106], 10);
             const latInput = document.getElementById('lat-input');
             const longInput = document.getElementById('long-input');
 
             const markerLayerMapSet = L.layerGroup().addTo(mapSet);
 
-            L.tileLayer(stadiamaps, {
+            L.tileLayer(openstreetmap, {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap contributors'
             }).addTo(mapSet);
 
-            L.marker([20, 20]).addTo(markerLayerMapSet);
+            L.marker([-6, 106]).addTo(markerLayerMapSet);
 
             mapSet.on('click', (e) => {
                 mapSet.setView([e.latlng.lat, e.latlng.lng],e.target._zoom);
@@ -247,6 +324,22 @@
                 longInput.value = `${e.latlng.lng}`;
                 console.log(dataKost);
             });
+
+            cariLokasiMap.addEventListener('click', async (e) => {
+                const url = `https://nominatim.openstreetmap.org/search?q=${namaLokasiMap.value}&format=json&addressdetails=1`;
+
+                await fetch(url).then(async (result) => {
+                    await result.json().then((r) => {
+                        mapSet.setView([r[0].lat, r[0].lon], 15);
+                        markerLayerMapSet.clearLayers();
+                        L.marker([r[0].lat, r[0].lon]).addTo(markerLayerMapSet)
+                        latInput.value = r[0].lat;
+                        longInput.value =r[0].lon;
+                    })
+                });
+
+                
+            })
 
             // cariLokasiMap.addEventListener('click', async (e) => {
             //     console.log("a")
@@ -301,6 +394,8 @@
                 // Menambahkan field fasilitas (bersama & kamar) dalam bentuk JSON
                 form.appendChild(buatInputTersembunyi("fasilitas", JSON.stringify(dataKost.fasilitas)));
 
+                form.appendChild(buatInputTersembunyi("lantai", JSON.stringify(dataKost.lantai)));
+
                 // Menambahkan field lokasi (lat & long)
                 form.appendChild(buatInputTersembunyi("lat", latInput.value));
                 form.appendChild(buatInputTersembunyi("long", longInput.value));
@@ -316,7 +411,6 @@
                     dataTransfer.items.add(dataKost.gambar[id]);
                     fileInput.files = dataTransfer.files;
                     form.appendChild(fileInput);
-                    console.log()
                 });
 
                 // Menambahkan form ke body dan submit
@@ -334,9 +428,15 @@
             }
             
 
-            function hapusFasilitas(event)
+            function hapusFasilitasKamar(event)
             {
-                delete dataKost['fasilitas'][event.target.parentNode.parentNode.dataset.id];
+                delete dataKost['fasilitas'].kamar[event.target.parentNode.parentNode.dataset.id];
+                event.target.parentNode.parentNode.remove();
+            }
+
+            function hapusFasilitasBersama(event)
+            {
+                delete dataKost['fasilitas'].bersama[event.target.parentNode.parentNode.dataset.id];
                 event.target.parentNode.parentNode.remove();
             }
 
@@ -348,11 +448,11 @@
 
 
                 fasilitasKamarContainer.innerHTML += `
-                <li data-id-f="${fasilitasKamar.value}" class='list-item list-disc'>
+                <li data-id="${fasilitasKamar.value}" class='list-item list-disc'>
                     <span>
                         ${fasilitasKamar[fasilitasKamar.selectedIndex].innerHTML}
                     </span>
-                    <button onclick="hapusFasilitas(event)">
+                    <button onclick="hapusFasilitasKamar(event)">
                         <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
                     </button>
                 </li>`;
@@ -367,11 +467,11 @@
 
 
                 fasilitasBersamaContainer.innerHTML += `
-                <li data-id-f="${fasilitasBersama.value}" class='list-item list-disc'>
+                <li data-id="${fasilitasBersama.value}" class='list-item list-disc'>
                     <span>
                         ${fasilitasBersama[fasilitasBersama.selectedIndex].innerHTML}
                     </span>
-                    <button onclick="hapusFasilitas(event)">
+                    <button onclick="hapusFasilitasBersama(event)">
                         <i class="fas fa-trash w-full h-full p-2 aspect-square text-rose-700"></i>
                     </button>
                 </li>`;
@@ -404,7 +504,10 @@
             $("#tambah-button").on('click', function () {
                 kirimDataDenganRedirect(dataKost);
             });
-        </script>
+
+           
+
+            </script>
 
     </body>
 <?php require "./views/Components/Foot.php"; ?>

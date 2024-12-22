@@ -11,7 +11,7 @@
 
     <div class="flex justify-center">
       <button type="submit" class="w-40 text-white py-2 px-4 rounded-md bg-warna-second hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
-        none
+        home
       </button>
     </div>
   </div>

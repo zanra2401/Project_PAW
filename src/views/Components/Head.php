@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require_once './helper/helper.php' ?>
 
 <head>
     <meta charset="UTF-8">
@@ -19,6 +20,7 @@
             font-weight: 600;
         }
 
+
         .menu-foot {
             display:flex; 
             justify-content: center; 
@@ -37,5 +39,26 @@
                 margin-bottom: 20px;
             }
         }
-    </style>
+    </style>    
+    <style>
+    .alert {
+        animation: message 0.5s ease 1;
+        right: 10px;
+    }
+
+    @keyframes message {
+        0% {
+            right: -100%;
+        }
+
+        50% {
+            right: -50%;
+        }
+
+        100% {
+            right: 10px;
+        }
+    }
+</style>
+    
 </head>

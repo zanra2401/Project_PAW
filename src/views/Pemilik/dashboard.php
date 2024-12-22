@@ -1,4 +1,9 @@
-<?php require "./views/Components/Head.php"; ?>
+<?php 
+    require "./views/Components/Head.php"; 
+    
+    $foto_profile = $data['data_user'][0]['profile_user'];
+
+?>
     <script src="<?= JS ?>/libs/chart.js"></script>
     <script src="<?= JS ?>/libs/fullcalendar.js"></script>    
     <body class="overflow-hidden flex p-0 m-0 h-screen ">
@@ -18,7 +23,7 @@
                 </div>
 
                 <div class="w-full h-fit p-4 mt-5 bg-gray-100 min-h-7 rounded-lg">
-                    <canvas id="chart"></canvas>
+                    <canvas id="chart" class="w-[900px]"></canvas>
                 </div>
 
                 <div class="w-full h-fit mt-5" id="date">

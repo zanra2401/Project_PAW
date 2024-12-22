@@ -1,307 +1,80 @@
-<?php require "./views/Components/Head.php" ?>
-    <style>
-        /* For most browsers */
-        .hide-scrollbar {
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* Internet Explorer 10+ */
-        }
+<?php 
+    require "./views/Components/Head.php";
+    $foto_profile = $data['data_user'][0]['profile_user'];
 
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none; /* Safari and Chrome */
-        }
-
-        .tooltip {
-            /* ... */
-            display: none;
-        }
-
-        .tooltip[data-show] {
-            display: block;
-        }
-    </style>
-
+?>
     <!-- BAGIAN HTML -->
 
-    <body class="w-screen min-h-screen flex flex-col h-fit overflow-x-hidden font-Roboto-normal">
-        <?php require "./views/Components/NavBar.php" ?>
+    <body class="overflow-hidden min-h-screen flex p-0 m-0">
+    <?php require "./views/Components/sidebarPemilik.php" ?>
+
         <main class="w-screen flex-grow flex  relative">
-            <div class="w-1/3 h-full flex fixed flex-col grid-rows-2 border-gray-700 p-8 pl-8">
-
-
-                <!-- BAGIAN GAMABR -->
-                <div class="w-full grid grid-rows-2 grid-cols-2 gap-1 relative">
-                    <div class="">
-                        <img src="<?= ASSETS ?>image/kos1.jpg" class="w-full h-full object-cover rounded-md" alt="">
-                    </div>
-
-                    <div>
-                        <img src="<?= ASSETS ?>image/kos2.jpg" class="w-full h-full object-cover rounded-md" alt="">
-                    </div>
-
-                    <div id="gambar-kos2" aria-describedby="preview-gambar-kos2" class="col-span-2 h-40 overflow-hidden row-span-1 flex items-center">
-                        <img src="<?= ASSETS ?>image/Kos-kosan.jpg" class="w-full h-full object-cover rounded-md" alt="">
-                    </div>
-
-                    <div class="tooltip tooltip-gambar" id="preview-gambar-kos2">
-                        <img src="<?= ASSETS ?>image/Kos-kosan.jpg" alt="" class="max-w-80 max-h-80">
-                        <div class="arrow" data-popper-arrow>
-
-                        </div>
-                    </div>
-
-
-                    <button aria-describedby="lihat-semua-gambar-tooltip" id="lihat-semua-gambar-button" class="absolute bottom-2 right-2 rounded-md text-gray-700 bg-gray-50 p-2 px-3">
-                        <i class="fas fa-list text-base-color"></i>
-                    </button>
-                    <div class="tooltip" id="lihat-semua-gambar-tooltip" role="tooltip">
-                        Lihat Semua Gambar
-                        <div class="arrow" data-popper-arrow></div>
-                    </div>
-
-                </div>
-
-                <!-- BAGIAN INFORMASI KOS -->
-                <h1 class="font-Roboto-bold text-gray-800 text-3xl mb-4 relative">KOS PUTRA TELANG</h1>
-                <li class="list-none flex text-2xl">
-                    <i class="fas fa-star text-yellow-300"></i>
-                    <i class="fas fa-star text-yellow-300"></i>
-                    <i class="fas fa-star text-yellow-300"></i>
-                    <i class="fas fa-star text-yellow-300"></i>
-                    <i class="fas fa-star text-yellow-300"></i>
-                </li>
-                <span class="text-base-color font-Roboto-bold">20 ulasan</span>
-            </div>
-
             <!-- BAGIAN REVIEW -->
-            <div class="w-2/3 absolute right-0 h-full flex-col p-6 pr-8 overflow-y-auto pb-16">
+            <div class="w-full absolute right-0 h-full flex-col p-6 pr-8 overflow-y-auto pb-16">
+                <h1 class="font-Roboto-bold text-2xl mb-3"><?= $data['kost']['data_kost']['nama_kost'] ?></h1>
 
+                <?php foreach ($data['review'] as $key => $review): ?>
                 <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
+                    <img src="/<?= PROJECT_NAME ?>/<?= $review['user']['profile_user'] ?>" class="rounded-full w-12 h-12" alt="">
                     <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
+                        <p class=" font-Roboto-normal text-gray-700 w-full flex items-center"><?= $review['review']['isi_review'] ?></p>
                         <div>
-                            <span>
+                            <a href="/<?= PROJECT_NAME ?>/pemilik/like/<?= $review['review']['id_review'] ?>">
                                 <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-60000 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
+                                <?= $review['like'] ?>
+                            </a>
+                            <?php if(!isset($review['balasan'])): ?>
+                            <button data-id="<?= $review['review']['id_review'] ?>" onclick="reply(this, <?= $review['review']['id_review'] ?>, event)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i data-id="<?= $review['review']['id_review'] ?>" class="fas fa-reply"></i> Reply</button>
+                            <!-- <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-60000 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button>  -->
+                            <?php endif; ?>
+        
+                            <?php if(isset($review['balasan'])): ?>
+                            <div class="w-full h-fit border-black p-2 flex items-center">
+                                <img src="/<?= PROJECT_NAME ?>/<?= $review['balasan']['user']['profile_user'] ?>" class="rounded-full w-12 h-12" alt="">
+                                <div class="ml-3 h-full flex items-center">
+                                    <p class=" font-Roboto-normal text-gray-700 w-full flex items-center"><?= $review['balasan']['balasan_data']['isi_balasan_review'] ?></p>
+                                </div>     
+                            </div>
+                            <?php endif; ?>
 
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
-                <div class="w-full h-fit border-black p-2 flex">
-                    <img src="<?= ASSETS ?>image/profile-placeholder.jpg" class="rounded-full w-12 h-12" alt="">
-                    <div class="ml-3">
-                        <p class=" font-Roboto-normal text-gray-700">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint quisquam, odit saepe impedit autem, quis, quas atque excepturi voluptatibus necessitatibus sequi magni quo harum ratione culpa ipsum in! Vel, ab!</p>
-                        <div>
-                            <span>
-                                <i class="fas fa-thumbs-up hover:bg-gray-200 rounded-full text-xl mt-2 p-2 text-gray-400"></i>
-                                20
-                            </span>
-                            <span class="ml-2">
-                                <i class="fas fa-thumbs-down p-2 rounded-full hover:bg-gray-200 text-xl mt-2 text-gray-400"></i>
-                                20
-                            </span> 
-                            <button onclick="reply(this, 20)" class="text-blue-600 hover:bg-gray-200 rounded-full p-2 font-Roboto-bold ml-2"> <i class="fas fa-reply"></i> Reply</button>
-                            <button class="font-Roboto-bold hover:bg-gray-200 rounded-full p-2 text-red-300 ml-2"> <i class="fas fa-warning text-red-500"></i> Laporkan</button> 
-                        </div>
-                    </div>     
-                </div>
 
-                
+                    </div>     
+                </div>
+                <?php endforeach; ?>
             </div>
         </main>
 
         <!-- BAGIAN JS -->
 
         <script>
-            function reply(element, id) {
+            function reply(element, id, event) {
+                let textarea = document.getElementById(`${id}_input`);
+
+                if (textarea != null) {
+                    return
+                }
+
                 const formReply = `
-                    <form class="w-full flex jus flex-col" id="${id}">
-                        <textarea placeholder="Balasan anda" class="w-full focus:outline-none p-2 text-gray-600 border-b-2 rounded-none hide-scrollbar h-10 border-gray-700" id="${id}_input"></textarea>
+                    <form class="w-full flex border-bottom border-gray-500 flex-col" action="/<?= PROJECT_NAME ?>/pemilik/balasreview" method="post" id="${id}">
+                        <input name="id_review" value="${id}" hidden/>
+                        <textarea placeholder="Balasan anda" name="isi_balasan" class="w-full border-x-none focus:outline-none p-2 text-gray-600 border-b-2 rounded-none hide-scrollbar h-10 border-gray-700" id="${id}_input"></textarea>
                         <span class="mt-2 ml-auto">
-                            <span>Balas</span>
+                            <button>Balas</button>
                             <button type="button" onclick="batalReply(this)" class="ml-4">Batal</button>
                         </span>
                     </form> 
                 `;
-
+                
                 element.parentNode.parentNode.innerHTML += formReply;
-
+                
                 const form_reply = document.getElementById("form_reply");
-                const textarea = document.getElementById(${id}_input);
+                textarea = document.getElementById(`${id}_input`);
+
 
                 textarea.addEventListener('input', () => {
                     // Reset height to auto to shrink if needed, then set it based on scrollHeight
                     textarea.style.height = 'auto';
-                    textarea.style.height = ${textarea.scrollHeight}px;
+                    textarea.style.height = `${textarea.scrollHeight}px`;
                 });
             }
 
@@ -311,6 +84,5 @@
 
         </script>
 
-        <script type="module" src="<?= JS ?>pemilikjs/review.js"></script>
     </body>
 <?php require "./views/Components/Foot.php" ?>
