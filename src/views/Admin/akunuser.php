@@ -162,14 +162,14 @@
           row.setAttribute("data-blocked", "false");
           this.textContent = "Banned";
           this.classList.remove("bg-green-500");
-          this.classList.add("bg-red-500", "hover:bg-red-600");
+          this.classList.add("bg-red-500");
         } else {
           // Block user
           row.style.backgroundColor = "#f8d7da";
           row.style.textDecoration = "line-through";
           row.setAttribute("data-blocked", "true");
           this.textContent = "Unblock";
-          this.classList.remove("bg-red-500", "hover:bg-red-600");
+          this.classList.remove("bg-red-500");
           this.classList.add("bg-green-500");
         }
       });
