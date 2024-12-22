@@ -16,7 +16,9 @@
                     <!-- Contact List -->
                     <div id="contact-list" class="p-2 w-64 ">    
                     <?php
+                            $path = "/" . PROJECT_NAME . "/"; 
                             foreach ($data['contact'] as $contact) {
+                                $image_path = $path . $contact[0]['profile_user'];
                                 echo <<<EOD
                                     <a href="/
                                 EOD;
@@ -25,7 +27,7 @@
 
                                 echo <<<EOD
                                 /pemilik/chatting/{$contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer">
-                                        <img src="{$contact[0]['profile_user']}" alt="Profile" class="w-10 h-10 rounded-full">
+                                        <img src="{$image_path}" alt="Profile" class="w-10 h-10 rounded-full">
                                         <div class="flex-1">
                                             <h3 class="text-lg font-medium ">{$contact[0]['username_user']}</h3>
                                         </div>
