@@ -36,7 +36,7 @@
                             <td class="px-4 py-2">Rp <?php echo number_format($item['harga_transaksi'], 0, ',', '.'); ?></td>
                             <td class="px-4 py-2"><?php echo ucfirst($item['status_transaksi']); ?></td>
                             <td class="px-4 py-2 flex justify-center gap-2">
-                                <?php if (strtolower($item['tipe_transaksi']) == 'offline' and strtolower($item['status_transaksi']) != 'settlement'): ?>
+                                <?php if (strtolower($item['tipe_transaksi']) == 'offline' and strtolower($item['status_transaksi']) != 'settlement' and strtolower($item['status_transaksi']) != 'failure'): ?>
                                     <a href="/<?= PROJECT_NAME ?>/pemilik/selesaitransaksi/<?= $item['id_transaksi'] ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Selesai</a>
                                     <a href="/<?= PROJECT_NAME ?>/pemilik/bataltransaksi/<?= $item['id_transaksi'] ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600">Batal</a>
                                 <?php else: ?>

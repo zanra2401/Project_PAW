@@ -542,19 +542,19 @@ class PemilikModel {
 
     function selesaiTransaksi($id)
     {
-        $this->DB->query("UPDATE transaksi SET status_transaksi = 'settlement' WHERE id_transaksi = $id");
+        $this->DB->query("UPDATE transaksi SET status_transaksi = 'settlement' WHERE id_transaksi = '$id'");
         return true;
     }
 
     function batalTransaksi($id)
     {
-        $this->DB->query("UPDATE transaksi SET status_transaksi = 'failure' WHERE id_transaksi = $id");
+        $this->DB->query("UPDATE transaksi SET status_transaksi = 'failure' WHERE id_transaksi = '$id'");
         return true;
     }
 
     function getTransaksi($idTransaksi)
     {
-        $this->DB->query("SELECT * FROM transaksi AS t, user AS u WHERE (t.id_transaksi LIKE '%$idTransaksi%' OR u.username_user LIKE '%$idTransaksi%') AND t.id_user_pencari = u.id_user");
+        $this->DB->query("SELECT * FROM transaksi AS t, user AS u WHERE (t.id_transaksi LIKE '%$idTransaksi%' OR u.username_user LIKE '%$idTransaksi%') AND t.id_user_pencari = u.id_user AND t.id_user_pemilik = {$_SESSION['id_user']}");
         return $this->DB->getAll();
     }
 

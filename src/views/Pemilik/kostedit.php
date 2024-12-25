@@ -241,7 +241,7 @@
                 <button onclick="hideFasilitasEdit()" class="absolute top-5 right-5">
                     <i class="fas fa-close text-3xl text-red-800"></i>
                 </button>
-                <div class="modal-container flex flex-col w-2/3 gap-3 rounded-md bg-white h-fit p-3">
+                <div class="modal-container flex flex-col w-2/3 gap-3 rounded-md bg-white  p-3 overflow-auto h-3/4">
                     <h2 class="font-Roboto-medium">Fasilitas Kamar</h2>
                     <ul id="FasilitasKamar" class="px-6">
                     <?php

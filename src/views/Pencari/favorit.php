@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css">
     <?php require "./views/Components/NavBar.php" ?>   
     <script src="<?= JS ?>/libs/jquery.js"></script> 
-    <script src="<?= JS ?>/libs/pagination.js"></script>   
+    <script src="<?= JS ?>/libs/pagination.js"></script> 
 
     <!-- Breadcrumb Section -->
     <div class="w-[90%] mx-auto pt-4 h-16 items-center">
@@ -117,18 +117,18 @@
 
         // Data dummy
         const kosts = <?= json_encode($data['kosts']) ?>;
-       
-        const data = kosts.map((item) =>  {
+        const kostsArray = Object.values(kosts);
+        const data = kostsArray.map((item) =>  {
         return `
-        <div class="bg-white border rounded-lg shadow-lg overflow-hidden">
-            <a href="#" class="group block">
-                <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-200">
-                    <img src="https://images.rukita.co/buildings/building/_HAN5555.jpg?tr=c-at_max%2Cw-3840" alt="Kost Putri" class="h-full w-full object-cover group-hover:opacity-75">
+        <div class="bg-white border rounded-lg shadow-lg overflow-hidden h-full">
+            <a href="/project_paw/pencari/kostPage/${item['id_kost']}" class="group block">
+                <div class="w-full overflow-hidden bg-gray-200" style="height:185px;">
+                    <img src="/<?= PROJECT_NAME ?>${item['path_gambar']}" alt="Kost Putri" class="h-full w-full object-cover group-hover:opacity-75">
                 </div>
                 <div class="p-4">
                     <div class="flex items-center">
                         <p class="text-sm font-medium bg-white border rounded-lg px-3 shadow-gray-200 shadow-sm p-2">${item['tipe_kost']}</p>
-                        <p class="ml-4 text-sm italic text-red-500">sisa</p>
+                        <p class="ml-4 text-sm italic text-red-500">Sisa kamar ${item['sisa_kamar']} </p>
                         <div class="flex items-center ml-auto">
                             <i class="fa fa-heart text-red-500"></i>
                             <form action="/<?= PROJECT_NAME ?>/Pencari/hapusFavorit" method="POST">
@@ -138,15 +138,15 @@
                             </form>
                         </div>
                     </div>
-                    <h1 class="font-bold px-3">${item['nama_kost']}</h1>
-                    <p class="text-sm text-gray-600 px-3">${item['lokasi_spesifik_kost']}</p>
-                    <p class="mt-2 text-lg font-semibold text-gray-900 px-3"> ${item['harga_kost'].toLocaleString('id-ID', {style: 'currency',currency: 'IDR',minimumFractionDigits: 0})}
+                    <h1 class="font-bold py-2">${item['nama_kost']}</h1>
+                    <p data-kota="${item['kota_kost']}" data-provinsi="${item['provinsi_kost']}">
+                        Loading...
+                    </p>
+                    <p class="mt-2 text-lg font-semibold text-gray-900"> ${item['harga_kost'].toLocaleString('id-ID', {style: 'currency',currency: 'IDR',minimumFractionDigits: 0})}
                 </div>
             </a>
         </div>
     `});
-
-console.log(data); // Data sekarang berupa array dari string HTML
 
 
         console.log(data)
@@ -160,6 +160,43 @@ console.log(data); // Data sekarang berupa array dari string HTML
                 $('#test').html(html);
             }
         });
+
+        // ambil lokasi
+
+        function capitalizeFirstLetter(input) {
+            return input
+                .toLowerCase() 
+                .split(' ') 
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+                .join(' '); 
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const elements = document.querySelectorAll('p[data-kota][data-provinsi]');
+                const provinces = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                    .then(response => response.json());
+
+                elements.forEach(async (element) => {
+                    const provinceId = element.getAttribute('data-provinsi');
+                    const cityId = element.getAttribute('data-kota');
+
+                    const province = provinces.find(prov => prov.id == provinceId);
+                    const provinceName = province ? province.name : 'Provinsi tidak ditemukan';
+
+                    const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
+                        .then(response => response.json());
+
+                    const city = cities.find(cty => cty.id == cityId);
+                    const cityName = city ? city.name : 'Kota tidak ditemukan';
+
+                    element.textContent = `${capitalizeFirstLetter(cityName)}, ${capitalizeFirstLetter(provinceName)}`;
+                });
+            } catch (error) {
+                console.error('Terjadi kesalahan:', error);
+            }
+        });
+
     </script>
 
     <?php require './views/Components/FooterHomepage.php' ?>

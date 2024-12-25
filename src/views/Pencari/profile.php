@@ -45,7 +45,7 @@
                 <div class="border-t border-r border-grey w-[288px]">
                     <div class="grid p-6 gap-4">
                         <div class="flex items-center gap-5">
-                            <button class="flex items-center gap-5" id="menuju_profile">
+                            <button class="flex items-center gap-5 text-red-600" id="menuju_profile">
                                 <i class="fa-regular fa-user"></i>
                                 <p class="font-medium">Profile</p>
                             </button>
@@ -416,11 +416,14 @@
                 content_profile.classList.remove('hidden')
                 pemesanan_title.classList.add('hidden')
                 content_pengajuan.classList.add('hidden')
+                menuju_profile.classList.add('text-red-600')
+                menuju_pengajuan.classList.remove('text-red-600')
             } else {
                 if (!content_profile.contains('hidden')){
                     profile_title.classList.add('hidden')
                     content_profile.classList.add('hidden')
                 }
+                
             }
         })
 
@@ -430,11 +433,14 @@
                 content_pengajuan.classList.remove('hidden')
                 profile_title.classList.add('hidden')
                 content_profile.classList.add('hidden')
+                menuju_pengajuan.classList.add('text-red-600')
+                menuju_profile.classList.remove('text-red-600')
             } else {
                 if (!content_pengajuan.contains('hidden')){
                     pemesanan_title.classList.add('hidden')
                     content_pengajuan.classList.add('hidden')
                 }
+                
             }
         })
 

@@ -192,9 +192,13 @@ class PencariModel
         $id = $this->DB->getALL();
         $data = [];
         foreach($id as $i){
-            $this->DB->query("SELECT * FROM kost WHERE id_kost = ?","i",[$i["id_kost"]]);
-            $data[] = $this->DB->getFirst();
+            $this->DB->query("SELECT k.nama_kost,k.tipe_kost,k.harga_kost,k.provinsi_kost,k.kota_kost ,k.sisa_kamar, gk.path_gambar, k.id_kost FROM kost AS k, gambar_kost AS gk WHERE k.id_kost = ? AND gk.id_kost = ?","ii",[$i["id_kost"],$i["id_kost"]]);
+            $result = $this->DB->getFirst();
+            $data[$i["id_kost"]] = $result;
         }
+
+        // var_dump($data);
+        // die();
         return $data;
     }
 
@@ -553,19 +557,18 @@ class PencariModel
     function saveTransaction($notif)
     {
         // $detail_pembayaran = $notif['detail_pembayaran'];
-        $this->DB->query("SELECT * FROM transaksi WHERE id_transaksi = {$notif['order_id']}");
+        $this->DB->query("SELECT * FROM transaksi WHERE id_transaksi = '{$notif['order_id']}'");
+        $array = explode("_", $notif['order_id']);
         $isExist = $this->DB->getFirst() != NULL;
         if ($isExist)
         {   
-            $this->DB->query("UPDATE transaksi SET status_transaksi = '{$notif['transaction_status']}' WHERE id_transaksi = {$notif['order_id']}");
+            $this->DB->query("UPDATE transaksi SET status_transaksi = '{$notif['transaction_status']}' WHERE id_transaksi = '{$notif['order_id']}'  ");
         } else 
         {
-            $this->DB->query("INSERT INTO transaksi VALUES(?, ?, ?, ?, ?, ?, ?, ?)", "iiiiisss", [$notif['order_id'], 1, 1, 31, $notif['gross_amount'], $notif['transaction_status'], $notif['transaction_time'], $notif['payment_type']]);
+            $this->DB->query("INSERT INTO transaksi VALUES(?, {$array[1]}, {$array[2]}, {$array[0]}, ?, ?, ?, ?)", "sisss", [$notif['order_id'],  $notif['gross_amount'], $notif['transaction_status'], $notif['transaction_time'], $notif['payment_type']]);
         }
         return true;
     }
-
-
 
     function getPengumuman($id_user) {
         $data = [];
@@ -695,11 +698,12 @@ class PencariModel
     function transaksiOffline($pemilik, $kost)
     {
         $transaksi_id = (time() * 10000) + random_int(1000, 9999);
+        $order_id = $kost . "_" . $pemilik . "_" . $_SESSION['id_user'] . "_" . $transaksi_id;
         $kostData = $this->getOneDataKost($kost)[$kost]['data_kost'];
         date_default_timezone_set('Asia/Jakarta');
         $current_datetime = date('Y-m-d H:i:s');
 
-        $this->DB->query("INSERT INTO transaksi VALUES(?, ?, ?, ?, ?, ?, ?, ?)", "iiiiisss", [$transaksi_id, $pemilik, $_SESSION['id_user'], $kost, $kostData['harga_kost'], "pending",$current_datetime, "Offline"]);
+        $this->DB->query("INSERT INTO transaksi VALUES(?, ?, ?, ?, ?, ?, ?, ?)", "siiiisss", [$order_id, $pemilik, $_SESSION['id_user'], $kost, $kostData['harga_kost'], "pending",$current_datetime, "Offline"]);
         return true;
     }
 

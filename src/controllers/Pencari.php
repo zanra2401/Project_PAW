@@ -619,7 +619,9 @@ class Pencari extends Controller
         if (isset($_POST['idKost'])) {
             $idKost = $_POST['idKost'];
             $this->model->hapusFavoritbyId($idKost);
-        }
+            header("Location: /" . PROJECT_NAME . "/pencari/favorit");
+        
+        };
     }
 
     function saveTransaction($params = [])
@@ -682,14 +684,13 @@ class Pencari extends Controller
             $transaksi_id = (time() * 10000) + random_int(1000, 9999);
             $trans = array(
                 'transaction_details' => array(
-                    'order_id' => $transaksi_id,
+                    'order_id' => $kostID . "_" . $pemilikID . "_" . $pencariID . "_" . $transaksi_id,
                     'gross_amount' => $hargaKost,
-                ),
-                'detail_pembayaran' => array(
                     'kostID' => $kostID,
-                    'pencariID' => $pencariID,
-                    'pemilikID' => $pemilikID,
                 ),
+                'callbacks' => [
+                    'finish' => '/project_paw/',
+                ],
             );
                 $_SESSION['snapToken'] = \Midtrans\Snap::getSnapToken($trans);
                 header("Location: " . $_SERVER['HTTP_REFERER']);

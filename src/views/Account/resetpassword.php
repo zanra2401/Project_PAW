@@ -57,9 +57,7 @@ require './views/Components/Head.php';
                 class="w-full text-white py-2 px-4 rounded-md hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2" style="background-color:#83493d;">
                 Simpan
             </button>
-            <button onclick="window.history.back()" class="w-full mt-4 hover:text-gray-500">
-                Batal
-            </button>
+           
 
         </form>
     </div>

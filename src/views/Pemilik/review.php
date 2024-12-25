@@ -15,6 +15,7 @@
                     <img src="/<?= PROJECT_NAME ?>/<?= $review['user']['profile_user'] ?>" 
                          class="rounded-full w-12 h-12 border border-gray-300" alt="User Profile">
                     <div class="ml-4 w-full">
+                            <h1 class="font-Roboto-bold"><?= $review['user']['username_user'] ?></h1>
                         <p class="font-medium text-gray-700 mb-2">
                             <?= $review['review']['isi_review'] ?>
                         </p>
@@ -84,7 +85,7 @@
         }
 
         function batalReply(element) {
-            element.parentNode.parentNode.parentNode.remove();
+            element.parentNode.parentNode.remove();
         }
     </script>
 </body>

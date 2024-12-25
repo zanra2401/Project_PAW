@@ -35,7 +35,7 @@
 
                 <!-- Total Pengguna Aktif Card -->
                 <div class="bg-white rounded-lg shadow-gray-500 shadow-sm p-5 h-96">
-                    <p class="text-gray-500 mb-2">Total Pengguna Aktif</p>
+                    <p class="text-gray-500 mb-2">Total Pengguna</p>
                     <h1 class="text-4xl font-bold mb-4"><?= $data['jumlahUser']; ?></h1>
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

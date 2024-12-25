@@ -176,12 +176,12 @@ class AdminModel
             if ($param == "semua") {
                 $this->DB->query("SELECT * FROM pengumuman");
             } elseif ($param == "pencari") {
-                $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = ?", "s", ['pencari']);
+                $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = ? ORDER BY tanggal_pengumuman DESC", "s", ['pencari']);
             } else {
-                $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = ?", "s", [$param]);
+                $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = ? ORDER BY tanggal_pengumuman DESC", "s", [$param]);
             }
         } else {
-            $this->DB->query("SELECT * FROM pengumuman WHERE judul_pengumuman LIKE ?", "s", [$param]);
+            $this->DB->query("SELECT * FROM pengumuman WHERE judul_pengumuman LIKE ? ORDER BY tanggal_pengumuman DESC", "s", [$param]);
         }
         $data = [];
         $result = $this->DB->getAll();

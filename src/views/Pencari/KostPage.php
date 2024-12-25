@@ -644,41 +644,43 @@
                 }
             }
     
-            function capitalizeFirstLetter(input) {
-                return input
-                    .toLowerCase() 
-                    .split(' ') 
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
-                    .join(' '); 
-            }
-    
-            document.addEventListener("DOMContentLoaded", async () => {
-                try {
-                    const elements = document.querySelectorAll('p[data-kota][data-provinsi]');
-                    const provinces = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
-                        .then(response => response.json());
-    
-                    elements.forEach(async (element) => {
-                        const provinceId = element.getAttribute('data-provinsi');
-                        const cityId = element.getAttribute('data-kota');
-    
-                        const province = provinces.find(prov => prov.id == provinceId);
-                        const provinceName = province ? province.name : 'Provinsi tidak ditemukan';
-    
-                        const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
-                            .then(response => response.json());
-    
-                        const city = cities.find(cty => cty.id == cityId);
-                        const cityName = city ? city.name : 'Kota tidak ditemukan';
-    
-                        element.textContent = `${capitalizeFirstLetter(cityName)}, ${capitalizeFirstLetter(provinceName)}`;
-                    });
-                } catch (error) {
-                    console.error('Terjadi kesalahan:', error);
-                }
-            });
+            
         }
+        
+        function capitalizeFirstLetter(input) {
+            return input
+                .toLowerCase() 
+                .split(' ') 
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+                .join(' '); 
+        }
+        
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const elements = document.querySelectorAll('p[data-kota][data-provinsi]');
+                const provinces = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                    .then(response => response.json());
 
+                elements.forEach(async (element) => {
+                    const provinceId = element.getAttribute('data-provinsi');
+                    const cityId = element.getAttribute('data-kota');
+
+                    const province = provinces.find(prov => prov.id == provinceId);
+                    const provinceName = province ? province.name : 'Provinsi tidak ditemukan';
+
+                    const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
+                        .then(response => response.json());
+
+                    const city = cities.find(cty => cty.id == cityId);
+                    const cityName = city ? city.name : 'Kota tidak ditemukan';
+
+                    element.textContent = `${capitalizeFirstLetter(cityName)}, ${capitalizeFirstLetter(provinceName)}`;
+                });
+            } catch (error) {
+                console.error('Terjadi kesalahan:', error);
+            }
+        });
+        
         const gambar = document.getElementById('gambar')
         const tableView = document.getElementById('tableView')
         const isi_kostpage = document.getElementById('isi_kostpage')
@@ -886,6 +888,9 @@
             let id_provinsi = <?=$kost['data_kost']['provinsi_kost']?>;
             let nama_provinsi = '';
             let nama_kota = '';
+
+            
+
             
             await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${id_provinsi}.json`)
             .then(response => response.json())
@@ -900,18 +905,19 @@
             });
 
             await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json`)
-            .then(response => response.json())
-            .then(provinces => {
-                provinces.forEach(element => {
-                    if (element['id'] == id_provinsi) {
-                        alamat.innerHTML += `${element['name']}`;
-               
-                        return;
-                    }
+                .then(response => response.json())
+                .then(provinces => {
+                    provinces.forEach(element => {
+                        if (element['id'] == id_provinsi) {
+                            alamat.innerHTML += `${element['name']}`;
+    
+                            return;
+                        }
+                    });
                 });
-            });
             })
 
+            
     </script>
 
 

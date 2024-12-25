@@ -52,12 +52,6 @@
                         <span class="temukan-kost">Temukan Kost</span>
                     </div>
                 </button>
-                <!-- <div class="relative">
-                    <button type="submit" name="find" class="inline-flex justify-center w-full p-3 pl-10 pr-8 borde rounded-full shadow-md tombol-search hover:opacity-70" style="background-color: #83493d; color:#fff;">
-                        <span class="temukan-kost">Temukan Kost</span>
-                    </button>
-                    <i class="fas w-20 fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-white cursor-pointer logo-search"></i>
-                </div> -->
                 <div class="relative logo-menu">
                     <button type="button" class="w-full p-3 rounded-full hover:opacity-70" id="filter_button"><i class="fas fa-sliders top-1/2 transform text-gray-500 "></i></button>
                 </div>
@@ -520,6 +514,7 @@
             event.preventDefault();
 
             const nama_lokasi = document.getElementById('nama_lokasi');
+
             let nl = nama_lokasi.value.toUpperCase(); 
             let found = false;
 

@@ -2,7 +2,9 @@
   <!-- Header -->
   <div class="p-4 border-b">
     <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+      <div class="w-10 h-10 rounded-full flex items-center">
+        <img src="<?= ASSETS ?>image/logo.png" alt="logo">
+      </div>
       <div>
         <p class="text-sm font-medium text-gray-800"><?= $_SESSION['username_admin'] ?></p>
       </div>

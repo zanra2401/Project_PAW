@@ -12,7 +12,7 @@
           <select id="categoryFilter" class="block w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
             <option value="all">All</option>
             <option value="Pemilik">Pemilik</option>
-            <option value="User">User</option>
+            <option value="User">Pencari</option>
           </select>
         </div>
 

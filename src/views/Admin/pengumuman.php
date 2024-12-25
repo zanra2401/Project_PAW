@@ -51,7 +51,7 @@
             
             function uploadPengumuman(){
                 
-                pengumumanData.value = quill.gettext();
+                pengumumanData.value = quill.root.innerHTML;
                 formPengumuman.submit();
             }
     </script>
