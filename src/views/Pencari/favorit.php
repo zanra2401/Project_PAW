@@ -1,7 +1,6 @@
 <?php require './views/Components/HeadHomepage.php' ?>
 <body>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.css">
-
     <?php require "./views/Components/NavBar.php" ?>   
     <script src="<?= JS ?>/libs/jquery.js"></script> 
     <script src="<?= JS ?>/libs/pagination.js"></script>   

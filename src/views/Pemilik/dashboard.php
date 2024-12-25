@@ -14,7 +14,7 @@
                 <div class="w-full h-16 border-gray-300 rounded-lg overflow-hidden bg-gray-300 border flex items-center  ">
                     <span class="inline-block p-4">
                         <p class="text-sm font-Roboto-medium">Total Transaksi</p>
-                        <span><i class="fas fa-rotate"></i> <span class="ml-1">26</span></span>
+                        <span><i class="fas fa-rotate text-xl font-Roboto-bold text-gray-900"></i> <span class="ml-1 text-xl text-gray-900"><?= count($data['transaksi']) ?></span></span>
                     </span>
                     <a href="/<?= PROJECT_NAME ?>/pemilik/transaksihistory" class="h-full ml-auto flex items-center  bg-warna-second w-52 justify-center">
                         <i class="fas text-white fa-money-bill"></i>
@@ -36,10 +36,10 @@
             const chart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ["january", "februari", "maret", "april", "mei", "juni", "juli", "agustus"],
+                    labels: <?= json_encode(array_keys($data['transaksi_data'])); ?>,
                     datasets: [{
-                        label: 'My First Dataset',
-                        data: [65, 59, 80, 81, 56, 55, 40],
+                        label: 'Data Transaksi',
+                        data: <?= json_encode(array_values($data['transaksi_data'])) ?>,
                         fill: false,
                         borderColor: 'rgb(75, 192, 192)',
                         tension: 0.1

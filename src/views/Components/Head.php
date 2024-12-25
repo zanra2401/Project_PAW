@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="<?= ASSETS ?>image/logo.png" sizes="32x32" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= CSS ?>tailwind.css">
     <link rel="stylesheet" href="<?= CSS ?>tooltip.css">
@@ -14,6 +15,8 @@
     <title><?= $data["title"] ?></title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@1.5.3/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@1.5.3/dist/flowbite.min.js"></script>
+    <link rel="stylesheet" href="<?= NODE_MODULES ?>/quill/dist/quill.snow.css">
+<script src="<?= NODE_MODULES ?>/quill/dist/quill.js"></script>
     <style>
         .main-menu-foot {
             font-size: 20px;

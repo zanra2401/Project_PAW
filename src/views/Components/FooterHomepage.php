@@ -4,7 +4,7 @@
     <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div class="menu-foot">
             <div class="flex md:mb-0 items-center justify-center">
-                <a href="/project_paw" class="flex items-center imag">
+                <a href="/project_paw/pencari/homepage" class="flex items-center imag">
                     <img src="<?= ASSETS ?>image/logo.png" class="h-20 me-3" alt="Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap">Cari Kost</span>
                 </a>
@@ -26,9 +26,6 @@
                     <li class="mb-4">
                         <a href="/project_paw/pencari/kebijakan" class="hover:underline ">Kebijakan</a>
                     </li>
-                    <li>
-                        <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Syarat dan Ketentuan Umum</a>
-                    </li>
                 </ul>
             </div>
             <div>
@@ -47,7 +44,7 @@
         </div>
       <hr class="my-6 border-gray-200 sm:mx-auto lg:my-8" />
       <div class="flex sm:items-center sm:justify-between justify-between items-center credit" style="margin-top:10px;">
-          <span class="text-sm" style="color: #fff;">© 2024 <a href="https://flowbite.com/" class="hover:underline">Cari Kost™</a>. All Rights Reserved.</span>
+          <span class="text-sm" style="color: #fff;">© 2024 <a href="/project_paw/pencari/" class="hover:underline">Cari Kost™</a>. All Rights Reserved.</span>
           <div class="sm:justify-center sm:mt-0" style="display: flex; gap:5px;">
               <a href="#" class="hover:text-gray-900" style="color: #fff;">
                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">

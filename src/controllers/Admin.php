@@ -170,7 +170,7 @@ class Admin extends Controller
                 "transaksi" => $getAllTransaksi,
                 "totalTransaksi" => $jumlahTransaksi,
                 "transaksiBerhasil" => $transaksiBerhasil,
-                "transaksiGagal" => $transaksiGagal
+                "transaksiGagal" => ($jumlahTransaksi - $transaksiBerhasil)
             ]);
         } else {
             $_SESSION['error'] = ['Silakan Log in'];
@@ -275,11 +275,10 @@ class Admin extends Controller
     {
         if ($this->isLogInAdmin())
         {
-            $idBerita = $_POST['idBerita']; // Ambil ID Berita dari parameter
             $this->view("Admin/editberita", [
                 "title" => "Edit Berita",
                 "active-menu" => "berita",
-                "berita" => $this->model->getBeritaById($idBerita) // Panggil berita berdasarkan ID
+                "berita" => $this->model->getBeritaById($params[0]) // Panggil berita berdasarkan ID
             ]);
         } else {
             $_SESSION['error'] = ['Silakan Log in'];
@@ -387,13 +386,13 @@ class Admin extends Controller
         }
     }
 
-    function hapusBerita()
+    function hapusBerita($params = [])
     {
         if ($this->isLogInAdmin())
         {
             if($_SERVER["REQUEST_METHOD"] == "GET"){
-                $idBerita = $_POST['idBerita'];
-                $this->model->hapusBerita($idBerita);
+                $this->model->hapusBerita($params[0]);
+                header("Location: /" . PROJECT_NAME . "/admin/berita");
             }
         } else {
             $_SESSION['error'] = ['Silakan Log in'];

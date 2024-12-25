@@ -64,12 +64,7 @@
                             </div>
                         </div>
                         <div class="flex space-x-4 text-gray-500">
-                            <button class="p-2 hover:text-gray-800">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="p-2 hover:text-gray-800">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
+                          
                         </div>
                     </div>
     
@@ -241,6 +236,7 @@
                 });
 
                 let message = textMessage.value;
+                textMessage.value = "";
                 let data = {
                     message: message
                 }

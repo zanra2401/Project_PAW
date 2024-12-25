@@ -33,7 +33,7 @@
 
 <?php require "./views/Components/sidebarAdmin.php" ?>
 
-<main class="w-full min-h-screen box-border bg-gray-50 overflow-hidden flex flex-col">
+<main class="w-full h-screen box-border bg-gray-50 overflow-auto  flex flex-col">
     <span class="mb-3 text-gray-600 p-5"><i class="fas fa-newspaper"></i> Berita <i class="fas fa-chevron-right"></i></span>
 
     <div>
@@ -76,14 +76,12 @@
                     <?php echo date('d F Y', strtotime($berita['tanggal_dipublish_berita'])); ?>
                 </td>
                 <td class="action-center">
-                    <form action="/<?= PROJECT_NAME ?>/Admin/editberita" method="POST">
-                        <input type="hidden" name="idBerita" value="<?= $berita['id_berita'] ?>">
+                    <form action="/<?= PROJECT_NAME ?>/Admin/editberita/<?= $berita['id_berita'] ?>" method="GET">
                         <button type="submit" class="btn-brown">Edit</button>
                     </form>
                 </td>
                 <td>
-                    <form action="/<?= PROJECT_NAME ?>/Admin/hapusBerita" method="GET">
-                        <input type="hidden" name="idBerita" value="<?= $berita['id_berita'] ?>">
+                    <form action="/<?= PROJECT_NAME ?>/Admin/hapusBerita/<?= $berita['id_berita'] ?>" method="GET">
                         <button type="submit" class="btn-brown" >hapus</button>
                     </form>
                 </td>

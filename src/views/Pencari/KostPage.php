@@ -17,6 +17,9 @@
     }
 
     $total_review = count($data['review']);
+    $isLogin = isset($_SESSION["loged_in"])? 'login': 'belom';
+
+    $sudah_lapor = isset($data['sudah_lapor'])? $data['sudah_lapor']: '';
 ?>
 
 <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-cbiugUUXzP_WNrv0"></script>
@@ -174,10 +177,16 @@
                             <div class="grid gap-4 border-b border-gray-200 pb-10 mt-5">
                                 <div class="flex justify-between mt-5 items-center">
                                     <p>Ada ketidaksesuaian data yang di berikan atau kendala lain dengan kost ini?</p>
-                                    <button id="tombol_melapor" class="p-2 border-2 border-gray-300 w-[110px] duration-300 rounded hover:opacity-70">
-                                        <i class="fa-solid fa-circle-exclamation"></i>
-                                        <span>Laporkan</span>
-                                    </button>
+            EOD;
+                                if($isLogin == 'login'){
+                                    echo <<<EDO
+                                        <button id="tombol_melapor" class="p-2 border-2 border-gray-300 w-[110px] duration-300 rounded hover:opacity-70">
+                                            <i class="fa-solid fa-circle-exclamation"></i>
+                                            <span>Laporkan</span>
+                                        </button>
+                                    EDO;
+                                }
+            echo <<<EOD
                                 </div>
                             </div>
             
@@ -185,30 +194,41 @@
                                 <p class="text-3xl font-semibold">{$total_review} Review</p>
                                     <form id="form_like" action="/project_paw/Pencari/KostPage" method="POST">
             EOD;
+
                             $path = "/" . PROJECT_NAME . "/";
                             foreach ($data['review'] as $rev) {
-                                $id_review = $rev['id_review'];
+                                if($isLogin == 'login')
+                                {
+                                    $id_review = $rev['id_review'];
+                                    
+                                    $isLiked = $model->checkIfLiked($id_review, $_SESSION['id_user']); // Cek apakah user sudah menyukai review ini
+                                    $iconClass = $isLiked == 'ada' ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up"; // Ikon berubah jika sudah di-*like*        
+                                }
                                 $pp_user = $path . $rev['profile_user'];
-                                $isLiked = $model->checkIfLiked($id_review, $_SESSION['id_user']); // Cek apakah user sudah menyukai review ini
-                                $iconClass = $isLiked == 'ada' ? "fa-solid fa-thumbs-up" : "fa-regular fa-thumbs-up"; // Ikon berubah jika sudah di-*like*
-                            
                                 echo <<<EOD
                                     <div class="grid gap-4 pt-4">
                                         <div class="flex items-center gap-3 justify-between">
                                             <div class="flex items-center gap-4">
-                                                <img class="rounded-full w-14" src="{$pp_user}" alt="">
+                                                <img class="rounded-full w-14 h-14" src="{$pp_user}" alt="">
                                                 <div class="grid gap-0">
                                                     <p class="font-semibold text-xl">{$rev['username_user']}</p>
                                                     <p class="text-sm">{$rev['tanggal_review']}</p>
                                                 </div>
                                             </div>
-                                            <div class="flex gap-2">
-                                                <button name="review_suka" class="text-xl suka-ulasan-btn" type="button" onclick="toggleLike($id_review)">
-                                                    <i class="{$iconClass}" id="icon_sukaUlasan_{$id_review}"></i>
-                                                </button>
-                                                <input type="hidden" id="status_{$id_review}" value="{$isLiked}">
-                                                <p class="text-lg mt-1" id="total_suka_{$id_review}">{$rev['total_suka']}</p>
-                                            </div>
+
+                                EOD;
+                                        if($isLogin == 'login'){
+                                            echo <<<EOD
+                                                <div class="flex gap-2">
+                                                    <button name="review_suka" class="text-xl suka-ulasan-btn" type="button" onclick="toggleLike($id_review)">
+                                                        <i class="{$iconClass}" id="icon_sukaUlasan_{$id_review}"></i>
+                                                    </button>
+                                                    <input type="hidden" id="status_{$id_review}" value="{$isLiked}">
+                                                    <p class="text-lg mt-1" id="total_suka_{$id_review}">{$rev['total_suka']}</p>
+                                                </div>
+                                            EOD;
+                                        } 
+                                echo <<<EOD
                                         </div>
                                         <div>
                                             <p class="mb-5">{$rev['isi_review']}</p>
@@ -217,7 +237,7 @@
                                                     echo <<<EOD
                                                         <div class="grid gap-3 p-4 bg-gray-200">
                                                             <p class="font-semibold">Respon Pemilik Kos : </p>
-                                                            <p>Halo, Kakak. Terima kasih atas reviewnya. Semoga Anda selalu betah untuk singgah di kost kami :)</p>
+                                                            <p>{$rev['isi_balasan_review']}</p>
                                                         </div>
                                                     EOD;
                                                 }
@@ -238,16 +258,39 @@
                                     <p class="font-semibold text-2xl">{$harga} /Bulan</p>
                                 </div>  
                                 <div class="space-y-3 w-full" style="margin-top: 45px;">
-                                    <a href="/project_paw/pencari/chatting/{$data['id_pemilik']}" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
-                                        <i class="fa-solid fa-comment-dots pr-2"></i>
-                                        Tanya Pemilik 
-                                    </a>
-                                    <button id="kamar" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center lihat-kamar" >
+            EOD;                
+                                if($isLogin == "login"){
+                                    echo <<<EOD
+                                        <a href="/project_paw/pencari/chatting/{$data['id_pemilik']}" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
+                                            <i class="fa-solid fa-comment-dots pr-2"></i>
+                                            Tanya Pemilik 
+                                        </a>
+                                    EOD;
+                                } else {
+                                    echo <<<EOD
+                                        <a href="/project_paw/account/login" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center chat">
+                                            <i class="fa-solid fa-comment-dots pr-2"></i>
+                                            Tanya Pemilik 
+                                        </a>
+                                    EOD;
+                                }
+            echo <<<EOD
+                                    <a href="/project_paw/pencari/kamar/{$kost['data_kost']['id_kost']}" class="border-2 p-2 rounded px-3 w-full flex items-center justify-center lihat-kamar" >
                                         <i class="fa-solid fa-bed pr-2"></i>
                                         Lihat Kamar
-                                    </button>
+                                    </a>
                                     <br><br>
-                                    <button id="tombol_pesan" class="border-2 p-3 rounded px-3 w-full flex items-center justify-center bg-zinc-800 text-white font-semibold text-lg hover:opacity-80">Pesan kost</button>
+            EOD;
+                                if($isLogin == "login"){
+                                    echo <<<EOD
+                                        <button id="tombol_pesan" class="border-2 p-3 rounded px-3 w-full flex items-center justify-center bg-zinc-800 text-white font-semibold text-lg hover:opacity-80">Pesan kost</button>
+                                    EOD;
+                                } else {
+                                    echo <<<EOD
+                                        <a href="/project_paw/account/login" class="border-2 p-3 rounded px-3 w-full flex items-center justify-center bg-zinc-800 text-white font-semibold text-lg hover:opacity-80">Pesan kost</a>
+                                    EOD;
+                                }
+            echo <<<EOD
                                 </div>
                             </div>
                         </div>
@@ -493,38 +536,41 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
 
-        const isLogin = '<?=isset($_SESSION["loged_in"])? "login": "belom"?>';
+        const isLogin = '<?=$isLogin?>';
+        console.log(isLogin);
 
-        const tombol_ipesan = document.getElementById('tombol_pesan');
-        const popup_pesan = document.getElementById('popup_pesan');
-        const box_pesan = document.getElementById('box_pesan');
-        const close_payment = document.getElementById('close_payment');
-
-        tombol_pesan.addEventListener('click', ()=>{
-            popup_pesan.classList.remove('hidden')
-            setTimeout(()=>{
-                box_pesan.classList.remove('scale-0')
-                box_pesan.classList.add('scale-100')
-            }, 50)
-        })
-
-        close_payment.addEventListener('click', ()=>{
-            box_pesan.classList.remove('scale-100')
-            box_pesan.classList.add('scale-0')
-            setTimeout(()=>{
-                popup_pesan.classList.add('hidden')
-            }, 300)
-            
-        })
-
-        <?php if (isset($_SESSION['snapToken'])): ?>
-        closeButtonOnline.addEventListener('click', ()=>{
-            setTimeout(()=>{
-                popupOnline.classList.add('hidden')
-            }, 300)
-            
-        })
-        <?php endif; ?>
+        if (isLogin == 'login'){
+            const tombol_ipesan = document.getElementById('tombol_pesan');
+            const popup_pesan = document.getElementById('popup_pesan');
+            const box_pesan = document.getElementById('box_pesan');
+            const close_payment = document.getElementById('close_payment');
+    
+            tombol_pesan.addEventListener('click', ()=>{
+                popup_pesan.classList.remove('hidden')
+                setTimeout(()=>{
+                    box_pesan.classList.remove('scale-0')
+                    box_pesan.classList.add('scale-100')
+                }, 50)
+            })
+    
+            close_payment.addEventListener('click', ()=>{
+                box_pesan.classList.remove('scale-100')
+                box_pesan.classList.add('scale-0')
+                setTimeout(()=>{
+                    popup_pesan.classList.add('hidden')
+                }, 300)
+                
+            })
+    
+            <?php if (isset($_SESSION['snapToken'])): ?>
+            closeButtonOnline.addEventListener('click', ()=>{
+                setTimeout(()=>{
+                    popupOnline.classList.add('hidden')
+                }, 300)
+                
+            })
+            <?php endif; ?>
+        }
 
         const map = L.map('map').setView([<?= $data['data'][$id_kost]['data_kost']['lat'] ?>, <?= $data['data'][$id_kost]['data_kost']['lng'] ?>], 10); // Jakarta
                     
@@ -541,93 +587,97 @@
 
         L.marker([<?= $data['data'][$id_kost]['data_kost']['lat'] ?>, <?= $data['data'][$id_kost]['data_kost']['lng'] ?>]).addTo(markerLayer);
 
-        const toggleBoxBtn = document.getElementById("chat_button");
-        const box = document.getElementById("box");
-        const content = document.getElementById("content");
-        const close_chat = document.getElementById('close_chat');
-
-        if (toggleBoxBtn){
-            toggleBoxBtn.addEventListener("click", function() {
-                box.classList.remove('hidden');
-                box.classList.remove("box-exit");
-                box.classList.add("box-enter");
-                document.body.classList.add("no-scroll");
-            });
+        if (isLogin == 'login'){
+            const toggleBoxBtn = document.getElementById("chat_button");
+            const box = document.getElementById("box");
+            const content = document.getElementById("content");
+            const close_chat = document.getElementById('close_chat');
     
-            close_chat.addEventListener('click', ()=>{
-                box.classList.remove("box-enter");
-                box.classList.add("box-exit");
-                setTimeout(() => {
-                    box.classList.add('hidden');
-                    document.body.classList.remove("no-scroll");
-                }, 500);
-            })
-        }
-
-        function toggleLike(idReview) {
-            const icon_like = document.getElementById(`icon_sukaUlasan_${idReview}`);
-            const total_suka = document.getElementById(`total_suka_${idReview}`);
-            const status_like = document.getElementById(`status_${idReview}`);
-            const status_like_val = status_like.value;
-            let total_suka_val = parseInt(total_suka.textContent);
-
-            if (status_like_val == 'ada'){
-                icon_like.className = 'fa-regular fa-thumbs-up';
-                total_suka.innerHTML = total_suka_val-1
-                status_like.value = "tidak ada"
-            } else {
-                icon_like.className = 'fa-solid fa-thumbs-up';
-                total_suka.innerHTML = total_suka_val+1
-                status_like.value = "ada"
-            }
-
-            const data = new URLSearchParams({
-                review_suka: idReview,
-                isLiked: status_like_val
-            });
-
-
-            fetch('/project name/Pencari/KostPage', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: data
-            })
-            .then(response => response.text())
-        }
-
-        function capitalizeFirstLetter(input) {
-            return input
-                .toLowerCase() 
-                .split(' ') 
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
-                .join(' '); 
-        }
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            try {
-                const elements = document.querySelectorAll('p[data-kota][data-provinsi]');
-                const provinces = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
-                    .then(response => response.json());
-
-                elements.forEach(async (element) => {
-                    const provinceId = element.getAttribute('data-provinsi');
-                    const cityId = element.getAttribute('data-kota');
-
-                    const province = provinces.find(prov => prov.id == provinceId);
-                    const provinceName = province ? province.name : 'Provinsi tidak ditemukan';
-
-                    const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
-                        .then(response => response.json());
-
-                    const city = cities.find(cty => cty.id == cityId);
-                    const cityName = city ? city.name : 'Kota tidak ditemukan';
-
-                    element.textContent = `${capitalizeFirstLetter(cityName)}, ${capitalizeFirstLetter(provinceName)}`;
+            if (toggleBoxBtn){
+                toggleBoxBtn.addEventListener("click", function() {
+                    box.classList.remove('hidden');
+                    box.classList.remove("box-exit");
+                    box.classList.add("box-enter");
+                    document.body.classList.add("no-scroll");
                 });
-            } catch (error) {
-                console.error('Terjadi kesalahan:', error);
+        
+                close_chat.addEventListener('click', ()=>{
+                    box.classList.remove("box-enter");
+                    box.classList.add("box-exit");
+                    setTimeout(() => {
+                        box.classList.add('hidden');
+                        document.body.classList.remove("no-scroll");
+                    }, 500);
+                })
             }
-        });
+            
+            if (isLogin == 'login'){
+                function toggleLike(idReview) {
+                    const icon_like = document.getElementById(`icon_sukaUlasan_${idReview}`);
+                    const total_suka = document.getElementById(`total_suka_${idReview}`);
+                    const status_like = document.getElementById(`status_${idReview}`);
+                    const status_like_val = status_like.value;
+                    let total_suka_val = parseInt(total_suka.textContent);
+        
+                    if (status_like_val == 'ada'){
+                        icon_like.className = 'fa-regular fa-thumbs-up';
+                        total_suka.innerHTML = total_suka_val-1
+                        status_like.value = "tidak ada"
+                    } else {
+                        icon_like.className = 'fa-solid fa-thumbs-up';
+                        total_suka.innerHTML = total_suka_val+1
+                        status_like.value = "ada"
+                    }
+        
+                    const data = new URLSearchParams({
+                        review_suka: idReview,
+                        isLiked: status_like_val
+                    });
+        
+        
+                    fetch('/<?= PROJECT_NAME?>/Pencari/KostPage', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: data
+                    })
+                    .then(response => response.text())
+                }
+            }
+    
+            function capitalizeFirstLetter(input) {
+                return input
+                    .toLowerCase() 
+                    .split(' ') 
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+                    .join(' '); 
+            }
+    
+            document.addEventListener("DOMContentLoaded", async () => {
+                try {
+                    const elements = document.querySelectorAll('p[data-kota][data-provinsi]');
+                    const provinces = await fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                        .then(response => response.json());
+    
+                    elements.forEach(async (element) => {
+                        const provinceId = element.getAttribute('data-provinsi');
+                        const cityId = element.getAttribute('data-kota');
+    
+                        const province = provinces.find(prov => prov.id == provinceId);
+                        const provinceName = province ? province.name : 'Provinsi tidak ditemukan';
+    
+                        const cities = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`)
+                            .then(response => response.json());
+    
+                        const city = cities.find(cty => cty.id == cityId);
+                        const cityName = city ? city.name : 'Kota tidak ditemukan';
+    
+                        element.textContent = `${capitalizeFirstLetter(cityName)}, ${capitalizeFirstLetter(provinceName)}`;
+                    });
+                } catch (error) {
+                    console.error('Terjadi kesalahan:', error);
+                }
+            });
+        }
 
         const gambar = document.getElementById('gambar')
         const tableView = document.getElementById('tableView')
@@ -648,151 +698,129 @@
             }
         });
 
-        document.getElementById('tombolFavorit').addEventListener('click', () => {
-            const id_user_favorit = document.getElementById('id_user_favorit').value;
-            const id_kost_favorit = document.getElementById('id_kost_favorit').value;
-            const favorit_form = document.getElementById('favoritForm');
-            let isFavorited = document.getElementById('isFavorited').value; 
-            
-            if(isFavorited == 'ada'){   
-                isFavorited = 'tidak ada'; 
-            }else {
-                isFavorited = 'ada';
-            }
-
-            const icon = document.getElementById('favoritIcon');
-            const text = document.getElementById('favoritText');
-
-            if (isFavorited === 'ada') {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid', 'text-red-600');
-                text.textContent = 'Disimpan';
-            } else {
-                icon.classList.remove('fa-solid', 'text-red-600');
-                icon.classList.add('fa-regular');
-                text.textContent = 'Simpan';
-            }
-            
-            document.getElementById('isFavorited').value = isFavorited;
-
-            const data = new URLSearchParams({
-                id_user_favorit: id_user_favorit,
-                id_kost_favorit: id_kost_favorit,
-                isFavorited: isFavorited
-            });
-            
-            fetch('/<?= PROJECT_NAME?>/Pencari/KostPage', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: data
-            })
-            .then(response => response.text())
-        });
-
-
-
-        flatpickr("#datepicker", {
-            minDate: "today",
-            onOpen: function(selectedDates, dateStr, instance) {
-                const calendarContainer = instance.calendarContainer;
-                const titleElement = document.createElement('div');
-                titleElement.classList.add('calendar-title', 'text-center', 'font-semibold', 'text-lg', 'mb-2');
+        if (isLogin == 'login'){
+            document.getElementById('tombolFavorit').addEventListener('click', () => {
+                const id_user_favorit = document.getElementById('id_user_favorit').value;
+                const id_kost_favorit = document.getElementById('id_kost_favorit').value;
+                const favorit_form = document.getElementById('favoritForm');
+                let isFavorited = document.getElementById('isFavorited').value; 
                 
-                titleElement.innerHTML = 'Ingin mulai <br> kost tanggal berapa?';
-                if (!calendarContainer.querySelector('.calendar-title')) {
-                    calendarContainer.insertBefore(titleElement, calendarContainer.firstChild);
+                if(isFavorited == 'ada'){   
+                    isFavorited = 'tidak ada'; 
+                }else {
+                    isFavorited = 'ada';
                 }
-            }   
-        });
+    
+                const icon = document.getElementById('favoritIcon');
+                const text = document.getElementById('favoritText');
+    
+                if (isFavorited === 'ada') {
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid', 'text-red-600');
+                    text.textContent = 'Disimpan';
+                } else {
+                    icon.classList.remove('fa-solid', 'text-red-600');
+                    icon.classList.add('fa-regular');
+                    text.textContent = 'Simpan';
+                }
+                
+                document.getElementById('isFavorited').value = isFavorited;
+    
+                const data = new URLSearchParams({
+                    id_user_favorit: id_user_favorit,
+                    id_kost_favorit: id_kost_favorit,
+                    isFavorited: isFavorited
+                });
+                
+                fetch('/<?= PROJECT_NAME?>/Pencari/KostPage', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: data
+                })
+                .then(response => response.text())
+            });
 
-        const tombol_lapor = document.getElementById('tombol_melapor')
-        const report = document.getElementById('report')
-        const close_report = document.getElementById('close_report')
-        const contain_report = document.getElementById('contain_report')
-        const checkbox = document.querySelectorAll('input[type="checkbox"]');
-        const textarea = document.getElementById('detail_laporan');
-        const laporkan = document.getElementById('laporkan')
-
-        const popup_harus_login = document.getElementById('popup_harus_login');
-        const box_harus_login = document.getElementById('box_harus_login');
-        const button_arah_login = document.getElementById('button_arah_login');
-        const close_popUp_login = document.getElementById('close_popUp_login');
-
-        close_payment.addEventListener('click', ()=>{
-            box_pesan.classList.remove('scale-100')
-            box_pesan.classList.add('scale-0')
-            setTimeout(()=>{
-                popup_pesan.classList.add('hidden')
-            }, 300)
-            
-        })
-
-        tombol_lapor.addEventListener('click', ()=>{
-            if(isLogin == "login"){
+            const tombol_lapor = document.getElementById('tombol_melapor')
+            const report = document.getElementById('report')
+            const close_report = document.getElementById('close_report')
+            const contain_report = document.getElementById('contain_report')
+            const checkbox = document.querySelectorAll('input[type="checkbox"]');
+            const textarea = document.getElementById('detail_laporan');
+            const laporkan = document.getElementById('laporkan')
+    
+            const popup_harus_login = document.getElementById('popup_harus_login');
+            const box_harus_login = document.getElementById('box_harus_login');
+            const button_arah_login = document.getElementById('button_arah_login');
+            const close_popUp_login = document.getElementById('close_popUp_login');
+    
+            close_payment.addEventListener('click', ()=>{
+                box_pesan.classList.remove('scale-100')
+                box_pesan.classList.add('scale-0')
+                setTimeout(()=>{
+                    popup_pesan.classList.add('hidden')
+                }, 300)
+                
+            })
+    
+            tombol_lapor.addEventListener('click', ()=>{
                 report.classList.remove('hidden')
                 setTimeout(()=>{
                     contain_report.classList.remove('scale-0')
                     contain_report.classList.add('scale-100')
                 }, 50)
-            } else {
-                popup_harus_login.classList.remove('hidden')
+            })
+    
+            close_report.addEventListener('click', ()=>{
+                contain_report.classList.remove('scale-100')
+                contain_report.classList.add('scale-0')
                 setTimeout(()=>{
-                    box_harus_login.classList.remove('scale-0')
-                    box_harus_login.classList.add('scale-100')
-                }, 50)
-            }
-        })
+                    report.classList.add('hidden')
+                }, 300)
+            })
 
-        close_report.addEventListener('click', ()=>{
-            contain_report.classList.remove('scale-100')
-            contain_report.classList.add('scale-0')
-            setTimeout(()=>{
-                report.classList.add('hidden')
-            }, 300)
-        })
-
-        button_arah_login.addEventListener('click', ()=>{
-            window.location.href = "/project_paw/account/login";
-        })
-
-        close_popUp_login.addEventListener('click', ()=>{
-            box_harus_login.classList.remove('scale-100')
-            box_harus_login.classList.add('scale-0')
-            setTimeout(()=>{
-                popup_harus_login.classList.add('hidden')
-            }, 300)
-        })
-
-
-        function validasiFromLaporan() {
-
-            let pilih_checkbox = false;
-
-            checkbox.forEach(checkboxs => {
-                if (checkboxs.checked) {
-                    pilih_checkbox = true;
-                }
-            });
-
-            if (pilih_checkbox && textarea.value !== '') {
-                laporkan.disabled = false; 
-            } else {
-                laporkan.disabled = true; 
-            }
-        }
-
-        const sudah_lapor = '<?= $data["sudah_lapor"] ? "sudah": "belum";?>';
-
-        if(!sudah_lapor == "belum"){
             window.onload = () => {   
                 checkbox.forEach(checkboxs => {
                     checkboxs.addEventListener('change', validasiFromLaporan); 
                 });
-    
-                textarea.addEventListener('input', validasiFromLaporan);
+
+                textarea.addEventListener('input', validasiFromLaporan)
                 validasiFromLaporan(); 
             };
+
+            function validasiFromLaporan() {
+    
+                let pilih_checkbox = false;
+    
+                checkbox.forEach(checkboxs => {
+                    if (checkboxs.checked) {
+                        pilih_checkbox = true;
+                    }
+                });
+                
+                if (pilih_checkbox && textarea.value !== '') {
+                    laporkan.disabled = false; 
+                } else {
+                    laporkan.disabled = true; 
+                }
+            }
+    
         }
+        
+        if(isLogin == "login"){
+            const sudah_lapor = '<?= $sudah_lapor?>';
+    
+            if(!sudah_lapor == "belum"){
+                window.onload = () => {   
+                    checkbox.forEach(checkboxs => {
+                        checkboxs.addEventListener('change', validasiFromLaporan); 
+                    });
+        
+                    textarea.addEventListener('input', validasiFromLaporan);
+                    validasiFromLaporan(); 
+                };
+            }
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const carousels = document.querySelectorAll('.carousel');

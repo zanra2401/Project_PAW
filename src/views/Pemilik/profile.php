@@ -12,7 +12,7 @@
     <?php require "./views/Components/sidebarPemilik.php" ?>
 
     <main class="overflow-scroll w-screen h-screen pb-10 p-5 flex-1">
-        <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-user"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i></span>
+        <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-user"></i> <a href="">Profile</a> <i class="fas fa-chevron-right mr-2"></i></span>
         <div class="bg-white mt-5 rounded-xl mx-auto shadow-lg">
             <div class="flex">
                 <div class="w-full">

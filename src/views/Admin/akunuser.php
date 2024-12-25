@@ -44,13 +44,13 @@
                 <tr data-category="Pemilik" data-blocked="false">
                   <td class="px-6 py-4"></td>
                   <td class="px-6 py-4">$i</td>
-                  <td class="px-6 py-4">{$user['nama_user']}</td>
+                  <td class="px-6 py-4">{$user['username_user']}</td>
                   <td class="px-6 py-4">{$user['email_user']}</td>
                   <td class="px-6 py-4">{$user['role_user']}</td>
                   <td class="px-6 py-4">
               EOD;
 
-              if ($user['status_akun'] == "unbanned") {
+              if ($user['status_akun'] != "banned") {
                 echo <<<EOD
                       <a href="/project_paw/admin/ban/{$user['id_user']}" class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600">Ban</a>
                     EOD;

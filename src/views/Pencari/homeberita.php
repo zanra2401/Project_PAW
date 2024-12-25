@@ -31,62 +31,41 @@
         <div id="default-carousel" class="relative h-[600px]" data-carousel="slide">
             <div class="relative h-full w-full overflow-hidden rounded-lg">
             <?php 
-            foreach($data_berita as $dat){
-                $full_description = $dat['deskripsi_berita'];
+                $temp = 0;
+                foreach($data_berita as $dat){
+                    if ($temp == 3){
+                        break;
+                    }
+                    $full_description = $dat['deskripsi_berita'];
 
-                // Batasi deskripsi hanya beberapa kata (misalnya 20 kata)
-                $words = explode(' ', $full_description); // Pisahkan menjadi array kata
-                $short_description = implode(' ', array_slice($words, 0, 30)); // Ambil 20 kata pertama
+                    $path_gambar = "/" . PROJECT_NAME . $dat['cover_berita'];
+                    // Batasi deskripsi hanya beberapa kata (misalnya 20 kata)
+                    $words = explode(' ', $full_description); // Pisahkan menjadi array kata
+                    $short_description = implode(' ', array_slice($words, 0, 30)); // Ambil 20 kata pertama
 
-                // Tambahkan tanda "..." jika deskripsi lebih panjang dari 20 kata
-                if (count($words) > 30) {
-                    $short_description .= '...';
-                echo <<< EDO
-                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                        <img src="{$dat['cover_berita']}" class="w-full h-full object-cover" alt="...">
-                        <a class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white p-6" href="/project_paw/pencari/isiberita/{$dat['id_berita']}">
-                            <div class="text-left pt-80">
-                                <h1 class="text-2xl font-bold mb-2 hover:underline">{$dat['judul_berita']}</h1>
-                                <p class="font-medium">
-                                    {$short_description}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+                    // Tambahkan tanda "..." jika deskripsi lebih panjang dari 20 kata
+                    if (count($words) > 30) {
+                        $short_description .= '...';
+                    }   
 
-                EDO;
-            }
-        }
+                    echo <<<EDO
+                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                            <img src="{$path_gambar}" class="w-full h-full object-cover" alt="...">
+                            <a class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white p-6" href="/project_paw/pencari/isiberita/{$dat['id_berita']}">
+                                <div class="text-left pt-80">
+                                    <h1 class="text-2xl font-bold mb-2 hover:underline">{$dat['judul_berita']}</h1>
+                                    <p class="font-medium">
+                                        {$short_description}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+
+                    EDO;
+                    $temp += 1;
+                }
+
             ?>
-                
-                <!-- <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://img-cdn.medkomtek.com/kLuDpHQs7teHMHqymx-Welh8TNQ=/730x411/smart/filters:quality(100):format(webp)/article/IRZLtNKeQMmdTel1M1KZP/original/019628000_1597821376-Tips-Mudah-Hidup-Sehat-untuk-Anak-Kost-yang-Jauh-dari-Orang-Tua-shutterstock_768948793.jpg?w=256&q=100" 
-                        class="w-full h-full object-cover" alt="...">
-                    <a class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white p-6" href="#">
-                        <div class="text-left pt-80">
-                            <h1 class="text-2xl font-bold mb-2 hover:underline">Tips Mudah Hidup Sehat untuk Anak Kost yang Jauh dari Orang Tua</h1>
-                            <p class="font-medium">
-                                Karena kesibukan dan mengurus segala sesuatunya sendiri, kesehatan tubuh terkadang dilupakan. 
-                                Lantas, bagaimana caranya agar tubuh tetap sehat tapi tidak ribet? Anak kost, yuk, simak tipsnya!
-                            </p>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="https://akcdn.detik.net.id/community/media/visual/2023/08/12/ilustrasi-rumah-kos-freepik_169.jpeg?w=700&q=90" 
-                        class="w-full h-full object-cover" alt="...">
-                    <a class="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center bg-black bg-opacity-50 text-white p-6" href="#">
-                        <div class="text-left pt-80">
-                            <h1 class="text-2xl font-bold mb-2 hover:underline">15 Barang yang Wajib Kamu Punya di Kos</h1>
-                            <p class="font-medium">
-                                Nah, buat kamu yang masih bingung untuk menentukan barang apa saja yang diperlukan dan wajib ada untuk anak kos. 
-                                Berikut dikutip dari Danacita, Rabu (10/1/2024), beberapa barang yang wajib kamu punya di kosan.
-                            </p>
-                        </div>
-                    </a>
-                </div> -->
-
             </div>
 
             <button type="button" class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
@@ -116,80 +95,41 @@
           <input 
             type="text" 
             class="w-full border border-gray-300 rounded-full px-4 py-2 pl-10 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
-            placeholder="Cari di sini...">
+            placeholder="Cari di sini..."
+            id="searchInput">
       </div>
     </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="allBerita" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php 
-                foreach($data_berita as $dat){
 
-                    $full_description = $dat['deskripsi_berita'];
-                    // Batasi deskripsi hanya beberapa kata (misalnya 20 kata)
-                    $words = explode(' ', $full_description); // Pisahkan menjadi array kata
-                    $short_description = implode(' ', array_slice($words, 0, 30)); // Ambil 20 kata pertama
-                    $project_name = PROJECT_NAME;
-                    // Tambahkan tanda "..." jika deskripsi lebih panjang dari 20 kata
-                    if (count($words) > 30) {
-                        $short_description .= '...';
+                $get = 1;
+                foreach($data_berita as $dat){
+                    if($get > 3){
+                        $full_description = $dat['deskripsi_berita'];
+                        // Batasi deskripsi hanya beberapa kata     (misalnya 20 kata)
+                        $words = explode(' ', $full_description); // Pisahkan menjadi array kata
+                        $short_description = implode(' ', array_slice($words, 0, 30)); // Ambil 20 kata pertama
+                        $project_name = PROJECT_NAME;
+                        // Tambahkan tanda "..." jika deskripsi lebih panjang dari 20 kata
+                        if (count($words) > 30) {
+                            $short_description .= '...';
+                        }
+                        echo <<< EDO
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                                <img src="/{$project_name}/{$dat['cover_berita']}" alt="Artikel 1" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text- font-bold  text-gray-800">{$dat['judul_berita']}</h3>
+                                    <p class="text-gray-600 mt-2">{$short_description}</p>
+                                    <a href="/project_paw/pencari/isiberita/{$dat['id_berita']}" class=" text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
+                                </div>
+                            </div>
+                        EDO;
                     }
-                    echo <<< EDO
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <img src="/{$project_name}/{$dat['cover_berita']}" alt="Artikel 1" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold  text-gray-800">{$dat['judul_berita']}</h3>
-                            <p class="text-gray-600 mt-2">{$short_description}</p>
-                            <a href="/project_paw/pencari/isiberita/{$dat['id_berita']}" class=" text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
-                        </div>
-                    </div>
-                    EDO;
+
+                    $get += 1;
                 
-            }
-                ?>
-        
-            <!-- <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Artikel 2" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Judul Artikel 2</h3>
-                    <p class="text-gray-600 mt-2">Deskripsi singkat tentang artikel 2 yang menarik perhatian pembaca.</p>
-                    <a href="#" class="text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
-                </div>
-            </div>
-        
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Artikel 3" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Judul Artikel 3</h3>
-                    <p class="text-gray-600 mt-2">Deskripsi singkat tentang artikel 3 yang menarik perhatian pembaca.</p>
-                    <a href="#" class="text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
-                </div>
-            </div>
-            
-             <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Artikel 3" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Judul Artikel 4</h3>
-                    <p class="text-gray-600 mt-2">Deskripsi singkat tentang artikel 4 yang menarik perhatian pembaca.</p>
-                    <a href="#" class="text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
-                </div>
-            </div>
-        
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Artikel 3" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Judul Artikel 4</h3>
-                    <p class="text-gray-600 mt-2">Deskripsi singkat tentang artikel 4 yang menarik perhatian pembaca.</p>
-                    <a href="#" class="text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
-                </div>
-            </div>
-        
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.rukita.co/buildings/building/f94aeed2-71b.jpg?tr=c-at_max%2Cw-3840" alt="Artikel 3" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-800">Judul Artikel 4</h3>
-                    <p class="text-gray-600 mt-2">Deskripsi singkat tentang artikel 4 yang menarik perhatian pembaca.</p>
-                    <a href="#" class="text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
-                </div>
-            </div> -->
+                }
+            ?>
         </div>
     </section>
 
@@ -222,7 +162,7 @@
                         /pencari/chatting/{$contact[0]['id_user']}" class="flex relative items-center group space-x-3 rounded-md p-4 hover:bg-gray-100 cursor-pointer border-b  ">
                                 <img src="{$image_path}" alt="Profile" class="w-10 h-10 rounded-full">
                                 <div class="flex-1">
-                                    <h3 class="text-lg font-medium ">{$contact[0]['username_user']}</h3>
+                                    <h3 class="text-lg font-medium judul_berita">{$contact[0]['username_user']}</h3>
                                 </div>
                         EOD;
                         if ($contact['unread'] > 0)
@@ -243,41 +183,98 @@
     <?php require './views/Components/FooterHomepage.php' ?>
     <script>
         // Ambil elemen input untuk pencarian
-        const searchInput = document.querySelector('input[placeholder="Cari di sini..."]');
+        // const searchInput = document.querySelector('input[placeholder="Cari di sini..."]');
 
         // Ambil semua kartu artikel
-        const articleCards = document.querySelectorAll(".grid > div");
+        // const articleCards = document.querySelectorAll(".grid > div");
 
-        // Tambahkan event listener untuk pencarian
-        searchInput.addEventListener("input", function () {
-            const searchQuery = this.value.toLowerCase(); // Ambil teks pencarian dan ubah ke huruf kecil
-            articleCards.forEach(card => {
-                const articleTitle = card.querySelector("h3").textContent.toLowerCase(); // Ambil judul artikel
-                const matchesSearch = articleTitle.includes(searchQuery); // Periksa apakah judul sesuai pencarian
-                card.style.display = matchesSearch ? "block" : "none"; // Tampilkan/sembunyikan kartu
-            });
-        });
+        // articleCards.forEach(card => {
+        //     const articleTitle = card.querySelectorAll("h3").textContent
+        //     console.log(articleTitle)
+        // });
+
+        // // Tambahkan event listener untuk pencarian
+        // searchInput.addEventListener("input", function () {
+        //     const searchQuery = this.value.toLowerCase(); 
+        //     articleCards.forEach(card => {
+        //         const articleTitle = card.querySelector("h3").textContent.toLowerCase(); // Ambil judul artikel
+        //         const matchesSearch = articleTitle.includes(searchQuery); // Periksa apakah judul sesuai pencarian
+        //         card.style.display = matchesSearch ? "block" : "none"; // Tampilkan/sembunyikan kartu
+        //     });
+        // });
 
         const toggleBoxBtn = document.getElementById("chat_button");
         const box = document.getElementById("box");
         const content = document.getElementById("content");
         const close_chat = document.getElementById('close_chat');
 
-        toggleBoxBtn.addEventListener("click", function() {
-            box.classList.remove('hidden');
-            box.classList.remove("box-exit");
-            box.classList.add("box-enter");
-            document.body.classList.add("no-scroll");
-        });
+        // toggleBoxBtn.addEventListener("click", function() {
+        //     box.classList.remove('hidden');
+        //     box.classList.remove("box-exit");
+        //     box.classList.add("box-enter");
+        //     document.body.classList.add("no-scroll");
+        // });
 
-        close_chat.addEventListener('click', ()=>{
-            box.classList.remove("box-enter");
-            box.classList.add("box-exit");
-            setTimeout(() => {
-                box.classList.add('hidden');
-                document.body.classList.remove("no-scroll");
-            }, 500);
-        })
+        // close_chat.addEventListener('click', ()=>{
+        //     box.classList.remove("box-enter");
+        //     box.classList.add("box-exit");
+        //     setTimeout(() => {
+        //         box.classList.add('hidden');
+        //         document.body.classList.remove("no-scroll");
+        //     }, 500);
+        // })
+
+        searchInput.addEventListener('keyup', () => {
+            fetch('/<?= PROJECT_NAME ?>/pencari/cariberita', {
+                method: 'POST', // HTTP method
+                headers: {
+                    'Content-Type': 'application/json', // Sending JSON data
+                },
+                body: JSON.stringify({
+                    "search" : searchInput.value
+                }) // Stringify the data for transmission
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    let get = 1;
+                    dataBerita = ``;
+                    data.forEach((dat) => {
+                       
+                        let fullDescription = dat.deskripsi_berita;
+
+                        // Limit the description to 30 words
+                        let words = fullDescription.split(" ");
+                        let shortDescription = words.slice(0, 30).join(" ");
+                        if (words.length > 30) {
+                            shortDescription += "...";
+                        }
+
+
+                        dataBerita += `
+                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                            <img src="/<?= PROJECT_NAME ?>/${dat.cover_berita}" alt="Article ${dat.id_berita}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="font-bold text-gray-800">${dat.judul_berita}</h3>
+                                <p class="text-gray-600 mt-2">${shortDescription}</p>
+                                <a href="/<?= PROJECT_NAME ?>/pencari/isiberita/${dat.id_berita}" class="text-blue-600 font-bold hover:underline mt-4 inline-block">Baca Selengkapnya →</a>
+                            </div>
+                        </div>`;
+
+                        
+
+                        get += 1;
+                    });
+                    allBerita.innerHTML = dataBerita;
+                })
+                .catch(error => {
+                    console.log(`<p style="color: red;">Error: ${error.message}</p>`);
+                });
+        });
     </script>
 </body>
 <?php require './views/Components/Foot.php' ?>

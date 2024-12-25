@@ -20,13 +20,13 @@
         <form action="/<?= PROJECT_NAME ?>/admin/loginadmin" method="POST">
             <div class="mb-4">
                 <label for="username" class="block text-gray-700 font-medium mb-2">Username</label>
-                <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="username" required>
+                <input type="text" id="username" name="username" class="bg-white border border-black text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5" placeholder="username" required>
             </div>
             <div class="mb-4">
                 <label for="password" class="block text-gray-700 font-medium mb-2">Password</label>
-                <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="password" required>
+                <input type="password" id="password" name="password" class="bg-white border border-black text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5"  placeholder="password" required>
             </div>
-            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+            <button type="submit" class="w-full text-white py-2 px-4 rounded-md hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2 " style="background-color:#83493d;">
                 Masuk
             </button>
         </form>

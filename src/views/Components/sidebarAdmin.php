@@ -88,7 +88,7 @@
           </span>
     </button>
 
-    <div id="logoutModal" class="fixed inset-0 z-40 bg-gray-500 bg-opacity-50 flex justify-center items-center hidden">
+    <div id="logoutModal" class="absolute inset-0 z-50 bg-opacity-50 flex justify-center items-center hidden">
         <div class="bg-white p-6 rounded-md shadow-lg w-1/3">
             <h2 class="text-xl font-bold mb-4">Konfirmasi Logout</h2>
             <p>Apakah Anda yakin ingin logout?</p>

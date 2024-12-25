@@ -22,6 +22,12 @@ class PencariModel
         return $data;
     }
 
+    function searchBerita($search)
+    {
+        $this->DB->query("SELECT * FROM berita WHERE judul_berita LIKE '%$search%'");
+        return $this->DB->getAll();
+    }
+
     function getOneBerita($id){
         $data = [];
         $this->DB->query("SELECT * FROM berita WHERE id_berita=$id");
@@ -167,7 +173,7 @@ class PencariModel
 
             $this->DB->query("SELECT COUNT(*) AS total_kamar FROM kamar WHERE id_kost = {$kost['id_kost']} AND status_kamar = 'kosong'");
             $kamar = $this->DB->getAll();
-            $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];;
+            $data[$kost['id_kost']]['sisa_kamar'] = $kamar[0]['total_kamar'];
 
             $this->DB->query("SELECT g.path_gambar FROM gambar_kost as g WHERE g.id_kost = {$kost['id_kost']}");
             $gambar = $this->DB->getAll();
@@ -228,12 +234,12 @@ class PencariModel
     function getProfie($id)
     {
         $data = [];
-        $this->DB->query("SELECT profile_user FROM user WHERE role_user = 'pencari' AND id_user = $id");
+        $this->DB->query("SELECT profile_user FROM user WHERE id_user = $id");
         $path_profile = $this->DB->getAll();
         foreach($path_profile as $pp)
         {
             $data = $pp;
-        }
+        };
 
         return $data;
     }
@@ -523,7 +529,6 @@ class PencariModel
         return $this->DB->getFirst();
     }
 
-
     function getContact()
     {
         $data = [];
@@ -650,7 +655,6 @@ class PencariModel
         $this->DB->query("SELECT isi_pertanyaan, id_pertanyaan FROM pertanyaan");
         $result = $this->DB->getAll();
         
-        
         if (empty($result)){ 
             return $data;
         } else {
@@ -703,19 +707,43 @@ class PencariModel
 
         $data = [];
         $this->DB->query("
-            SELECT k.nama_kost, k.harga_kost, t.tanggal_dipesan_transaksi
+            SELECT t.id_kost, k.nama_kost, k.harga_kost, 
+                (SELECT gk.path_gambar 
+                    FROM gambar_kost AS gk 
+                    WHERE gk.id_kost = k.id_kost 
+                    LIMIT 1) AS gambar_kost,
+                t.tanggal_dipesan_transaksi
             FROM transaksi AS t
             INNER JOIN kost AS k ON t.id_kost = k.id_kost
-            WHERE t.id_user_pencari = $id_user AND t.status_transaksi = 'settlement'
+            WHERE t.id_user_pencari = $id_user 
+            AND t.status_transaksi = 'settlement'
         ");
+    
 
         $result = $this->DB->getAll();
         foreach($result as $res)
         {
+            $this->DB->query("SELECT * FROM review WHERE id_kost = {$res['id_kost']} AND id_user = $id_user");
+            $result = $this->DB->getAll();
+            if($result){
+                $res['status'] = 'sudah';
+            } else {
+                $res['status'] = 'belum';
+            }
+
             $data[] = $res;
+
         }
 
-        return $result;
+        return $data;
+    }
+
+    function addReview($isi, $id_user, $id_kost)
+    {
+        date_default_timezone_set('Asia/Jakarta'); 
+        $time_now = date('Y-m-d H:i:s');
+
+        $this->DB->query("INSERT INTO review (tanggal_review, isi_review, id_kost, id_user) VALUES (?, ?, ?, ?)", "ssii", [$time_now, $isi, $id_kost, $id_user]);
     }
 
     function tambahPertanyaan($post)
@@ -724,5 +752,40 @@ class PencariModel
         $current_datetime = date('Y-m-d H:i:s');
         $this->DB->query("INSERT INTO pertanyaan (tanggal_pertanyaan, isi_pertanyaan, id_user) VALUES(?, ?, ?)", "ssi", [$current_datetime, $post['pertanyaan_user'], $_SESSION['id_user']]);
         return true;
+    }
+
+    function getAllKamar($id)
+    {
+        $this->DB->query("SELECT lokasi_kamar,  GROUP_CONCAT(CONCAT(nomor_kamar, '|', status_kamar)) AS kamar_status_array FROM kamar WHERE id_kost = $id GROUP BY lokasi_kamar;");
+        $data = $this->DB->getAll();
+
+        $finalResult = [];
+
+        foreach ($data as $row) {
+            $kamarStatus = explode(',', $row['kamar_status_array']); // Pisahkan data GROUP_CONCAT
+            $kamarArray = [];
+        
+            foreach ($kamarStatus as $kamar) {
+                list($nomor, $status) = explode('|', $kamar); // Pisahkan nomor dan status
+                $kamarArray[] = [(int)$nomor, $status];
+            }
+        
+            $finalResult[$row['lokasi_kamar']] = $kamarArray;
+        }
+        
+        return $finalResult;
+    }
+
+    function getReadNotifikasi($id_pengumuman, $id_user)
+    {   
+        $this->DB->query("INSERT INTO pengumuman_dibaca (id_user, id_pengumuman) VALUES (?, ?)", "ii", [$id_user, $id_pengumuman]);
+    }
+
+    function cekSudahDIbaca($id_user)
+    {
+        $this->DB->query("SELECT id_pengumuman FROM pengumuman_dibaca WHERE id_user = $id_user");
+        $result = $this->DB->getAll();
+
+        return $result;
     }
 }

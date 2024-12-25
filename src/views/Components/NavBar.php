@@ -1,6 +1,6 @@
 <nav id="navbar" class="w-screen flex h-20 fixed z-50 transition-all duration-300 bg-transparent">
     <div class="w-[90%] mx-auto flex h-full items-center pr-5">
-        <a href="/project_paw" class="self-center">
+        <a href="/project_paw/pencari/homepage" class="self-center">
             <img src="<?= ASSETS ?>image/logo.png" class="w-12" alt="">
         </a>
         <h1 class="font-medium text-base-color text-w text-2xl ml-2 font-Roboto-medium self-center">Cari Kost</h1>
@@ -11,17 +11,16 @@
                         <i class="fa-regular fa-heart"></i>
                         Favorit
                     </a>
+                    <a href="/project_paw/pencari/notifikasi" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400" >
+                        <i class="fa-regular fa-bell"></i>
+                        Notifikasi
+                    </a>
                 <?php endif;?>
                 <a href="/project_paw/pencari/homeberita" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400" >
                     <i class="fa-regular fa-newspaper"></i>
                     Berita
                 </a>
-                <?php if(isset($_SESSION["loged_in"])):?>
-                    <a href="/project_paw/pencari/notifikasi" class="font-medium text-lg text-gray-800 hover:text-warna-second pr-5 border-r border-gray-400">
-                        <i class="fa-regular fa-bell"></i>
-                        Notifikasi
-                    </a>
-                <?php endif;?>
+                    
                 <div class="relative group inline-block">
                     <button class="flex items-center space-x-1 group-hover:rotate-0 transition-transform group-hover:text-warna-second font-medium text-lg text-gray-800">
                         <span>Lainnya</span>
@@ -91,7 +90,7 @@
 
     function confirmLogout() {
         // Lakukan aksi logout, misalnya mengarahkan ke halaman logout
-        window.location.href = '/<?= PROJECT_NAME ?>/account/logout';  // Ganti dengan URL logout sesuai aplikasi Anda
+        window.location.href = '/<?= PROJECT_NAME ?>/account/keluar';  // Ganti dengan URL logout sesuai aplikasi Anda
     }
 
     const navbar = document.getElementById('navbar');

@@ -166,7 +166,7 @@ class AdminModel
 
     function uploadPengumuman($post)
     {
-        $this->DB->query("INSERT INTO pengumuman(tipe_pengumuman, isi_pengumuman, tanggal_pengumuman, id_admin, judul_pengumuman) VALUES (?, ?, NOW(), ?, ?)", "ssis", [$post['tipe_pengumuman'], $post['isi_pengumuman'], $_SESSION['id_admin'], $post['judul_pengumuman']]);
+        $this->DB->query("INSERT INTO pengumuman(tipe_pengumuman, isi_pengumuman, tanggal_pengumuman, id_admin, judul_pengumuman) VALUES (?, ?, NOW(), ?, ?)", "ssis", [$post['tipe_pengumuman'], $post['isi_pengumuman'], $_SESSION['id_user'], $post['judul_pengumuman']]);
         return true;
     }
 
@@ -183,7 +183,18 @@ class AdminModel
         } else {
             $this->DB->query("SELECT * FROM pengumuman WHERE judul_pengumuman LIKE ?", "s", [$param]);
         }
-        return $this->DB->getAll();
+        $data = [];
+        $result = $this->DB->getAll();
+
+        foreach ($result as $key => $item)
+        {
+            $data[$key] = [];
+            $data[$key]['data_pengumuman'] = $item;
+            $this->DB->query("SELECT nama_admin, username_admin FROM admin WHERE id_admin = {$item['id_admin']}");
+            $admin  = $this->DB->getFirst(); 
+            $data[$key]['pengirim'] = $admin;
+        }
+        return $data;
     }
 
 
@@ -228,7 +239,7 @@ class AdminModel
 
     function unBanUser($id)
     {
-        $this->DB->query("UPDATE user SET status_akun = 'unbanned' WHERE id_user = ?", 's', [(int)$id]);
+        $this->DB->query("UPDATE user SET status_akun = 'aktif' WHERE id_user = ?", 's', [(int)$id]);
     }
 
     function getAllTransaksi()
@@ -266,5 +277,4 @@ class AdminModel
     function hapusBerita($idBerita){
         $this->DB->query("DELETE FROM berita WHERE id_berita = ?" , "i",[$idBerita]);
     }
-    
 }

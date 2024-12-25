@@ -7,6 +7,8 @@
     }
     
     $data_profile = isset($data['profile']['profile_user'])? $data['profile']['profile_user']: '';
+
+    $isLogin = isset($_SESSION["loged_in"])? 'login': 'belom';
     
 ?>
 <body>
@@ -18,45 +20,53 @@
         <p class="mt-4 text-center sm:text-bold px-4">
             Bingung Mau Cari Kost Dimana? Disini Aja! Cari kost jadi lebih mudah, cepat, dan hemat waktu.
         </p>
-        <div class="flex bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 80%; gap:10px;">
-            <div class="relative w-1/2 field-inputan-search">
-                <input name="lokasi_nama" id="nama_lokasi" type="text" placeholder="Cari lokasi atau nama kost.." class="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second">
-                <i class="fas fa-location-dot absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-            </div>
-            <div class="relative">
-                <button id="dropdownButton" type="button" class="inline-flex justify-between w-full min-w-[160px] p-3 pl-10 pr-8 border border-gray-300 bg-white rounded-full shadow-md focus:outline-none focus:ring focus:ring-blue-300 items-center">
-                    <span id="dropdownSelected" class="text-gray-700">Pilih Tipe</span>
-                    <i class="fas fa-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                    <i class="fas fa-caret-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                </button>
-                <div id="dropdownMenu" class="absolute hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 mt-2 w-full rounded-2xl z-10">
-                    <div class="py-1">
-                        <div class="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer dropdown-item" data-value="Putra">
-                            <i class="fas fa-person text-gray-500 mr-3"></i>
-                            <span class="text-gray-700">Kost Putra</span>
-                        </div>
-                        <div class="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer dropdown-item" data-value="Putri">
-                            <i class="fas fa-person-dress text-gray-500 mr-3"></i>
-                            <span class="text-gray-700">Kost Putri</span>
+        <div class="flex p-4 bg-white mx-auto rounded-full mt-[20px] justify-center items-center search-bar" style="height: 70px; width: 820px; gap:10px;">
+            <div class="w-full flex justify-center gap-2">
+                <div class="relative w-1/2 field-inputan-search">
+                    <input name="lokasi_nama" id="nama_lokasi" type="text" placeholder="Cari lokasi atau nama kost.." class="w-full p-3 pl-10 border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring focus:ring-warna-second">
+                    <i class="fas fa-location-dot absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                </div>
+                <div class="relative">
+                    <button id="dropdownButton" type="button" class="inline-flex justify-between w-full min-w-[160px] p-3 pl-10 pr-8 border border-gray-300 bg-white rounded-full shadow-md focus:outline-none focus:ring focus:ring-blue-300 items-center">
+                        <span id="dropdownSelected" class="text-gray-700">Pilih Tipe</span>
+                        <i class="fas fa-house absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                        <i class="fas fa-caret-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    </button>
+                    <div id="dropdownMenu" class="absolute hidden bg-white shadow-lg ring-1 ring-black ring-opacity-5 mt-2 w-full rounded-2xl z-10">
+                        <div class="py-1">
+                            <div class="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer dropdown-item" data-value="Putra">
+                                <i class="fas fa-person text-gray-500 mr-3"></i>
+                                <span class="text-gray-700">Kost Putra</span>
+                            </div>
+                            <div class="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer dropdown-item" data-value="Putri">
+                                <i class="fas fa-person-dress text-gray-500 mr-3"></i>
+                                <span class="text-gray-700">Kost Putri</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <input type="hidden" name="tipe" id="dropdownValue"> 
-            <div class="relative">
-                <button type="submit" name="find" class="inline-flex justify-center w-full p-3 pl-10 pr-8 borde rounded-full shadow-md tombol-search hover:opacity-70" style="background-color: #83493d; color:#fff;">
-                    <span class="temukan-kost">Temukan Kost</span>
+                <input type="hidden" name="tipe" id="dropdownValue"> 
+                <button type="submit" name="find" class=" rounded-full hover:opacity-80 tombol-search" style="background-color: #83493d; color:#fff;">
+                    <div class="flex gap-2 items-center px-5">
+                        <i class="fas fa-search logo-search"></i>
+                        <span class="temukan-kost">Temukan Kost</span>
+                    </div>
                 </button>
-                <i class="fas w-20 fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-white cursor-pointer logo-search"></i>
-            </div>
-            <div class="relative logo-menu">
-                <button type="button" class="w-full p-3 rounded-full hover:opacity-70" id="filter_button"><i class="fas fa-sliders top-1/2 transform text-gray-500 "></i></button>
+                <!-- <div class="relative">
+                    <button type="submit" name="find" class="inline-flex justify-center w-full p-3 pl-10 pr-8 borde rounded-full shadow-md tombol-search hover:opacity-70" style="background-color: #83493d; color:#fff;">
+                        <span class="temukan-kost">Temukan Kost</span>
+                    </button>
+                    <i class="fas w-20 fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-white cursor-pointer logo-search"></i>
+                </div> -->
+                <div class="relative logo-menu">
+                    <button type="button" class="w-full p-3 rounded-full hover:opacity-70" id="filter_button"><i class="fas fa-sliders top-1/2 transform text-gray-500 "></i></button>
+                </div>
             </div>
         </div>
     </div>
     
     <div id="filter" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
-        <div class="bg-white rounded shadow-lg w-1/2 transition-all duration-300 transform scale-0 h-[80%]" id="contain_filter">
+        <div class="bg-white rounded shadow-lg w-1/2 transition-all duration-300 transform scale-0" id="contain_filter">
             <div class="grid grid-cols-2 p-6">
                 <button class="text-gray-700 hover:opacity-70 " id="close_filter" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7">
@@ -179,11 +189,11 @@
                                     $imagePath = $path . $gambar['path_gambar'];
                                     echo <<<EOD
                                         <li class="carousel-slide current-slide w-full h-40 overflow-hidden">
-                                            <img src="{$imagePath}" alt="Image 1" class="object-fit">
+                                            <img src="{$imagePath}" alt="Image 1" class="h-full object-cover">
                                         </li>
                                     EOD;
                                 }
-                        
+                                $nama_kost = strtoupper($kost['data_kost']['nama_kost']);
                         echo <<<EOD
                                         </ul>
                                     </div>
@@ -207,11 +217,11 @@
 
                                 </div>
 
-                                <div class="flex items-center mt-2">
-                                    <p class="border-zinc-950 border rounded-lg shadow-lg" style="padding: 10px; width: 60px;">{$kost['data_kost']['tipe_kost']}</p>
+                                <div class="flex items-center mt-4">
+                                    <p class="border-[#83493d] border rounded-md px-3 py-2" style="width: 60px;">{$kost['data_kost']['tipe_kost']}</p>
                                     <p style="margin-left:10px; font-style:italic; color:red;">Sisa {$kost['sisa_kamar']} kamar</p>
                                 </div>
-                                <h2 class="mt-4 text-sm text-black font-bold">{$kost['data_kost']['nama_kost']}</h2>
+                                <h2 class="mt-4 text-sm text-black font-bold">{$nama_kost}</h2>
                                  <p data-kota="{$kost['data_kost']['kota_kost']}" data-provinsi="{$kost['data_kost']['provinsi_kost']}">
                                     Loading...
                                 </p>
@@ -275,28 +285,35 @@
 
     <?php require './views/Components/FooterHomepage.php' ?>
     <script>
-        const toggleBoxBtn = document.getElementById("chat_button");
-        const box = document.getElementById("box");
-        const content = document.getElementById("content");
-        const close_chat = document.getElementById('close_chat');
+        const islogin_js = '<?= $isLogin?>';
+    
+        if (islogin_js == 'login'){
+            const toggleBoxBtn = document.getElementById("chat_button");
+            const box = document.getElementById("box");
+            const content = document.getElementById("content");
+            const close_chat = document.getElementById('close_chat');
+    
+            toggleBoxBtn.addEventListener("click", function() {
+                box.classList.remove('hidden');
+                box.classList.remove("box-exit");
+                box.classList.add("box-enter");
+                document.body.classList.add("no-scroll");
+            });
+    
+            close_chat.addEventListener('click', ()=>{
+                box.classList.remove("box-enter");
+                box.classList.add("box-exit");
+                setTimeout(() => {
+                    box.classList.add('hidden');
+                    document.body.classList.remove("no-scroll");
+                }, 500);
+            })
 
-        toggleBoxBtn.addEventListener("click", function() {
-            box.classList.remove('hidden');
-            box.classList.remove("box-exit");
-            box.classList.add("box-enter");
-            document.body.classList.add("no-scroll");
-        });
-
-        close_chat.addEventListener('click', ()=>{
-            box.classList.remove("box-enter");
-            box.classList.add("box-exit");
-            setTimeout(() => {
-                box.classList.add('hidden');
-                document.body.classList.remove("no-scroll");
-            }, 500);
-        })
-
-
+            
+            
+        }
+        
+        
         function capitalizeFirstLetter(input) {
             return input
                 .toLowerCase() 
@@ -375,9 +392,6 @@
             }, 300)
         })
 
-        function handleBack() {
-            alert('Filter ditutup!'); 
-        }
 
         function formatRupiah(input) {
             let value = input.value;

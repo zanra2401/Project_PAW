@@ -37,8 +37,8 @@ require './views/Components/Head.php';
             <div class="mb-4">
                 <label for="new-password" class="block text-sm font-medium text-gray-700">Password Baru</label>
                 <input type="password" id="new-password" name="new-password" placeholder="Masukkan Password Baru"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500 text-gray-900"
-                    required />
+                    class="bg-white border border-black text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5"
+                     />
             </div>
 
             <input type="text" name="token" value="<?= $data['token'] ?>" hidden>
@@ -49,14 +49,18 @@ require './views/Components/Head.php';
                     Baru</label>
                 <input type="password" id="confirm-password" name="confirm-password"
                     placeholder="Tulis Ulang Password Baru"
-                    class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-orange-500 focus:border-orange-500 text-gray-900"
-                    required />
+                    class="bg-white border border-black text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5"
+                     />
             </div>
 
             <button type="submit"
-                class="w-full text-[#000000] py-2 px-4 rounded-md bg-[#68422d] hover:bg-[#4e2f22] focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2">
+                class="w-full text-white py-2 px-4 rounded-md hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2" style="background-color:#83493d;">
                 Simpan
             </button>
+            <button onclick="window.history.back()" class="w-full mt-4 hover:text-gray-500">
+                Batal
+            </button>
+
         </form>
     </div>
 </body>

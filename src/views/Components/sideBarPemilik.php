@@ -2,7 +2,7 @@
       <!-- Header -->
       <div class="p-4 border-b">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 bg-gray-200 rounded-full"><img src="<?= "/" . PROJECT_NAME . "/" . $foto_profile?>" alt="" class="rounded-full w-full h-full"></div>
+          <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden"><img src="<?= "/" . PROJECT_NAME . "/" . $foto_profile?>" alt="" class="rounded-full object-cover"></div>
           <div>
             <p class="text-sm font-medium text-gray-800"><?= $data['data_user'][0]['username_user']?></p>
             <p class="text-xs text-gray-500"><?= $data['data_user'][0]['email_user']?></p>
@@ -10,22 +10,21 @@
         </div>
       </div>
       
-      
       <!-- Menu -->
       <nav class="p-4 space-y-2">
-        <a href="/<?= PROJECT_NAME ?>/pemilik/dashboard" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/pemilik/dashboard" class="flex <?= ($data['active-sidebar'] == "dashboard") ?  'bg-gray-200' : '' ?> items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-chart-simple text-warna-third text-[15px]"></i>
           <span class="ml-3">
             Dash Board
           </span>
         </a>
-        <a href="/<?= PROJECT_NAME ?>/pemilik/Profile" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/pemilik/Profile" class="flex <?= ($data['active-sidebar'] == "profile") ?  'bg-gray-200' : '' ?>  items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-user text-warna-third text-[15px]"></i>
           <span class="ml-3">
               Profile
           </span>
         </a>
-        <a href="/<?= PROJECT_NAME ?>/pemilik/kosts" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/pemilik/kosts" class="flex <?= ($data['active-sidebar'] == "kost") ?  'bg-gray-200' : '' ?>  items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-hotel text-warna-third text-[15px]"></i>
           <span class="ml-3">
               Kost
@@ -41,17 +40,24 @@
                 </a>
         </div>
 
-        <a href="/<?= PROJECT_NAME ?>/pemilik/chat" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+        <a href="/<?= PROJECT_NAME ?>/pemilik/chat" class="flex <?= ($data['active-sidebar'] == "chat") ?  'bg-gray-200' : '' ?>  items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="far fa-message text-warna-third text-[15px]"></i>
           <span class="ml-3">
               Chat
           </span>
         </a>
 
+        <a href="/<?= PROJECT_NAME ?>/pemilik/notif" class="flex <?= ($data['active-sidebar'] == "pengumuman") ?  'bg-gray-200' : '' ?>  items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
+          <i class="far fa-bell text-warna-third text-[15px]"></i>
+          <span class="ml-3">
+            Notifikasi
+          </span>
+        </a>
+
         <button onclick="showLogoutModal()" class="flex items-center px-3 py-2 text-sm font-medium text-gray-800 rounded-lg">
           <i class="fas fa-right-from-bracket text-warna-third text-[15px]"></i>
           <span class="ml-3">
-              Log Out
+              Log Out 
           </span>
         </button>
 

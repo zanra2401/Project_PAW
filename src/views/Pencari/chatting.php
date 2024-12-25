@@ -57,12 +57,10 @@
                                 <h2 class="text-lg font-semibold"><?= $data['user']['username_user'] ?></h2>
                             </div>
                         </div>
-                        <div class="flex space-x-4 text-gray-500">
-                            <button class="p-2 hover:text-gray-800">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="p-2 hover:text-gray-800">
-                                <i class="fas fa-ellipsis-v"></i>
+                        <div class="flex space-x-4">
+                            <button onclick="window.history.back()" class="text-lg font-semibold hover:text-gray-500">
+                                <i class="fa-solid fa-right-from-bracket" style="transform: rotate(180deg);"></i>
+                                Kembali
                             </button>
                         </div>
                     </div>
@@ -235,6 +233,8 @@
                 });
 
                 let message = textMessage.value;
+                textMessage.value = "";
+
                 let data = {
                     message: message
                 }

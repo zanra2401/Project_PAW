@@ -25,7 +25,10 @@ class Pemilik extends Controller {
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $this->view("Pemilik/dashboard", [
                 "title" => "dashboard",
-                "data_user" => $data
+                "data_user" => $data,
+                "transaksi" => $this->model->getTransaksiByID(),
+                "transaksi_data" => $this->model->getTransaksiWithDate(),
+                "active-sidebar" => "dashboard"
             ]);
         }
         else 
@@ -44,6 +47,8 @@ class Pemilik extends Controller {
                 "data_user" => $data,
                 "review" => $review,
                 "kost" => $this->model->getKost($params[0]),
+                "active-sidebar" => "kost"
+
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -77,7 +82,9 @@ class Pemilik extends Controller {
             $this->view("Pemilik/chat", [
                 "title" => "Chat",
                 "contact" => $this->model->getContact(),
-                "data_user" => $data
+                "data_user" => $data,
+                "active-sidebar" => "chat"
+
 
             ]);
         } else {
@@ -100,7 +107,9 @@ class Pemilik extends Controller {
                     "fasilitas_kamar_info" => $this->model->getFasilitasKamarByID($params[0]),
                     "fasilitas_bersama_info" => $this->model->getFasilitasBersamaByID($params[0]),
                     "data_user" => $data,
-                    "kamar" => $this->model->getAllKamar($params[0])
+                    "kamar" => $this->model->getAllKamar($params[0]),
+                    "active-sidebar" => "kost"
+
 
                 ]);
             }
@@ -130,7 +139,8 @@ class Pemilik extends Controller {
                 [
                     "title" => "Transaksi History",
                     "data_user" => $data,
-                    "transaksi" => $transaksi   
+                    "transaksi" => $transaksi,
+                    "active-sidebar" => "dashboard"
     
                 ]);
             } else {
@@ -140,8 +150,8 @@ class Pemilik extends Controller {
                 [
                     "title" => "Transaksi History",
                     "data_user" => $data,
-                    "transaksi" => $transaksi   
-    
+                    "transaksi" => $transaksi,
+                    "active-sidebar" => "dashboard"
                 ]);
             }
         } else {
@@ -266,6 +276,14 @@ class Pemilik extends Controller {
                     {
                         $violations['long'] = $violation[0]->getMessage();
                     }
+
+                    if (!isset($_POST['lantai'])) {
+                        $violations['lantai'] = "Lantai Tidak boleh kosong";
+                    }
+                    else if ($_POST['lantai'] == "")
+                    {
+                        $violations['lantai'] = "Lantai Tidak boleh kosong";
+                    }
         
                     if (count($violations) > 0)
                     {
@@ -286,7 +304,9 @@ class Pemilik extends Controller {
                         "title" => "tambahkost",
                         "fasilitas_kamar" => $this->model->getFasilitasKamar(),
                         "fasilitas_bersama" =>  $this->model->getFasilitasBersama(),
-                        "data_user" => $data
+                        "data_user" => $data,
+                        "active-sidebar" => "kost"
+
 
                     ]);
                 }
@@ -319,14 +339,17 @@ class Pemilik extends Controller {
                 $this->view("Pemilik/kosts", [
                     "title" => "Kosts",
                     "kosts" => $this->model->cariKost($_POST['cari']),
-                    "data_user" => $data
+                    "data_user" => $data,
+                    "active-sidebar" => "kost"
+
                 ]);
             }
 
             $this->view("Pemilik/kosts", [
                 "title" => "Kosts",
                 "kosts" => $this->model->getMyKost(),
-                "data_user" => $data
+                "data_user" => $data,
+                "active-sidebar" => "kost"
                 
             ]);
             
@@ -447,7 +470,9 @@ class Pemilik extends Controller {
                 "user" => $this->model->getDataUser($_SESSION["username"]),
                 "data_user" => $data,
                 "profile" => $profile,
-                "eror" => $erors
+                "eror" => $erors,
+                "active-sidebar" => "profile"
+
             ]);
         } else {
             header("Location: /" . PROJECT_NAME ."/account/login");
@@ -653,7 +678,9 @@ class Pemilik extends Controller {
                 "user" => $this->model->getUserById($params[0]),
                 "chat" => $this->model->getChat($params[0]),
                 "contact" => $this->model->getContact(),
-                "data_user" => $data
+                "data_user" => $data,
+                "active-sidebar" => "chat"
+
             ]);
             
         } else {
@@ -717,4 +744,22 @@ class Pemilik extends Controller {
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
+    function batalTransaksi($params = [])
+    {
+        $this->model->batalTransaksi($params[0]);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
+
+
+    function notif()
+    {
+        $data = $this->model->getAllDataUser($_SESSION['id_user']);
+        $this->view("Pemilik/notif", [
+            "title" => "Notifikasi",
+            "notif" =>  array_merge($this->model->getNotifSemua(), $this->model->getNotifPemilik()),
+            "data_user" => $data,
+            "active-sidebar" => "pengumuman"
+
+        ]);  
+    }
 }

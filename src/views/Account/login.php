@@ -23,18 +23,35 @@
 
     <form action="/<?= PROJECT_NAME ?>/account/loginuser" method="post">
       <div class="mb-4">
-        <label for="username" class="block text-sm font-medium text-gray-700">ID Username</label>
-        <input type="username" id="username" name="username" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan username" required style="background-color: white;"/>
+        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+        <input
+        type="text"
+        id="username"
+        name="username"
+        class="bg-white border border-black text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5"
+        placeholder="Masukkan Username"
+        required
+        />
       </div>
       <div class="mb-4">
         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="password" name="password" class="bg-white border border-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-gray-300 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan password" required style="background-color: white;"/>
+        <input
+        type="password"
+        id="password"
+        name="password"
+        class="bg-white border border-black text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5"
+        placeholder="Masukkan password"
+        required
+        />
       </div>
       <div class="flex items-center justify-between mb-6">
         <a href="/project_paw/account/lupapassword" class="text-sm text-base-color hover:underline">Lupa password?</a>
       </div>
-      <button type="submit" class="w-full text-white py-2 px-4 rounded-md bg-red-500  hover:bg-base-color focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2 ">
+      <button type="submit" class="w-full text-white py-2 px-4 rounded-md hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-[#c48d6e] focus:ring-offset-2 " style="background-color:#83493d;">
         Masuk
+      </button>
+      <button onclick="window.history.back()" class="w-full mt-4 hover:text-gray-500">
+          Batal
       </button>
     </form>
     <p class="mt-6 text-center text-sm text-black-600">

@@ -43,7 +43,7 @@
             }
             ?>
             <div class="w-[90%] mx-auto mt-5 pb-10">
-                <span class="mb-3 font-Roboto-medium h-10 s text-gray-600"> <i class="fas fa-hotel"></i> <a href="">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-pencil"></i> <a href="">Edit Kost</a> <i class="fas fa-chevron-right"></i> </span>
+                <span class="mb-3 font-Roboto-medium h-10 text-gray-600"> <i class="fas fa-hotel"></i> <a href="/<?= PROJECT_NAME ?>/pemilik/kosts">Kost</a> <i class="fas fa-chevron-right mr-2"></i> <i class="fas fa-pencil"></i> <a href="">Edit Kost</a> <i class="fas fa-chevron-right"></i> </span>
 
                 <div id="gambar" class="h-[500px] mt-3 grid grid-cols-3 grid-rows-2 gap-2 relative rounded-lg overflow-hidden">
                     <!-- Gambar utama (besar) -->
@@ -106,12 +106,13 @@
     
                         </div>
     
-                            <div class="py-4 border-t-2 w-full col-span-2">
-                                <h1 class="text-2xl font-bold mb-6 inline-block">Fasilitas</h1>  
-                                <button onclick="showFasilitasEdit()" class="inline-block aspect-square  ml-3 font-bold text-white rounded-md ">
-                                    <i class="fas fa-pencil text-warna-second"></i>
-                                </button>
-                                
+                            <div class="py-4 border-t-2 w-full col-span-2 grid cols-2">
+                                <div class="col-span-2">
+                                    <h1 class="text-2xl font-bold mb-6 inline-block">Fasilitas</h1>  
+                                    <button onclick="showFasilitasEdit()" class="inline-block aspect-square  ml-3 font-bold text-white rounded-md ">
+                                        <i class="fas fa-pencil text-warna-second"></i>
+                                    </button>
+                                </div>
                                 <!-- Fasilitas Kamar -->
                                 <div class="mb-6">
                                     <h2 class="text-xl font-semibold flex items-center mb-2">
@@ -359,10 +360,6 @@
                                 <label for="kotaKost" class="block text-sm font-medium text-gray-800">Kota Kost</label>
                                 <select id="kotaKost" name="kota" placeholder="Masukkan kota kost" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" value="<?= $data['kost']['data_kost']['kota_kost'] ?>">
                                 </select>
-                            </div>
-                            <div>
-                                <label for="sisaKamar" class="block text-sm font-medium text-gray-800" ">Sisa Kamar</label>
-                                <input type="number" id="sisaKamar" name="sisa_kamar" value="<?= $data['kost']['data_kost']['sisa_kamar'] ?>" placeholder="Masukkan jumlah sisa kamar" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             </div>
                             <div>
                                 <label for="sisaKamar" class="block text-sm font-medium text-gray-800">Sisa Kamar</label>

@@ -274,6 +274,18 @@ class Account extends Controller
                 $errors[] = "Username atau Password tidak valid";
             }
 
+            $user = $this->model->getData($username);
+
+            if ($user['status_akun'] == "banned")
+            {
+                $errors[] = "Akun anda telah di banned";
+            }
+
+            if ($user['status_akun'] == "nonaktif")
+            {
+                $errors[] = "Silahkan Aktifkan akun anda terlebih dahulu";
+            }
+
             if (count($errors) > 0) {
                 $_SESSION["errors"] = [$errors[0]];
                 header("Location: /" . PROJECT_NAME . "/account/login");
@@ -313,7 +325,7 @@ class Account extends Controller
     function logOut()
     {
         session_destroy();
-        header("Location: /" . PROJECT_NAME . "/account/login");
+        header("Location: /" . PROJECT_NAME . "/");
     }
 
 
@@ -531,5 +543,12 @@ class Account extends Controller
                 header("Location: /" . PROJECT_NAME . "/account/login");
             }
         }
+    }
+
+    function keluar($params = [])
+    {
+        $this->view("Account/keluar", [
+            "title" => 'keluar'
+        ]);
     }
 }

@@ -80,8 +80,7 @@ class Pencari extends Controller
                 $this->view("Pencari/homepage", [
                     "title" => "Homepage",
                     "data" => $data,
-                    "fasilitas" => $fasi,
-                    "contact" => $this->model->getContact()
+                    "fasilitas" => $fasi
                 ]);
             }
         } else {
@@ -222,22 +221,23 @@ class Pencari extends Controller
                 "contact" => $this->model->getContact()
             ]);
         } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
+            $data = $this->model->getAllBerita();
+
+            $this->view("Pencari/homeberita", [
+                "title" => "homeberita",
+                "data_berita" => $data
+            ]);
         }
     }
 
     function isiberita($params = [])
     {
-        if ($this->isLogInPencari()) {
-            $id = $params[0];
-            $data = $this->model->getOneBerita($id);
-            $this->view("Pencari/isiberita", [
-                "data_berita" => $data,
-                "title" => "isiberita"
-            ]);
-        } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
-        }
+        $id = $params[0];
+        $data = $this->model->getOneBerita($id);
+        $this->view("Pencari/isiberita", [
+            "data_berita" => $data,
+            "title" => "isiberita"
+        ]);
     }
 
     function kostPage($params = []) {
@@ -346,26 +346,31 @@ class Pencari extends Controller
             }
         }
     }
+
+    function kamar($params = [])
+    {
+        $id = (int) $params[0];
+        $data_kamar = $this->model->getAllKamar($id);
+        $judul = $this->model->getNamaKost($id);
+        $this->view("Pencari/kamar", [
+            "title" => "kamar",
+            "id" => $id,
+            "judul" => $judul,
+            "data_kamar" => $data_kamar
+        ]);
+    }
     
     function kebijakan($params = [])
     {
-        if ($this->isLogInPencari()) {
-            $this->view("Pencari/kebijakan", [
-                "title" => "kebijakan"
-            ]);
-        } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
-        }
+        $this->view("Pencari/kebijakan", [
+            "title" => "kebijakan"
+        ]);
     }
     function tentangkami($params = [])
     {
-        if ($this->isLogInPencari()) {
-            $this->view("Pencari/tentangkami", [
-                "title" => "tentangkami"
-            ]);
-        } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
-        }
+        $this->view("Pencari/tentangkami", [
+            "title" => "tentangkami"
+        ]);
     }
     function riwayatpemesanan($params = [])
     {
@@ -410,103 +415,109 @@ class Pencari extends Controller
         if ($this->isLogInPencari()) {
             $erors = [];
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $validator = Validation::createValidator();
-                $hapus = false;
-
-                // validasi foto profile
-
-                if (isset($_FILES['ubah_gambar'])) {
-                    if (!isset($_POST['pp_default'])) {
-                        $file_path = $_FILES['ubah_gambar']['tmp_name'];
-                        if (!empty($file_path)) {
-                            $mimeType = mime_content_type($file_path);
-
-                            if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
-                                $erors['foto_profile'] = 'Gambar harus berformat JPEG atau PNG.';
+                if(isset($_POST['reviewTextarea'])){
+                    $this->model->addReview($_POST['reviewTextarea'], $_SESSION['id_user'],$_POST['id_kostnya']);
+                } else {
+                    $validator = Validation::createValidator();
+                    $hapus = false;
+    
+                    // validasi foto profile
+    
+                    if (isset($_FILES['ubah_gambar'])) {
+                        if (!isset($_POST['pp_default'])) {
+                            $file_path = $_FILES['ubah_gambar']['tmp_name'];
+                            if (!empty($file_path)) {
+                                $mimeType = mime_content_type($file_path);
+    
+                                if (!in_array($mimeType, ['image/jpeg', 'image/png'])) {
+                                    $erors['foto_profile'] = 'Gambar harus berformat JPEG atau PNG.';
+                                }
                             }
                         }
                     }
-                }
-
-                // validasi username
-
-                $username = $_POST["username"];
-
-                $violationUsername = $validator->validate($username, [
-                    new Assert\NotBlank(["message" => "Username Tidak Boleh Kosong"]),
-                    new Assert\Length([
-                        "min" => 5,
-                        "minMessage" => "Username Minimal 5 character",
-                        "max" => 30,
-                        "maxMessage" => "Username Maximal 30 character"
-                    ]),
-                    new Assert\Regex([
-                        'pattern' => '/^[A-Za-z0-9]+$/',
-                        'message' => 'Username Hanya mengizinkan Huruf dan angka saja'
-                    ])
-                ]);
-
-                // validasi nama lengkap 
-
-                $nama_lengkap = $_POST["nama_lengkap"];
-
-                $pattern = "/^[a-zA-Z\s\-]+$/";
-
-                if ($nama_lengkap != "") {
-                    if (!preg_match($pattern, $nama_lengkap)) {
-                        $erors['fullname'] = "Nama hanya boleh berupa alfabet";
+    
+                    // validasi username
+    
+                    $username = $_POST["username"];
+    
+                    $violationUsername = $validator->validate($username, [
+                        new Assert\NotBlank(["message" => "Username Tidak Boleh Kosong"]),
+                        new Assert\Length([
+                            "min" => 5,
+                            "minMessage" => "Username Minimal 5 character",
+                            "max" => 30,
+                            "maxMessage" => "Username Maximal 30 character"
+                        ]),
+                        new Assert\Regex([
+                            'pattern' => '/^[A-Za-z0-9]+$/',
+                            'message' => 'Username Hanya mengizinkan Huruf dan angka saja'
+                        ])
+                    ]);
+    
+                    // validasi nama lengkap 
+    
+                    $nama_lengkap = $_POST["nama_lengkap"];
+    
+                    $pattern = "/^[a-zA-Z\s\-]+$/";
+    
+                    if ($nama_lengkap != "") {
+                        if (!preg_match($pattern, $nama_lengkap)) {
+                            $erors['fullname'] = "Nama hanya boleh berupa alfabet";
+                        }
                     }
-                }
-
-                // jenis kelamin
-
-                $jenis_kelamin = $_POST["kelamin"];
-
-                // validasi email
-
-                $email = $_POST["email"];
-
-                $violatiolnEmail = $validator->validate($email, [
-                    new Assert\Email(["message" => "Email Tidak Valid"]),
-                    new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
-                ]);
-
-                // validasi no hp
-
-                $no_hp = $_POST['no_hp'];
-                $pattern = "/^[0-9]+$/";
-                if ($no_hp != "") {
-                    if (!preg_match($pattern, $no_hp)) {
-                        $erors['hp'] = "no hp hanya boleh berupa numerik";
+    
+                    // jenis kelamin
+    
+                    $jenis_kelamin = $_POST["kelamin"];
+    
+                    // validasi email
+    
+                    $email = $_POST["email"];
+    
+                    $violatiolnEmail = $validator->validate($email, [
+                        new Assert\Email(["message" => "Email Tidak Valid"]),
+                        new Assert\NotBlank(["message" => "Email Tidak Boleh Kosong"]),
+                    ]);
+    
+                    // validasi no hp
+    
+                    $no_hp = $_POST['no_hp'];
+                    $pattern = "/^[0-9]+$/";
+                    if ($no_hp != "") {
+                        if (!preg_match($pattern, $no_hp)) {
+                            $erors['hp'] = "no hp hanya boleh berupa numerik";
+                        }
                     }
-                }
-
-
-                // input eror username
-
-                foreach ($violationUsername as $violation) {
-                    $erors['username'] = $violation->getMessage();
-                }
-
-                // input eror email
-
-                foreach ($violatiolnEmail as $violation) {
-                    $erors['email'] = $violation->getMessage();
-                }
-
-
-
-                $provinsi = $_POST['provinsi'];
-                $kota = $_POST['kota'];
-
-                if (count($erors) == 0) {
-                    $this->model->updateProfile($_FILES, $_POST, $_SESSION['id_user']);
+    
+    
+                    // input eror username
+    
+                    foreach ($violationUsername as $violation) {
+                        $erors['username'] = $violation->getMessage();
+                    }
+    
+                    // input eror email
+    
+                    foreach ($violatiolnEmail as $violation) {
+                        $erors['email'] = $violation->getMessage();
+                    }
+    
+    
+    
+                    $provinsi = $_POST['provinsi'];
+                    $kota = $_POST['kota'];
+    
+                    if (count($erors) == 0) {
+                        $this->model->updateProfile($_FILES, $_POST, $_SESSION['id_user']);
+                    }
                 }
             }
 
             $profile = $this->model->getProfie($_SESSION['id_user']);
             $data = $this->model->getAllDataUser($_SESSION['id_user']);
             $riwayat = $this->model->getKostRiwayatBeli($_SESSION['id_user']);
+            // var_dump($riwayat);
+            // die();
             $this->view("Pencari/profile", [
                 "title" => "Profile",
                 "data_user" => $data,
@@ -523,38 +534,30 @@ class Pencari extends Controller
 
     function reviewGambarKost($params = [])
     {
-        if ($this->isLogInPencari()) {
-            $id = (int) $params[0];
-            $gambar = $this->model->getImageKost($id);
-            $judul = $this->model->getNamaKost($id);
-            $this->view("Pencari/reviewGambarKost", [
-                "title" => "ReviewGambarKost",
-                "gambar" => $gambar,
-                "id" => $id,
-                "judul" => $judul,
-            ]);
-        } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
-        }
+        $id = (int) $params[0];
+        $gambar = $this->model->getImageKost($id);
+        $judul = $this->model->getNamaKost($id);
+        $this->view("Pencari/reviewGambarKost", [
+            "title" => "ReviewGambarKost",
+            "gambar" => $gambar,
+            "id" => $id,
+            "judul" => $judul,
+        ]);
     }
 
 
     function faq($params = [])
     {
-        if ($this->isLogInPencari()) {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") 
-            {
-                $this->model->tambahPertanyaan($_POST);
-                header("Location: " . $_SERVER['HTTP_REFERER']);
-            } else  {
-                $pertanyaan = $this->model->getAllPertanyaan();
-                $this->view("Pencari/faq", [
-                    "title" => "faq",
-                    "pertanyaan" => $pertanyaan 
-                ]);
-            }
-        } else {
-            header("Location: /" . PROJECT_NAME . "/account/login");
+        if ($_SERVER["REQUEST_METHOD"] == "POST") 
+        {
+            $this->model->tambahPertanyaan($_POST);
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+        } else  {
+            $pertanyaan = $this->model->getAllPertanyaan();
+            $this->view("Pencari/faq", [
+                "title" => "faq",
+                "pertanyaan" => $pertanyaan 
+            ]);
         }
     }
 
@@ -592,6 +595,20 @@ class Pencari extends Controller
         }
     }
 
+    function cariBerita($params = [])
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            // Read the JSON data from the POST body
+            $data = file_get_contents('php://input');
+
+            // Decode the JSON into an associative array
+            $request = json_decode($data, true);
+            $data = $this->model->searchBerita($request['search']);
+            echo json_encode($data);
+        }
+    }
+
     function getContact()
     {
         echo json_encode($this->model->getContact());
@@ -615,10 +632,23 @@ class Pencari extends Controller
 
     function notifikasi($params = [])
     {
+        if (isset($_POST['id_pengumuman']))
+        {
+            $id_pengumuman = $_POST['id_pengumuman'];
+            $id_user = $_POST['id_user'];
+
+            $this->model->getReadNotifikasi($id_pengumuman, $id_user);
+        }
+
+        $id_pengumuman_sudah_dibaca = $this->model->cekSudahDIbaca($_SESSION["id_user"]);
+        // var_dump($id_pengumuman_sudah_dibaca);
+        // echo $id_pengumuman_sudah_dibaca[0]['id_pengumuman'];
+        // die();
         $data = $this->model->getPengumuman($_SESSION["id_user"]);
         $this->view("Pencari/notifikasi", [
             "title" => "notifikasi",
-            "data" => $data
+            "data" => $data,
+            "sudah_baca" => $id_pengumuman_sudah_dibaca
         ]);
     }
 
@@ -671,4 +701,5 @@ class Pencari extends Controller
     }
 
 }
+
 

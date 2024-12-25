@@ -12,6 +12,13 @@
 <body class="font-sans text-gray-800 bg-gray-100 min-h-screen flex flex-col">
     <!-- Main Content -->
     <nav class="bg-white shadow-md py-8">
+    <div class="container mx-auto flex items-center justify-between">
+        <!-- Tombol Kembali -->
+        <button onclick="window.history.back()" 
+                class="text-lg font-semibold hover:text-gray-500 flex items-center px-4 py-2">
+            <i class="fa-solid fa-right-from-bracket mr-2" style="transform: rotate(180deg);"></i>
+            Kembali
+        </button>
         <div class="container mx-auto flex justify-center">
             <h1 class="text-2xl font-bold text-gray-800">Tentang Kami</h1>
         </div>

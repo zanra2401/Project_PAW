@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 require_once "./core/DataBase.php";
 
@@ -118,14 +118,17 @@ class PemilikModel {
         
         if (isset($post['lantai']))
         {
+            $total_kamar = 0;
             $lantai = json_decode($post['lantai'], true);
             foreach ($lantai as $key => $l)
             {
+                $total_kamar += $l;
                 for ($i = 1; $i <= $l; $i++)
                 {
                     $this->DB->query("INSERT INTO kamar(id_kost, nomor_kamar, lokasi_kamar, status_kamar) VALUES ($id, $i, $key, 'kosong')");
                 }
             }
+            $this->DB->query("UPDATE kost SET sisa_kamar = $total_kamar WHERE id_user = {$_SESSION['id_user']} AND id_kost = $id");
         }
 
 
@@ -280,7 +283,7 @@ class PemilikModel {
 
     function updateBaseInfo($post)
     {
-        $this->DB->query("UPDATE kost SET nama_kost = ?, harga_kost = ?, tipe_kost = ?, provinsi_kost = ?, kota_kost = ?, sisa_kamar = ? WHERE id_kost = ?", "sisiiii", [$post['nama'], $post['harga'], $post['tipe'], $post['provinsi'], $post['kota'], $post['sisa_kamar'], $post['id_kost']]);
+        $this->DB->query("UPDATE kost SET nama_kost = ?, harga_kost = ?, tipe_kost = ?, provinsi_kost = ?, kota_kost = ? WHERE id_kost = ?", "sisiii", [$post['nama'], $post['harga'], $post['tipe'], $post['provinsi'], $post['kota'], $post['id_kost']]);
     }
 
     function updateLatLong($post)
@@ -450,6 +453,7 @@ class PemilikModel {
 
     function tambahKamar($id_kost, $lantai)
     {
+        $this->DB->query("UPDATE kost SET sisa_kamar = sisa_kamar + 1 WHERE id_user = {$_SESSION['id_user']} AND id_kost = $id_kost");
         $this->DB->query("SELECT * FROM kamar WHERE id_kost = $id_kost AND lokasi_kamar = $lantai");
         $total_kamar = count($this->DB->getAll()) + 1;
         $this->DB->query("INSERT INTO kamar(id_kost, nomor_kamar, lokasi_kamar, status_kamar) VALUES ($id_kost, $total_kamar, $lantai, 'kosong')");
@@ -459,6 +463,12 @@ class PemilikModel {
 
     function changeStatusKamar($kost, $lantai, $kamar, $status)
     {
+        if ($status == "terisi")
+        {
+            $this->DB->query("UPDATE kost SET sisa_kamar = sisa_kamar - 1 WHERE id_user = {$_SESSION['id_user']} AND id_kost = $kost");
+        } else {
+            $this->DB->query("UPDATE kost SET sisa_kamar = sisa_kamar + 1 WHERE id_user = {$_SESSION['id_user']} AND id_kost = $kost");
+        }
         $this->DB->query("UPDATE kamar SET status_kamar = ? WHERE id_kost = ? AND lokasi_kamar = ? AND nomor_kamar = ?", 'siii', [$status, $kost, $lantai, $kamar]);
         return true;
     }
@@ -515,12 +525,18 @@ class PemilikModel {
 
     function sukaReview($id_review)
     {
+        $this->DB->query("SELECT * FROM suka_review WHERE id_review = $id_review AND id_user = {$_SESSION['id_user']}");
+        if ($this->DB->getFirst() != NULL)
+        {
+            $this->DB->query("DELETE FROM suka_review WHERE  id_review = ? AND id_user = ?", "ii", [$id_review, $_SESSION['id_user']]);
+            return;
+        }
         $this->DB->query("INSERT INTO suka_review(id_user,  id_review) VALUES({$_SESSION['id_user']}, ?)", "i", [$id_review]);
         return true;
     }
 
     function getTransaksiByID() {
-        $this->DB->query("SELECT * FROM transaksi WHERE id_user_pemilik = {$_SESSION['id_user']}");
+        $this->DB->query("SELECT * FROM transaksi AS t, user AS u WHERE t.id_user_pemilik = {$_SESSION['id_user']} AND t.id_user_pencari = u.id_user");
         return $this->DB->getAll();
     }
 
@@ -530,9 +546,39 @@ class PemilikModel {
         return true;
     }
 
+    function batalTransaksi($id)
+    {
+        $this->DB->query("UPDATE transaksi SET status_transaksi = 'failure' WHERE id_transaksi = $id");
+        return true;
+    }
+
     function getTransaksi($idTransaksi)
     {
-        $this->DB->query("SELECT * FROM transaksi WHERE id_transaksi LIKE '%$idTransaksi%'");
+        $this->DB->query("SELECT * FROM transaksi AS t, user AS u WHERE (t.id_transaksi LIKE '%$idTransaksi%' OR u.username_user LIKE '%$idTransaksi%') AND t.id_user_pencari = u.id_user");
+        return $this->DB->getAll();
+    }
+
+    function getTransaksiWithDate()
+    {
+        $this->DB->query("SELECT tanggal_dipesan_transaksi, COUNT(*) AS total_transaksi FROM transaksi  WHERE id_user_pemilik = {$_SESSION['id_user']} GROUP BY tanggal_dipesan_transaksi");
+        $result = $this->DB->getAll();
+        $data = [];
+        foreach ($result as $item)
+        {
+            $data[$item['tanggal_dipesan_transaksi']] = $item['total_transaksi'];
+        }
+        return $data;
+    }
+
+    function getNotifSemua()
+    {
+        $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = 'semua'");
+        return $this->DB->getAll();
+    }
+
+    function getNotifPemilik()
+    {
+        $this->DB->query("SELECT * FROM pengumuman WHERE tipe_pengumuman = 'pemilik'");
         return $this->DB->getAll();
     }
 }

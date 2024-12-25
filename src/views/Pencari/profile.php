@@ -10,6 +10,9 @@
         return 'Rp ' . number_format($angka, 0, ',', '.');
     }
 
+    $data_review = $data['riwayat'];
+
+
 ?>  
 
 <body class="bg-gray-100">
@@ -105,9 +108,9 @@
                         <p class="text-red-600"><?= isset($data['eror']['username'])? $data['eror']['username']: ''?></p>
                         <label for="kelamin" class="text-xl font-medium text-zinc-400">Jenis Kelamin</label>
                         <select name="kelamin" id="kelamin" class="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 hover:cursor-pointer">
-                            <option value="1" <?= isset($data['data_user'][0]['username_user'])?'': 'selected' ?> disabled>Pilih gender</option>
-                            <option value="Laki-laki" <?= $data['data_user'][0]['username_user'] == 'Laki-laki'? 'selected':''; ?>>Laki-laki</option>
-                            <option value="Perempuan" <?= $data['data_user'][0]['username_user'] == 'Perempuan'? 'selected':''; ?>>Perempuan</option>
+                            <option value="1" <?= isset($data['data_user'][0]['jenis_kelamin_user'])?'': 'selected' ?> disabled>Pilih gender</option>
+                            <option value="Laki-laki" <?= $data['data_user'][0]['jenis_kelamin_user'] == 'Laki-laki'? 'selected':''; ?>>Laki-laki</option>
+                            <option value="Perempuan" <?= $data['data_user'][0]['jenis_kelamin_user'] == 'Perempuan'? 'selected':''; ?>>Perempuan</option>
                         </select>
 
                         <label for="email" class="text-xl font-medium text-zinc-400">Email</label>
@@ -157,89 +160,79 @@
                         class="block w-fit px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
                         placeholder="Masukkan nama kost...">
                     </div>
-    
+                    
                     <div id="bookingCards" class="mt-8 grid grid-cols-2 gap-5">
                         <?php 
-                            
-                            foreach($data['riwayat'] AS $riwt
-                            {
-                                $harga = formatRupiah($riw['harga_kost']);
+                            $temp = 1;
+                            foreach ($data['riwayat'] AS $rit){
+                                $harga = formatRupiah($rit['harga_kost']);
+                                $path = "/" . PROJECT_NAME . "/";
+                                $gambar = $path . $rit['gambar_kost'];
                                 echo <<<EDO
-                                    <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
-                                        <h2 class="text-2xl font-bold text-gray-800">{$riw['nama_kost']}</h2>
-                                        <p class="text-lg text-gray-600">Harga : {$riw['nama_kost']}</p>
+                                    <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3">
+                                        <h2 class="text-2xl font-bold text-gray-800">{$rit['nama_kost']}</h2>
+                                        <img src="{$gambar}" alt="gambar_kost" class="w-full h-[180px] object-cover">
+                                        <p class="text-lg text-gray-600">Harga : {$harga}</p>
                                         <p class="text-lg text-gray-600">Tanggal Pemesanan : 2024-01-15</p>
+                                EDO;
+                                if($rit['status'] == 'belum'){
+                                    echo <<<EDO
                                         <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
-                                            style="background-color: #68422d;">Review</button>
+                                            style="background-color: #68422d;" onclick="pop_review($temp)">Review
+                                        </button>
+                                    EDO;
+                                } else {
+                                    echo <<<EDO
+                                        <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg bg-[#68422d] cursor-not-allowed opacity-50" disabled>
+                                            Sudah Direview
+                                        </button>
+                                    EDO;
 
+                                }
+                                echo <<<EDO
+                                        <input type="hidden" id="review_{$temp}" value="{$gambar}">
+                                        <input type="hidden" id="IdKost_review_{$temp}" value="{$rit['id_kost']}">
                                     </div>
                                 EDO;
-                            })
+
+                                $temp += 1;
+                            }   
                        ?>
-
-<!-- 
-                        <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Malang">
-                            <h2 class="text-2xl font-bold text-gray-800">Kosan Melati</h2>
-                            <p class="text-lg text-gray-600">ID Kost: 002</p>
-                            <p class="text-lg text-gray-600">Lokasi: Malang</p>
-                            <p class="text-lg text-gray-600">Harga: Rp 1,200,000</p>
-                            <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-02-10</p>
-                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
-                                style="background-color: #68422d;">Review</button>
-
-                        </div>
-
-                        <div class="bg-gray-100 shadow-lg rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
-                            <h2 class="text-2xl font-bold text-gray-800">Kosan Dahlia</h2>
-                            <p class="text-lg text-gray-600">ID Kost: 003</p>
-                            <p class="text-lg text-gray-600">Lokasi: Surabaya</p>
-                            <p class="text-lg text-gray-600">Harga: Rp 1,000,000</p>
-                            <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-03-05</p>
-                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
-                                style="background-color: #68422d;">Review</button>
-
-                        </div>
-                        <div class="bg-gray-100 shadow-md rounded-lg p-3 text-sm grid gap-3" data-location="Surabaya">
-                            <h2 class="text-2xl font-bold text-gray-800">Griya Danendra</h2>
-                            <p class="text-lg text-gray-600">ID Kost: 005</p>
-                            <p class="text-lg text-gray-600">Lokasi: Jakarta Selatan</p>
-                            <p class="text-lg text-gray-600">Harga: Rp 5,000,000,000</p>
-                            <p class="text-lg text-gray-600">Tanggal Pemesanan: 2024-12-05</p>
-                            <button class="mt-2 px-3 py-1 text-white rounded-lg hover:bg-opacity-90 text-lg"
-                                style="background-color: #68422d;" id="tombol_review">Review</button>
-
-                        </div> -->
                     </div>
                 </div> 
-
                 <div id="popup_review" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden">
                     <!-- Pop-up Content -->
-                    <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full p-6 grid gap-5" id="box_review">
-                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Review Kost abc</h2>
-                        <div class="flex gap-4">
-                            <img src="<?= "/". PROJECT_NAME . "/"?>public/storage/gambarKost/6767b32487624_713_302746617.jpg" alt="" class="w-1/2 h-[240px]">
-                            <textarea
-                            name=""
-                            id=""
-                            class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-base-color focus:border-base-color text-gray-700 resize-none"
-                            placeholder="Tulis review anda tentang kost ini..."
-                            ></textarea>
+                    <div class="bg-white rounded-lg shadow-lg max-w-3xl w-full p-6 grid gap-3 transition-all duration-300 transform scale-0" id="box_review">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Review Kost abc</h2>
+                        <form action="/<?= PROJECT_NAME ?>/Pencari/profile" class="grid gap-5" method="POST" id="form_review">
+                            <div class="flex gap-4">
+                                <img src="<?= "/". PROJECT_NAME . "/"?>public/storage/gambarKost/6767b32487624_713_302746617.jpg" alt="" class="w-1/2 h-[240px]" id="img_review_pop">
+                                <textarea
+                                    name="reviewTextarea"
+                                    id="reviewTextarea"
+                                    class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-base-color focus:border-base-color text-gray-700 resize-none"
+                                    placeholder="Tulis review anda tentang kost ini..."
+                                ></textarea>
 
-                        </div>
-                        <div class="flex flex-col space-y-4">
-                            <button 
-                            id="offlineButton" 
-                            class="bg-base-color text-white font-semibold px-4 py-2 rounded hover:opacity-80 transition"
-                            >
-                            Kirim
-                            </button>
-                            <button 
-                                id="closeButton" 
-                                class="mt-6 text-gray-500 hover:text-gray-800 text-sm font-semibold"
-                            >
-                                Batalkan
-                            </button>
-                        </div>
+                            </div>
+                            <div class="flex flex-col space-y-4">
+                                <button 
+                                    id="offlineButton" 
+                                    class="bg-gray-600 text-white font-semibold px-4 py-2 rounded hover:opacity-80 transition disabled:bg-gray-400 disabled:cursor-not-allowed" 
+                                    type="submit" 
+                                    disabled
+                                >
+                                    Kirim
+                                </button>
+                                <button 
+                                    id="closeButton" 
+                                    class="mt-6 text-gray-500 hover:text-gray-800 text-sm font-semibold" 
+                                    type="button"
+                                >
+                                    Batalkan
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -292,20 +285,52 @@
     </div>
     <script>
 
-        const tombol_review = document.getElementById('tombol_review');
+        const reviewTextarea = document.getElementById('reviewTextarea');
+        const submitButton = document.getElementById('offlineButton');
+
+        function checkTextarea() {
+            if (reviewTextarea.value.length < 5) {
+                submitButton.disabled = true;  
+            } else {
+                submitButton.disabled = false;  
+            }
+        }
+
+        reviewTextarea.addEventListener('input', checkTextarea);
+
+        checkTextarea();
+
         const popup_review = document.getElementById('popup_review');
         const closeButton = document.getElementById('closeButton');
         const box_review = document.getElementById('box_review');
-
-        tombol_review.addEventListener('click', ()=>{
+        
+        function pop_review(id){
+            const img_review_pop = document.getElementById('img_review_pop');
+            const review_img = document.getElementById(`review_${id}`).value;
+            img_review_pop.src = review_img;
             popup_review.classList.remove('hidden')
+
+            const IdKost_review = document.getElementById(`IdKost_review_${id}`).value
+            const form_review = document.getElementById('form_review');
+
+            const id_kosti = document.createElement('input');
+            id_kosti.type = 'hidden'
+            id_kosti.name = 'id_kostnya'
+            id_kosti.id = 'id_kosty'
+            id_kosti.value = IdKost_review
+
+            form_review.appendChild(id_kosti)
+            
             setTimeout(()=>{
                 box_review.classList.remove('scale-0')
                 box_review.classList.add('scale-100')
             }, 50)
-        })
+        }
+
 
         closeButton.addEventListener('click', ()=>{
+            const id_kosty = document.getElementById('id_kosty');
+            id_kosty.remove();
             box_review.classList.remove('scale-100')
             box_review.classList.add('scale-0')
             setTimeout(()=>{
@@ -313,8 +338,6 @@
             }, 300)
             
         })
-
-
 
         const toggleBoxBtn = document.getElementById("chat_button");
         const box = document.getElementById("box");
@@ -358,7 +381,7 @@
 
         function deleteProfilePicture(event) {
             const profilePic = document.getElementById('profile-picture');
-            profilePic.src = '/Project_PAW/public/storage/gambarProfile/pp_kosong.jpeg'; 
+            profilePic.src = '/Project_PAW/public/storage/gambarProfile/pp-default.png'; 
 
             const edit_profile = document.getElementById('edit_profile');
 
@@ -367,13 +390,13 @@
 
             abc.value = '';
             if (input_default) {
-                input_default.value = '/public/storage/gambarProfile/pp_kosong.jpeg';
+                input_default.value = '/public/storage/gambarProfile/pp-default.png';
             } else {
                 const new_input = document.createElement('input');
                 new_input.name = 'pp_default';
                 new_input.type = 'text';
                 new_input.id = 'isi_default_pp'
-                new_input.value = '/public/storage/gambarProfile/pp_kosong.jpeg';
+                new_input.value = '/public/storage/gambarProfile/pp-default.png';
                 new_input.style.display = 'none';
     
                 edit_profile.appendChild(new_input);
@@ -388,7 +411,6 @@
         const content_pengajuan = document.getElementById('content_pemesanan')
 
         menuju_profile.addEventListener('click', ()=>{
-            console.log("kontol")
             if (profile_title.classList.contains('hidden') && content_profile.classList.contains('hidden')){
                 profile_title.classList.remove('hidden')
                 content_profile.classList.remove('hidden')

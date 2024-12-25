@@ -21,7 +21,7 @@
                        <li class="flex justify-between">Semua <input value="semua" checked name="tipe_pengumuman" class="ml-auto" t type="radio"></li> 
                     </ul>
                 </div>
-                <div class="flex-1 p-2 bg-white rounded-lg shadow-sm w-fit shadow-violet-300 ">
+                <div class="flex-1 p-2 h-fit bg-white rounded-lg shadow-sm w-fit shadow-violet-300 ">
                     <input type="text" name="isi_pengumuman" id="pengumumanData" hidden>
                     <input type="text" placeholder="Judul Pengumuman" name="judul_pengumuman" class="w-full p-3 mb-5">
                     <div id="editor" clas="border-box">
@@ -51,7 +51,7 @@
             
             function uploadPengumuman(){
                 
-                pengumumanData.value = quill.root.innerHTML;
+                pengumumanData.value = quill.gettext();
                 formPengumuman.submit();
             }
     </script>

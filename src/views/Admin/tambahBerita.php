@@ -78,6 +78,7 @@
         placeholder: 'Judul Berita',
         theme: 'snow'
     };
+    
     const titleQuill = new Quill(titleEditorContainer, titleOptions);
 
     // Menghilangkan scrollbar pada Quill root untuk judul
@@ -133,19 +134,16 @@
         reader.readAsDataURL(file);
     }
 
-    function tambahBerita()
-    {
-        deskripsiBerita.value = titleQuill.root.innerHTML;
-        judulBerita.value = quill.root.innerHTML;
+    function tambahBerita() {
+        deskripsiBerita.value = titleQuill.getText().trim();
+        judulBerita.value = quill.getText().trim();
         console.log(judulBerita.value);
     }
 
-    
-    formBerita.addEventListener("submit", function (e){
+    formBerita.addEventListener("submit", function (e) {
         deskripsiBerita.value = quill.root.innerHTML;
-        judulBerita.value = titleQuill.root.innerHTML;
-        console.log(judulBerita.value);
-    })
+        judulBerita.value = titleQuill.getText();
+    });
 
 </script>
 </body>

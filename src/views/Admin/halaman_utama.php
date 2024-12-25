@@ -61,7 +61,7 @@
                 </div>
 
                 <!-- History Transaksi Card -->
-                <div class="bg-white col-span-2 rounded-lg shadow-sm shadow-gray-500">
+                <div class="bg-white col-span-2 rounded-lg shadow-sm pb-4 shadow-gray-500">
                     <div class="flex items-center p-5">
                         <h1 class="font-Roboto-bold">History Transaksi</h1>
                     </div>

@@ -17,6 +17,7 @@
                 <table class="min-w-full table-auto">
                 <thead>
                     <tr class="bg-gray-200 text-gray-700">
+                        <th class="px-4 py-2 border">User</th>
                         <th class="px-4 py-2 border">ID Transaksi</th>
                         <th class="px-4 py-2 border">Tipe Transaksi</th>
                         <th class="px-4 py-2 border">Tanggal</th>
@@ -28,14 +29,16 @@
                 <tbody>
                     <?php foreach ($data['transaksi'] as $item): ?>
                         <tr class="bg-white border-b">
+                            <td class="px-4 py-2"><?php echo $item['username_user']; ?></td>
                             <td class="px-4 py-2"><?php echo $item['id_transaksi']; ?></td>
                             <td class="px-4 py-2"><?php echo ucfirst($item['tipe_transaksi']); ?></td>
                             <td class="px-4 py-2"><?php echo $item['tanggal_dipesan_transaksi']; ?></td>
                             <td class="px-4 py-2">Rp <?php echo number_format($item['harga_transaksi'], 0, ',', '.'); ?></td>
                             <td class="px-4 py-2"><?php echo ucfirst($item['status_transaksi']); ?></td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 flex justify-center gap-2">
                                 <?php if (strtolower($item['tipe_transaksi']) == 'offline' and strtolower($item['status_transaksi']) != 'settlement'): ?>
                                     <a href="/<?= PROJECT_NAME ?>/pemilik/selesaitransaksi/<?= $item['id_transaksi'] ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Selesai</a>
+                                    <a href="/<?= PROJECT_NAME ?>/pemilik/bataltransaksi/<?= $item['id_transaksi'] ?>" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-blue-600">Batal</a>
                                 <?php else: ?>
                                     <span class="text-gray-500">N/A</span>
                                 <?php endif; ?>
